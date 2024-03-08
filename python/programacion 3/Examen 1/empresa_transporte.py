@@ -110,13 +110,13 @@ class EmpresaTransporte:
             caso contrario
         """
         suma = 0
-        for numero in range(len(nuevo_vp.cod_registro)-2):
-            suma += int(numero)
-        while suma % 10 != nuevo_vp.cod_registro[-1]:
+        for digito in nuevo_vp.cod_registro[:-2]:  
+            suma += int(digito)
+        while suma % 10 != int(nuevo_vp.cod_registro[-1]):
             return False
 
-        for vehiculo_reistrado in self.vehiculos_registrados:
-            if vehiculo_reistrado.cod_registro == nuevo_vp.cod_registro:
+        for vehiculo_registrado in self.vehiculos_registrados:
+            if vehiculo_registrado.cod_registro == nuevo_vp.cod_registro:
                 return False
 
         if len(self.vehiculos_registrados) + 1 > self.max_vehiculos:
@@ -164,13 +164,13 @@ class EmpresaTransporte:
             posición determinada. False en caso contrario
         """
         suma = 0
-        for numero in range(len(nuevo_vp.cod_registro)-2):
-            suma += int(numero)
-        while suma % 10 != nuevo_vp.cod_registro[-1]:
+        for digito in nuevo_vp.cod_registro[:-2]: 
+            suma += int(digito)
+        while suma % 10 != int(nuevo_vp.cod_registro[-1]):
             return False
 
-        for vehiculo_reistrado in self.vehiculos_registrados:
-            if vehiculo_reistrado.cod_registro == nuevo_vp.cod_registro:
+        for vehiculo_registrado in self.vehiculos_registrados:
+            if vehiculo_registrado.cod_registro == nuevo_vp.cod_registro:
                 return False
 
         if len(self.vehiculos_registrados) + 1 > self.max_vehiculos:

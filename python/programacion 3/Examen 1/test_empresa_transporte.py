@@ -1,7 +1,7 @@
 import traceback
 import unittest
 from test_builder import TestBuilder9
-from corrección import VehiculoPasajeros, EmpresaTransporte
+from empresa_transporte import VehiculoPasajeros, EmpresaTransporte
 
 
 class TestEmpresaTransporte(TestBuilder9):
