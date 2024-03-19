@@ -164,7 +164,7 @@ class EmpresaTransporte:
             posición determinada. False en caso contrario
         """
         suma = 0
-        for digito in nuevo_vp.cod_registro[:-2]: 
+        for digito in range(len(nuevo_vp.cod_registro)-1): 
             suma += int(digito)
         while suma % 10 != int(nuevo_vp.cod_registro[-1]):
             return False
