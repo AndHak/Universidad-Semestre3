@@ -1,14 +1,16 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QWidget, QLabel
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QFont
 
 import sys
-import os
 
 class MainWindow(QWidget):
 
-    imagen = r"C:\Users\andre\Downloads\Personalizacion escritorio\icons\logo_telegram_airplane_air_plane_paper_airplane_icon_143170.png"
-    icono = r"C:\Users\andre\Downloads\Personalizacion escritorio\icons\kali2.png"
+    colores = {
+        "gris_suave": (213,211,221),
+        "beige": (239,208,199),
+        "negro": (0,0,0)
+    }
 
     def __init__(self):
         super().__init__()
@@ -17,13 +19,17 @@ class MainWindow(QWidget):
         self.setFixedSize(1280, 720)
 
         label = QLabel(self)
-        imagen = QPixmap(self.imagen)
-        label.setPixmap(imagen.scaled(100,100))
-
-        app_icon = QPixmap(self.icono)  # Ruta a tu imagen de icono
-        app.setWindowIcon(app_icon)
-
-
+        label.setGeometry(0, 0, 1280, 720)  # Set the geometry of the label
+        font = QFont()
+        label.setFont(font)  # Set the font
+        label.setAlignment(Qt.AlignmentFlag.AlignBottom
+                           |Qt.AlignmentFlag.AlignCenter)
+        label.setStyleSheet(f"""
+            color: rgb{self.colores['negro']};
+            font-size: 30px;
+            font-weight: bold;
+            """)
+        label.setText("Bienvenidos")  # Set the text
 
 if __name__=="__main__":
     app = QApplication(sys.argv)
