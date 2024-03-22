@@ -64,7 +64,7 @@ class MyFirstWindow(QMainWindow):
         
         #Input
         self.input_password = QLineEdit(self.cuadro_principal)
-        self.input_password.geometry = QRect(150, 200, 200, 40)
+        self.input_password.geometry = QRect(150, 190, 200, 40)
         self.input_password.style_sheet = f"""
             background-color: rgb{self.colores['blanco']};
             color: {self.colores['negro']};
@@ -73,7 +73,7 @@ class MyFirstWindow(QMainWindow):
         #Boton
         self.boton_inciar_sesion = QPushButton(self.cuadro_principal)
         self.boton_inciar_sesion.text = "iniciar sesión"
-        self.boton_inciar_sesion.geometry = QRect(150, 260, 200, 30)
+        self.boton_inciar_sesion.geometry = QRect(150, 270, 200, 30)
         self.boton_inciar_sesion.style_sheet = f"""
             color: {self.colores['negro']};
             font-size: 15px;
@@ -84,7 +84,7 @@ class MyFirstWindow(QMainWindow):
         #Boton password
         self.boton_password = QPushButton(self.cuadro_principal)
         self.boton_password.text = "Crear una cuenta"
-        self.boton_password.geometry = QRect(150, 300, 200, 30)
+        self.boton_password.geometry = QRect(150, 310, 200, 30)
         self.boton_password.style_sheet = f"""
             color: {self.colores['negro']};
             font-size: 15px;
