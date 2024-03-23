@@ -21,6 +21,7 @@ class Menu(QMainWindow):
 
         self.setCentralWidget(self.widget)
         self.setup_inputs_frame()
+        self.setup_titulo_frame()
 
     def setup_inputs_frame(self):
         self.input_title = QLabel("Ingrese el nombre de los jugadores")
@@ -29,6 +30,7 @@ class Menu(QMainWindow):
         self.boton_jugar = QPushButton()
 
         self.inputs_layout = QVBoxLayout()
+
         self.inputs_layout.addWidget(self.input_title)
         self.inputs_layout.addWidget(self.player_1)
         self.inputs_layout.addWidget(self.player_2)
@@ -36,6 +38,20 @@ class Menu(QMainWindow):
         self.inputs_layout.addStretch()
 
         self.frame_inputs.setLayout(self.inputs_layout)
+
+    def setup_titulo_frame(self):
+        self.titulo_principal = QLabel("TIC TAC TOE")
+        self.titulo_principal.setStyleSheet("""
+            font-size: 30px;
+            font-weight: bold;
+            """)
+        self.titulo_principal.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+
+        self.titulo_principal_layout = QVBoxLayout()
+
+        self.titulo_principal_layout.addWidget(self.titulo_principal)
+
+        self.frame_titulo.setLayout(self.titulo_principal_layout)
 
 import sys
 
