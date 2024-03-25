@@ -1,7 +1,7 @@
 from PySide6.QtCore import *
 from PySide6.QtWidgets import *
 
-from Estilos13 import *
+from python.PySide6.EasyDev.Estilos13 import *
 
 class GameWindow(QMainWindow):
 

@@ -1,7 +1,7 @@
 from PySide6.QtCore import *
 from PySide6.QtWidgets import *
-from menu import Menu
-from game import GameWindow
+from python.PySide6.EasyDev.menu import Menu
+from python.PySide6.EasyDev.game import GameWindow
 
 class Controller(QObject):
     def __init__(self, menu):
