@@ -40,6 +40,17 @@ class GameWindow(QMainWindow):
         self.setCentralWidget(self.widget)
         self.setup_buttons_frame()
         self.setStyleSheet(estilos_juego)
+        
+    def setup_titulo_frame(self, player_1, player_2):
+        self.titulo_principal = QLabel(f"{player_1} VS {player_2}", objectName="titulo_principal")
+
+        self.titulo_principal.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+
+        self.titulo_principal_layout = QVBoxLayout()
+
+        self.titulo_principal_layout.addWidget(self.titulo_principal)
+
+        self.frame_titulo.setLayout(self.titulo_principal_layout)
 
     def add_button_to_layout(self, i, j):
         coordinates = f"{i}{j}"

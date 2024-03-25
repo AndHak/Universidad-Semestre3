@@ -3,8 +3,8 @@ estilos_generales = """
         background: #2A88C1;
     }
     QFrame {
-    background: #242526;
-    border-radius: 10px;
+        background: #242526;
+        border-radius: 10px;
     }
     QLabel {
         color: #2A88C1;
@@ -19,13 +19,13 @@ estilos_generales = """
 estilos_menu = estilos_generales +"""
 
     QLineEdit {
-    background: white;
-    border-radius: 5px;
-    padding: 10px;
+        background: white;
+        border-radius: 5px;
+        padding: 10px;
     }
     QPushButton {
-    border-radius: 5px;
-    padding: 10px;
+        border-radius: 5px;
+        padding: 10px;
     }
 
 
@@ -38,7 +38,10 @@ estilos_juego = estilos_generales + """
     }
     QPushButton:disabled {
         color: white;
+        font-size: 50px;
     }
+
+
 
     
 """

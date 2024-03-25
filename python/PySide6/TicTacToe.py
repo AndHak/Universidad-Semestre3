@@ -1,27 +1,27 @@
-from EasyDev13 import Menu
-from game14 import GameWindow
-from PySide6.QtWidgets import QApplication
+from PySide6.QtCore import *
+from PySide6.QtWidgets import *
+from menu import Menu
+from game import GameWindow
 
-class TicTacToe:
-    def __init__(self):
-        self.menu = Menu()
+class Controller(QObject):
+    def __init__(self, menu):
+        super().__init__()
+        self.menu = menu
+
+    def show_game_window(self):
+        # Mostrar la ventana del juego
         self.game = GameWindow()
-
-        self.menu.setup_ui()
-
-        self.menu.boton_jugar.clicked.connect(self.abrir_juego)
-
-    def abrir_juego(self):
-        self.menu.hide()
         self.game.setup_ui()
         self.game.show()
 
+        # Cerrar la ventana del menú
+        self.menu.close()
 
-import sys
-
-app = QApplication(sys.argv)
-
-main = TicTacToe()
-main.menu.show()
-
-sys.exit(app.exec())
+if __name__ == "__main__":
+    import sys
+    app = QApplication(sys.argv)
+    menu = Menu()
+    controller = Controller(menu)
+    menu.setup_ui(controller)
+    menu.show()
+    sys.exit(app.exec_())

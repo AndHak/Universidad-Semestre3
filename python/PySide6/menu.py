@@ -25,6 +25,7 @@ class Menu(QMainWindow):
         self.setup_inputs_frame()
         self.setup_titulo_frame()
 
+
     def setup_inputs_frame(self):
         self.input_title = QLabel("Ingrese el nombre de los jugadores")
         self.input_title.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
@@ -32,15 +33,17 @@ class Menu(QMainWindow):
         self.player_1.setPlaceholderText("Jugador 1")
         self.player_2 = QLineEdit()
         self.player_2.setPlaceholderText("Jugador 2")
-        self.boton_jugar = QPushButton("Jugar")
 
         self.inputs_layout = QVBoxLayout()
 
-        widgets = [self.input_title, self.player_1, self.player_2, self.boton_jugar]
+        widgets = [self.input_title, self.player_1, self.player_2]
 
         for w in widgets:
             self.inputs_layout.addWidget(w)
             self.inputs_layout.addSpacing(10)
+
+        self.play_button = QPushButton("Jugar")
+        self.inputs_layout.addWidget(self.play_button)
 
         self.inputs_layout.addStretch()
 
@@ -57,6 +60,7 @@ class Menu(QMainWindow):
 
         self.frame_titulo.setLayout(self.titulo_principal_layout)
 
+    
 import sys
 
 app = QApplication(sys.argv)
