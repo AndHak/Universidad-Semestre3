@@ -9,7 +9,7 @@ mode(datos_edades)
 summary(datos_edades)
 sd(datos_edades)
 
-md <- function(x) {
+md <- function(x){
   n <- length(x)
   media <- mean(x)
   d <- sum(abs(x-media))
@@ -18,7 +18,7 @@ md <- function(x) {
 
 md(datos_edades)
 
-dk <- function(x) {
+dk <- function(x){
   n <- length(x)
   media <- mean(x)
   des <- sd(x)
