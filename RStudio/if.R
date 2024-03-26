@@ -17,3 +17,7 @@ if(elo >= 1200){
 } else {
   rango <- "Novato"
 }
+
+
+numeros <- 1:10
+ifelse(numeros %% 2 == 0, "Par", "Impar")

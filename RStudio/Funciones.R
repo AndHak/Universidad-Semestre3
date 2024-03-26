@@ -66,17 +66,26 @@ siglo(2024)
 
 
 #Primos
-es_primo <- function(numero){
+es_primo <- function(numero) {
   divisores <- 0
-  for(i in 2:(numero-1)){
-    if (i %% 2 == 0){
-      return(FALSE)
+  for (i in 1:sqrt(numero)) {
+    if (numero %% i == 0) {
+      divisores <- divisores + 1
     }
-  return(TRUE)
+  }
+  if (divisores == 1) {
+    return(TRUE)
+  } else {
+    return(FALSE)
   }
 }
 
-es_primo(8)
+es_primo(4)
+
+es_primo <- Vectorize(es_primo)
+
+es_primo(c(2,4,5))
+
 
 
 

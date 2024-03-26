@@ -111,4 +111,67 @@ numeros <- 1:1000000
 sum(numeros %% 6 == 0 & numeros %% 8 == 0)
 
 
+set.seed(123)
+compras <- rnorm(n = 10000, mean = 5000, sd = 1000)
+
+#Monto de las compras 435 y 678
+compras[c(435, 678)]
+
+#Cuales fueron mayores a 8000
+sum(compras > 8000)
+
+#Cuales fueron el monto maximo y minimo
+max(compras)
+min(compras)
+
+#que porcentaje de compras fue entre 4000 y 6000
+porcentaje <- sum(compras >= 4000 & compras <= 6000)/length(compras)
+porcentaje*100
+
+
+
+usuario = "NoobSlayer9"
+
+#True si tiene al menos un numero
+any(strsplit(usuario, split = "")[[1]] %in% 1:9)
+
+#True si contiene solo numeros
+all(strsplit(usuario, split = "")[[1]] %in% 1:9)
+
+
+
+#Conversion
+
+
+as.character(5.6)
+as.character(-6)
+
+
+as.logical(100)
+as.logical(0)
+
+as.numeric(TRUE)
+as.numeric("123")
+
+as.logical("TRUE")
+
+vec <- c("1", "2", "3", "4", "5")
+as.numeric(vec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

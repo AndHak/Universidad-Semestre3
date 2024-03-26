@@ -40,3 +40,17 @@ nrow(videogames[videogames$platform == "Switch" &
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
