@@ -57,6 +57,6 @@ df_frec <- data.frame(edad = as.numeric(names(frec_absoluta)),
                       Fr = as.numeric(frec_relativa),
                       fr = as.numeric(frec_ra))
 
-
+View(df_frec)
 
 
