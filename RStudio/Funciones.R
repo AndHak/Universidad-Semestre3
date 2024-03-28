@@ -57,7 +57,7 @@ mueve_punto <- function(pos_i){
 mueve_punto(5)
 
 
-siglo <- function(year){
+siglo <- function(year) {
   ceiling(year/100)
 }
 
