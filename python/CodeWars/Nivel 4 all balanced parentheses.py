@@ -8,20 +8,14 @@ balanced_parens(2) => ["()()","(())"]
 balanced_parens(3) => ["()()()","(())()","()(())","(()())","((()))"]
 """
 def balanced_parens(n):
-    def backtrack(s='', left=0, right=0):
-        if len(s) == 2 * n:
-            result.append(s)
-            return
-        if left < n:
-            backtrack(s + '(', left + 1, right)
-        if right < left:
-            backtrack(s + ')', left, right + 1)
+    generate_parens = lambda partial, left, right: [partial] if left == right == 0 else \
+        (generate_parens(partial + "(", left - 1, right) if left > 0 else []) + \
+        (generate_parens(partial + ")", left, right - 1) if right > left else [])
+    
+    return generate_parens("", n, n)
 
-    result = []
-    backtrack()
-    return result
 
-# Ejemplos
+# Output
 print(balanced_parens(0))  # => [""]
 print(balanced_parens(1))  # => ["()"]
 print(balanced_parens(2))  # => ["()()", "(())"]
