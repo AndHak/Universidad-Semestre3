@@ -1,0 +1,20 @@
+<RCC>
+  <qresource>
+    <file>Images/kali.png</file>
+    <file>Images/dashboard.png</file>
+    <file>Images/dashboard_white.png</file>
+    <file>Images/image.png</file>
+    <file>Images/log_out.png</file>
+    <file>Images/log_out_white.png</file>
+    <file>Images/menu.png</file>
+    <file>Images/messages.png</file>
+    <file>Images/messages_white.png</file>
+    <file>Images/notifications.png</file>
+    <file>Images/notifications_white.png</file>
+    <file>Images/profile.png</file>
+    <file>Images/profile_white.png</file>
+    <file>Images/search.png</file>
+    <file>Images/settings.png</file>
+    <file>Images/settings_white.png</file>
+  </qresource>
+</RCC>
