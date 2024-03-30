@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "Nivel_6_highest_scoring_word",
+            "request": "launch",
+            "mainClass": "Nivel_6_highest_scoring_word",
+            "projectName": "Semestre 3_43772908"
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Iniciar Chrome para localhost",
