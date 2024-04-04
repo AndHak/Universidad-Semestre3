@@ -110,7 +110,6 @@ class MainWindow(QWidget):
              self.label_resultado.setText("Los tipos de datos\ningresados son\nincorrectos")
              self.label_resultado.setAlignment(Qt.AlignmentFlag.AlignCenter)
             
-        
                                 
 
 

@@ -2,15 +2,15 @@ public class Condiciones {
 
     public static void main(String[] args) {
         
-        int x = 1 , y = 2;
+        int x = 3 , y = 2;
 
-        if (x==1){
+        if (x==1)
             System.out.println(("X vale 1"));
+        if (y==2)
+            System.out.println("y vale 2");
+        if (x==3 && y==2) {
+            System.out.println("Cumples ambas");
         }
-        else {
-            System.out.println(("X no vale 1"));
-        }
-
     }
     
 }
