@@ -130,7 +130,7 @@ class MainWindow(QWidget):
             self.imc_line_edit.setText(f"{imc:.2f} - Obesidad")
         elif imc > 40:
             self.imc_line_edit.setText(f"{imc:.2f} - Obesidad Grave")
-
+ 
         
     def calcular_imc_femenino(self):
         altura = float(self.altura_line_edit.text())
