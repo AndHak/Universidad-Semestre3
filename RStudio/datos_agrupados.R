@@ -47,17 +47,17 @@ tabla_agrupada <- function(datos) {
   k_new <- aproximar(k)
   
   # Calcular rango, amplitud e intervalos
-  rango <- diff(range(datos)) #esto es lo mismo que haces max(datos)-min(datos)
+  rango <- diff(range(datos))
   amplitud <- rango / k_new 
   
-  #Crear una nueva lista con la marca de clase
+  # Crear una nueva lista con la marca de clase
   L <- seq(min(datos), max(datos), by = amplitud)
-  mc <- (L[-1] + L[-length(L)]) / 2 #calculamos la marca de clase
+  mc <- (L[-1] + L[-length(L)]) / 2
   
   # Crear la tabla de frecuencias de datos agrupados
   intervalos <- cut(datos, breaks = k_new, right = FALSE, include.lowest = TRUE) 
   freq_table <- as.data.frame(table(intervalos)) 
-  names(freq_table) <- c("Edad", "fi_abs")
+  names(freq_table) <- c("Intervalo", "fi_abs") 
   
   # Calcular frecuencia acumulada absoluta
   freq_table$Fi_abs <- cumsum(freq_table$fi_abs)
@@ -68,8 +68,14 @@ tabla_agrupada <- function(datos) {
   # Calcular frecuencia acumulada relativa
   freq_table$Fi_rel <- cumsum(freq_table$fi_rel)
   
-  #unir a la tabla la marca de clase
-  freq_table$Mc <- mc
+  # Calcular porcentajes
+  freq_table$Porcentaje <- freq_table$fi_rel * 100
+  
+  # Calcular grados
+  freq_table$Grados <- freq_table$fi_rel * 360
+  
+  # Agregar marca de clase a la tabla
+  freq_table$Marca_de_Clase <- mc
   
   # Imprimir resumen de estadísticas
   cat("x_(1):", min(datos), "\n")
@@ -81,6 +87,7 @@ tabla_agrupada <- function(datos) {
   # Devolver la tabla de frecuencias y la lista L
   return(list(freq_table = freq_table, L = L))
 }
+
 
 # Calcular la media para datos agrupados
 calcular_media <- function(datos_agrupados){
