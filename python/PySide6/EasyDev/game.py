@@ -1,7 +1,7 @@
 from PySide6.QtCore import *
 from PySide6.QtWidgets import *
 
-from python.PySide6.EasyDev.Estilos13 import *
+from Estilos13 import *
 
 class GameWindow(QMainWindow):
 
@@ -92,8 +92,6 @@ class GameWindow(QMainWindow):
             if move.issubset(player_moves):
                 print(self.current_player, "Has ganado")
         
-
-
 
 
 import sys
