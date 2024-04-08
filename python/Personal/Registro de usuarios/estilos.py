@@ -33,7 +33,7 @@ estilos_sections = f"""
         border-bottom: 4px solid {colores['tomate']};
     }}
     
-    """
+"""
 
 estilo_bienvenido = f"""
     QLabel {{
@@ -42,7 +42,7 @@ estilo_bienvenido = f"""
         color: {colores['blanco']};
         }}
     
-    """
+"""
 
 estilos_label2 = f"""
     QLabel {{
@@ -51,7 +51,7 @@ estilos_label2 = f"""
         color: {colores['blanco']};
         }}
     
-    """
+"""
 
 estilos_line_edit = f"""
     QLineEdit {{
@@ -80,7 +80,7 @@ estilos_line_edit = f"""
     }}
 
     
-    """
+"""
 
 
 estilos_line_edit_hide = f"""
@@ -107,9 +107,7 @@ estilos_line_edit_hide = f"""
         top: 5px; 
         right: 15px; 
     }}
-
-
-    """
+"""
 
 estilo_boton_pass = f"""
     QPushButton {{
@@ -117,8 +115,7 @@ estilo_boton_pass = f"""
         border: none;
         color: {colores['azul_claro']};
     }}
-
-    """
+"""
 
 log_in_button = f"""
     QPushButton {{
@@ -199,8 +196,7 @@ iniciar_sesion_con = f"""
         font-size: 16px;
         color: {colores['azul_claro']};
         }}
-    
-    """
+"""
 
 registrarse_line_edit = f"""
     QLineEdit {{
@@ -227,7 +223,7 @@ registrarse_line_edit = f"""
         top: 5px; 
         right: 15px; 
     }}
-    """
+"""
 
 
 registrarse_line_edit_hide = f"""
@@ -254,7 +250,7 @@ registrarse_line_edit_hide = f"""
         top: 5px; 
         right: 15px; 
     }}
-    """
+"""
 
 registrarse_name = f"""
     QLineEdit {{
@@ -281,7 +277,7 @@ registrarse_name = f"""
         top: 5px; 
         right: 15px; 
     }}
-    """
+"""
 
 registrarse_line_edit_hide_fail = f"""
     QLineEdit {{
@@ -297,8 +293,7 @@ registrarse_line_edit_hide_fail = f"""
         padding-left: 20px;
         position: relative; 
     }}
-
-    """
+"""
 
 names_registration_fail = f"""
     QLineEdit {{
@@ -315,7 +310,7 @@ names_registration_fail = f"""
         position: relative;
 
     }}
-    """
+"""
 
 email_register_fail = f"""
     QLineEdit {{
@@ -332,8 +327,7 @@ email_register_fail = f"""
         position: relative;
 
     }}
-
-    """
+"""
 
 estilo_notificacion = f"""
     QWidget {{
@@ -342,7 +336,7 @@ estilo_notificacion = f"""
         position: relative;
         padding: 15px;
     }}
-    """
+"""
 
 
 estilo_notificacion_succes = f"""
@@ -352,7 +346,7 @@ estilo_notificacion_succes = f"""
         position: relative;
         padding: 15px;
     }}
-    """
+"""
 
 
 estilo_notificacion_fail = f"""
@@ -362,7 +356,7 @@ estilo_notificacion_fail = f"""
         position: relative;
         padding: 15px;
     }}
-    """
+"""
 
 message_notify = f"""
     QLabel {{
@@ -370,7 +364,7 @@ message_notify = f"""
         font-family: Raleway;
         font-size: 14px;
     }}
-    """
+"""
 
 
 login_fail_pass = f"""
@@ -387,8 +381,7 @@ login_fail_pass = f"""
         padding-left: 20px;
         position: relative; 
     }}
-
-    """
+"""
 
 login_fail_mail = f"""
     QLineEdit {{
@@ -404,5 +397,4 @@ login_fail_mail = f"""
         padding-left: 20px;
         position: relative;
     }}
-    
-    """
+"""
