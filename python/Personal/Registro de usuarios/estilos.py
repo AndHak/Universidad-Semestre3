@@ -12,6 +12,10 @@ colores = {
         'blanco_hover': "#DCDBDB",
         'blanco_clicked': "#C1C1C1",
         'rojo_fail': "#FF5C5C",
+        'rojo_fail_background': "#FF6A6A",
+        'gray_background': "#AFAFAF",
+        'gray_border': "#969696",
+        'green_confirm': "#40D334"
     }
 
 estilos_sections = f"""
@@ -329,4 +333,76 @@ email_register_fail = f"""
 
     }}
 
+    """
+
+estilo_notificacion = f"""
+    QWidget {{
+        background-color: {colores['gray_background']};
+        border-radius: 5px;
+        position: relative;
+        padding: 15px;
+    }}
+    """
+
+
+estilo_notificacion_succes = f"""
+    QWidget {{
+        background-color: {colores['green_confirm']};
+        border-radius: 5px;
+        position: relative;
+        padding: 15px;
+    }}
+    """
+
+
+estilo_notificacion_fail = f"""
+    QWidget {{
+        background-color: {colores['rojo_fail_background']};
+        border-radius: 5px;
+        position: relative;
+        padding: 15px;
+    }}
+    """
+
+message_notify = f"""
+    QLabel {{
+        spacing: 1px;
+        font-family: Raleway;
+        font-size: 14px;
+    }}
+    """
+
+
+login_fail_pass = f"""
+    QLineEdit {{
+        font-family: Raleway;
+        font-size: 15px;
+        color: {colores['blanco']};
+        background-color: {colores['azul_medio']};
+        border: 1px solid {colores['rojo_fail']};
+        border-radius: 3px;
+        height: 50px;
+        width: 350px;
+        padding: 10px;
+        padding-left: 20px;
+        position: relative; 
+    }}
+
+    """
+
+login_fail_mail = f"""
+    QLineEdit {{
+        font-family: Raleway;
+        font-size: 15px;
+        color: {colores['blanco']};
+        background-color: {colores['azul_medio']};
+        border: 1px solid {colores['rojo_fail']};
+        border-radius: 3px;
+        height: 50px;
+        width: 350px;
+        padding: 10px;
+        padding-left: 20px;
+        position: relative;
+    }}
+    
     """
