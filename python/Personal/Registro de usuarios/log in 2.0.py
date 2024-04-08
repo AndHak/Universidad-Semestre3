@@ -320,8 +320,6 @@ class Main(QMainWindow):
             self.log_in_button.setStyleSheet(estilos_sections + "QPushButton {border-bottom: 5px solid #ffb17a; color: white;}")
             self.log_in_button.setCheckable(False)
 
-
-
     def show_register_ui(self):
         self.ui_iniciar_sesion.hide()
         self.ui_registrarse.show()
@@ -332,7 +330,6 @@ class Main(QMainWindow):
             self.log_in_button.setStyleSheet(estilos_sections)
             self.registrarse_section.setStyleSheet(estilos_sections + "QPushButton {border-bottom: 5px solid #ffb17a; color: white;}")
             self.registrarse_section.setCheckable(False)
-
 
     def verificar_registracion(self):
         if not self.name_line_edit.text() and not self.email_register_line_edit.text() and not self.last_name_line_edit.text() \
@@ -466,8 +463,6 @@ class Main(QMainWindow):
             return False
 
         return True
-            
-            
 
     def verify_last_name(self):
         lastname = self.last_name_line_edit.text()
@@ -602,18 +597,12 @@ class Main(QMainWindow):
 
 
 
-
-
-
-
 ###########
 #UI methods
     def guardar_datos_al_cerrar(self):
         # Guardar el diccionario de usuarios al cerrar la aplicación
         with open(self.usuarios_file, 'wb') as archivo:
             pickle.dump(self.usuarios_base_data, archivo)
-
-
 
     def mostrar_notificacion(self, message, estilo):
 
