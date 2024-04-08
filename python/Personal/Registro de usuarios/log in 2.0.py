@@ -39,7 +39,6 @@ class Main(QMainWindow):
         else:
             self.usuarios_base_data = {}
 
-
         self.user = Usuario("","","","")
 
         self.setWindowTitle("Mountain agency")
@@ -53,11 +52,6 @@ class Main(QMainWindow):
 
         self.notify_sound = QSoundEffect()
         self.notify_sound.setSource(QUrl.fromLocalFile(os.path.join(self.basedir, "sounds/notify.wav")))
-
-
-
-
-        
 
     def setup_ui(self):
         self.root_layout = QGridLayout()
@@ -112,10 +106,6 @@ class Main(QMainWindow):
         self.setup_login_ui()
 
         self.show_login_ui()
-
-
-
-
 
     def setup_login_ui(self):
         # Bienvenido y Iniciar sesion para continuar
@@ -212,7 +202,6 @@ class Main(QMainWindow):
         self.facebook_button.setStyleSheet(estilos_redes_sociales)
         self.google_button.setStyleSheet(estilos_redes_sociales)
         self.apple_button.setStyleSheet(estilos_redes_sociales)
-
 
     def setup_ui_register(self):
 
