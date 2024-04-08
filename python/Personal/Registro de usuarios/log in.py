@@ -12,7 +12,6 @@ class Main(QMainWindow):
     basedir = os.path.dirname(__file__)
     usuarios_file = os.path.join(basedir, 'datos', 'usuarios.pkl')
 
-    images = ["apple.png", "facebook.png", "fondo.png", "google.png", "no pass.png", "pass.png"]
     colores = {
         'blanco': "#ffffff",
         'azul_claro': "#676fgd",
@@ -33,9 +32,11 @@ class Main(QMainWindow):
             self.usuarios = {}
 
 
-
         self.setWindowTitle("Mountain agency")
         self.setFixedSize(1280, 800)
+
+        self.icon = QPixmap(os.path.join(self.basedir, "images/icon.png"))
+        self.setWindowIcon(self.icon)
 
         # Layout principal de la ventana
         self.root_layout = QGridLayout()
@@ -132,13 +133,13 @@ class Main(QMainWindow):
 
 
         #Checkable remind me y forgot password
-        self.icono_marcado = QPixmap(os.path.join(self.basedir, "images/marcado.png"))
-        self.icono_no_marcado = QPixmap(os.path.join(self.basedir, "images/no marcado.png"))
+        self.icono_marcado = QPixmap(os.path.join(self.basedir, "images/marcado.png")).scaled(20,20)
+        self.icono_no_marcado = QPixmap(os.path.join(self.basedir, "images/no_marcado.png")).scaled(20,20)
 
         self.remind_me = QCheckBox(self.frame_izquierda) 
-        self.remind_me.setText("Recordar usuario")
+        self.remind_me.setText(" Recordar usuario")
         self.remind_me.setStyleSheet(estilo_remind_me)
-        self.remind_me.move(70, 430)
+        self.remind_me.move(50, 430)
         self.remind_me.setChecked(False)
         self.remind_me.setIcon(self.icono_no_marcado)
         self.remind_me.setIconSize(QSize(20,20))
@@ -146,16 +147,51 @@ class Main(QMainWindow):
 
         self.remind_me.stateChanged.connect(self.actualizar_icono)
 
-
+        #Forgot_password
+        self.forgot_password = QPushButton(self.frame_izquierda)
+        self.forgot_password.setText("Olvide mi contraseña")
+        self.forgot_password.setStyleSheet(estilos_forgot_password)
+        self.forgot_password.move(312, 430)
 
 
 
         # Boton iniciar sesión
         self.iniciar_sesion_button = QPushButton("Iniciar Sesión", self.frame_izquierda)
         self.iniciar_sesion_button.setStyleSheet(log_in_button)
-
         self.iniciar_sesion_button.move(70, 500)
 
+
+        # Iniciar sesion con redes sociales
+        self.iniciar_sesion_con_label = QLabel(self.frame_izquierda)
+        self.iniciar_sesion_con_label.setText("Iniciar sesion con:")
+        self.iniciar_sesion_con_label.setStyleSheet(iniciar_sesion_con)
+        self.iniciar_sesion_con_label.move(70, 650)
+
+
+
+        self.facebook_icon = QPixmap(os.path.join(self.basedir, "images/facebook.png"))
+        self.google_icon = QPixmap(os.path.join(self.basedir, "images/google.png"))
+        self.apple_icon = QPixmap(os.path.join(self.basedir, "images/apple.png"))
+
+        self.facebook_button = QPushButton(self.frame_izquierda)
+        self.google_button = QPushButton(self.frame_izquierda)
+        self.apple_button = QPushButton(self.frame_izquierda)
+
+        self.facebook_button.setIcon(self.facebook_icon)
+        self.google_button.setIcon(self.google_icon)
+        self.apple_button.setIcon(self.apple_icon)
+
+        self.facebook_button.setIconSize(QSize(35,35))
+        self.google_button.setIconSize(QSize(35,35))
+        self.apple_button.setIconSize(QSize(35,35))
+
+        self.facebook_button.move(200, 630)
+        self.google_button.move(250, 630)
+        self.apple_button.move(300, 630)
+
+        self.facebook_button.setStyleSheet(estilos_redes_sociales)
+        self.google_button.setStyleSheet(estilos_redes_sociales)
+        self.apple_button.setStyleSheet(estilos_redes_sociales)
 
 
     
@@ -164,7 +200,6 @@ class Main(QMainWindow):
             self.remind_me.setIcon(self.icono_marcado)
         else:
             self.remind_me.setIcon(self.icono_no_marcado)
-
 
 
 
@@ -179,25 +214,6 @@ class Main(QMainWindow):
             self.password_line_edit.setEchoMode(QLineEdit.Password)
             self.view_password.setIcon(QIcon(self.icon_no_pass))
             
-
-
-
-
-    
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-
-
-
 
 
     def guardar_usuarios(self):
@@ -227,7 +243,7 @@ class Main(QMainWindow):
             self.log_in_button.setStyleSheet(estilos_sections + "QPushButton {border-bottom: 5px solid #ffb17a; color: white;}")
             self.log_in_button.setCheckable(False)
 
-
+    
 
 
 if __name__ == "__main__":

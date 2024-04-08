@@ -9,8 +9,8 @@ class Main(QMainWindow):
 
         self.setWindowTitle("Nombre app")
 
-        incon_image = r"direccion del png"
-        self.icon_window = QPixmap(incon_image)
+        icon_image = r"direccion del png"
+        self.icon_window = QPixmap(icon_image)
         self.setWindowIcon(self.icon_window)
 
         self.resize(QSize(800, 800))

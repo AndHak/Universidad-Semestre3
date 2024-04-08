@@ -1,5 +1,8 @@
+
+
 colores = {
         'blanco': "#ffffff",
+        'azul_claro_claro': "#858CB6",
         'azul_claro': "#676f9d",
         'azul_medio': "#424769",
         'azul_oscuro': "#2d3250",
@@ -8,6 +11,7 @@ colores = {
         'oscuro': '#FCA668',
         'blanco_hover': "#DCDBDB",
         'blanco_clicked': "#C1C1C1",
+        'rojo_fail': "#FF5C5C",
     }
 
 estilos_sections = f"""
@@ -125,12 +129,12 @@ log_in_button = f"""
 
      QPushButton:hover {{
         background-color: {colores['brillante']};
-        border-color: {colores['brillante']}; /* Cambiar color del borde al pasar el mouse */
+        border-color: {colores['brillante']}; 
     }}
     
     QPushButton:pressed {{
         background-color: {colores['oscuro']};
-        border-color: {colores['oscuro']}; /* Cambiar color del borde al hacer clic */
+        border-color: {colores['oscuro']}; 
     }}
 """
 
@@ -144,8 +148,185 @@ estilo_remind_me = f"""
         font-size: 15px;
         color: {colores['blanco_hover']};
     }}
+    QCheckBox::indicator:unchecked {{
+        image: url(:/images/no_marcado.png);
+    }}
 
-
-
+    QCheckBox::indicator:checked {{
+        image: url(:/images/marcado.png);
+    }}
 """
 
+estilos_forgot_password = f"""
+    QPushButton {{
+        background: transparent;
+        color: {colores['azul_claro']};
+        font-family: Raleway Semibold;
+        font-size: 15px;
+        border: none;
+    }}
+
+     QPushButton:hover {{
+        color: {colores['azul_claro_claro']};
+        text-decoration: underline;
+    }}
+    
+    QPushButton:pressed {{
+        color: {colores['azul_medio']};
+    }}
+"""
+
+estilos_redes_sociales = f"""
+    QPushButton {{
+        height: 50px;
+        width: 50px;
+        background: transparent;
+        border-radius: 10px;
+    }}
+    
+    QPushButton:pressed {{
+        color: {colores['azul_medio']};
+    }}
+"""
+
+iniciar_sesion_con = f"""
+    QLabel {{
+        font-family: Raleway SemiBold;
+        font-size: 16px;
+        color: {colores['azul_claro']};
+        }}
+    
+    """
+
+registrarse_line_edit = f"""
+    QLineEdit {{
+        font-family: Raleway;
+        font-size: 15px;
+        color: {colores['blanco']};
+        background-color: {colores['azul_medio']};
+        border: none;
+        height: 40px;
+        width: 350px;
+        padding: 10px;
+        padding-left: 20px;
+        position: relative;
+
+    }}
+
+    QLineEdit:focus {{
+        border-left: 4px solid {colores['tomate']};
+    }}
+
+    QLineEdit:placeholder {{
+        color: {colores['azul_claro']};
+        font-size: 15px;
+        top: 5px; 
+        right: 15px; 
+    }}
+    """
+
+
+registrarse_line_edit_hide = f"""
+    QLineEdit {{
+        font-family: Raleway;
+        font-size: 15px;
+        color: {colores['blanco']};
+        background-color: {colores['azul_medio']};
+        border: none;
+        height: 40px;
+        width: 350px;
+        padding: 10px;
+        padding-left: 20px;
+        position: relative; 
+    }}
+
+    QLineEdit:focus {{
+        border-left: 4px solid {colores['tomate']};
+    }}
+
+    QLineEdit:placeholder {{
+        color: {colores['azul_claro']};
+        font-size: 15px;
+        top: 5px; 
+        right: 15px; 
+    }}
+    """
+
+registrarse_name = f"""
+    QLineEdit {{
+        font-family: Raleway;
+        font-size: 15px;
+        color: {colores['blanco']};
+        background-color: {colores['azul_medio']};
+        border: none;
+        height: 40px;
+        width: 155px;
+        padding: 10px;
+        padding-left: 20px;
+        position: relative;
+
+    }}
+
+    QLineEdit:focus {{
+        border-left: 4px solid {colores['tomate']};
+    }}
+
+    QLineEdit:placeholder {{
+        color: {colores['azul_claro']};
+        font-size: 15px;
+        top: 5px; 
+        right: 15px; 
+    }}
+    """
+
+registrarse_line_edit_hide_fail = f"""
+    QLineEdit {{
+        font-family: Raleway;
+        font-size: 15px;
+        color: {colores['blanco']};
+        background-color: {colores['azul_medio']};
+        border: 1px solid {colores['rojo_fail']};
+        border-radius: 3px;
+        height: 40px;
+        width: 350px;
+        padding: 10px;
+        padding-left: 20px;
+        position: relative; 
+    }}
+
+    """
+
+names_registration_fail = f"""
+    QLineEdit {{
+        font-family: Raleway;
+        font-size: 15px;
+        color: {colores['blanco']};
+        background-color: {colores['azul_medio']};
+        border: 1px solid {colores['rojo_fail']};
+        border-radius: 3px;
+        height: 40px;
+        width: 155px;
+        padding: 10px;
+        padding-left: 20px;
+        position: relative;
+
+    }}
+    """
+
+email_register_fail = f"""
+    QLineEdit {{
+        font-family: Raleway;
+        font-size: 15px;
+        color: {colores['blanco']};
+        background-color: {colores['azul_medio']};
+        border: 1px solid {colores['rojo_fail']};
+        border-radius: 3px;
+        height: 40px;
+        width: 350px;
+        padding: 10px;
+        padding-left: 20px;
+        position: relative;
+
+    }}
+
+    """
