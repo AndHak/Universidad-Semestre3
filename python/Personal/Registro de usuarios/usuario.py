@@ -5,9 +5,9 @@ class Usuario:
         self.lastname = lastname
         self.email = email
         self.password = password
-        self.phone = "X"
-        self.foto = ""
-        self.nationality = ""
+        self.phone = None
+        self.foto = None
+        self.nationality = None
 
     def __str__(self):
         return self.name, self.lastname, self.email, self.password, self.phone, self.foto, self.nationality
