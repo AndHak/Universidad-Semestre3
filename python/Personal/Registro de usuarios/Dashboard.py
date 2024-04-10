@@ -81,7 +81,7 @@ class Dashboard(QMainWindow):
                 background-color: transparent;
                 font-size: 20px;
                 font-family: Verdana;
-                color: wwhite;
+                color: white;
             }
         """)
         nav_bar.setMovable(False)
