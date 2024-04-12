@@ -9,4 +9,11 @@ colores = {
 
 
 
-
+estilos_bar_buttons = f"""
+    QPushButton {{
+        background: transparent;
+        font-size: 15px;
+        font-family: Raleway;
+        color: white;
+    }}
+"""

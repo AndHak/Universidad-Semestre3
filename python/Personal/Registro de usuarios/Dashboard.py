@@ -29,7 +29,7 @@ class Dashboard(QMainWindow):
         super().__init__()
 
         #Imports no tocar
-        self.user = Usuario("","","","")
+        self.user = usuario_logueado
 
         self.setWindowTitle("Mountain agency")
         self.resize(QSize(1600, 900))
@@ -53,60 +53,40 @@ class Dashboard(QMainWindow):
         self.background_images = [
             os.path.join(self.basedir, 'images_dashboard', 'rio_de_janeiro.jpg'),
             os.path.join(self.basedir, 'images_dashboard', 'paris.jpg'),
-            # Agregar más rutas de imágenes según sea necesario
         ]
+
         self.current_image_index = 0
 
-        self.setup_ui()
+        self.root_layout = QVBoxLayout()
 
-    def setup_ui(self):
-        # Fondo de la ventana
-        self.background_label = QLabel(self)
-        self.background_label.setGeometry(0, 0, self.width(), self.height())
-        self.update_background()
+        self.frame_principal = QFrame()
 
-        # Botones para cambiar la imagen
-        btn_prev = QPushButton('Anterior', self)
-        btn_prev.setGeometry(20, self.height() // 2, 100, 30)
-        btn_prev.clicked.connect(self.prev_image)
+        self.root_layout.addWidget(self.frame_principal, 100)
 
-        btn_next = QPushButton('Siguiente', self)
-        btn_next.setGeometry(self.width() - 120, self.height() // 2, 100, 30)
-        btn_next.clicked.connect(self.next_image)
+        self.main_widget = QWidget()
+        self.main_widget.setLayout(self.root_layout)
+        self.setCentralWidget(self.main_widget)
 
-        # Barra de navegación
-        nav_bar = QToolBar(self)
-        nav_bar.setStyleSheet("""
-            QToolBar {
-                background-color: transparent;
-                font-size: 20px;
-                font-family: Verdana;
-                color: white;
-            }
-        """)
-        nav_bar.setMovable(False)
-        self.addToolBar(nav_bar)
+        #Bar widget
+        self.bar_widget = QWidget()
+        self.barw
 
-        btn_home = QAction(QIcon(os.path.join(self.basedir, 'images', 'home.png')), 'Home', self)
-        btn_profile = QAction(QIcon(os.path.join(self.basedir, 'images', 'profile.png')), 'My Profile', self)
-        btn_categories = QAction(QIcon(os.path.join(self.basedir, 'images', 'categories.png')), 'Categories', self)
 
-        nav_bar.addAction(btn_home)
-        nav_bar.addAction(btn_profile)
-        nav_bar.addAction(btn_categories)
 
-    def update_background(self):
-        image_path = self.background_images[self.current_image_index]
-        pixmap = QPixmap(image_path)
-        self.background_label.setPixmap(pixmap.scaled(self.size()))
+    def barra_de_navegacion(self):
+        horizontal_layout = QHBoxLayout()
 
-    def prev_image(self):
-        self.current_image_index = (self.current_image_index - 1) % len(self.background_images)
-        self.update_background()
+        self.bar_design = QWidget()
+        horizontal_layout.addWidget(self.bar_design)
 
-    def next_image(self):
-        self.current_image_index = (self.current_image_index + 1) % len(self.background_images)
-        self.update_background()
+        self.home_button = QPushButton()
+        self.home_button.setText("HOME")
+        self.home_button.setStyleSheet(estilos_bar_buttons)
+
+
+        self.main_widget.setLayout(horizontal_layout)
+
+        
 
 
 
