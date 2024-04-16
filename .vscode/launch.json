@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CondicionesSwitch",
+            "request": "launch",
+            "mainClass": "CondicionesSwitch",
+            "projectName": "Semestre 3_43772908"
+        },
+        {
+            "type": "java",
             "name": "Nivel_6_highest_scoring_word",
             "request": "launch",
             "mainClass": "Nivel_6_highest_scoring_word",
