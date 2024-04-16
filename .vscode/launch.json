@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BucleWhile2",
+            "request": "launch",
+            "mainClass": "BucleWhile2",
+            "projectName": "Semestre 3_43772908"
+        },
+        {
+            "type": "java",
+            "name": "BucleWhile1",
+            "request": "launch",
+            "mainClass": "BucleWhile1",
+            "projectName": "Semestre 3_43772908"
+        },
+        {
+            "type": "java",
             "name": "CondicionesSwitch",
             "request": "launch",
             "mainClass": "CondicionesSwitch",
