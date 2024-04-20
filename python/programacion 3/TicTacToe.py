@@ -264,7 +264,6 @@ class MainWindow(QMainWindow):
                 self.verify_moves()
                 self.current_player = "X"
                 
-            print("click en", coordinates)
 
     def verify_moves(self):
         if self.current_player == "X":
@@ -276,7 +275,6 @@ class MainWindow(QMainWindow):
 
         for move in self.winner_moves:
             if move.issubset(player_moves):
-                print(self.current_player, "Has ganado")
                 self.winner_player.setText(f"Ganador: {player}")
                 if self.current_player == "X":
                     self.score_x += 1
