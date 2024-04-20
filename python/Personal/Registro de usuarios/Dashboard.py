@@ -55,8 +55,6 @@ class Dashboard(QMainWindow):
             os.path.join(self.basedir, 'images_dashboard', 'paris.jpg'),
         ]
 
-        self.current_image_index = 0
-
         self.root_layout = QVBoxLayout()
 
         self.frame_principal = QFrame()
@@ -69,7 +67,6 @@ class Dashboard(QMainWindow):
 
         #Bar widget
         self.bar_widget = QWidget()
-        self.barw
 
 
 

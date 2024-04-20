@@ -208,22 +208,43 @@ class MainWindow(QMainWindow):
         self.frame_buttons_game.setLayout(self.buttons_game_layout)
 
         #Boton group y reload
+        self.boton_volver_layaout = QHBoxLayout()
+
+        self.back_button = QPushButton()
+        self.back_button.clicked.connect(self.volver)
+        image_back = os.path.join(self.basedir, "images/volver.png")
+        self.imagen_volver = QPixmap(image_back)
+        self.back_button.setIcon(self.imagen_volver)
+        self.boton_volver_layaout.addWidget(self.back_button)
+
+
+        self.boton_volver_layaout.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        self.button_group_layout.addLayout(self.boton_volver_layaout)
+
+
+
+        #Info y rety
+        self.botones_info_retry = QHBoxLayout()
+
+        self.button_group_layout.addLayout(self.botones_info_retry)
+
         self.reload_button = QPushButton()
         self.reload_button.clicked.connect(self.recargar)
         image_reload = os.path.join(self.basedir, "images/reload.png")
         self.imagen_reload = QPixmap(image_reload)
         self.reload_button.setIcon(self.imagen_reload)
-        self.button_group_layout.addWidget(self.reload_button)
+        self.botones_info_retry.addWidget(self.reload_button)
 
         self.button_group = QPushButton()
         self.button_group.clicked.connect(self.show_pagina_3)
         image_group = os.path.join(self.basedir, 'images/grupo.png')
         self.imagen_group = QPixmap(image_group)
         self.button_group.setIcon(self.imagen_group)
-        self.button_group_layout.addWidget(self.button_group)
+        self.botones_info_retry.addWidget(self.button_group)
 
 
-        self.button_group_layout.setAlignment(Qt.AlignmentFlag.AlignRight)
+        self.botones_info_retry.setAlignment(Qt.AlignmentFlag.AlignRight)
+ 
         self.frame_button_group.setLayout(self.button_group_layout)
 
 
@@ -303,6 +324,25 @@ class MainWindow(QMainWindow):
             button.setIcon(QIcon()) 
             button.setProperty("isUsed", False) 
             button.setEnabled(True)
+
+    def volver(self):
+        self.show_pagina_1()
+        self.x_moves.clear()
+        self.o_moves.clear()
+        self.score_x = 0
+        self.score_o = 0
+        self.current_player = "X"
+        self.player_o = None
+        self.player_x = None
+        self.line_edit_jugador_o.setText("")
+        self.line_edit_jugador_x.setText("")
+
+        self.winner_player.clear()
+        for button in self.frame_buttons_game.findChildren(QPushButton):
+            button.setIcon(QIcon()) 
+            button.setProperty("isUsed", False) 
+            button.setEnabled(True)
+
 
     def pagina_3(self):
         self.root_pagina3 = QVBoxLayout()
