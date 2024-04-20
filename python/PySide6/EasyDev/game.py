@@ -74,12 +74,12 @@ class GameWindow(QMainWindow):
         button.setEnabled(False)
         if (self.current_player == "X"):
             self.x_moves.add(coordinates)
-            self.verify_moves()
             self.current_player = "O"
+            self.verify_moves()
         else:
             self.o_moves.add(coordinates)
-            self.verify_moves()
             self.current_player = "X"
+            self.verify_moves()
         print("click en", coordinates)
 
     def verify_moves(self):
