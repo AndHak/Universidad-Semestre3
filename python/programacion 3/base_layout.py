@@ -26,6 +26,7 @@ class Main(QMainWindow):
         self.main_widget.setLayout(self.root_layout)
         self.setCentralWidget(self.main_widget)
 
+
 if __name__=="__main__":
     app = QApplication(sys.argv)
     window = Main()

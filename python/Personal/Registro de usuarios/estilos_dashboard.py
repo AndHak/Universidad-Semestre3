@@ -9,11 +9,19 @@ colores = {
 
 
 
-estilos_bar_buttons = f"""
+button_pages_toolbar = f"""
     QPushButton {{
-        background: transparent;
-        font-size: 15px;
+        background-color: transparent;
+        border: none;
+        color: #d9dde7;
+        font-size: 17px;
         font-family: Raleway;
-        color: white;
+    }}
+"""
+
+social_button_toolbar = f"""
+    QPushButton {{
+        background-color: transparent;
+        border: none;
     }}
 """
