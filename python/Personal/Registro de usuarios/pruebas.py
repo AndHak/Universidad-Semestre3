@@ -1,48 +1,34 @@
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QFrame
+from PySide6.QtWidgets import QApplication, QPushButton, QVBoxLayout, QWidget, QGraphicsDropShadowEffect
+from PySide6.QtCore import QObject, QEvent
 
-class MiVentana(QMainWindow):
+class MyWidget(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Ejemplo de Barra de Navegación")
 
-        # Layout principal para toda la ventana
-        self.root_layout = QVBoxLayout()
+        self.layout_buttons_pages = QVBoxLayout(self)
 
-        # Crear la barra de navegación y agregar botones
-        self.barra_de_navegacion()
+        # Botones
+        labels = ["HOME", "PLACES", "CONTACT", "ABOUT"]
+        for label in labels:
+            button = QPushButton()
+            button.setText(label)
+            button.setStyleSheet("background-color: white; border: 1px solid black;")
+            button.installEventFilter(self)  # Instalar el filtro de eventos en este widget
+            self.layout_buttons_pages.addWidget(button)
 
-        # Crear otros widgets y agregarlos al layout principal
-        self.widget1 = QPushButton("Widget 1")
-        self.root_layout.addWidget(self.widget1)
+    def eventFilter(self, obj, event):
+        if event.type() == QEvent.Enter:
+            if isinstance(obj, QPushButton):
+                shadow_effect = QGraphicsDropShadowEffect()
+                shadow_effect.setBlurRadius(20)
+                obj.setGraphicsEffect(shadow_effect)
+        elif event.type() == QEvent.Leave:
+            if isinstance(obj, QPushButton):
+                obj.setGraphicsEffect(None)
+        return super().eventFilter(obj, event)
 
-        self.widget2 = QPushButton("Widget 2")
-        self.root_layout.addWidget(self.widget2)
-
-        # Crear un frame principal
-        self.frame_principal = QFrame()
-        self.root_layout.addWidget(self.frame_principal)
-
-        # Establecer el layout principal en la ventana
-        self.main_widget = QWidget()
-        self.main_widget.setLayout(self.root_layout)
-        self.setCentralWidget(self.main_widget)
-
-    def barra_de_navegacion(self):
-        # Crear el layout horizontal para la barra de navegación
-        self.bar_layout = QHBoxLayout()
-
-        # Crear los botones de la barra de navegación
-        self.home_button = QPushButton("HOME")
-        self.bar_layout.addWidget(self.home_button)
-
-        self.otro_button = QPushButton("Otro Botón")
-        self.bar_layout.addWidget(self.otro_button)
-
-        # Agregar el layout horizontal al layout principal en la parte superior
-        self.root_layout.addLayout(self.bar_layout)
-
-if __name__ == "__main__":
-    app = QApplication([])
-    ventana = MiVentana()
-    ventana.show()
-    app.exec()
+app = QApplication([])
+window = MyWidget()
+window.resize(400, 300)
+window.show()
+app.exec()

@@ -11,11 +11,44 @@ colores = {
 
 button_pages_toolbar = f"""
     QPushButton {{
+        height: 40px;
+        width: 100px;
         background-color: transparent;
-        border: none;
         color: #d9dde7;
+        border: none;
         font-size: 17px;
         font-family: Raleway;
+        border-radius: 20px;
+    }}
+
+    QPushButton:hover {{
+        background: rgba(240, 240, 240, 200);
+        border-radius: 20px;  
+        color: #000000;
+    }}
+
+    QPushButton:pressed {{
+        background: rgba(200, 200, 200, 200);
+        border-radius: 20px;  
+        color: #000000;
+    }}
+
+    QPushButton:checked {{
+        background: rgba(240, 240, 240, 200);
+        border-radius: 20px;  
+        color: #000000;
+    }}
+"""
+button_pages_toolbar_selected = f"""
+    QPushButton {{
+        height: 40px;
+        width: 100px;
+        background: rgba(240, 240, 240, 200);
+        color: #000000;
+        font-size: 17px;
+        border: none;
+        font-family: Raleway;
+        border-radius: 20px;
     }}
 """
 

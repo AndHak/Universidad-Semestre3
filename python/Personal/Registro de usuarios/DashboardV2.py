@@ -22,7 +22,6 @@ class Dashboard(QMainWindow):
     def __init__(self, usuario_logueado):
         super().__init__()
 
-
         #Imports no tocar
         self.user = usuario_logueado
         self.last_selected_button = None
@@ -49,14 +48,15 @@ class Dashboard(QMainWindow):
         self.setup_ui()
 
 
+
     def setup_ui(self):
-        self.root_layout = QVBoxLayout()
+        self.root_layout = QStackedLayout()
         self.root_layout.setContentsMargins(0, 0, 0, 0)
         self.root_layout.setSpacing(0)
 
         self.background_widget = QFrame()
         self.background_widget.setStyleSheet("background-color: transparent;")
-        self.root_layout.addWidget(self.background_widget, 100)
+        self.root_layout.addWidget(self.background_widget)
 
         self.layout_background = QVBoxLayout()
         self.layout_background.setContentsMargins(0,0,0,0)
@@ -67,9 +67,18 @@ class Dashboard(QMainWindow):
 
         self.frame_toolbar = QFrame()
         self.frame_toolbar.setStyleSheet("""
-                            background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0.3 rgba(24, 71, 127, 255), stop:0.7 rgba(24, 71, 127, 150), stop:1 rgba(24, 71, 127, 0));
-                            border: none;
-                            """)
+            background-color: qlineargradient(
+                spread: pad, 
+                x1: 0, y1: 0, x2: 0, y2: 1, 
+                stop: 0.2 rgba(53, 62, 121, 255), 
+                stop: 0.4 rgba(53, 62, 121, 220), 
+                stop: 0.6 rgba(53, 62, 121, 200),
+                stop: 0.8 rgba(53, 62, 121, 150),
+                stop: 0.9 rgba(53, 62, 121, 50),
+                stop: 1 rgba(53, 62, 121, 0)
+            );
+            border: none;
+        """)
         self.frame_paginas = QFrame()
         self.frame_paginas.setStyleSheet("""
                             background-color: transparent;
@@ -82,6 +91,7 @@ class Dashboard(QMainWindow):
         self.pagina_places()
         self.pagina_contact()
         self.pagina_about_us()
+        self.pagina_search()
         self.pagina_profile()
         self.pagina_mapa_mundi()
 
@@ -97,6 +107,7 @@ class Dashboard(QMainWindow):
         self.main_widget = QWidget()
         self.main_widget.setLayout(self.root_layout)
         self.setCentralWidget(self.main_widget)
+
 
     def mostrar_pagina_por_defecto(self):
         # Mostrar la página "HOME" por defecto
@@ -153,6 +164,7 @@ class Dashboard(QMainWindow):
                                             """)
         self.mapa_mundi_button.enterEvent = self.show_mapa_mundi_select
         self.mapa_mundi_button.leaveEvent = self.show_mapa_mundi_static
+        self.mapa_mundi_button.clicked.connect(lambda label_select="MAP", button_selecct=self.mapa_mundi_button: self.show_page(label_select, button_selecct))
 
 
         self.layout_mapa_mundi.addWidget(self.mapa_mundi_button)
@@ -175,8 +187,10 @@ class Dashboard(QMainWindow):
         self.serach_button.setIconSize(QSize(40, 40))
         self.serach_button.enterEvent = self.show_lupa_animated
         self.serach_button.leaveEvent = self.show_lupa_static
+        self.serach_button.clicked.connect(lambda label_select="SEARCH", button_selecct=self.serach_button: self.show_page(label_select, button_selecct))
         self.layout_buttons_pages.addWidget(self.serach_button)
         self.frame_buttons_pages.setLayout(self.layout_buttons_pages)
+
 
         #Social media
 
@@ -214,6 +228,7 @@ class Dashboard(QMainWindow):
         #Profile
         self.profile_imagen = QPixmap(os.path.join(self.basedir, "images_dashboard/user.png"))
         self.profile_animated = QMovie(os.path.join(self.basedir, "images_dashboard/user_hover.gif"))
+        self.profile_selec = QPixmap(os.path.join(self.basedir, "images_dashboard/user_selec.png"))
         self.profile_animated.frameChanged.connect(self.update_profile_icon)
 
         self.profile_button = QPushButton()
@@ -222,6 +237,7 @@ class Dashboard(QMainWindow):
         self.profile_button.setIconSize(QSize(50, 50))
         self.profile_button.enterEvent = self.show_profile_animated
         self.profile_button.leaveEvent = self.show_profile_static
+        self.profile_button.clicked.connect(lambda label_select="PROFILE", button_selecct=self.profile_button: self.show_page(label_select, button_selecct))
 
         self.layout_profile.addWidget(self.profile_button)
         self.frame_profile.setLayout(self.layout_profile)
@@ -354,6 +370,17 @@ class Dashboard(QMainWindow):
         self.main_about_us.setLayout(self.about_us_layout)
         self.layout_paginas.addWidget(self.main_about_us)
 
+    def pagina_search(self):
+        self.search_layout = QVBoxLayout()
+        self.search_layout.setContentsMargins(0,0,0,0)
+        self.search_frame = QFrame()
+
+        self.search_layout.addWidget(self.search_frame, 100)
+
+        self.main_search = QWidget()
+        self.main_search.setLayout(self.search_layout)
+        self.layout_paginas.addWidget(self.main_search)
+
     def pagina_profile(self):
         self.profile_layout = QVBoxLayout()
         self.profile_layout.setContentsMargins(0,0,0,0)
@@ -367,14 +394,17 @@ class Dashboard(QMainWindow):
 
     def pagina_mapa_mundi(self):
         self.map_layout = QVBoxLayout()
-        self.map_layout.setContentsMargins(0,0,0,0)
+        self.map_layout.setContentsMargins(0, 0, 0, 0)
+
         self.map_frame = QFrame()
+        self.imagen_fondo_map = os.path.join(self.basedir, 'images_dashboard/rio_de_janeiro.jpg')
+        self.background_widget.setBackgroundRole
 
-        self.map_layout.addWidget(self.map_frame, 100)
-
+        self.map_layout.addWidget(self.map_frame)
         self.main_mapa_mundi = QWidget()
         self.main_mapa_mundi.setLayout(self.map_layout)
-        self.layout_paginas.addWidget(self.main_mapa_mundi)
+        self.root_layout.addWidget(self.main_mapa_mundi)
+
 
 
 
@@ -383,18 +413,22 @@ class Dashboard(QMainWindow):
     def show_page(self, label, button):
         # Restablecer el estilo del último botón seleccionado
         if self.last_selected_button:
-            self.last_selected_button.setStyleSheet(button_pages_toolbar)
+            if self.last_selected_button != self.mapa_mundi_button and self.last_selected_button != self.profile_button and self.last_selected_button != self.serach_button:
+                self.last_selected_button.setStyleSheet(button_pages_toolbar)
             self.last_selected_button.setProperty("isUsed", False)
+
 
         # Restablecer el estilo de todos los botones
         for btn in self.layout_buttons_pages.findChildren(QPushButton):
-            btn.setStyleSheet(button_pages_toolbar)
+            if btn != self.mapa_mundi_button or btn != self.profile_button or btn != self.serach_button: 
+                btn.setStyleSheet(button_pages_toolbar)
             btn.setProperty("isUsed", False)
 
         # Mostrar la página correspondiente y resaltar el botón seleccionado
         if label == "HOME":
             self.layout_paginas.setCurrentWidget(self.main_home)
             button.setStyleSheet(button_pages_toolbar_selected)
+            self.background_widget.setStyleSheet("background-color: transparent;")
             button.setProperty("isUsed", True)
             self.last_selected_button = button
         elif label == "PLACES":
@@ -415,24 +449,25 @@ class Dashboard(QMainWindow):
             button.setStyleSheet(button_pages_toolbar_selected)
             button.setProperty("isUsed", True)
             self.last_selected_button = button
+        elif label == "SEARCH":
+            self.layout_paginas.setCurrentWidget(self.main_search)
+            self.background_widget.setStyleSheet("background-color: gray;")
+            button.setProperty("isUsed", True)
+            self.last_selected_button = button
         elif label == "PROFILE":
             self.layout_paginas.setCurrentWidget(self.main_profile)
-            self.background_widget.setStyleSheet("background-color: transparent;")
-            button.setStyleSheet(button_pages_toolbar_selected)
-            button.setProperty("isUsed", True)
+            self.background_widget.setStyleSheet("background-color: black;")
+            button.setIcon(self.profile_selec)
             self.last_selected_button = button
         elif label == "MAP":
             self.layout_paginas.setCurrentWidget(self.main_mapa_mundi)
-            self.background_widget.setStyleSheet("background-color: transparent;")
-            button.setStyleSheet(button_pages_toolbar_selected)
+            self.background_widget.setStyleSheet("background-color: black;")
             button.setProperty("isUsed", True)
             self.last_selected_button = button
 
 
 
     #################### Movimiento de fondo - un toque complejo #################################
-
-
 
 
     
