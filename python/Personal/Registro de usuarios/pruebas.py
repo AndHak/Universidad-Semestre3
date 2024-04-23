@@ -1,34 +1,35 @@
-from PySide6.QtWidgets import QApplication, QPushButton, QVBoxLayout, QWidget, QGraphicsDropShadowEffect
-from PySide6.QtCore import QObject, QEvent
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QLabel, QWidget, QApplication
+from PySide6.QtGui import QPixmap
+from PySide6.QtCore import Qt
 
-class MyWidget(QWidget):
+class MiVentana(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setWindowTitle("Mi Ventana")
+        self.resize(800, 600)  # Tamaño inicial de la ventana
 
-        self.layout_buttons_pages = QVBoxLayout(self)
+        self.root_layout = QVBoxLayout()
+        self.root_widget = QWidget()
+        self.root_widget.setLayout(self.root_layout)
+        self.setCentralWidget(self.root_widget)
 
-        # Botones
-        labels = ["HOME", "PLACES", "CONTACT", "ABOUT"]
-        for label in labels:
-            button = QPushButton()
-            button.setText(label)
-            button.setStyleSheet("background-color: white; border: 1px solid black;")
-            button.installEventFilter(self)  # Instalar el filtro de eventos en este widget
-            self.layout_buttons_pages.addWidget(button)
+        self.pagina_mapa_mundi()
 
-    def eventFilter(self, obj, event):
-        if event.type() == QEvent.Enter:
-            if isinstance(obj, QPushButton):
-                shadow_effect = QGraphicsDropShadowEffect()
-                shadow_effect.setBlurRadius(20)
-                obj.setGraphicsEffect(shadow_effect)
-        elif event.type() == QEvent.Leave:
-            if isinstance(obj, QPushButton):
-                obj.setGraphicsEffect(None)
-        return super().eventFilter(obj, event)
+    def pagina_mapa_mundi(self):
+        self.label_backgraund = QLabel()
+        self.label_backgraund.setAlignment(Qt.AlignCenter)
+        self.root_layout.addWidget(self.label_backgraund)
 
-app = QApplication([])
-window = MyWidget()
-window.resize(400, 300)
-window.show()
-app.exec()
+        self.imagen_mapa_mundi = QPixmap("images_dashboard/map_map_map.jpg")
+        self.label_backgraund.setPixmap(self.imagen_mapa_mundi.scaled(self.label_backgraund.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.label_backgraund.setPixmap(self.imagen_mapa_mundi.scaled(self.label_backgraund.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+
+if __name__ == "__main__":
+    import sys
+    app = QApplication(sys.argv)
+    ventana = MiVentana()
+    ventana.show()
+    sys.exit(app.exec_())
