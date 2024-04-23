@@ -16,11 +16,15 @@ import re
 class Dashboard(QMainWindow):
 
     basedir = os.path.dirname(__file__)
-    primero = True
 
 
     def __init__(self, usuario_logueado):
         super().__init__()
+        self.current_image_index = 0  # Inicializa el índice de la imagen actual
+        self.last_image = None  # Inicializa la última imagen utilizada
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.cambiar_imagen_fondo)
+        self.timer.start(5000)  # Cambiar imagen cada 5000 ms (5 segundos)
 
         #Imports no tocar
         self.user = usuario_logueado
@@ -45,8 +49,62 @@ class Dashboard(QMainWindow):
         #Fin imports
 
 
+        self.imagen_rio_de_janeiro = QPixmap(os.path.join(self.basedir, "images_dashboard/rio_de_janeiro.jpg"))
+        self.imagen_paris = QPixmap(os.path.join(self.basedir, "images_dashboard/paris.jpg"))
+        self.imagen_italia_roma = QPixmap(os.path.join(self.basedir, "images_dashboard/Italia_Roma.png"))
+        self.imagen_dubai = QPixmap(os.path.join(self.basedir, "images_dashboard/dubai.jpg"))
+        
+
+        self.images_home = [self.imagen_rio_de_janeiro, self.imagen_paris, self.imagen_italia_roma, self.imagen_dubai]
+
+        self.load_and_scale_background_image()
+
         self.setup_ui()
 
+    def load_and_scale_background_image(self):
+        # Cargar la imagen de fondo de la página HOME
+        imagen_home = QPixmap(os.path.join(self.basedir, "images_dashboard/rio_de_janeiro.jpg"))
+
+        # Escalar la imagen al tamaño de la ventana
+        if not self.last_image:
+            new_size = QSize(self.width(), self.height()) 
+            self.ultima_imagen_guardada_y_escalada = imagen_home.scaled(new_size)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.load_and_scale_background_image()
+
+        # Obtener el nuevo tamaño deseado para la imagen
+        new_size = QSize(self.width(), self.height()) 
+
+        # Escalar la imagen al nuevo tamaño
+        self.imagen_mapa_mundi = QPixmap(os.path.join(self.basedir, "images_dashboard/2913127.jpg"))
+        self.imagen_mapa_mundi = self.imagen_mapa_mundi.scaled(new_size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        
+        # Actualizar la imagen en el label_backgraund
+        self.label_background.setPixmap(QPixmap(self.imagen_mapa_mundi))
+
+                # Escalar la imagen al nuevo tamaño
+        self.imagen_actual_home_background = self.ultima_imagen_guardada_y_escalada
+        self.imagen_actual_home_background = self.imagen_actual_home_background.scaled(new_size)
+        
+        # Actualizar la imagen en el label_backgraund
+        self.background_widget.setPixmap(QPixmap(self.imagen_actual_home_background))
+
+
+    def cambiar_imagen_fondo(self):
+        if self.last_selected_label == "HOME":
+            new_size = QSize(self.width(), self.height()) 
+            # Guardar la última imagen antes de cambiarla
+            self.last_image = self.background_widget.pixmap()
+
+            # Cambiar a la siguiente imagen en la lista
+            self.current_image_index = (self.current_image_index + 1) % len(self.images_home)
+            nueva_imagen = self.images_home[self.current_image_index].scaled(new_size)
+            self.background_widget.setPixmap(nueva_imagen)
+            self.ultima_imagen_guardada_y_escalada = nueva_imagen
+
+            #Hacer animacion o cambio con transicion
 
 
     def setup_ui(self):
@@ -54,11 +112,14 @@ class Dashboard(QMainWindow):
         self.root_layout.setContentsMargins(0, 0, 0, 0)
         self.root_layout.setSpacing(0)
 
-        self.background_widget = QFrame()
+        self.background_widget = QLabel()
+        self.background_widget.setMinimumSize(QSize(720, 480))
+        self.background_widget.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
         self.background_widget.setStyleSheet("background-color: transparent;")
         self.root_layout.addWidget(self.background_widget)
 
         self.layout_background = QVBoxLayout()
+        self.layout_background.setSpacing(0)
         self.layout_background.setContentsMargins(0,0,0,0)
 
         
@@ -70,9 +131,9 @@ class Dashboard(QMainWindow):
             background: qlineargradient(
                 x1: 0, y1: 0, x2: 0, y2: 1,
                 stop: 0.2 rgba(45, 50, 80, 1),
-                stop: 0.4 rgba(45, 50, 80, 0.86),
+                stop: 0.4 rgba(45, 50, 80, 0.9),
                 stop: 0.6 rgba(45, 50, 80, 0.8),
-                stop: 0.8 rgba(45, 50, 80, 0.6),
+                stop: 0.8 rgba(45, 50, 80, 0.7),
                 stop: 0.9 rgba(45, 50, 80, 0.2),
                 stop: 1 rgba(45, 50, 80, 0)
             );
@@ -85,6 +146,7 @@ class Dashboard(QMainWindow):
                             """)
 
         self.layout_paginas = QStackedLayout()
+        self.layout_paginas.setSpacing(0)
         self.layout_paginas.setContentsMargins(0,0,0,0)
         self.pagina_home()
         self.pagina_places()
@@ -339,6 +401,7 @@ class Dashboard(QMainWindow):
     # Desarrollo de las paginas
     def pagina_home(self):
         self.home_layout = QVBoxLayout()
+        self.home_layout.setSpacing(0)
         self.home_layout.setContentsMargins(0,0,0,0)
         self.home_frame = QFrame()
 
@@ -351,25 +414,17 @@ class Dashboard(QMainWindow):
         self.stack_images_home.setSpacing(0)
         self.home_frame.setLayout(self.stack_images_home)
 
-        ################## mapa mundi completo
-        self.label_background_home = QLabel()
-        self.label_background_home_layout = QVBoxLayout()
-        self.label_background_home.setContentsMargins(0,0,0,0)
-        self.label_background_home_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.label_background_home_layout.addStretch()
-        self.label_background_home.setLayout(self.label_background_home_layout)
 
-        #Cargar todas las imagenes
-        self.imagen_rio_de_janeiro = QPixmap(os.path.join(self.basedir, "images_dashboard/rio_de_janeiro.jpg"))
-        self.imagen_paris = QPixmap(os.path.join(self.basedir, "images_dashboard/paris.jpg"))
-        
-        self.stack_images_home.addWidget(self.label_background_home)
 
+ 
         ##############################################################
 
         self.main_home = QWidget()
         self.main_home.setLayout(self.home_layout)
         self.layout_paginas.addWidget(self.main_home)
+
+
+
 
     def pagina_places(self):
         self.places_layout = QVBoxLayout()
@@ -381,6 +436,7 @@ class Dashboard(QMainWindow):
         self.main_places = QWidget()
         self.main_places.setLayout(self.places_layout)
         self.layout_paginas.addWidget(self.main_places)
+
 
     def pagina_contact(self):
         self.contact_layout = QVBoxLayout()
@@ -505,8 +561,6 @@ class Dashboard(QMainWindow):
         self.animate_return_slide(0)
 
 
-
-
     def pagina_profile(self):
         self.profile_layout = QVBoxLayout()
         self.profile_layout.setContentsMargins(0,0,0,0)
@@ -553,7 +607,6 @@ class Dashboard(QMainWindow):
 
 
         self.imagen_mapa_mundi = QPixmap(os.path.join(self.basedir, "images_dashboard/2913127.jpg"))
-        current_size = QSize(self.width(), self.height())
         self.imagen_mapa_mundi = self.imagen_mapa_mundi.scaled(self.label_background.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.label_background.setPixmap(QPixmap(self.imagen_mapa_mundi))
         
@@ -600,17 +653,7 @@ class Dashboard(QMainWindow):
         self.volver_mapa_mundi_button.setIcon(self.img_volver_map_normal)
 
     
-    def resizeEvent(self, event):
-        super().resizeEvent(event)
-        # Obtener el nuevo tamaño deseado para la imagen
-        new_size = QSize(self.width(), self.height())  # Aquí puedes ajustar el tamaño que desees
 
-        # Escalar la imagen al nuevo tamaño
-        self.imagen_mapa_mundi = QPixmap(os.path.join(self.basedir, "images_dashboard/2913127.jpg"))
-        self.imagen_mapa_mundi = self.imagen_mapa_mundi.scaled(new_size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-        
-        # Actualizar la imagen en el label_backgraund
-        self.label_background.setPixmap(QPixmap(self.imagen_mapa_mundi))
 
 
     def volver_mapa_mundi_button_funtion(self):
@@ -643,6 +686,7 @@ class Dashboard(QMainWindow):
             button.setProperty("isUsed", True)
             self.last_selected_button = button
             self.last_selected_label = label
+            self.background_widget.setPixmap(self.ultima_imagen_guardada_y_escalada)
         elif label == "PLACES":
             self.layout_paginas.setCurrentWidget(self.main_places)
             self.background_widget.setStyleSheet("background-color: transparent;")
@@ -650,6 +694,7 @@ class Dashboard(QMainWindow):
             button.setProperty("isUsed", True)
             self.last_selected_button = button
             self.last_selected_label = label
+            self.background_widget.setPixmap(QPixmap())
         elif label == "CONTACT":
             self.layout_paginas.setCurrentWidget(self.main_contact)
             self.background_widget.setStyleSheet("background-color: transparent;")
@@ -657,6 +702,7 @@ class Dashboard(QMainWindow):
             button.setProperty("isUsed", True)
             self.last_selected_button = button
             self.last_selected_label = label
+            self.background_widget.setPixmap(QPixmap())
         elif label == "ABOUT":
             self.layout_paginas.setCurrentWidget(self.main_about_us)
             self.background_widget.setStyleSheet("background-color: transparent;")
@@ -664,6 +710,7 @@ class Dashboard(QMainWindow):
             button.setProperty("isUsed", True)
             self.last_selected_button = button
             self.last_selected_label = label
+            self.background_widget.setPixmap(QPixmap())
         elif label == "SEARCH":
             self.animate_page_slide(1)
             button.setProperty("isUsed", True)
@@ -673,6 +720,7 @@ class Dashboard(QMainWindow):
             button.setIcon(self.profile_selec)
             self.last_selected_button = button
             self.last_selected_label = label
+            self.background_widget.setPixmap(QPixmap())
         elif label == "MAP":
             self.animate_page_slide(2)
             button.setProperty("isUsed", True)
