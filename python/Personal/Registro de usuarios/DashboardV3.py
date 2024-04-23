@@ -558,6 +558,7 @@ class Dashboard(QMainWindow):
         self.search_button_page.setIcon(self.imagen_lupa_page)
 
     def volver_search_button_funtion(self):
+        self.show_page(self.last_selected_label, self.last_selected_button)
         self.animate_return_slide(0)
 
 
@@ -657,6 +658,7 @@ class Dashboard(QMainWindow):
 
 
     def volver_mapa_mundi_button_funtion(self):
+        self.show_page(self.last_selected_label, self.last_selected_button)
         self.animate_return_slide(0)
 
 
