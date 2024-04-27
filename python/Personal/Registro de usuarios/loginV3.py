@@ -2,7 +2,7 @@ from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtMultimedia import *
-from DashboardV2 import *
+from DashboardV3 import *
 from estilos import *
 from usuario import *
 import pickle
