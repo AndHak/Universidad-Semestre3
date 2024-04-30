@@ -18,8 +18,7 @@ class Main(QMainWindow):
         self.root_layout = QVBoxLayout()
 
         self.frame_principal = QFrame()
-        self.frame_principal.setStyleSheet("background: #252938")
-
+        
         self.root_layout.addWidget(self.frame_principal, 100)
 
         self.main_widget = QWidget()
