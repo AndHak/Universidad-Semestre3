@@ -7,7 +7,7 @@ import math
 
 class Main(QMainWindow):
 
-    s = [["%", "CE", "C", "⌫"], 
+    s = [ 
          ["xⁿ", "x²", "√", "÷"],  
          ["7", "8", "9", "×"],  
          ["4", "5", "6", "−"],  
@@ -20,7 +20,7 @@ class Main(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.resize(QSize(400, 600))
+        self.resize(QSize(600, 500))
         #Nombre Ventana
         self.setWindowTitle("Calculadora pro")
 
@@ -29,7 +29,11 @@ class Main(QMainWindow):
         self.icon_window = QPixmap(incon_image)
         self.setWindowIcon(self.icon_window)
 
-        self.root_layout = QVBoxLayout()
+        self.root_layout = QStackedLayout()
+
+    def pag_1(self):
+
+        self.root_pag1 = QVBoxLayout()
         
         self.frame_operaciones = QFrame()
         self.frame_operaciones.setStyleSheet("background: #252938")
@@ -37,13 +41,17 @@ class Main(QMainWindow):
         self.frame_buttons_calculator = QFrame()
         self.frame_buttons_calculator.setStyleSheet("background: #252938")
 
+        self.frame_button_info = QFrame()
+
         #Agregar los frames al layout como widgets
-        self.root_layout.addWidget(self.frame_operaciones, 30)
-        self.root_layout.addWidget(self.frame_buttons_calculator, 70)
+        self.root_layout.addWidget(self.frame_operaciones)
+        self.root_layout.addWidget(self.frame_buttons_calculator)
+        self.root_layout.addWidget(self.frame_button_info)
+        
 
         #Establecer un widget principal
         self.widget = QWidget()
-        self.widget.setLayout(self.root_layout)
+        self.widget.setLayout(self.root_pag1)
         self.setCentralWidget(self.widget)
 
         self.digital_operaciones()
@@ -248,6 +256,7 @@ class Main(QMainWindow):
         
 if __name__=="__main__":
     app = QApplication(sys.argv)
+    app.setStyle("Fusion")
     window = Main()
     window.show()
     sys.exit(app.exec())

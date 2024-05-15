@@ -1,3 +1,6 @@
+#Desarrollado por Yenny Marcela Guerra
+#Universidad de Nariño 2024
+
 #Instalamos la libreria ggplot2 y la llamamos
 install.packages("ggplot2")
 library(ggplot2)
