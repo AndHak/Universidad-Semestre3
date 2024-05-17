@@ -2,5 +2,6 @@
     "cSpell.words": [
         "Codewars",
         "Kata"
-    ]
+    ],
+    "r.lsp.promptToInstall": false
 }

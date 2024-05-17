@@ -97,6 +97,7 @@ class EditorDeTexto(QWidget):
 
 def main():
     app = QApplication(sys.argv)
+    app.setStyle("Fusion")
     editor = EditorDeTexto()
     editor.show()
     sys.exit(app.exec_())
