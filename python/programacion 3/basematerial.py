@@ -1,7 +1,7 @@
 import sys
 import os
 from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QHBoxLayout, QVBoxLayout, QWidget, QFrame
-from PySide6.QtCore import Qt, QPoint
+from PySide6.QtCore import Qt, QPoint, QRect
 from PySide6.QtGui import QIcon, QCursor, QMouseEvent
 
 class CustomTitleBar(QWidget):
@@ -15,11 +15,11 @@ class CustomTitleBar(QWidget):
 
         # Crear botones de la barra de título
         self.closeButton = QPushButton()
-        self.closeButton.setFixedSize(50,40)
+        self.closeButton.setFixedSize(50, 40)
         self.minimizeButton = QPushButton()
-        self.minimizeButton.setFixedSize(40,40)
+        self.minimizeButton.setFixedSize(40, 40)
         self.maximizeButton = QPushButton()
-        self.maximizeButton.setFixedSize(40,40)
+        self.maximizeButton.setFixedSize(40, 40)
 
         # Configurar botones para usar íconos personalizados
         self.closeButton.setIcon(QIcon(os.path.join(self.basedir, "img/cerrar.png")))
@@ -94,123 +94,58 @@ class CustomTitleBar(QWidget):
     def getResizeMode(self, event: QMouseEvent):
         rect = self.parent.rect()
         pos = event.position()
-        if pos.y() <= 5:
-            if pos.x() <= 5:
+        margin = 5
+        if pos.y() <= margin:
+            if pos.x() <= margin:
                 return Qt.TopLeftCorner
-            elif pos.x() >= rect.width() - 5:
+            elif pos.x() >= rect.width() - margin:
                 return Qt.TopRightCorner
             else:
                 return Qt.TopEdge
-        elif pos.y() >= rect.height() - 5:
-            if pos.x() <= 5:
+        elif pos.y() >= rect.height() - margin:
+            if pos.x() <= margin:
                 return Qt.BottomLeftCorner
-            elif pos.x() >= rect.width() - 5:
+            elif pos.x() >= rect.width() - margin:
                 return Qt.BottomRightCorner
             else:
                 return Qt.BottomEdge
-        elif pos.x() <= 5:
+        elif pos.x() <= margin:
             return Qt.LeftEdge
-        elif pos.x() >= rect.width() - 5:
+        elif pos.x() >= rect.width() - margin:
             return Qt.RightEdge
         else:
             return None
 
     def mouseMoveEvent(self, event: QMouseEvent):
         if event.buttons() == Qt.LeftButton and self.dragPosition is not None:
+            global_pos = event.globalPosition().toPoint()
             if self.resizeMode is not None:
-                global_pos = event.globalPosition().toPoint()
                 rect = self.parent.geometry()
-
                 if self.resizeMode == Qt.TopEdge:
-                    rect.setTop(global_pos.y() - self.dragPosition.y())
+                    rect.setTop(min(global_pos.y(), rect.bottom() - self.parent.minimumHeight()))
                 elif self.resizeMode == Qt.LeftEdge:
-                    rect.setLeft(global_pos.x() - self.dragPosition.x())
+                    rect.setLeft(min(global_pos.x(), rect.right() - self.parent.minimumWidth()))
                 elif self.resizeMode == Qt.BottomEdge:
-                    rect.setBottom(global_pos.y())
+                    rect.setBottom(max(global_pos.y(), rect.top() + self.parent.minimumHeight()))
                 elif self.resizeMode == Qt.RightEdge:
-                    rect.setRight(global_pos.x())
+                    rect.setRight(max(global_pos.x(), rect.left() + self.parent.minimumWidth()))
                 elif self.resizeMode == Qt.TopLeftCorner:
-                    rect.setTopLeft(global_pos - self.dragPosition)
+                    rect.setTopLeft(QPoint(min(global_pos.x(), rect.right() - self.parent.minimumWidth()),
+                                        min(global_pos.y(), rect.bottom() - self.parent.minimumHeight())))
                 elif self.resizeMode == Qt.TopRightCorner:
-                    rect.setTopRight(global_pos - self.dragPosition)
+                    rect.setTopRight(QPoint(max(global_pos.x(), rect.left() + self.parent.minimumWidth()),
+                                            min(global_pos.y(), rect.bottom() - self.parent.minimumHeight())))
                 elif self.resizeMode == Qt.BottomLeftCorner:
-                    rect.setBottomLeft(global_pos - self.dragPosition)
+                    rect.setBottomLeft(QPoint(min(global_pos.x(), rect.right() - self.parent.minimumWidth()),
+                                            max(global_pos.y(), rect.top() + self.parent.minimumHeight())))
                 elif self.resizeMode == Qt.BottomRightCorner:
-                    rect.setBottomRight(global_pos - self.dragPosition)
+                    rect.setBottomRight(QPoint(max(global_pos.x(), rect.left() + self.parent.minimumWidth()),
+                                            max(global_pos.y(), rect.top() + self.parent.minimumHeight())))
 
                 self.parent.setGeometry(rect)
             else:
-                self.parent.move(event.globalPosition().toPoint() - self.dragPosition)
+                self.parent.move(global_pos - self.dragPosition)
             event.accept()
-
-    def enterEvent(self, event):
-        rect = self.parent.rect()
-        pos = event.pos()
-
-        # Verificar si el cursor está cerca de las esquinas para cambiar al cursor de redimensionamiento diagonal
-        if pos.x() <= 5 and pos.y() <= 5:
-            self.setCursor(Qt.SizeFDiagCursor)
-        elif pos.x() >= rect.width() - 5 and pos.y() <= 5:
-            self.setCursor(Qt.SizeBDiagCursor)
-        elif pos.x() <= 5 and pos.y() >= rect.height() - 5:
-            self.setCursor(Qt.SizeBDiagCursor)
-        elif pos.x() >= rect.width() - 5 and pos.y() >= rect.height() - 5:
-            self.setCursor(Qt.SizeFDiagCursor)
-        # Cambiar el cursor a horizontal si está cerca de los bordes izquierdo o derecho
-        elif pos.x() <= 5 or pos.x() >= rect.width() - 5:
-            self.setCursor(Qt.SizeHorCursor)
-        # Cambiar el cursor a vertical si está cerca de los bordes superior o inferior
-        elif pos.y() <= 5 or pos.y() >= rect.height() - 5:
-            self.setCursor(Qt.SizeVerCursor)
-        else:
-            # Si no está cerca de ninguna esquina 
-            # o borde, usar el cursor de flecha predeterminado
-            self.setCursor(Qt.ArrowCursor)
-
-    def mouseMoveEvent(self, event: QMouseEvent):
-        if event.buttons() == Qt.LeftButton and self.dragPosition is not None:
-            if self.resizeMode is not None:
-                global_pos = event.globalPosition().toPoint()
-                rect = self.parent.geometry()
-
-                # Calcular la diferencia entre la posición global actual y la posición del mouse en la última actualización
-                diff = global_pos - self.dragPosition
-
-                if self.resizeMode == Qt.TopEdge:
-                    # Redimensionar la ventana en sentido vertical manteniendo el borde inferior fijo
-                    rect.setTop(rect.top() + diff.y())
-                elif self.resizeMode == Qt.LeftEdge:
-                    # Redimensionar la ventana en sentido horizontal manteniendo el borde derecho fijo
-                    rect.setLeft(rect.left() + diff.x())
-                elif self.resizeMode == Qt.BottomEdge:
-                    # Redimensionar la ventana en sentido vertical manteniendo el borde superior fijo
-                    rect.setBottom(rect.bottom() + diff.y())
-                elif self.resizeMode == Qt.RightEdge:
-                    # Redimensionar la ventana en sentido horizontal manteniendo el borde izquierdo fijo
-                    rect.setRight(rect.right() + diff.x())
-                elif self.resizeMode == Qt.TopLeftCorner:
-                    # Redimensionar la ventana en sentido diagonal manteniendo el borde inferior y derecho fijo
-                    rect.setTop(rect.top() + diff.y())
-                    rect.setLeft(rect.left() + diff.x())
-                elif self.resizeMode == Qt.TopRightCorner:
-                    # Redimensionar la ventana en sentido diagonal manteniendo el borde inferior y izquierdo fijo
-                    rect.setTop(rect.top() + diff.y())
-                    rect.setRight(rect.right() + diff.x())
-                elif self.resizeMode == Qt.BottomLeftCorner:
-                    # Redimensionar la ventana en sentido diagonal manteniendo el borde superior y derecho fijo
-                    rect.setBottom(rect.bottom() + diff.y())
-                    rect.setLeft(rect.left() + diff.x())
-                elif self.resizeMode == Qt.BottomRightCorner:
-                    # Redimensionar la ventana en sentido diagonal manteniendo el borde superior y izquierdo fijo
-                    rect.setBottom(rect.bottom() + diff.y())
-                    rect.setRight(rect.right() + diff.x())
-
-                self.parent.setGeometry(rect)
-                self.dragPosition = global_pos  # Actualizar la posición del mouse
-            else:
-                self.parent.move(event.globalPosition().toPoint() - self.dragPosition)
-            event.accept()
-
 
     def mouseReleaseEvent(self, event: QMouseEvent):
         if event.button() == Qt.LeftButton:
@@ -218,24 +153,28 @@ class CustomTitleBar(QWidget):
             self.resizeMode = None
             event.accept()
 
-
 class MainWindow(QMainWindow):
     basedir = os.path.dirname(__file__)
     def __init__(self):
         super().__init__()
         self.setWindowFlags(Qt.FramelessWindowHint)
+        self.setMinimumSize(300, 200)
 
         self.titleBar = CustomTitleBar(self)
+
+        self.setMouseTracking(True)
+        self.titleBar.setMouseTracking(True)
+
         self.setWindowTitle("Name app")
 
         self.root_layout = QVBoxLayout()
-        self.root_layout.setContentsMargins(0,0,0,0)
+        self.root_layout.setContentsMargins(0, 0, 0, 0)
 
         self.frame_barra = QFrame()
         self.frame_app_home = QFrame()
 
         self.root_layout.addWidget(self.frame_barra, 1)
-        self.root_layout.addWidget(self.frame_app_home, 99) 
+        self.root_layout.addWidget(self.frame_app_home, 99)
 
         layout = QVBoxLayout()
         layout.addWidget(self.titleBar)
@@ -259,6 +198,7 @@ class MainWindow(QMainWindow):
             }
         """)
 
+
     def desarrollo_home(self):
         self.root_home = QVBoxLayout()
         self.root_home.setContentsMargins(20, 20, 20, 20)
@@ -274,12 +214,45 @@ class MainWindow(QMainWindow):
 
     def mouseReleaseEvent(self, event):
         self.titleBar.mouseReleaseEvent(event)
+        self.setCursor(QCursor(Qt.ArrowCursor))
 
     def enterEvent(self, event):
         self.setCursor(QCursor(Qt.ArrowCursor))
 
     def leaveEvent(self, event):
         self.setCursor(QCursor(Qt.ArrowCursor))
+
+    def mouseMoveEvent(self, event):
+        pos = event.position()
+        rect = self.rect()
+        margin = 5
+
+        resize_mode = self.titleBar.getResizeMode(event)
+
+        if resize_mode is not None or (event.buttons() == Qt.LeftButton and self.titleBar.resizeMode is not None):
+            if resize_mode == Qt.TopEdge or self.titleBar.resizeMode == Qt.TopEdge:
+                self.setCursor(QCursor(Qt.SizeVerCursor))
+            elif resize_mode == Qt.LeftEdge or self.titleBar.resizeMode == Qt.LeftEdge:
+                self.setCursor(QCursor(Qt.SizeHorCursor))
+            elif resize_mode == Qt.BottomEdge or self.titleBar.resizeMode == Qt.BottomEdge:
+                self.setCursor(QCursor(Qt.SizeVerCursor))
+            elif resize_mode == Qt.RightEdge or self.titleBar.resizeMode == Qt.RightEdge:
+                self.setCursor(QCursor(Qt.SizeHorCursor))
+            elif resize_mode == Qt.TopLeftCorner or self.titleBar.resizeMode == Qt.TopLeftCorner:
+                self.setCursor(QCursor(Qt.SizeFDiagCursor))
+            elif resize_mode == Qt.TopRightCorner or self.titleBar.resizeMode == Qt.TopRightCorner:
+                self.setCursor(QCursor(Qt.SizeBDiagCursor))
+            elif resize_mode == Qt.BottomLeftCorner or self.titleBar.resizeMode == Qt.BottomLeftCorner:
+                self.setCursor(QCursor(Qt.SizeBDiagCursor))
+            elif resize_mode == Qt.BottomRightCorner or self.titleBar.resizeMode == Qt.BottomRightCorner:
+                self.setCursor(QCursor(Qt.SizeFDiagCursor))
+        else:
+            self.setCursor(QCursor(Qt.ArrowCursor))
+
+        self.titleBar.mouseMoveEvent(event)
+
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

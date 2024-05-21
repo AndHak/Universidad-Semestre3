@@ -759,7 +759,7 @@ class Dashboard(QMainWindow):
         new_widget_animation.setDuration(200)  # Duración de la animación en milisegundos
         new_widget_animation.setStartValue(start_pos_new)
         new_widget_animation.setEndValue(end_pos_new)       
-        new_widget_animation.setEasingCurve(QEasingCurve.Linear) # Curva de aceleración suave
+        new_widget_animation.setEasingCurve(QEasingCurve.OutQuad) # Curva de aceleración suave
 
         # Configurar secuencia de animación para sincronizar ambas animaciones
         self.animation_group = QParallelAnimationGroup()
