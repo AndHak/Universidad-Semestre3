@@ -1,7 +1,19 @@
+---
+title: "Analisis de vinos pdf"
+author: "Yenny Marcela Guera"
+date: "2024-05-23"
+output: 
+  pdf_document:
+    always_allow_html: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 # Desarrollado por Yenny Marcela Guerra
 # Universidad de Nariño 2024
 
 # Cargar los paquetes necesarios
+
 library(ggplot2)
 library(knitr)
 library(dplyr)
@@ -9,33 +21,20 @@ library(dplyr)
 # Leer los datos desde el archivo
 vinos <- read.table("C:/Programacion Universidad/Semestre 3/RStudio/vinos.txt", header = TRUE, quote="\\")
 
-# 1. Renombrar las variables
 names(vinos) <- c("claridad", "aroma", "cuerpo", "sabor", "aromac", "calidad", "region")
 
-# Mostrar el encabezado de los datos usando kable
 kable(head(vinos), caption = "Encabezado de los datos de vinos")
-
-# 2. Tablas de frecuencia unidimensionales y bidimensionales
 
 # Tabla de frecuencia unidimensional para la variable calidad
 tabla_calidad <- table(vinos$calidad)
 kable(tabla_calidad, caption = "Tabla de frecuencia de la calidad del vino")
 
-# Tabla de frecuencia bidimensional para las variables region y calidad
-tabla_region_calidad <- table(vinos$region, vinos$calidad)
-
-# Convertir la tabla a un data frame ordenado
-df_tabla_region_calidad <- data.frame(tabla_region_calidad) %>%
-  rename(Region = Var1, Calidad = Var2, Frecuencia = Freq) %>%
-  arrange(desc(Frecuencia))
-
-# Gráfico de barras para la tabla de frecuencia de calidad por región
-ggplot(df_tabla_region_calidad, aes(x = Calidad, y = Frecuencia, fill = Region)) +
-  geom_bar(stat = "identity") +
-  labs(x = "Calidad", y = "Frecuencia", fill = "Región", title = "Distribución de la calidad del vino por región",
-       subtitle = "Frecuencia de los vinos según su índice de calidad y región") +
-  scale_fill_manual(values = c("#FFA07A", "#00FA9A", "#4169E1"), name = "Región",
-                    labels = c("Región 1", "Región 2", "Región 3")) +
+# Gráfico de barras para la tabla de frecuencia de calidad
+data.frame(calidad = names(tabla_calidad), frecuencia = as.numeric(tabla_calidad)) %>%
+  ggplot(aes(x = calidad, y = frecuencia)) +
+  geom_bar(stat = "identity", fill = "#9370DB") +
+  labs(x = "Calidad", y = "Frecuencia", title = "Distribución de la calidad del vino",
+       subtitle = "Frecuencia de los vinos según su índice de calidad") +
   theme(plot.title = element_text(hjust = 0.5, color = "#800080", family = "Arial", size = 20, face = "bold"),
         plot.subtitle = element_text(hjust = 0.5, family = "Arial", color = "#8B008B"))
 
@@ -74,7 +73,7 @@ vinos %>%
         plot.subtitle = element_text(hjust = 0.5, family = "Arial", color = "#00688B"),
         legend.title = element_text(color = "blue"))
 
-# Gráfico creativo para relacionar "calidad", "sabor" y "aroma"
+# Gráfico creativo para relacionar calidad, sabor y aroma
 vinos %>%
   ggplot(aes(x = sabor, y = calidad, color = factor(sabor), size = aroma, shape = factor(region))) +
   geom_point(alpha = 0.6) +
@@ -88,9 +87,24 @@ vinos %>%
         axis.title.y = element_text(size = 13,
                                     color = "#DC143C",
                                     face = "italic")) 
+```
 
+## R Markdown
 
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
+```{r cars}
+summary(cars)
+```
 
+## Including Plots
 
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
