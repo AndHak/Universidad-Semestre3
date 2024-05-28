@@ -1,0 +1,47 @@
+<RCC>
+  <qresource prefix="Icons">
+    <file>icons/icons8-couple-64.png</file>
+    <file>icons/icons8-family-40.png</file>
+    <file>icons/cartagena.jpg</file>
+    <file>icons/hotel_almirante.jpg</file>
+    <file>icons/icons8-me-58.png</file>
+    <file>icons/hotel_sea.jpg</file>
+    <file>icons/sanandres.jpg</file>
+    <file>icons/icons8-airplane-take-off-26.png</file>
+    <file>icons/icons8-airplane-take-off-26_select.png</file>
+    <file>icons/icons8-airplane-take-off-50_2.png</file>
+    <file>icons/icons8-back-48.png</file>
+    <file>icons/icons8-calendar-50.png</file>
+    <file>icons/icons8-calendar-50_2.png</file>
+    <file>icons/icons8-calendar-50_select.png</file>
+    <file>icons/icons8-camera-50.png</file>
+    <file>icons/icons8-coin-50.png</file>
+    <file>icons/icons8-coin-50_select.png</file>
+    <file>icons/icons8-coin-in-hand-50_2.png</file>
+    <file>icons/icons8-dashboard-48.png</file>
+    <file>icons/icons8-dashboard-layout-48_2.png</file>
+    <file>icons/icons8-dashboard-select.png</file>
+    <file>icons/icons8-done-48.png</file>
+    <file>icons/icons8-edit-24.png</file>
+    <file>icons/icons8-lines-48.png</file>
+    <file>icons/icons8-notification-50.png</file>
+    <file>icons/icons8-notification-50_2.png</file>
+    <file>icons/icons8-notification-50_select.png</file>
+    <file>icons/icons8-plus-50.png</file>
+    <file>icons/icons8-plus-50_select.png</file>
+    <file>icons/icons8-plus-math-50_2.png</file>
+    <file>icons/icons8-search-50.png</file>
+    <file>icons/icons8-settings-48.png</file>
+    <file>icons/icons8-settings-48_2.png</file>
+    <file>icons/icons8-settings-48_select.png</file>
+    <file>icons/icons8-shutdown-50.png</file>
+    <file>icons/icons8-shutdown-50_2.png</file>
+    <file>icons/icons8-star-50.png</file>
+    <file>icons/icons8-star-50_2.png</file>
+    <file>icons/icons8-star-50_select.png</file>
+    <file>icons/icons8-trash-50.png</file>
+    <file>icons/icons8-user-50 (1).png</file>
+    <file>icons/icons8-user-50.png</file>
+    <file>icons/sinfoto.png</file>
+  </qresource>
+</RCC>
