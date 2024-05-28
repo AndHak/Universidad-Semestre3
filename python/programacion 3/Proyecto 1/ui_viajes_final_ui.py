@@ -24,6 +24,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
     QVBoxLayout, QWidget)
 import recursos_1_rc
 import recursos_1_rc
+import recursos_1_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -494,7 +495,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.Horas = QLCDNumber(self.widget_4, 30)
+        self.Horas = QLCDNumber(self.widget_4)
         self.Horas.setObjectName(u"Horas")
         self.Horas.setMinimumSize(QSize(40, 40))
         self.Horas.setMaximumSize(QSize(40, 40))
@@ -514,7 +515,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.label_38, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
-        self.minutos = QLCDNumber(self.widget_4, 30)
+        self.minutos = QLCDNumber(self.widget_4)
         self.minutos.setObjectName(u"minutos")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
         sizePolicy1.setHorizontalStretch(0)
@@ -4369,6 +4370,7 @@ class Ui_MainWindow(object):
 
         self.age_edit_profile_2 = QSpinBox(self.frame_15)
         self.age_edit_profile_2.setObjectName(u"age_edit_profile_2")
+        self.age_edit_profile_2.setEnabled(False)
         self.age_edit_profile_2.setMinimumSize(QSize(230, 35))
         self.age_edit_profile_2.setMaximumSize(QSize(230, 35))
         self.age_edit_profile_2.setReadOnly(False)
@@ -4382,6 +4384,7 @@ class Ui_MainWindow(object):
 
         self.id_edit_profile_2 = QLineEdit(self.frame_15)
         self.id_edit_profile_2.setObjectName(u"id_edit_profile_2")
+        self.id_edit_profile_2.setEnabled(False)
         self.id_edit_profile_2.setMinimumSize(QSize(230, 35))
         self.id_edit_profile_2.setMaximumSize(QSize(230, 35))
 
@@ -4398,9 +4401,11 @@ class Ui_MainWindow(object):
         self.country_edit_profile_2.addItem("")
         self.country_edit_profile_2.addItem("")
         self.country_edit_profile_2.setObjectName(u"country_edit_profile_2")
+        self.country_edit_profile_2.setEnabled(False)
         self.country_edit_profile_2.setMinimumSize(QSize(230, 35))
         self.country_edit_profile_2.setMaximumSize(QSize(230, 35))
         self.country_edit_profile_2.setContextMenuPolicy(Qt.NoContextMenu)
+        self.country_edit_profile_2.setEditable(True)
 
         self.verticalLayout_20.addWidget(self.country_edit_profile_2)
 
@@ -4411,6 +4416,7 @@ class Ui_MainWindow(object):
 
         self.adress_edit_profile_2 = QLineEdit(self.frame_15)
         self.adress_edit_profile_2.setObjectName(u"adress_edit_profile_2")
+        self.adress_edit_profile_2.setEnabled(False)
         self.adress_edit_profile_2.setMinimumSize(QSize(230, 35))
         self.adress_edit_profile_2.setMaximumSize(QSize(230, 35))
 
@@ -4423,6 +4429,7 @@ class Ui_MainWindow(object):
 
         self.visa_edit_profile_2 = QLineEdit(self.frame_15)
         self.visa_edit_profile_2.setObjectName(u"visa_edit_profile_2")
+        self.visa_edit_profile_2.setEnabled(False)
         self.visa_edit_profile_2.setMinimumSize(QSize(230, 35))
         self.visa_edit_profile_2.setMaximumSize(QSize(230, 35))
 
@@ -4441,6 +4448,7 @@ class Ui_MainWindow(object):
 
         self.name_edit_profile_2 = QLineEdit(self.frame_15)
         self.name_edit_profile_2.setObjectName(u"name_edit_profile_2")
+        self.name_edit_profile_2.setEnabled(False)
         self.name_edit_profile_2.setMinimumSize(QSize(230, 35))
         self.name_edit_profile_2.setMaximumSize(QSize(230, 35))
         self.name_edit_profile_2.setMaxLength(40)
@@ -4454,6 +4462,7 @@ class Ui_MainWindow(object):
 
         self.lastname_edit_profile_2 = QLineEdit(self.frame_15)
         self.lastname_edit_profile_2.setObjectName(u"lastname_edit_profile_2")
+        self.lastname_edit_profile_2.setEnabled(False)
         self.lastname_edit_profile_2.setMinimumSize(QSize(230, 35))
         self.lastname_edit_profile_2.setMaximumSize(QSize(230, 35))
 
@@ -4466,6 +4475,7 @@ class Ui_MainWindow(object):
 
         self.email_edit_profile_2 = QLineEdit(self.frame_15)
         self.email_edit_profile_2.setObjectName(u"email_edit_profile_2")
+        self.email_edit_profile_2.setEnabled(False)
         self.email_edit_profile_2.setMinimumSize(QSize(230, 35))
         self.email_edit_profile_2.setMaximumSize(QSize(230, 35))
 
@@ -4478,6 +4488,7 @@ class Ui_MainWindow(object):
 
         self.pass_edit_profile_2 = QLineEdit(self.frame_15)
         self.pass_edit_profile_2.setObjectName(u"pass_edit_profile_2")
+        self.pass_edit_profile_2.setEnabled(False)
         self.pass_edit_profile_2.setMinimumSize(QSize(230, 35))
         self.pass_edit_profile_2.setMaximumSize(QSize(230, 35))
 
@@ -4490,6 +4501,7 @@ class Ui_MainWindow(object):
 
         self.passport_edit_profile_2 = QLineEdit(self.frame_15)
         self.passport_edit_profile_2.setObjectName(u"passport_edit_profile_2")
+        self.passport_edit_profile_2.setEnabled(False)
         self.passport_edit_profile_2.setMinimumSize(QSize(230, 35))
         self.passport_edit_profile_2.setMaximumSize(QSize(230, 35))
 
@@ -4505,13 +4517,14 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_21.addWidget(self.boigraphy_label_profile_2)
 
-        self.boigraphy_paintext_profile_2 = QPlainTextEdit(self.frame_15)
-        self.boigraphy_paintext_profile_2.setObjectName(u"boigraphy_paintext_profile_2")
-        self.boigraphy_paintext_profile_2.setMinimumSize(QSize(500, 70))
-        self.boigraphy_paintext_profile_2.setMaximumSize(QSize(500, 70))
-        self.boigraphy_paintext_profile_2.setCenterOnScroll(True)
+        self.biography_paintext_profile_2 = QPlainTextEdit(self.frame_15)
+        self.biography_paintext_profile_2.setObjectName(u"biography_paintext_profile_2")
+        self.biography_paintext_profile_2.setEnabled(False)
+        self.biography_paintext_profile_2.setMinimumSize(QSize(500, 70))
+        self.biography_paintext_profile_2.setMaximumSize(QSize(500, 70))
+        self.biography_paintext_profile_2.setCenterOnScroll(True)
 
-        self.verticalLayout_21.addWidget(self.boigraphy_paintext_profile_2)
+        self.verticalLayout_21.addWidget(self.biography_paintext_profile_2)
 
 
         self.gridLayout_2.addLayout(self.verticalLayout_21, 1, 1, 1, 2)
@@ -4532,8 +4545,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.open_pic_to_profile_pic_2 = QPushButton(self.frame_15)
         self.open_pic_to_profile_pic_2.setObjectName(u"open_pic_to_profile_pic_2")
+        self.open_pic_to_profile_pic_2.setEnabled(False)
         self.open_pic_to_profile_pic_2.setMinimumSize(QSize(40, 40))
         self.open_pic_to_profile_pic_2.setMaximumSize(QSize(40, 40))
+        self.open_pic_to_profile_pic_2.setCursor(QCursor(Qt.PointingHandCursor))
         self.open_pic_to_profile_pic_2.setStyleSheet(u"border: none;\n"
 "background: transparent;\n"
 "")
@@ -4541,20 +4556,22 @@ class Ui_MainWindow(object):
         icon16.addFile(u":/Icons/icons/icons8-camera-50.png", QSize(), QIcon.Normal, QIcon.Off)
         self.open_pic_to_profile_pic_2.setIcon(icon16)
         self.open_pic_to_profile_pic_2.setIconSize(QSize(40, 40))
-        self.open_pic_to_profile_pic_2.setCheckable(True)
+        self.open_pic_to_profile_pic_2.setCheckable(False)
 
         self.horizontalLayout_9.addWidget(self.open_pic_to_profile_pic_2)
 
         self.delete_profile_pic_2 = QPushButton(self.frame_15)
         self.delete_profile_pic_2.setObjectName(u"delete_profile_pic_2")
+        self.delete_profile_pic_2.setEnabled(False)
         self.delete_profile_pic_2.setMinimumSize(QSize(30, 30))
         self.delete_profile_pic_2.setMaximumSize(QSize(30, 30))
+        self.delete_profile_pic_2.setCursor(QCursor(Qt.PointingHandCursor))
         self.delete_profile_pic_2.setStyleSheet(u"border: none;\n"
 "background: transparent;\n"
 "")
         self.delete_profile_pic_2.setIcon(icon13)
         self.delete_profile_pic_2.setIconSize(QSize(40, 40))
-        self.delete_profile_pic_2.setCheckable(True)
+        self.delete_profile_pic_2.setCheckable(False)
 
         self.horizontalLayout_9.addWidget(self.delete_profile_pic_2)
 
@@ -4574,6 +4591,7 @@ class Ui_MainWindow(object):
 
         self.sexo_groupbox_profile_2 = QGroupBox(self.frame_15)
         self.sexo_groupbox_profile_2.setObjectName(u"sexo_groupbox_profile_2")
+        self.sexo_groupbox_profile_2.setEnabled(False)
         self.gridLayout_10 = QGridLayout(self.sexo_groupbox_profile_2)
         self.gridLayout_10.setObjectName(u"gridLayout_10")
         self.hombre_radio_profile_2 = QRadioButton(self.sexo_groupbox_profile_2)
@@ -4616,6 +4634,7 @@ class Ui_MainWindow(object):
         self.edit_profile_2.setObjectName(u"edit_profile_2")
         self.edit_profile_2.setMinimumSize(QSize(110, 45))
         self.edit_profile_2.setMaximumSize(QSize(110, 45))
+        self.edit_profile_2.setCursor(QCursor(Qt.PointingHandCursor))
         self.edit_profile_2.setCheckable(True)
 
         self.horizontalLayout_10.addWidget(self.edit_profile_2)
@@ -4680,9 +4699,9 @@ class Ui_MainWindow(object):
         self.home_small_button1.toggled.connect(self.home_small_button2.setChecked)
         self.off2button.toggled.connect(self.off1button.setChecked)
 
-        self.stackedWidget.setCurrentIndex(6)
+        self.stackedWidget.setCurrentIndex(7)
         self.notifications_stacked.setCurrentIndex(0)
-        self.configuraciones_stacked.setCurrentIndex(1)
+        self.configuraciones_stacked.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
