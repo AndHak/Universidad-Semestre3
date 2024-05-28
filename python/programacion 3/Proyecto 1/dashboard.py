@@ -8,12 +8,21 @@ import re
 
 class MainApp(QMainWindow, Ui_MainWindow):
     basedir = os.path.dirname(__file__)
+    #Validaciones del perfil
     paso_foto_de_perfil = False
     paso_escoger_sexualidad = False
     paso_nombre_validado = False
     paso_apellido_validado = False
     paso_edad_validada = False
-    pasos_totales = 10
+    ti_o_cc_validado = False
+    direccion_validada = False
+    telefono_validado = False
+    edad_validada = False
+    pasaporte_validado = False
+    nacionalidad_validada = False
+    biografia_validada = False
+
+    pasos_totales = 9
     pasos_completados = 0
     def __init__(self):
         super().__init__()
@@ -83,6 +92,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
     def activar_edicion_de_perfil(self):
         if self.edit_profile_2.text() == "Editar perfil":
+            self.cargar_telefono()
             self.open_pic_to_profile_pic_2.setHidden(False)
             self.delete_profile_pic_2.setHidden(False)
             self.edit_profile_2.setText("Guardar")
@@ -93,14 +103,14 @@ class MainApp(QMainWindow, Ui_MainWindow):
             self.sexo_groupbox_profile_2.setEnabled(True)
             self.name_edit_profile_2.setEnabled(True)
             self.lastname_edit_profile_2.setEnabled(True)
-            self.age_edit_profile_2.setEnabled(True)
+            self.age_spinbox_profile_2.setEnabled(True)
             self.email_edit_profile_2.setEnabled(True)
             self.pass_edit_profile_2.setEnabled(True)
             self.id_edit_profile_2.setEnabled(True)
             self.country_edit_profile_2.setEnabled(True)
             self.passport_edit_profile_2.setEnabled(True)
             self.adress_edit_profile_2.setEnabled(True)
-            self.visa_edit_profile_2.setEnabled(True)
+            self.telefono_edit_profile_3.setEnabled(True)
             self.biography_paintext_profile_2.setEnabled(True)
         else:
             if all(self.validar_formulario()):
@@ -114,44 +124,45 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 self.sexo_groupbox_profile_2.setEnabled(False)
                 self.name_edit_profile_2.setEnabled(False)
                 self.lastname_edit_profile_2.setEnabled(False)
-                self.age_edit_profile_2.setEnabled(False)
+                self.age_spinbox_profile_2.setEnabled(False)
                 self.email_edit_profile_2.setEnabled(False)
                 self.pass_edit_profile_2.setEnabled(False)
                 self.id_edit_profile_2.setEnabled(False)
                 self.country_edit_profile_2.setEnabled(False)
                 self.passport_edit_profile_2.setEnabled(False)
                 self.adress_edit_profile_2.setEnabled(False)
-                self.visa_edit_profile_2.setEnabled(False)
+                self.telefono_edit_profile_3.setEnabled(False)
                 self.biography_paintext_profile_2.setEnabled(False)
+                self.actualizar_progreso()
             
     def validar_formulario(self):
-        return [self.validar_nombre(), self.validar_sexo(), self.validar_apellido()]
+        return [
+            self.validar_nombre(),
+            self.validar_sexo(),
+            self.validar_apellido(),
+            self.validar_id(),
+            self.validar_biografia(),
+            self.validar_direccion(),
+            self.validar_telefono(),
+            self.validar_pasaporte(),
+            self.validar_nacionalidad(),
+            self.validar_edad()
+            ]
+
     
     def mostrar_warning(self, mensaje):
         QMessageBox.warning(self, "Validación de Formulario", mensaje)
 
 
     def validar_nombre(self):
-        nombre = self.name_edit_profile_2.text()
-        if nombre.strip() == "":
-            self.name_edit_profile_2.setText("")
-            if self.paso_nombre_validado:
-                self.paso_nombre_validado = False
-                self.pasos_completados -= 1
-                self.actualizar_progreso()
-            return True
-        elif not re.match(r'^[a-zA-Z\s]+$', nombre.strip()):
-            if self.paso_nombre_validado:
-                self.paso_nombre_validado = False
-                self.pasos_completados -= 1
-                self.actualizar_progreso()
+        nombre = self.name_edit_profile_2.text().strip()
+        if not nombre:
+            self.mostrar_warning("El nombre no puede estar vacío.")
+            return False
+        elif not re.match(r'^[a-zA-Z\s]+$', nombre):
             self.mostrar_warning("El nombre no puede contener caracteres especiales ni dígitos.")
             return False
         elif len(nombre.split()) > 3:
-            if self.paso_nombre_validado:
-                self.paso_nombre_validado = False
-                self.pasos_completados -= 1
-                self.actualizar_progreso()
             self.mostrar_warning("No puede haber más de tres nombres.")
             return False
         else:
@@ -159,32 +170,17 @@ class MainApp(QMainWindow, Ui_MainWindow):
             self.name_edit_profile_2.setText(nombre)
             if not self.paso_nombre_validado:
                 self.paso_nombre_validado = True
-                self.pasos_completados += 1
-                self.actualizar_progreso()
             return True
 
-        
     def validar_apellido(self):
-        apellido = self.lastname_edit_profile_2.text()
-        if apellido.strip() == "":
-            self.lastname_edit_profile_2.setText("")
-            if self.paso_apellido_validado:
-                self.paso_apellido_validado = False
-                self.pasos_completados -= 1
-                self.actualizar_progreso()
-            return True
-        elif not re.match(r'^[a-zA-Z\s]+$', apellido.strip()):
-            if self.paso_apellido_validado:
-                self.paso_apellido_validado = False
-                self.pasos_completados -= 1
-                self.actualizar_progreso()
+        apellido = self.lastname_edit_profile_2.text().strip()
+        if not apellido:
+            self.mostrar_warning("El apellido no puede estar vacío.")
+            return False
+        elif not re.match(r'^[a-zA-Z\s]+$', apellido):
             self.mostrar_warning("El apellido no puede contener caracteres especiales ni dígitos.")
             return False
         elif len(apellido.split()) > 3:
-            if self.paso_apellido_validado:
-                self.paso_apellido_validado = False
-                self.pasos_completados -= 1
-                self.actualizar_progreso()
             self.mostrar_warning("No puede haber más de tres apellidos.")
             return False
         else:
@@ -192,9 +188,52 @@ class MainApp(QMainWindow, Ui_MainWindow):
             self.lastname_edit_profile_2.setText(apellido)
             if not self.paso_apellido_validado:
                 self.paso_apellido_validado = True
-                self.pasos_completados += 1
-                self.actualizar_progreso()
             return True
+
+        
+    def validar_email(self):
+        email = self.email_edit_profile_2.text()
+        if email.strip() == "":
+            self.mostrar_warning("El email no puede estar vacio.")
+            return False
+            
+        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_regex, email.strip()):
+            self.mostrar_warning("Debe colocar un email válido.")
+            return False
+        return True
+    
+    def validar_password(self):
+        password = self.pass_edit_profile_2.text()
+        if password.strip() == "":
+            self.mostrar_warning("La contraseña no puede estar vacía.")
+            return False
+
+        password_regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$'
+        if not re.match(password_regex, password.strip()):
+            self.mostrar_warning("La contraseña debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula y un número. No se permiten caracteres especiales.")
+            return False
+        return True
+    
+    def validar_id(self):
+        ti_o_cc = self.id_edit_profile_2.text()
+        if ti_o_cc.strip() == "":
+            self.id_edit_profile_2.setText("")
+            if self.ti_o_cc_validado:
+                self.pasos_completados -= 1
+                self.ti_o_cc_validado = False
+            return True
+        elif all(i.isdigit() or i.isspace() for i in ti_o_cc.strip()):
+            identificacion_sin_espacios = ''.join(ti_o_cc.split())
+            self.id_edit_profile_2.setText(identificacion_sin_espacios)
+            if not self.ti_o_cc_validado:
+                self.ti_o_cc_validado = True
+                self.pasos_completados += 1
+            return True
+        else:
+            self.mostrar_warning("El número de identificación no puede tener letras o caracteres especiales")
+            return False
+            
 
 
     def validar_sexo(self):
@@ -209,6 +248,115 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 self.pasos_completados += 1
                 self.actualizar_progreso()
         return True
+    
+    def validar_nacionalidad(self):
+        nacionalidad = self.country_edit_profile_2.currentText().strip()
+        if nacionalidad == "" or nacionalidad == "No Especificar":
+            if self.nacionalidad_validada:
+                self.nacionalidad_validada = False
+                self.pasos_completados -= 1
+            return True
+        elif not re.match(r'^[a-zA-Z\s]+$', nacionalidad):
+            if self.nacionalidad_validada:
+                self.nacionalidad_validada = False
+                self.pasos_completados -= 1
+            self.mostrar_warning("La nacionalidad solo puede contener letras.")
+            return False
+        else:
+            nacionalidad = ' '.join(nacionalidad.split()).title()
+            self.country_edit_profile_2.setCurrentText(nacionalidad)
+            if not self.nacionalidad_validada:
+                self.nacionalidad_validada = True
+                self.pasos_completados += 1
+            return True
+
+    def validar_edad(self):
+        edad = self.age_spinbox_profile_2.value()
+        if edad < 16:
+            if self.edad_validada:
+                self.edad_validada = False
+                self.pasos_completados -= 1
+            self.mostrar_warning("Debe tener al menos 16 años.")
+            return False
+        else:
+            if not self.edad_validada:
+                self.edad_validada = True
+                self.pasos_completados += 1
+            return True
+        
+    def validar_biografia(self):
+        biografia = self.biography_paintext_profile_2.toPlainText().strip()
+        if biografia == "":
+            if self.biografia_validada:
+                self.biografia_validada = False
+                self.pasos_completados -= 1
+            return True
+        else:
+            if not self.biografia_validada:
+                self.biografia_validada = True
+                self.pasos_completados += 1
+            return True
+
+    def validar_direccion(self):
+        direccion = self.adress_edit_profile_2.text().strip()
+        if direccion == "":
+            if self.direccion_validada:
+                self.direccion_validada = False
+                self.pasos_completados -= 1
+            return True
+        else:
+            if not self.direccion_validada:
+                self.direccion_validada = True
+                self.pasos_completados += 1
+            return True
+        
+    def cargar_telefono(self):
+        telefono = self.telefono_edit_profile_3.text()
+        if telefono.startswith("+"):
+            if telefono:
+                prefijo_numero = self.telefono_edit_profile_3.text().split(" ")
+                self.telefono_edit_profile_3.setText(f"{prefijo_numero[1]}")
+        
+
+    def validar_telefono(self):
+        telefono = self.telefono_edit_profile_3.text().strip()
+        nacionalidad = self.country_edit_profile_2.currentText().strip()
+        
+        if telefono == "":
+            if self.telefono_validado:
+                self.telefono_validado = False
+                self.pasos_completados -= 1
+            return True
+        elif nacionalidad == "Colombia" and not re.match(r'^\d+$', telefono):
+            self.mostrar_warning("El número de teléfono solo puede contener números para la nacionalidad Colombia.")
+            return False
+        else:
+            if nacionalidad == "Colombia":
+                telefono = f"+57 {telefono}"
+            self.telefono_edit_profile_3.setText(telefono)
+            if not self.telefono_validado:
+                self.telefono_validado = True
+                self.pasos_completados += 1
+            return True
+
+    def validar_pasaporte(self):
+        pasaporte = self.passport_edit_profile_2.text().strip()
+        if pasaporte == "":
+            if self.pasaporte_validado:
+                self.pasaporte_validado = False
+                self.pasos_completados -= 1
+            return True
+        elif not re.match(r'^[A-Za-z0-9]+$', pasaporte):
+            self.mostrar_warning("El pasaporte solo puede contener letras y números.")
+            return False
+        else:
+            self.passport_edit_profile_2.setText(pasaporte)
+            if not self.pasaporte_validado:
+                self.pasaporte_validado = True
+                self.pasos_completados += 1
+            return True
+
+
 
 
             

@@ -4368,14 +4368,15 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_20.addWidget(self.age_label_profile_2)
 
-        self.age_edit_profile_2 = QSpinBox(self.frame_15)
-        self.age_edit_profile_2.setObjectName(u"age_edit_profile_2")
-        self.age_edit_profile_2.setEnabled(False)
-        self.age_edit_profile_2.setMinimumSize(QSize(230, 35))
-        self.age_edit_profile_2.setMaximumSize(QSize(230, 35))
-        self.age_edit_profile_2.setReadOnly(False)
+        self.age_spinbox_profile_2 = QSpinBox(self.frame_15)
+        self.age_spinbox_profile_2.setObjectName(u"age_spinbox_profile_2")
+        self.age_spinbox_profile_2.setEnabled(False)
+        self.age_spinbox_profile_2.setMinimumSize(QSize(230, 35))
+        self.age_spinbox_profile_2.setMaximumSize(QSize(230, 35))
+        self.age_spinbox_profile_2.setReadOnly(False)
+        self.age_spinbox_profile_2.setMinimum(16)
 
-        self.verticalLayout_20.addWidget(self.age_edit_profile_2)
+        self.verticalLayout_20.addWidget(self.age_spinbox_profile_2)
 
         self.id_label_profile_2 = QLabel(self.frame_15)
         self.id_label_profile_2.setObjectName(u"id_label_profile_2")
@@ -4422,18 +4423,18 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_20.addWidget(self.adress_edit_profile_2)
 
-        self.visa_label_profile_2 = QLabel(self.frame_15)
-        self.visa_label_profile_2.setObjectName(u"visa_label_profile_2")
+        self.telefono_label_profile_2 = QLabel(self.frame_15)
+        self.telefono_label_profile_2.setObjectName(u"telefono_label_profile_2")
 
-        self.verticalLayout_20.addWidget(self.visa_label_profile_2)
+        self.verticalLayout_20.addWidget(self.telefono_label_profile_2)
 
-        self.visa_edit_profile_2 = QLineEdit(self.frame_15)
-        self.visa_edit_profile_2.setObjectName(u"visa_edit_profile_2")
-        self.visa_edit_profile_2.setEnabled(False)
-        self.visa_edit_profile_2.setMinimumSize(QSize(230, 35))
-        self.visa_edit_profile_2.setMaximumSize(QSize(230, 35))
+        self.telefono_edit_profile_3 = QLineEdit(self.frame_15)
+        self.telefono_edit_profile_3.setObjectName(u"telefono_edit_profile_3")
+        self.telefono_edit_profile_3.setEnabled(False)
+        self.telefono_edit_profile_3.setMinimumSize(QSize(230, 35))
+        self.telefono_edit_profile_3.setMaximumSize(QSize(230, 35))
 
-        self.verticalLayout_20.addWidget(self.visa_edit_profile_2)
+        self.verticalLayout_20.addWidget(self.telefono_edit_profile_3)
 
 
         self.gridLayout_2.addLayout(self.verticalLayout_20, 0, 2, 1, 1)
@@ -4701,7 +4702,7 @@ class Ui_MainWindow(object):
 
         self.stackedWidget.setCurrentIndex(7)
         self.notifications_stacked.setCurrentIndex(0)
-        self.configuraciones_stacked.setCurrentIndex(0)
+        self.configuraciones_stacked.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -4953,7 +4954,7 @@ class Ui_MainWindow(object):
         self.country_edit_profile_2.setItemText(3, QCoreApplication.translate("MainWindow", u"Espa\u00f1a", None))
 
         self.adress_label_profile_2.setText(QCoreApplication.translate("MainWindow", u"Direcci\u00f3n", None))
-        self.visa_label_profile_2.setText(QCoreApplication.translate("MainWindow", u"VISA", None))
+        self.telefono_label_profile_2.setText(QCoreApplication.translate("MainWindow", u"Tel\u00e9fono", None))
         self.name_label_profile_2.setText(QCoreApplication.translate("MainWindow", u"Nombre", None))
         self.name_edit_profile_2.setPlaceholderText("")
         self.lastname_label_profile_2.setText(QCoreApplication.translate("MainWindow", u"Apellido", None))

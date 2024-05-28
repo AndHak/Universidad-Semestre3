@@ -5772,7 +5772,7 @@ QPushButton:pressed {
                         <string notr="true">background: transparent;</string>
                        </property>
                        <property name="currentIndex">
-                        <number>0</number>
+                        <number>1</number>
                        </property>
                        <widget class="QWidget" name="apoyo_about_us_page">
                         <property name="styleSheet">
@@ -6829,7 +6829,7 @@ QProgressBar::chunk {
                              </widget>
                             </item>
                             <item>
-                             <widget class="QSpinBox" name="age_edit_profile_2">
+                             <widget class="QSpinBox" name="age_spinbox_profile_2">
                               <property name="enabled">
                                <bool>false</bool>
                               </property>
@@ -6847,6 +6847,9 @@ QProgressBar::chunk {
                               </property>
                               <property name="readOnly">
                                <bool>false</bool>
+                              </property>
+                              <property name="minimum">
+                               <number>16</number>
                               </property>
                              </widget>
                             </item>
@@ -6955,14 +6958,14 @@ QProgressBar::chunk {
                              </widget>
                             </item>
                             <item>
-                             <widget class="QLabel" name="visa_label_profile_2">
+                             <widget class="QLabel" name="telefono_label_profile_2">
                               <property name="text">
-                               <string>VISA</string>
+                               <string>Teléfono</string>
                               </property>
                              </widget>
                             </item>
                             <item>
-                             <widget class="QLineEdit" name="visa_edit_profile_2">
+                             <widget class="QLineEdit" name="telefono_edit_profile_3">
                               <property name="enabled">
                                <bool>false</bool>
                               </property>
@@ -7433,7 +7436,7 @@ background: transparent;
  <resources>
   <include location="recursos_1.qrc"/>
   <include location="recursos_1.qrc"/>
-  <include location="../../../../../Users/andre/AppData/Local/Temp/recursos_1.qrc"/>
+  <include location="recursos_1.qrc"/>
  </resources>
  <connections>
   <connection>
