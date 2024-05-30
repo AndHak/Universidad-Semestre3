@@ -1400,7 +1400,7 @@ QCheckBox::indicator:checked {
 </string>
              </property>
              <property name="currentIndex">
-              <number>7</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="home_page">
               <layout class="QGridLayout" name="gridLayout_11">
@@ -2213,38 +2213,153 @@ QCheckBox::indicator:unchecked:hover {
                  <property name="frameShadow">
                   <enum>QFrame::Raised</enum>
                  </property>
-                 <widget class="QLabel" name="label_9">
-                  <property name="geometry">
-                   <rect>
-                    <x>40</x>
-                    <y>30</y>
-                    <width>99</width>
-                    <height>24</height>
-                   </rect>
+                 <layout class="QGridLayout" name="gridLayout_44">
+                  <property name="leftMargin">
+                   <number>50</number>
                   </property>
-                  <property name="styleSheet">
-                   <string notr="true">background: transparent;
+                  <property name="topMargin">
+                   <number>50</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>50</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>50</number>
+                  </property>
+                  <property name="verticalSpacing">
+                   <number>6</number>
+                  </property>
+                  <item row="0" column="0">
+                   <layout class="QGridLayout" name="gridLayout_43">
+                    <property name="verticalSpacing">
+                     <number>30</number>
+                    </property>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_9">
+                      <property name="styleSheet">
+                       <string notr="true">background: transparent;
 border: none;
 font-weight: bold;
 font-size: 20px;</string>
-                  </property>
-                  <property name="text">
-                   <string>Mis viajes</string>
-                  </property>
-                 </widget>
-                 <widget class="QLabel" name="agregue_algun_viaje">
-                  <property name="geometry">
-                   <rect>
-                    <x>40</x>
-                    <y>60</y>
-                    <width>371</width>
-                    <height>31</height>
-                   </rect>
-                  </property>
-                  <property name="text">
-                   <string>Agregue algun viaje</string>
-                  </property>
-                 </widget>
+                      </property>
+                      <property name="text">
+                       <string>Mis viajes</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QListWidget" name="list_widget_viajes_guardados">
+                      <property name="styleSheet">
+                       <string notr="true">QListWidget {
+    font-size: 15px; /* Aumenta el tamaño de la fuente para los elementos */
+    padding: 5px; /* Añade un padding alrededor del contenido del QListWidget */
+}
+
+QListWidget::item {
+    padding: 10px; /* Añade padding a cada elemento para aumentar el espacio entre ellos */
+    margin: 5px 0; /* Añade un margen entre cada elemento para mayor separación vertical*/
+	width: 200px:
+	height: 25px;
+}
+</string>
+                      </property>
+                      <property name="wordWrap">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="0">
+                     <layout class="QHBoxLayout" name="horizontalLayout_29">
+                      <item>
+                       <spacer name="horizontalSpacer_20">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>738</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="ver_viaje_guardado_button">
+                        <property name="minimumSize">
+                         <size>
+                          <width>60</width>
+                          <height>60</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">QPushButton {
+border: none;
+background: transparent;
+}
+QPushButton:hover {
+border: none;
+background-color: #CAE9FF;
+}</string>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="recursos_1.qrc">
+                          <normaloff>:/Icons/icons/icons8-view-50.png</normaloff>:/Icons/icons/icons8-view-50.png</iconset>
+                        </property>
+                        <property name="iconSize">
+                         <size>
+                          <width>35</width>
+                          <height>35</height>
+                         </size>
+                        </property>
+                        <property name="checkable">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="eliminar_viajeguardado_button">
+                        <property name="minimumSize">
+                         <size>
+                          <width>60</width>
+                          <height>60</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">QPushButton {
+border: none;
+background: transparent;
+}
+QPushButton:hover {
+border: none;
+background-color: #CAE9FF;
+}</string>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="recursos_1.qrc">
+                          <normaloff>:/Icons/icons/icons8-trash-50.png</normaloff>:/Icons/icons/icons8-trash-50.png</iconset>
+                        </property>
+                        <property name="iconSize">
+                         <size>
+                          <width>35</width>
+                          <height>35</height>
+                         </size>
+                        </property>
+                        <property name="checkable">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
                 </widget>
                </item>
               </layout>
@@ -2499,8 +2614,42 @@ QCheckBox::indicator:checked {
 QCheckBox::indicator:unchecked:hover {
     border: 2px solid #1B4965; /* Color principal */
 }
+/* Estilo desactivado para QLineEdit */
+QLineEdit:disabled {
+    background-color: #F0F0F0; /* Color de fondo desactivado */
+    border: 2px solid #D9D9D9; /* Borde desactivado */
+    color: #A9A9A9; /* Color de texto desactivado */
+}
 
-</string>
+/* Estilo desactivado para QGroupBox */
+QGroupBox:disabled {
+    border: 2px solid #D9D9D9; /* Borde desactivado */
+    background-color: #F0F0F0; /* Color de fondo desactivado */
+}
+
+/* Estilo desactivado para QComboBox */
+QComboBox:disabled {
+    background-color: #F0F0F0; /* Color de fondo desactivado */
+    border: 2px solid #D9D9D9; /* Borde desactivado */
+    color: #A9A9A9; /* Color de texto desactivado */
+}
+
+/* Estilo desactivado para QPlainTextEdit */
+QPlainTextEdit:disabled {
+    background-color: #F0F0F0; /* Color de fondo desactivado */
+    border: 2px solid #D9D9D9; /* Borde desactivado */
+    color: #A9A9A9; /* Color de texto desactivado */
+}
+/* Estilo desactivado para QLabel */
+QLabel:disabled {
+    background-color: #F0F0F0; /* Color de texto desactivado */
+	color: #A9A9A9;
+}
+QGroupBox::title:disabled {
+    background-color: #F0F0F0; /* Color de texto desactivado */
+	color: #A9A9A9;
+	border-radius: 5px;
+}</string>
                  </property>
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
@@ -2542,7 +2691,7 @@ QCheckBox::indicator:unchecked:hover {
                      <property name="geometry">
                       <rect>
                        <x>0</x>
-                       <y>0</y>
+                       <y>-35</y>
                        <width>1198</width>
                        <height>1226</height>
                       </rect>
@@ -2732,6 +2881,9 @@ font-size: 20px;</string>
                             <height>40</height>
                            </size>
                           </property>
+                          <property name="placeholderText">
+                           <string>día-mes-año</string>
+                          </property>
                          </widget>
                         </item>
                        </layout>
@@ -2771,6 +2923,9 @@ font-size: 20px;</string>
                             <height>40</height>
                            </size>
                           </property>
+                          <property name="placeholderText">
+                           <string>día-mes-año</string>
+                          </property>
                          </widget>
                         </item>
                        </layout>
@@ -2792,37 +2947,6 @@ font-size: 20px;</string>
                           <item row="1" column="0">
                            <widget class="QLineEdit" name="lineedit_presupuesto_nuevo_viaje"/>
                           </item>
-                          <item row="1" column="1">
-                           <widget class="QComboBox" name="money_combobox_presupuesto_nuevo_viaje">
-                            <property name="minimumSize">
-                             <size>
-                              <width>100</width>
-                              <height>40</height>
-                             </size>
-                            </property>
-                            <property name="maximumSize">
-                             <size>
-                              <width>100</width>
-                              <height>40</height>
-                             </size>
-                            </property>
-                            <item>
-                             <property name="text">
-                              <string>$ COP</string>
-                             </property>
-                            </item>
-                            <item>
-                             <property name="text">
-                              <string>$ USD</string>
-                             </property>
-                            </item>
-                            <item>
-                             <property name="text">
-                              <string>€ Euro</string>
-                             </property>
-                            </item>
-                           </widget>
-                          </item>
                          </layout>
                         </item>
                         <item>
@@ -2831,7 +2955,11 @@ font-size: 20px;</string>
                            <number>0</number>
                           </property>
                           <item row="1" column="6">
-                           <widget class="QLineEdit" name="line_edit_familia_nuevo_viaje"/>
+                           <widget class="QLineEdit" name="line_edit_familia_nuevo_viaje">
+                            <property name="enabled">
+                             <bool>false</bool>
+                            </property>
+                           </widget>
                           </item>
                           <item row="0" column="0">
                            <widget class="QLabel" name="label_14">
@@ -2980,6 +3108,9 @@ QPushButton:checked {
                             <property name="checkable">
                              <bool>true</bool>
                             </property>
+                            <property name="checked">
+                             <bool>true</bool>
+                            </property>
                             <property name="autoExclusive">
                              <bool>true</bool>
                             </property>
@@ -3044,7 +3175,10 @@ QPushButton:checked {
                          </widget>
                         </item>
                         <item row="1" column="0">
-                         <widget class="QGroupBox" name="groupBox_5">
+                         <widget class="QGroupBox" name="grupo_ida_viaje">
+                          <property name="enabled">
+                           <bool>false</bool>
+                          </property>
                           <property name="title">
                            <string>Ida</string>
                           </property>
@@ -3066,7 +3200,11 @@ QPushButton:checked {
                             </widget>
                            </item>
                            <item row="0" column="1">
-                            <widget class="QLineEdit" name="lineedit_hora_ida_nuevo_viaje"/>
+                            <widget class="QLineEdit" name="lineedit_hora_ida_nuevo_viaje">
+                             <property name="placeholderText">
+                              <string>00:00</string>
+                             </property>
+                            </widget>
                            </item>
                            <item row="0" column="2">
                             <widget class="QComboBox" name="combobox_ampm_hora_ida_nuevo_viaje">
@@ -3114,7 +3252,11 @@ QPushButton:checked {
                             </widget>
                            </item>
                            <item row="1" column="1">
-                            <widget class="QLineEdit" name="lineedit_fecha_ida_nuevo_viaje"/>
+                            <widget class="QLineEdit" name="lineedit_fecha_ida_nuevo_viaje">
+                             <property name="placeholderText">
+                              <string>día-mes-año</string>
+                             </property>
+                            </widget>
                            </item>
                            <item row="2" column="0">
                             <widget class="QLabel" name="label_56">
@@ -3145,48 +3287,14 @@ QPushButton:checked {
                              </property>
                             </widget>
                            </item>
-                           <item row="2" column="2">
-                            <widget class="QComboBox" name="money_combobox_costo_ida_nuevo_viaje">
-                             <property name="sizePolicy">
-                              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                               <horstretch>0</horstretch>
-                               <verstretch>0</verstretch>
-                              </sizepolicy>
-                             </property>
-                             <property name="minimumSize">
-                              <size>
-                               <width>100</width>
-                               <height>40</height>
-                              </size>
-                             </property>
-                             <property name="maximumSize">
-                              <size>
-                               <width>100</width>
-                               <height>40</height>
-                              </size>
-                             </property>
-                             <item>
-                              <property name="text">
-                               <string>$ COP</string>
-                              </property>
-                             </item>
-                             <item>
-                              <property name="text">
-                               <string>$ USD</string>
-                              </property>
-                             </item>
-                             <item>
-                              <property name="text">
-                               <string>€ Euro</string>
-                              </property>
-                             </item>
-                            </widget>
-                           </item>
                           </layout>
                          </widget>
                         </item>
                         <item row="1" column="1">
-                         <widget class="QGroupBox" name="groupBox_8">
+                         <widget class="QGroupBox" name="grupo_regreso_viaje">
+                          <property name="enabled">
+                           <bool>false</bool>
+                          </property>
                           <property name="title">
                            <string>Regreso</string>
                           </property>
@@ -3208,7 +3316,11 @@ QPushButton:checked {
                             </widget>
                            </item>
                            <item row="0" column="1">
-                            <widget class="QLineEdit" name="lineedit_hora_regreso_nuevo_viaje"/>
+                            <widget class="QLineEdit" name="lineedit_hora_regreso_nuevo_viaje">
+                             <property name="placeholderText">
+                              <string>00:00</string>
+                             </property>
+                            </widget>
                            </item>
                            <item row="0" column="2">
                             <widget class="QComboBox" name="combobox_ampm_hora_regreso_nuevo_viaje">
@@ -3256,7 +3368,11 @@ QPushButton:checked {
                             </widget>
                            </item>
                            <item row="1" column="1">
-                            <widget class="QLineEdit" name="lineedit_fecha_regreso_nuevo_viaje"/>
+                            <widget class="QLineEdit" name="lineedit_fecha_regreso_nuevo_viaje">
+                             <property name="placeholderText">
+                              <string>día-mes-año</string>
+                             </property>
+                            </widget>
                            </item>
                            <item row="2" column="0">
                             <widget class="QLabel" name="label_69">
@@ -3274,43 +3390,6 @@ QPushButton:checked {
                            <item row="2" column="1">
                             <widget class="QLineEdit" name="lineedit_costo_regreso_nuevo_viaje"/>
                            </item>
-                           <item row="2" column="2">
-                            <widget class="QComboBox" name="money_combobox_costo_regreso_nuevo_viaje">
-                             <property name="sizePolicy">
-                              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                               <horstretch>0</horstretch>
-                               <verstretch>0</verstretch>
-                              </sizepolicy>
-                             </property>
-                             <property name="minimumSize">
-                              <size>
-                               <width>100</width>
-                               <height>40</height>
-                              </size>
-                             </property>
-                             <property name="maximumSize">
-                              <size>
-                               <width>100</width>
-                               <height>40</height>
-                              </size>
-                             </property>
-                             <item>
-                              <property name="text">
-                               <string>$ COP</string>
-                              </property>
-                             </item>
-                             <item>
-                              <property name="text">
-                               <string>$ USD</string>
-                              </property>
-                             </item>
-                             <item>
-                              <property name="text">
-                               <string>€ Euro</string>
-                              </property>
-                             </item>
-                            </widget>
-                           </item>
                           </layout>
                          </widget>
                         </item>
@@ -3326,7 +3405,10 @@ QPushButton:checked {
                          </widget>
                         </item>
                         <item>
-                         <widget class="QGroupBox" name="groupBox_6">
+                         <widget class="QGroupBox" name="groupbox_alojamiento_viaje">
+                          <property name="enabled">
+                           <bool>false</bool>
+                          </property>
                           <property name="title">
                            <string/>
                           </property>
@@ -3426,7 +3508,11 @@ QPushButton:checked {
                               </widget>
                              </item>
                              <item row="1" column="1">
-                              <widget class="QLineEdit" name="lineedit_hora_inicio_nuevo_viaje"/>
+                              <widget class="QLineEdit" name="lineedit_hora_inicio_nuevo_viaje">
+                               <property name="placeholderText">
+                                <string>00:00</string>
+                               </property>
+                              </widget>
                              </item>
                              <item row="1" column="2">
                               <widget class="QComboBox" name="combobox_ampm_hora_inicio_nuevo_viaje">
@@ -3474,7 +3560,11 @@ QPushButton:checked {
                               </widget>
                              </item>
                              <item row="2" column="1" colspan="2">
-                              <widget class="QLineEdit" name="lineedit_fecha_inicio_nuevo_viaje"/>
+                              <widget class="QLineEdit" name="lineedit_fecha_inicio_alojamiento_nuevo_viaje">
+                               <property name="placeholderText">
+                                <string>día-mes-año</string>
+                               </property>
+                              </widget>
                              </item>
                             </layout>
                            </item>
@@ -3510,7 +3600,11 @@ QPushButton:checked {
                               </widget>
                              </item>
                              <item row="1" column="1">
-                              <widget class="QLineEdit" name="lineedit_hora_fin_nuevo_viaje"/>
+                              <widget class="QLineEdit" name="lineedit_hora_fin_nuevo_viaje">
+                               <property name="placeholderText">
+                                <string>00:00</string>
+                               </property>
+                              </widget>
                              </item>
                              <item row="1" column="2">
                               <widget class="QComboBox" name="combobox_ampm_hora_fin_nuevo_viaje">
@@ -3558,7 +3652,11 @@ QPushButton:checked {
                               </widget>
                              </item>
                              <item row="2" column="1" colspan="2">
-                              <widget class="QLineEdit" name="lineedit_fecha_fin_nuevo_viaje"/>
+                              <widget class="QLineEdit" name="lineedit_fecha_fin_alojamiento_nuevo_viaje">
+                               <property name="placeholderText">
+                                <string>día-mes-año</string>
+                               </property>
+                              </widget>
                              </item>
                             </layout>
                            </item>
@@ -3582,37 +3680,6 @@ QPushButton:checked {
                              </item>
                              <item>
                               <widget class="QLineEdit" name="line_edit_costo_alojamiento_nuevo_viaje"/>
-                             </item>
-                             <item>
-                              <widget class="QComboBox" name="money_combobox_costo_alojamiento_nuevo_viaje">
-                               <property name="minimumSize">
-                                <size>
-                                 <width>100</width>
-                                 <height>40</height>
-                                </size>
-                               </property>
-                               <property name="maximumSize">
-                                <size>
-                                 <width>100</width>
-                                 <height>40</height>
-                                </size>
-                               </property>
-                               <item>
-                                <property name="text">
-                                 <string>$ COP</string>
-                                </property>
-                               </item>
-                               <item>
-                                <property name="text">
-                                 <string>$ USD</string>
-                                </property>
-                               </item>
-                               <item>
-                                <property name="text">
-                                 <string>€ Euro</string>
-                                </property>
-                               </item>
-                              </widget>
                              </item>
                             </layout>
                            </item>
@@ -3688,7 +3755,7 @@ QPushButton:checked {
                          </spacer>
                         </item>
                         <item>
-                         <widget class="QPushButton" name="save_new_travel_bbutton">
+                         <widget class="QPushButton" name="save_new_travel_button">
                           <property name="minimumSize">
                            <size>
                             <width>250</width>
@@ -4073,21 +4140,6 @@ QListWidget::item {
     margin: 5px 0; /* Añade un margen entre cada elemento para mayor separación vertical */
 }</string>
                       </property>
-                      <item>
-                       <property name="text">
-                        <string>1.</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>2.</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>3.</string>
-                       </property>
-                      </item>
                      </widget>
                     </item>
                     <item>
@@ -4503,21 +4555,6 @@ QListWidget::item {
     margin: 5px 0; /* Añade un margen entre cada elemento para mayor separación vertical */
 }</string>
                       </property>
-                      <item>
-                       <property name="text">
-                        <string>1.</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>2.</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>3.</string>
-                       </property>
-                      </item>
                      </widget>
                     </item>
                     <item>
@@ -4597,16 +4634,6 @@ background-color: #CAE9FF;
                       </property>
                      </widget>
                     </item>
-                    <item row="1" column="1" colspan="2">
-                     <widget class="QLineEdit" name="descripcion_del_gasto">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </widget>
-                    </item>
                     <item row="2" column="0">
                      <widget class="QLabel" name="label_72">
                       <property name="maximumSize">
@@ -4622,43 +4649,6 @@ background-color: #CAE9FF;
                     </item>
                     <item row="2" column="1">
                      <widget class="QLineEdit" name="hora_del_gasto"/>
-                    </item>
-                    <item row="2" column="2">
-                     <widget class="QComboBox" name="money_combobox_costo_regreso_nuevo_viaje_2">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>100</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>100</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <item>
-                       <property name="text">
-                        <string>$ COP</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>$ USD</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>€ Euro</string>
-                       </property>
-                      </item>
-                     </widget>
                     </item>
                     <item row="3" column="0">
                      <widget class="QLabel" name="label_73">
@@ -4709,6 +4699,16 @@ background-color: #CAE9FF;
                       </property>
                       <property name="checkable">
                        <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QLineEdit" name="descripcion_del_gasto">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>40</height>
+                       </size>
                       </property>
                      </widget>
                     </item>
@@ -5219,11 +5219,6 @@ QListWidget::item {
     margin: 5px 0; /* Añade un margen entre cada elemento para mayor separación vertical */
 }</string>
                              </property>
-                             <item>
-                              <property name="text">
-                               <string>1.</string>
-                              </property>
-                             </item>
                             </widget>
                            </item>
                            <item>
@@ -5772,7 +5767,7 @@ QPushButton:pressed {
                         <string notr="true">background: transparent;</string>
                        </property>
                        <property name="currentIndex">
-                        <number>1</number>
+                        <number>0</number>
                        </property>
                        <widget class="QWidget" name="apoyo_about_us_page">
                         <property name="styleSheet">
@@ -7434,8 +7429,6 @@ background: transparent;
   </widget>
  </widget>
  <resources>
-  <include location="recursos_1.qrc"/>
-  <include location="recursos_1.qrc"/>
   <include location="recursos_1.qrc"/>
  </resources>
  <connections>

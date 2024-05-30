@@ -6,6 +6,125 @@ import sys
 import os
 import re
 
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QSizePolicy, QApplication
+import sys
+
+class TravelWidget(QWidget):
+    def __init__(self, indice, titulo, destino, datos_fecha_viaje_inicio, datos_fecha_viaje_fin, presupuesto=None):
+        super().__init__()
+
+        # Estilos para el widget
+        self.setStyleSheet("""
+            QWidget {
+                background-color: #f5f5f5;
+                border-radius: 10px;
+                padding: 10px;
+            }
+            QLabel {
+                font-family: "Arial", sans-serif;
+            }
+            QLabel[objectName^="label_"] {
+                font-weight: bold;
+            }
+        """)
+
+        # Diseño horizontal
+        layout = QHBoxLayout(self)
+
+        # Primer cuadro: Título y Destino
+        title_dest_layout = QVBoxLayout()
+
+        title_label = QLabel(titulo)
+        title_label.setObjectName("label_title")
+        title_label.setStyleSheet("color: #4CAF50;")
+        title_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        title_label.setWordWrap(True)
+        title_dest_layout.addWidget(title_label)
+
+        destination_label = QLabel(destino)
+        destination_label.setObjectName("label_destination")
+        destination_label.setStyleSheet("color: #9C27B0;")
+        destination_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        destination_label.setWordWrap(True)
+        title_dest_layout.addWidget(destination_label)
+
+        layout.addLayout(title_dest_layout)
+
+        # Segundo cuadro: Fecha de inicio
+        start_date_layout = QVBoxLayout()
+
+        start_date_label = QLabel("Fecha de inicio")
+        start_date_label.setObjectName("label_start_date_title")
+        start_date_label.setStyleSheet("color: #2196F3;")
+        start_date_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        start_date_label.setWordWrap(True)
+        start_date_layout.addWidget(start_date_label)
+
+        start_day_value_label = QLabel(f"Día: {datos_fecha_viaje_inicio[0]}")
+        start_day_value_label.setObjectName("label_start_day_value")
+        start_day_value_label.setStyleSheet("color: #2196F3;")
+        start_day_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        start_day_value_label.setWordWrap(True)
+        start_date_layout.addWidget(start_day_value_label)
+
+        start_month_value_label = QLabel(f"Mes: {datos_fecha_viaje_inicio[1]}")
+        start_month_value_label.setObjectName("label_start_month_value")
+        start_month_value_label.setStyleSheet("color: #2196F3;")
+        start_month_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        start_month_value_label.setWordWrap(True)
+        start_date_layout.addWidget(start_month_value_label)
+
+        start_year_value_label = QLabel(f"Año: {datos_fecha_viaje_inicio[2]}")
+        start_year_value_label.setObjectName("label_start_year_value")
+        start_year_value_label.setStyleSheet("color: #2196F3;")
+        start_year_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        start_year_value_label.setWordWrap(True)
+        start_date_layout.addWidget(start_year_value_label)
+
+        layout.addLayout(start_date_layout)
+
+        # Tercer cuadro: Fecha de fin
+        end_date_layout = QVBoxLayout()
+
+        end_date_label = QLabel("Fecha de fin")
+        end_date_label.setObjectName("label_end_date_title")
+        end_date_label.setStyleSheet("color: #2196F3;")
+        end_date_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        end_date_label.setWordWrap(True)
+        end_date_layout.addWidget(end_date_label)
+
+        end_day_value_label = QLabel(f"Día: {datos_fecha_viaje_fin[0]}")
+        end_day_value_label.setObjectName("label_end_day_value")
+        end_day_value_label.setStyleSheet("color: #2196F3;")
+        end_day_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        end_day_value_label.setWordWrap(True)
+        end_date_layout.addWidget(end_day_value_label)
+
+        end_month_value_label = QLabel(f"Mes: {datos_fecha_viaje_fin[1]}")
+        end_month_value_label.setObjectName("label_end_month_value")
+        end_month_value_label.setStyleSheet("color: #2196F3;")
+        end_month_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        end_month_value_label.setWordWrap(True)
+        end_date_layout.addWidget(end_month_value_label)
+
+        end_year_value_label = QLabel(f"Año: {datos_fecha_viaje_fin[2]}")
+        end_year_value_label.setObjectName("label_end_year_value")
+        end_year_value_label.setStyleSheet("color: #2196F3;")
+        end_year_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        end_year_value_label.setWordWrap(True)
+        end_date_layout.addWidget(end_year_value_label)
+
+        layout.addLayout(end_date_layout)
+
+        self.setLayout(layout)
+
+        # Ajustar políticas de tamaño
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        title_dest_layout.setSizeConstraint(QLayout.SetMinimumSize)
+        start_date_layout.setSizeConstraint(QLayout.SetMinimumSize)
+        end_date_layout.setSizeConstraint(QLayout.SetMinimumSize)
+
+
 class MainApp(QMainWindow, Ui_MainWindow):
     basedir = os.path.dirname(__file__)
     #Validaciones del perfil
@@ -21,6 +140,21 @@ class MainApp(QMainWindow, Ui_MainWindow):
     pasaporte_validado = False
     nacionalidad_validada = False
     biografia_validada = False
+
+    viajes_usuario = {}
+
+    meses = {1: "Enero",
+             2: "Febrero",
+             3: "Marzo",
+             4: "Abril",
+             5: "Mayo",
+             6: "Junio",
+             7: "Julio",
+             8: "Agosto",
+             9: "Septiembre",
+             10: "Octubre",
+             11: "Noviembre",
+             12: "Diciembre"}
 
     pasos_totales = 9
     pasos_completados = 0
@@ -89,6 +223,157 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.timer_reloj.start(1000)
 
         self.actualizar_progreso()
+        
+
+        #Botones de la pagina nuevo viaje
+        self.checkbox_vuelos_nuevo_viaje.stateChanged.connect(self.activar_regreso_ida_avion)
+        self.checkbox_alojaimento_nuevo_viaje.stateChanged.connect(self.activar_alojamiento)
+        self.save_new_travel_button.clicked.connect(self.evaluar_viaje)
+        self.eliminar_viajeguardado_button.clicked.connect(self.eliminar_viaje_guardado)
+        self.boton_familia_nuevo_viaje.clicked.connect(self.activar_line_edit_familia)
+        self.boton_solo_nuevo_viaje.clicked.connect(self.activar_line_edit_familia)
+        
+    
+    def activar_line_edit_familia(self):
+        if self.boton_familia_nuevo_viaje.isChecked():
+            self.line_edit_familia_nuevo_viaje.setEnabled(True)
+        else:
+            self.line_edit_familia_nuevo_viaje.setEnabled(False)
+
+    def evaluar_viaje(self):
+        texto_titulo = self.lineedit_titulo_nuevo_viaje.text()
+        texto_destino = self.lineedit_destino_nuevo_viaje.text()
+
+        if not texto_titulo.strip():
+            self.mostrar_warning("El título del viaje es obligatorio")
+            return
+        
+        if not texto_destino.strip():
+            self.mostrar_warning("El Destino del viaje es obligatorio")
+            return
+        
+        fecha_inicio = self.lineedit_fechainicio_nuevo_viaje.text()
+        fecha_fin = self.lineedit_fechafin_nuevo_viaje.text()
+
+        if fecha_inicio.strip() == "" or fecha_fin.strip() == "":
+            if fecha_inicio.strip() == "":
+                formato_fecha_inicio = "N/A"
+            if fecha_fin.strip() == "":
+                formato_fecha_fin = "N/A"
+        else:
+            lista_fechas_inicio = fecha_inicio.split("-")
+            lista_fechas_fin = fecha_fin.split("-")
+            indicador_de_mes_fin = None
+            indicador_de_mes_inicio = None
+            if len(lista_fechas_inicio) == 3 and lista_fechas_inicio[0].isdigit() and lista_fechas_inicio[1].isalnum() and lista_fechas_inicio[2].isdigit():
+                for i, mes in self.meses.items():
+                    if lista_fechas_inicio[1].capitalize() == mes:
+                        indicador_de_mes_inicio = i
+                        break
+                if not indicador_de_mes_inicio:
+                    self.mostrar_warning("El mes es incorrecto, escriba el mes correctamente")
+                    return
+            
+            if len(lista_fechas_fin) == 3 and lista_fechas_fin[0].isdigit() and lista_fechas_fin[1].isalnum() and lista_fechas_fin[2].isdigit():
+                for i, mes in self.meses.items():
+                    if lista_fechas_fin[1].capitalize() == mes:
+                        indicador_de_mes_fin = i
+                        break
+                if not indicador_de_mes_fin:
+                    self.mostrar_warning("El mes es incorrecto, escriba el mes correctamente")
+                    return
+            else:
+                self.mostrar_warning("El formato de fecha no es valido")
+                return
+            
+            if indicador_de_mes_inicio and indicador_de_mes_fin:
+                dia_inicio_viaje, mes_inicio_viaje, año_inicio_viaje = int(lista_fechas_inicio[0]), indicador_de_mes_inicio, int(lista_fechas_inicio[2])
+                dia_fin_viaje, mes_fin_viaje, año_fin_viaje = int(lista_fechas_fin[0]), indicador_de_mes_fin, int(lista_fechas_fin[2])
+                fechas_validadas = self.comparar_fechas(dia_inicio_viaje, mes_inicio_viaje, año_inicio_viaje, dia_fin_viaje, mes_fin_viaje, año_fin_viaje)
+                if not fechas_validadas:
+                    self.mostrar_warning("La fecha de fin no puede ser antes de la fecha de inicio")
+                    return
+                
+        presupuesto = self.lineedit_presupuesto_nuevo_viaje.text().strip()
+
+        if presupuesto.isdigit() or presupuesto == "":
+            if presupuesto == "":
+                presupuesto = 0
+            elif presupuesto.isdigit():
+                presupuesto = int(presupuesto)
+        else:
+            self.mostrar_warning("El presupuesto del viaje debe ser un número")
+            return
+        
+        personas_de_viaje = None
+        if self.boton_solo_nuevo_viaje.isChecked():
+            personas_de_viaje = 1
+        elif self.boton_pareja_nuevo_viaje.isChecked():
+            personas_de_viaje = 2
+        else:
+            if self.boton_familia_nuevo_viaje.isChecked():
+                personas_de_viaje = self.line_edit_familia_nuevo_viaje.text().strip()
+                if personas_de_viaje == "" or personas_de_viaje.isalpha():
+                    self.mostrar_warning("Debe colocar el numero de integrantes de la familia")
+                    return
+                elif personas_de_viaje.isdigit():
+                    personas_de_viaje = int(personas_de_viaje)
+
+
+        vuelos_completados = True
+        alojamiento_completado = True
+
+        if self.checkbox_vuelos_nuevo_viaje.isChecked():
+            vuelos_completados = False
+
+        if self.checkbox_alojaimento_nuevo_viaje.isChecked():
+            alojamiento_completado = False
+        
+        if vuelos_completados and alojamiento_completado:
+            indice = self.list_widget_viajes_guardados.count() + 1
+            travel_widget = TravelWidget(indice, texto_titulo, texto_destino, lista_fechas_inicio, lista_fechas_fin, presupuesto)
+            item = QListWidgetItem(self.list_widget_viajes_guardados)
+            item.setSizeHint(travel_widget.sizeHint())
+            self.list_widget_viajes_guardados.addItem(item)
+            self.list_widget_viajes_guardados.setItemWidget(item, travel_widget)
+
+            self.mostrar_exito("El viaje se ha agregado correctamente")
+        else:
+            self.mostrar_warning("Por favor, complete la información de los vuelos.")
+
+
+    def comparar_fechas(self, dia_inicio, mes_inicio, año_inicio, dia_fin, mes_fin, año_fin):
+        if año_fin < año_inicio:
+            return False
+        if año_fin == año_inicio:
+            if mes_fin < mes_inicio:
+                return False
+            if mes_fin == mes_inicio:
+                if dia_fin < dia_inicio:
+                    return False
+        return True
+
+    def eliminar_viaje_guardado(self):
+        viaje_seleccionado = self.list_widget_viajes_guardados.currentItem()
+        if viaje_seleccionado:
+            item = self.list_widget_viajes_guardados.row(viaje_seleccionado)
+            self.list_widget_viajes_guardados.takeItem(item)  
+    
+    def activar_alojamiento(self):
+        if self.checkbox_alojaimento_nuevo_viaje.isChecked():
+            self.groupbox_alojamiento_viaje.setEnabled(True)
+        else:
+            self.groupbox_alojamiento_viaje.setEnabled(False)
+
+    def activar_regreso_ida_avion(self):
+        if self.checkbox_vuelos_nuevo_viaje.isChecked():
+            self.grupo_regreso_viaje.setEnabled(True)
+            self.grupo_ida_viaje.setEnabled(True)
+        else:
+            self.grupo_regreso_viaje.setEnabled(False)
+            self.grupo_ida_viaje.setEnabled(False)
+
+
 
     def activar_edicion_de_perfil(self):
         if self.edit_profile_2.text() == "Editar perfil":
@@ -135,12 +420,15 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 self.biography_paintext_profile_2.setEnabled(False)
                 self.actualizar_progreso()
             
+    #Validar que todo este correcto en el perfil
     def validar_formulario(self):
         return [
             self.validar_nombre(),
             self.validar_sexo(),
             self.validar_apellido(),
             self.validar_id(),
+            self.validar_email(),
+            self.validar_password(),
             self.validar_biografia(),
             self.validar_direccion(),
             self.validar_telefono(),
@@ -149,11 +437,14 @@ class MainApp(QMainWindow, Ui_MainWindow):
             self.validar_edad()
             ]
 
+    #Funcion de mostrar alerta
+    def mostrar_warning(self, message):
+        QMessageBox.warning(self, "Advertencia", message)
     
-    def mostrar_warning(self, mensaje):
-        QMessageBox.warning(self, "Validación de Formulario", mensaje)
+    def mostrar_exito(self, message):
+        QMessageBox.information(self, "Información", message)
 
-
+    #Validaciones del perfil desde la linea 158 hasta 394
     def validar_nombre(self):
         nombre = self.name_edit_profile_2.text().strip()
         if not nombre:
@@ -190,7 +481,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 self.paso_apellido_validado = True
             return True
 
-        
     def validar_email(self):
         email = self.email_edit_profile_2.text()
         if email.strip() == "":
@@ -234,8 +524,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
             self.mostrar_warning("El número de identificación no puede tener letras o caracteres especiales")
             return False
             
-
-
     def validar_sexo(self):
         if self.none_radio_profile_2.isChecked():
             if self.paso_escoger_sexualidad:
@@ -317,7 +605,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 prefijo_numero = self.telefono_edit_profile_3.text().split(" ")
                 self.telefono_edit_profile_3.setText(f"{prefijo_numero[1]}")
         
-
     def validar_telefono(self):
         telefono = self.telefono_edit_profile_3.text().strip()
         nacionalidad = self.country_edit_profile_2.currentText().strip()
@@ -356,13 +643,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 self.pasos_completados += 1
             return True
 
-
-
-
-            
-
-
-
     def cargar_foto_de_perfil(self):
         file_name, _ = QFileDialog.getOpenFileName(self, "Seleccionar imagen", "", "Imágenes (*.png *.xpm *.jpg *.jpeg *.bmp *.gif)")
         if file_name:
@@ -392,7 +672,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
             self.label_pic_small1.setPixmap(pixmap)
             self.label_pic_small2.setPixmap(pixmap)
 
-
     def actualizar_progreso(self):
         self.progressbar_profile_2.setMaximum(self.pasos_totales)
         self.progressbar_profile_2.setValue(self.pasos_completados)
@@ -402,6 +681,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
         else:
             self.label_progressbar_profile_2.setText(f"Completa tu perfil       {self.pasos_completados}/{self.pasos_totales}")
 
+    #Funcion de actualizar reloj
     def update_time(self):
         #Actualiza el reloj
         current_time = QTime.currentTime()
@@ -411,6 +691,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.Horas.display(hours)
         self.minutos.display(minutes)
 
+    #Mostrar paginas del dashboard y sub stacketwidgets
     def mostrar_pagina_de_soporte(self):
         self.configuraciones_stacked.setCurrentIndex(1)
 
@@ -452,6 +733,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    test_widget = TravelWidget(1, "Vacaciones", "Paris", [15, 6, 2024], [22, 6, 2024])
     window = MainApp()
     window.show()
     sys.exit(app.exec())

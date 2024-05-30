@@ -23,8 +23,6 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
     QSpinBox, QStackedWidget, QTextBrowser, QTextEdit,
     QVBoxLayout, QWidget)
 import recursos_1_rc
-import recursos_1_rc
-import recursos_1_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -1165,16 +1163,90 @@ class Ui_MainWindow(object):
 "")
         self.frame_mis_viajes.setFrameShape(QFrame.StyledPanel)
         self.frame_mis_viajes.setFrameShadow(QFrame.Raised)
+        self.gridLayout_44 = QGridLayout(self.frame_mis_viajes)
+        self.gridLayout_44.setObjectName(u"gridLayout_44")
+        self.gridLayout_44.setVerticalSpacing(6)
+        self.gridLayout_44.setContentsMargins(50, 50, 50, 50)
+        self.gridLayout_43 = QGridLayout()
+        self.gridLayout_43.setObjectName(u"gridLayout_43")
+        self.gridLayout_43.setVerticalSpacing(30)
         self.label_9 = QLabel(self.frame_mis_viajes)
         self.label_9.setObjectName(u"label_9")
-        self.label_9.setGeometry(QRect(40, 30, 99, 24))
         self.label_9.setStyleSheet(u"background: transparent;\n"
 "border: none;\n"
 "font-weight: bold;\n"
 "font-size: 20px;")
-        self.agregue_algun_viaje = QLabel(self.frame_mis_viajes)
-        self.agregue_algun_viaje.setObjectName(u"agregue_algun_viaje")
-        self.agregue_algun_viaje.setGeometry(QRect(40, 60, 371, 31))
+
+        self.gridLayout_43.addWidget(self.label_9, 0, 0, 1, 1)
+
+        self.list_widget_viajes_guardados = QListWidget(self.frame_mis_viajes)
+        self.list_widget_viajes_guardados.setObjectName(u"list_widget_viajes_guardados")
+        self.list_widget_viajes_guardados.setStyleSheet(u"QListWidget {\n"
+"    font-size: 15px; /* Aumenta el tama\u00f1o de la fuente para los elementos */\n"
+"    padding: 5px; /* A\u00f1ade un padding alrededor del contenido del QListWidget */\n"
+"}\n"
+"\n"
+"QListWidget::item {\n"
+"    padding: 10px; /* A\u00f1ade padding a cada elemento para aumentar el espacio entre ellos */\n"
+"    margin: 5px 0; /* A\u00f1ade un margen entre cada elemento para mayor separaci\u00f3n vertical*/\n"
+"	width: 200px:\n"
+"	height: 25px;\n"
+"}\n"
+"")
+        self.list_widget_viajes_guardados.setWordWrap(False)
+
+        self.gridLayout_43.addWidget(self.list_widget_viajes_guardados, 1, 0, 1, 1)
+
+        self.horizontalLayout_29 = QHBoxLayout()
+        self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
+        self.horizontalSpacer_20 = QSpacerItem(738, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_29.addItem(self.horizontalSpacer_20)
+
+        self.ver_viaje_guardado_button = QPushButton(self.frame_mis_viajes)
+        self.ver_viaje_guardado_button.setObjectName(u"ver_viaje_guardado_button")
+        self.ver_viaje_guardado_button.setMinimumSize(QSize(60, 60))
+        self.ver_viaje_guardado_button.setStyleSheet(u"QPushButton {\n"
+"border: none;\n"
+"background: transparent;\n"
+"}\n"
+"QPushButton:hover {\n"
+"border: none;\n"
+"background-color: #CAE9FF;\n"
+"}")
+        icon10 = QIcon()
+        icon10.addFile(u":/Icons/icons/icons8-view-50.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.ver_viaje_guardado_button.setIcon(icon10)
+        self.ver_viaje_guardado_button.setIconSize(QSize(35, 35))
+        self.ver_viaje_guardado_button.setCheckable(True)
+
+        self.horizontalLayout_29.addWidget(self.ver_viaje_guardado_button)
+
+        self.eliminar_viajeguardado_button = QPushButton(self.frame_mis_viajes)
+        self.eliminar_viajeguardado_button.setObjectName(u"eliminar_viajeguardado_button")
+        self.eliminar_viajeguardado_button.setMinimumSize(QSize(60, 60))
+        self.eliminar_viajeguardado_button.setStyleSheet(u"QPushButton {\n"
+"border: none;\n"
+"background: transparent;\n"
+"}\n"
+"QPushButton:hover {\n"
+"border: none;\n"
+"background-color: #CAE9FF;\n"
+"}")
+        icon11 = QIcon()
+        icon11.addFile(u":/Icons/icons/icons8-trash-50.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.eliminar_viajeguardado_button.setIcon(icon11)
+        self.eliminar_viajeguardado_button.setIconSize(QSize(35, 35))
+        self.eliminar_viajeguardado_button.setCheckable(True)
+
+        self.horizontalLayout_29.addWidget(self.eliminar_viajeguardado_button)
+
+
+        self.gridLayout_43.addLayout(self.horizontalLayout_29, 2, 0, 1, 1)
+
+
+        self.gridLayout_44.addLayout(self.gridLayout_43, 0, 0, 1, 1)
+
 
         self.gridLayout_12.addWidget(self.frame_mis_viajes, 0, 0, 1, 1)
 
@@ -1434,8 +1506,43 @@ class Ui_MainWindow(object):
 "QCheckBox::indicator:unchecked:hover {\n"
 "    border: 2px solid #1B4965; /* Color principal */\n"
 "}\n"
+"/* Estilo desactivado para QLineEdit */\n"
+"QLineEdit:disabled {\n"
+"    background-color: #F0F0F0; /* Color de fondo desactivado */\n"
+"    border: 2px solid #D9D9D9; /* Borde desactivado */\n"
+"    color: #A9A9A9; /* Color de texto desactivado */\n"
+"}\n"
 "\n"
-"")
+"/* Estilo desactivado para QGroupBox */\n"
+"QGroupBox:disabled {\n"
+"    border: 2px solid #D9D9D9; /* Borde desactivado */\n"
+"    background-color: #F0F0F0; /* Color de fondo desactivado */\n"
+"}\n"
+"\n"
+"/* Estilo desactivado para QComboBox */\n"
+"QComboBox:disabled {\n"
+"    background-color: #F0F0F0; /* Color de fondo desactivado */\n"
+"    border: 2px solid #D9D9D9; /* Borde desactivado */\n"
+"    color: #A9A9A9;"
+                        " /* Color de texto desactivado */\n"
+"}\n"
+"\n"
+"/* Estilo desactivado para QPlainTextEdit */\n"
+"QPlainTextEdit:disabled {\n"
+"    background-color: #F0F0F0; /* Color de fondo desactivado */\n"
+"    border: 2px solid #D9D9D9; /* Borde desactivado */\n"
+"    color: #A9A9A9; /* Color de texto desactivado */\n"
+"}\n"
+"/* Estilo desactivado para QLabel */\n"
+"QLabel:disabled {\n"
+"    background-color: #F0F0F0; /* Color de texto desactivado */\n"
+"	color: #A9A9A9;\n"
+"}\n"
+"QGroupBox::title:disabled {\n"
+"    background-color: #F0F0F0; /* Color de texto desactivado */\n"
+"	color: #A9A9A9;\n"
+"	border-radius: 5px;\n"
+"}")
         self.frame_12.setFrameShape(QFrame.StyledPanel)
         self.frame_12.setFrameShadow(QFrame.Raised)
         self.gridLayout_26 = QGridLayout(self.frame_12)
@@ -1450,7 +1557,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1198, 1226))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -35, 1198, 1226))
         sizePolicy4.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy4)
         self.scrollAreaWidgetContents.setStyleSheet(u"QCheckBox {\n"
@@ -1591,16 +1698,6 @@ class Ui_MainWindow(object):
 
         self.gridLayout_33.addWidget(self.lineedit_presupuesto_nuevo_viaje, 1, 0, 1, 1)
 
-        self.money_combobox_presupuesto_nuevo_viaje = QComboBox(self.scrollAreaWidgetContents)
-        self.money_combobox_presupuesto_nuevo_viaje.addItem("")
-        self.money_combobox_presupuesto_nuevo_viaje.addItem("")
-        self.money_combobox_presupuesto_nuevo_viaje.addItem("")
-        self.money_combobox_presupuesto_nuevo_viaje.setObjectName(u"money_combobox_presupuesto_nuevo_viaje")
-        self.money_combobox_presupuesto_nuevo_viaje.setMinimumSize(QSize(100, 40))
-        self.money_combobox_presupuesto_nuevo_viaje.setMaximumSize(QSize(100, 40))
-
-        self.gridLayout_33.addWidget(self.money_combobox_presupuesto_nuevo_viaje, 1, 1, 1, 1)
-
 
         self.horizontalLayout_22.addLayout(self.gridLayout_33)
 
@@ -1609,6 +1706,7 @@ class Ui_MainWindow(object):
         self.gridLayout_29.setHorizontalSpacing(0)
         self.line_edit_familia_nuevo_viaje = QLineEdit(self.scrollAreaWidgetContents)
         self.line_edit_familia_nuevo_viaje.setObjectName(u"line_edit_familia_nuevo_viaje")
+        self.line_edit_familia_nuevo_viaje.setEnabled(False)
 
         self.gridLayout_29.addWidget(self.line_edit_familia_nuevo_viaje, 1, 6, 1, 1)
 
@@ -1635,9 +1733,9 @@ class Ui_MainWindow(object):
 "	background-color: rgb(95, 168, 211);\n"
 "	border: none;\n"
 "}")
-        icon10 = QIcon()
-        icon10.addFile(u":/Icons/icons/icons8-couple-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.boton_pareja_nuevo_viaje.setIcon(icon10)
+        icon12 = QIcon()
+        icon12.addFile(u":/Icons/icons/icons8-couple-64.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.boton_pareja_nuevo_viaje.setIcon(icon12)
         self.boton_pareja_nuevo_viaje.setIconSize(QSize(40, 40))
         self.boton_pareja_nuevo_viaje.setCheckable(True)
         self.boton_pareja_nuevo_viaje.setAutoExclusive(True)
@@ -1658,9 +1756,9 @@ class Ui_MainWindow(object):
 "	background-color: rgb(95, 168, 211);\n"
 "	border: none;\n"
 "}")
-        icon11 = QIcon()
-        icon11.addFile(u":/Icons/icons/icons8-family-40.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.boton_familia_nuevo_viaje.setIcon(icon11)
+        icon13 = QIcon()
+        icon13.addFile(u":/Icons/icons/icons8-family-40.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.boton_familia_nuevo_viaje.setIcon(icon13)
         self.boton_familia_nuevo_viaje.setIconSize(QSize(40, 40))
         self.boton_familia_nuevo_viaje.setCheckable(True)
         self.boton_familia_nuevo_viaje.setAutoExclusive(True)
@@ -1681,11 +1779,12 @@ class Ui_MainWindow(object):
 "	background-color: rgb(95, 168, 211);\n"
 "	border: none;\n"
 "}")
-        icon12 = QIcon()
-        icon12.addFile(u":/Icons/icons/icons8-me-58.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.boton_solo_nuevo_viaje.setIcon(icon12)
+        icon14 = QIcon()
+        icon14.addFile(u":/Icons/icons/icons8-me-58.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.boton_solo_nuevo_viaje.setIcon(icon14)
         self.boton_solo_nuevo_viaje.setIconSize(QSize(40, 40))
         self.boton_solo_nuevo_viaje.setCheckable(True)
+        self.boton_solo_nuevo_viaje.setChecked(True)
         self.boton_solo_nuevo_viaje.setAutoExclusive(True)
 
         self.gridLayout_29.addWidget(self.boton_solo_nuevo_viaje, 1, 0, 1, 1)
@@ -1716,23 +1815,24 @@ class Ui_MainWindow(object):
 
         self.gridLayout_25.addWidget(self.checkbox_vuelos_nuevo_viaje, 0, 0, 1, 1)
 
-        self.groupBox_5 = QGroupBox(self.scrollAreaWidgetContents)
-        self.groupBox_5.setObjectName(u"groupBox_5")
-        self.gridLayout_28 = QGridLayout(self.groupBox_5)
+        self.grupo_ida_viaje = QGroupBox(self.scrollAreaWidgetContents)
+        self.grupo_ida_viaje.setObjectName(u"grupo_ida_viaje")
+        self.grupo_ida_viaje.setEnabled(False)
+        self.gridLayout_28 = QGridLayout(self.grupo_ida_viaje)
         self.gridLayout_28.setSpacing(15)
         self.gridLayout_28.setObjectName(u"gridLayout_28")
-        self.label_54 = QLabel(self.groupBox_5)
+        self.label_54 = QLabel(self.grupo_ida_viaje)
         self.label_54.setObjectName(u"label_54")
         self.label_54.setMaximumSize(QSize(60, 16777215))
 
         self.gridLayout_28.addWidget(self.label_54, 0, 0, 1, 1)
 
-        self.lineedit_hora_ida_nuevo_viaje = QLineEdit(self.groupBox_5)
+        self.lineedit_hora_ida_nuevo_viaje = QLineEdit(self.grupo_ida_viaje)
         self.lineedit_hora_ida_nuevo_viaje.setObjectName(u"lineedit_hora_ida_nuevo_viaje")
 
         self.gridLayout_28.addWidget(self.lineedit_hora_ida_nuevo_viaje, 0, 1, 1, 1)
 
-        self.combobox_ampm_hora_ida_nuevo_viaje = QComboBox(self.groupBox_5)
+        self.combobox_ampm_hora_ida_nuevo_viaje = QComboBox(self.grupo_ida_viaje)
         self.combobox_ampm_hora_ida_nuevo_viaje.addItem("")
         self.combobox_ampm_hora_ida_nuevo_viaje.addItem("")
         self.combobox_ampm_hora_ida_nuevo_viaje.setObjectName(u"combobox_ampm_hora_ida_nuevo_viaje")
@@ -1746,62 +1846,51 @@ class Ui_MainWindow(object):
 
         self.gridLayout_28.addWidget(self.combobox_ampm_hora_ida_nuevo_viaje, 0, 2, 1, 1)
 
-        self.label_55 = QLabel(self.groupBox_5)
+        self.label_55 = QLabel(self.grupo_ida_viaje)
         self.label_55.setObjectName(u"label_55")
         self.label_55.setMaximumSize(QSize(60, 16777215))
 
         self.gridLayout_28.addWidget(self.label_55, 1, 0, 1, 1)
 
-        self.lineedit_fecha_ida_nuevo_viaje = QLineEdit(self.groupBox_5)
+        self.lineedit_fecha_ida_nuevo_viaje = QLineEdit(self.grupo_ida_viaje)
         self.lineedit_fecha_ida_nuevo_viaje.setObjectName(u"lineedit_fecha_ida_nuevo_viaje")
 
         self.gridLayout_28.addWidget(self.lineedit_fecha_ida_nuevo_viaje, 1, 1, 1, 1)
 
-        self.label_56 = QLabel(self.groupBox_5)
+        self.label_56 = QLabel(self.grupo_ida_viaje)
         self.label_56.setObjectName(u"label_56")
         self.label_56.setMaximumSize(QSize(60, 16777215))
 
         self.gridLayout_28.addWidget(self.label_56, 2, 0, 1, 1)
 
-        self.lineedit_costo_ida_nuevo_viaje = QLineEdit(self.groupBox_5)
+        self.lineedit_costo_ida_nuevo_viaje = QLineEdit(self.grupo_ida_viaje)
         self.lineedit_costo_ida_nuevo_viaje.setObjectName(u"lineedit_costo_ida_nuevo_viaje")
         self.lineedit_costo_ida_nuevo_viaje.setMinimumSize(QSize(0, 40))
         self.lineedit_costo_ida_nuevo_viaje.setMaximumSize(QSize(16777215, 40))
 
         self.gridLayout_28.addWidget(self.lineedit_costo_ida_nuevo_viaje, 2, 1, 1, 1)
 
-        self.money_combobox_costo_ida_nuevo_viaje = QComboBox(self.groupBox_5)
-        self.money_combobox_costo_ida_nuevo_viaje.addItem("")
-        self.money_combobox_costo_ida_nuevo_viaje.addItem("")
-        self.money_combobox_costo_ida_nuevo_viaje.addItem("")
-        self.money_combobox_costo_ida_nuevo_viaje.setObjectName(u"money_combobox_costo_ida_nuevo_viaje")
-        sizePolicy6.setHeightForWidth(self.money_combobox_costo_ida_nuevo_viaje.sizePolicy().hasHeightForWidth())
-        self.money_combobox_costo_ida_nuevo_viaje.setSizePolicy(sizePolicy6)
-        self.money_combobox_costo_ida_nuevo_viaje.setMinimumSize(QSize(100, 40))
-        self.money_combobox_costo_ida_nuevo_viaje.setMaximumSize(QSize(100, 40))
 
-        self.gridLayout_28.addWidget(self.money_combobox_costo_ida_nuevo_viaje, 2, 2, 1, 1)
+        self.gridLayout_25.addWidget(self.grupo_ida_viaje, 1, 0, 1, 1)
 
-
-        self.gridLayout_25.addWidget(self.groupBox_5, 1, 0, 1, 1)
-
-        self.groupBox_8 = QGroupBox(self.scrollAreaWidgetContents)
-        self.groupBox_8.setObjectName(u"groupBox_8")
-        self.gridLayout_27 = QGridLayout(self.groupBox_8)
+        self.grupo_regreso_viaje = QGroupBox(self.scrollAreaWidgetContents)
+        self.grupo_regreso_viaje.setObjectName(u"grupo_regreso_viaje")
+        self.grupo_regreso_viaje.setEnabled(False)
+        self.gridLayout_27 = QGridLayout(self.grupo_regreso_viaje)
         self.gridLayout_27.setSpacing(15)
         self.gridLayout_27.setObjectName(u"gridLayout_27")
-        self.label_67 = QLabel(self.groupBox_8)
+        self.label_67 = QLabel(self.grupo_regreso_viaje)
         self.label_67.setObjectName(u"label_67")
         self.label_67.setMaximumSize(QSize(60, 16777215))
 
         self.gridLayout_27.addWidget(self.label_67, 0, 0, 1, 1)
 
-        self.lineedit_hora_regreso_nuevo_viaje = QLineEdit(self.groupBox_8)
+        self.lineedit_hora_regreso_nuevo_viaje = QLineEdit(self.grupo_regreso_viaje)
         self.lineedit_hora_regreso_nuevo_viaje.setObjectName(u"lineedit_hora_regreso_nuevo_viaje")
 
         self.gridLayout_27.addWidget(self.lineedit_hora_regreso_nuevo_viaje, 0, 1, 1, 1)
 
-        self.combobox_ampm_hora_regreso_nuevo_viaje = QComboBox(self.groupBox_8)
+        self.combobox_ampm_hora_regreso_nuevo_viaje = QComboBox(self.grupo_regreso_viaje)
         self.combobox_ampm_hora_regreso_nuevo_viaje.addItem("")
         self.combobox_ampm_hora_regreso_nuevo_viaje.addItem("")
         self.combobox_ampm_hora_regreso_nuevo_viaje.setObjectName(u"combobox_ampm_hora_regreso_nuevo_viaje")
@@ -1812,42 +1901,30 @@ class Ui_MainWindow(object):
 
         self.gridLayout_27.addWidget(self.combobox_ampm_hora_regreso_nuevo_viaje, 0, 2, 1, 1)
 
-        self.label_68 = QLabel(self.groupBox_8)
+        self.label_68 = QLabel(self.grupo_regreso_viaje)
         self.label_68.setObjectName(u"label_68")
         self.label_68.setMaximumSize(QSize(60, 16777215))
 
         self.gridLayout_27.addWidget(self.label_68, 1, 0, 1, 1)
 
-        self.lineedit_fecha_regreso_nuevo_viaje = QLineEdit(self.groupBox_8)
+        self.lineedit_fecha_regreso_nuevo_viaje = QLineEdit(self.grupo_regreso_viaje)
         self.lineedit_fecha_regreso_nuevo_viaje.setObjectName(u"lineedit_fecha_regreso_nuevo_viaje")
 
         self.gridLayout_27.addWidget(self.lineedit_fecha_regreso_nuevo_viaje, 1, 1, 1, 1)
 
-        self.label_69 = QLabel(self.groupBox_8)
+        self.label_69 = QLabel(self.grupo_regreso_viaje)
         self.label_69.setObjectName(u"label_69")
         self.label_69.setMaximumSize(QSize(60, 16777215))
 
         self.gridLayout_27.addWidget(self.label_69, 2, 0, 1, 1)
 
-        self.lineedit_costo_regreso_nuevo_viaje = QLineEdit(self.groupBox_8)
+        self.lineedit_costo_regreso_nuevo_viaje = QLineEdit(self.grupo_regreso_viaje)
         self.lineedit_costo_regreso_nuevo_viaje.setObjectName(u"lineedit_costo_regreso_nuevo_viaje")
 
         self.gridLayout_27.addWidget(self.lineedit_costo_regreso_nuevo_viaje, 2, 1, 1, 1)
 
-        self.money_combobox_costo_regreso_nuevo_viaje = QComboBox(self.groupBox_8)
-        self.money_combobox_costo_regreso_nuevo_viaje.addItem("")
-        self.money_combobox_costo_regreso_nuevo_viaje.addItem("")
-        self.money_combobox_costo_regreso_nuevo_viaje.addItem("")
-        self.money_combobox_costo_regreso_nuevo_viaje.setObjectName(u"money_combobox_costo_regreso_nuevo_viaje")
-        sizePolicy6.setHeightForWidth(self.money_combobox_costo_regreso_nuevo_viaje.sizePolicy().hasHeightForWidth())
-        self.money_combobox_costo_regreso_nuevo_viaje.setSizePolicy(sizePolicy6)
-        self.money_combobox_costo_regreso_nuevo_viaje.setMinimumSize(QSize(100, 40))
-        self.money_combobox_costo_regreso_nuevo_viaje.setMaximumSize(QSize(100, 40))
 
-        self.gridLayout_27.addWidget(self.money_combobox_costo_regreso_nuevo_viaje, 2, 2, 1, 1)
-
-
-        self.gridLayout_25.addWidget(self.groupBox_8, 1, 1, 1, 1)
+        self.gridLayout_25.addWidget(self.grupo_regreso_viaje, 1, 1, 1, 1)
 
 
         self.gridLayout_34.addLayout(self.gridLayout_25, 3, 0, 1, 4)
@@ -1859,21 +1936,22 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_40.addWidget(self.checkbox_alojaimento_nuevo_viaje)
 
-        self.groupBox_6 = QGroupBox(self.scrollAreaWidgetContents)
-        self.groupBox_6.setObjectName(u"groupBox_6")
-        self.gridLayout_32 = QGridLayout(self.groupBox_6)
+        self.groupbox_alojamiento_viaje = QGroupBox(self.scrollAreaWidgetContents)
+        self.groupbox_alojamiento_viaje.setObjectName(u"groupbox_alojamiento_viaje")
+        self.groupbox_alojamiento_viaje.setEnabled(False)
+        self.gridLayout_32 = QGridLayout(self.groupbox_alojamiento_viaje)
         self.gridLayout_32.setObjectName(u"gridLayout_32")
         self.gridLayout_32.setHorizontalSpacing(40)
         self.gridLayout_32.setVerticalSpacing(25)
         self.horizontalLayout_20 = QHBoxLayout()
         self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
-        self.label_57 = QLabel(self.groupBox_6)
+        self.label_57 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_57.setObjectName(u"label_57")
         self.label_57.setMaximumSize(QSize(90, 16777215))
 
         self.horizontalLayout_20.addWidget(self.label_57)
 
-        self.combobox_hote_o_airbnb_nuevo_viaje = QComboBox(self.groupBox_6)
+        self.combobox_hote_o_airbnb_nuevo_viaje = QComboBox(self.groupbox_alojamiento_viaje)
         self.combobox_hote_o_airbnb_nuevo_viaje.addItem("")
         self.combobox_hote_o_airbnb_nuevo_viaje.addItem("")
         self.combobox_hote_o_airbnb_nuevo_viaje.setObjectName(u"combobox_hote_o_airbnb_nuevo_viaje")
@@ -1885,14 +1963,14 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_19 = QHBoxLayout()
         self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
-        self.label_7 = QLabel(self.groupBox_6)
+        self.label_7 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_7.setObjectName(u"label_7")
         self.label_7.setMinimumSize(QSize(90, 0))
         self.label_7.setMaximumSize(QSize(90, 16777215))
 
         self.horizontalLayout_19.addWidget(self.label_7)
 
-        self.lineedit_direccion_nuevo_viaje = QLineEdit(self.groupBox_6)
+        self.lineedit_direccion_nuevo_viaje = QLineEdit(self.groupbox_alojamiento_viaje)
         self.lineedit_direccion_nuevo_viaje.setObjectName(u"lineedit_direccion_nuevo_viaje")
 
         self.horizontalLayout_19.addWidget(self.lineedit_direccion_nuevo_viaje)
@@ -1903,24 +1981,24 @@ class Ui_MainWindow(object):
         self.gridLayout_30 = QGridLayout()
         self.gridLayout_30.setSpacing(15)
         self.gridLayout_30.setObjectName(u"gridLayout_30")
-        self.label_59 = QLabel(self.groupBox_6)
+        self.label_59 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_59.setObjectName(u"label_59")
         self.label_59.setMaximumSize(QSize(60, 16777215))
 
         self.gridLayout_30.addWidget(self.label_59, 0, 0, 1, 1)
 
-        self.label_61 = QLabel(self.groupBox_6)
+        self.label_61 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_61.setObjectName(u"label_61")
         self.label_61.setMaximumSize(QSize(60, 16777215))
 
         self.gridLayout_30.addWidget(self.label_61, 1, 0, 1, 1)
 
-        self.lineedit_hora_inicio_nuevo_viaje = QLineEdit(self.groupBox_6)
+        self.lineedit_hora_inicio_nuevo_viaje = QLineEdit(self.groupbox_alojamiento_viaje)
         self.lineedit_hora_inicio_nuevo_viaje.setObjectName(u"lineedit_hora_inicio_nuevo_viaje")
 
         self.gridLayout_30.addWidget(self.lineedit_hora_inicio_nuevo_viaje, 1, 1, 1, 1)
 
-        self.combobox_ampm_hora_inicio_nuevo_viaje = QComboBox(self.groupBox_6)
+        self.combobox_ampm_hora_inicio_nuevo_viaje = QComboBox(self.groupbox_alojamiento_viaje)
         self.combobox_ampm_hora_inicio_nuevo_viaje.addItem("")
         self.combobox_ampm_hora_inicio_nuevo_viaje.addItem("")
         self.combobox_ampm_hora_inicio_nuevo_viaje.setObjectName(u"combobox_ampm_hora_inicio_nuevo_viaje")
@@ -1931,16 +2009,16 @@ class Ui_MainWindow(object):
 
         self.gridLayout_30.addWidget(self.combobox_ampm_hora_inicio_nuevo_viaje, 1, 2, 1, 1)
 
-        self.label_66 = QLabel(self.groupBox_6)
+        self.label_66 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_66.setObjectName(u"label_66")
         self.label_66.setMaximumSize(QSize(60, 16777215))
 
         self.gridLayout_30.addWidget(self.label_66, 2, 0, 1, 1)
 
-        self.lineedit_fecha_inicio_nuevo_viaje = QLineEdit(self.groupBox_6)
-        self.lineedit_fecha_inicio_nuevo_viaje.setObjectName(u"lineedit_fecha_inicio_nuevo_viaje")
+        self.lineedit_fecha_inicio_alojamiento_nuevo_viaje = QLineEdit(self.groupbox_alojamiento_viaje)
+        self.lineedit_fecha_inicio_alojamiento_nuevo_viaje.setObjectName(u"lineedit_fecha_inicio_alojamiento_nuevo_viaje")
 
-        self.gridLayout_30.addWidget(self.lineedit_fecha_inicio_nuevo_viaje, 2, 1, 1, 2)
+        self.gridLayout_30.addWidget(self.lineedit_fecha_inicio_alojamiento_nuevo_viaje, 2, 1, 1, 2)
 
 
         self.gridLayout_32.addLayout(self.gridLayout_30, 1, 0, 1, 2)
@@ -1948,24 +2026,24 @@ class Ui_MainWindow(object):
         self.gridLayout_31 = QGridLayout()
         self.gridLayout_31.setSpacing(15)
         self.gridLayout_31.setObjectName(u"gridLayout_31")
-        self.label_60 = QLabel(self.groupBox_6)
+        self.label_60 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_60.setObjectName(u"label_60")
         self.label_60.setMaximumSize(QSize(60, 16777215))
 
         self.gridLayout_31.addWidget(self.label_60, 0, 0, 1, 1)
 
-        self.label_62 = QLabel(self.groupBox_6)
+        self.label_62 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_62.setObjectName(u"label_62")
         self.label_62.setMaximumSize(QSize(60, 16777215))
 
         self.gridLayout_31.addWidget(self.label_62, 1, 0, 1, 1)
 
-        self.lineedit_hora_fin_nuevo_viaje = QLineEdit(self.groupBox_6)
+        self.lineedit_hora_fin_nuevo_viaje = QLineEdit(self.groupbox_alojamiento_viaje)
         self.lineedit_hora_fin_nuevo_viaje.setObjectName(u"lineedit_hora_fin_nuevo_viaje")
 
         self.gridLayout_31.addWidget(self.lineedit_hora_fin_nuevo_viaje, 1, 1, 1, 1)
 
-        self.combobox_ampm_hora_fin_nuevo_viaje = QComboBox(self.groupBox_6)
+        self.combobox_ampm_hora_fin_nuevo_viaje = QComboBox(self.groupbox_alojamiento_viaje)
         self.combobox_ampm_hora_fin_nuevo_viaje.addItem("")
         self.combobox_ampm_hora_fin_nuevo_viaje.addItem("")
         self.combobox_ampm_hora_fin_nuevo_viaje.setObjectName(u"combobox_ampm_hora_fin_nuevo_viaje")
@@ -1976,16 +2054,16 @@ class Ui_MainWindow(object):
 
         self.gridLayout_31.addWidget(self.combobox_ampm_hora_fin_nuevo_viaje, 1, 2, 1, 1)
 
-        self.label_64 = QLabel(self.groupBox_6)
+        self.label_64 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_64.setObjectName(u"label_64")
         self.label_64.setMaximumSize(QSize(60, 16777215))
 
         self.gridLayout_31.addWidget(self.label_64, 2, 0, 1, 1)
 
-        self.lineedit_fecha_fin_nuevo_viaje = QLineEdit(self.groupBox_6)
-        self.lineedit_fecha_fin_nuevo_viaje.setObjectName(u"lineedit_fecha_fin_nuevo_viaje")
+        self.lineedit_fecha_fin_alojamiento_nuevo_viaje = QLineEdit(self.groupbox_alojamiento_viaje)
+        self.lineedit_fecha_fin_alojamiento_nuevo_viaje.setObjectName(u"lineedit_fecha_fin_alojamiento_nuevo_viaje")
 
-        self.gridLayout_31.addWidget(self.lineedit_fecha_fin_nuevo_viaje, 2, 1, 1, 2)
+        self.gridLayout_31.addWidget(self.lineedit_fecha_fin_alojamiento_nuevo_viaje, 2, 1, 1, 2)
 
 
         self.gridLayout_32.addLayout(self.gridLayout_31, 1, 2, 1, 1)
@@ -1993,26 +2071,16 @@ class Ui_MainWindow(object):
         self.horizontalLayout_21 = QHBoxLayout()
         self.horizontalLayout_21.setSpacing(15)
         self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
-        self.label_58 = QLabel(self.groupBox_6)
+        self.label_58 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_58.setObjectName(u"label_58")
         self.label_58.setMaximumSize(QSize(60, 16777215))
 
         self.horizontalLayout_21.addWidget(self.label_58)
 
-        self.line_edit_costo_alojamiento_nuevo_viaje = QLineEdit(self.groupBox_6)
+        self.line_edit_costo_alojamiento_nuevo_viaje = QLineEdit(self.groupbox_alojamiento_viaje)
         self.line_edit_costo_alojamiento_nuevo_viaje.setObjectName(u"line_edit_costo_alojamiento_nuevo_viaje")
 
         self.horizontalLayout_21.addWidget(self.line_edit_costo_alojamiento_nuevo_viaje)
-
-        self.money_combobox_costo_alojamiento_nuevo_viaje = QComboBox(self.groupBox_6)
-        self.money_combobox_costo_alojamiento_nuevo_viaje.addItem("")
-        self.money_combobox_costo_alojamiento_nuevo_viaje.addItem("")
-        self.money_combobox_costo_alojamiento_nuevo_viaje.addItem("")
-        self.money_combobox_costo_alojamiento_nuevo_viaje.setObjectName(u"money_combobox_costo_alojamiento_nuevo_viaje")
-        self.money_combobox_costo_alojamiento_nuevo_viaje.setMinimumSize(QSize(100, 40))
-        self.money_combobox_costo_alojamiento_nuevo_viaje.setMaximumSize(QSize(100, 40))
-
-        self.horizontalLayout_21.addWidget(self.money_combobox_costo_alojamiento_nuevo_viaje)
 
 
         self.gridLayout_32.addLayout(self.horizontalLayout_21, 2, 0, 1, 2)
@@ -2020,14 +2088,14 @@ class Ui_MainWindow(object):
         self.verticalLayout_34 = QVBoxLayout()
         self.verticalLayout_34.setSpacing(15)
         self.verticalLayout_34.setObjectName(u"verticalLayout_34")
-        self.label_65 = QLabel(self.groupBox_6)
+        self.label_65 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_65.setObjectName(u"label_65")
         self.label_65.setMinimumSize(QSize(200, 20))
         self.label_65.setMaximumSize(QSize(200, 20))
 
         self.verticalLayout_34.addWidget(self.label_65)
 
-        self.plaintextedit_info_adicional_nuevo_viaje = QPlainTextEdit(self.groupBox_6)
+        self.plaintextedit_info_adicional_nuevo_viaje = QPlainTextEdit(self.groupbox_alojamiento_viaje)
         self.plaintextedit_info_adicional_nuevo_viaje.setObjectName(u"plaintextedit_info_adicional_nuevo_viaje")
         self.plaintextedit_info_adicional_nuevo_viaje.setMaximumSize(QSize(16777215, 100))
         self.plaintextedit_info_adicional_nuevo_viaje.setAcceptDrops(True)
@@ -2042,7 +2110,7 @@ class Ui_MainWindow(object):
         self.gridLayout_32.addLayout(self.verticalLayout_34, 3, 0, 1, 3)
 
 
-        self.verticalLayout_40.addWidget(self.groupBox_6)
+        self.verticalLayout_40.addWidget(self.groupbox_alojamiento_viaje)
 
 
         self.gridLayout_34.addLayout(self.verticalLayout_40, 4, 0, 1, 4)
@@ -2053,12 +2121,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_23.addItem(self.horizontalSpacer_14)
 
-        self.save_new_travel_bbutton = QPushButton(self.scrollAreaWidgetContents)
-        self.save_new_travel_bbutton.setObjectName(u"save_new_travel_bbutton")
-        self.save_new_travel_bbutton.setMinimumSize(QSize(250, 45))
-        self.save_new_travel_bbutton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.save_new_travel_button = QPushButton(self.scrollAreaWidgetContents)
+        self.save_new_travel_button.setObjectName(u"save_new_travel_button")
+        self.save_new_travel_button.setMinimumSize(QSize(250, 45))
+        self.save_new_travel_button.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.horizontalLayout_23.addWidget(self.save_new_travel_bbutton)
+        self.horizontalLayout_23.addWidget(self.save_new_travel_button)
 
 
         self.gridLayout_34.addLayout(self.horizontalLayout_23, 5, 0, 1, 4)
@@ -2386,9 +2454,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_35 = QVBoxLayout()
         self.verticalLayout_35.setObjectName(u"verticalLayout_35")
         self.list_widget_de_planes = QListWidget(self.frame_13)
-        QListWidgetItem(self.list_widget_de_planes)
-        QListWidgetItem(self.list_widget_de_planes)
-        QListWidgetItem(self.list_widget_de_planes)
         self.list_widget_de_planes.setObjectName(u"list_widget_de_planes")
         self.list_widget_de_planes.setStyleSheet(u"QListWidget {\n"
 "    font-size: 15px; /* Aumenta el tama\u00f1o de la fuente para los elementos */\n"
@@ -2419,9 +2484,7 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-color: #CAE9FF;\n"
 "}")
-        icon13 = QIcon()
-        icon13.addFile(u":/Icons/icons/icons8-trash-50.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.eliminar_plan_button.setIcon(icon13)
+        self.eliminar_plan_button.setIcon(icon11)
         self.eliminar_plan_button.setIconSize(QSize(35, 35))
         self.eliminar_plan_button.setCheckable(True)
 
@@ -2496,9 +2559,9 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-color: #CAE9FF;\n"
 "}")
-        icon14 = QIcon()
-        icon14.addFile(u":/Icons/icons/icons8-done-48.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.boton_guardar_plan.setIcon(icon14)
+        icon15 = QIcon()
+        icon15.addFile(u":/Icons/icons/icons8-done-48.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.boton_guardar_plan.setIcon(icon15)
         self.boton_guardar_plan.setIconSize(QSize(30, 30))
         self.boton_guardar_plan.setCheckable(True)
 
@@ -2688,9 +2751,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_36 = QVBoxLayout()
         self.verticalLayout_36.setObjectName(u"verticalLayout_36")
         self.list_widget_gastos = QListWidget(self.frame_14)
-        QListWidgetItem(self.list_widget_gastos)
-        QListWidgetItem(self.list_widget_gastos)
-        QListWidgetItem(self.list_widget_gastos)
         self.list_widget_gastos.setObjectName(u"list_widget_gastos")
         self.list_widget_gastos.setStyleSheet(u"QListWidget {\n"
 "    font-size: 14px; /* Aumenta el tama\u00f1o de la fuente para los elementos */\n"
@@ -2721,7 +2781,7 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-color: #CAE9FF;\n"
 "}")
-        self.eliminar_gasto_button.setIcon(icon13)
+        self.eliminar_gasto_button.setIcon(icon11)
         self.eliminar_gasto_button.setIconSize(QSize(35, 35))
         self.eliminar_gasto_button.setCheckable(True)
 
@@ -2747,12 +2807,6 @@ class Ui_MainWindow(object):
 
         self.gridLayout_37.addWidget(self.label_20, 1, 0, 1, 1)
 
-        self.descripcion_del_gasto = QLineEdit(self.frame_14)
-        self.descripcion_del_gasto.setObjectName(u"descripcion_del_gasto")
-        self.descripcion_del_gasto.setMinimumSize(QSize(0, 40))
-
-        self.gridLayout_37.addWidget(self.descripcion_del_gasto, 1, 1, 1, 2)
-
         self.label_72 = QLabel(self.frame_14)
         self.label_72.setObjectName(u"label_72")
         self.label_72.setMaximumSize(QSize(60, 16777215))
@@ -2763,18 +2817,6 @@ class Ui_MainWindow(object):
         self.hora_del_gasto.setObjectName(u"hora_del_gasto")
 
         self.gridLayout_37.addWidget(self.hora_del_gasto, 2, 1, 1, 1)
-
-        self.money_combobox_costo_regreso_nuevo_viaje_2 = QComboBox(self.frame_14)
-        self.money_combobox_costo_regreso_nuevo_viaje_2.addItem("")
-        self.money_combobox_costo_regreso_nuevo_viaje_2.addItem("")
-        self.money_combobox_costo_regreso_nuevo_viaje_2.addItem("")
-        self.money_combobox_costo_regreso_nuevo_viaje_2.setObjectName(u"money_combobox_costo_regreso_nuevo_viaje_2")
-        sizePolicy6.setHeightForWidth(self.money_combobox_costo_regreso_nuevo_viaje_2.sizePolicy().hasHeightForWidth())
-        self.money_combobox_costo_regreso_nuevo_viaje_2.setSizePolicy(sizePolicy6)
-        self.money_combobox_costo_regreso_nuevo_viaje_2.setMinimumSize(QSize(100, 40))
-        self.money_combobox_costo_regreso_nuevo_viaje_2.setMaximumSize(QSize(100, 40))
-
-        self.gridLayout_37.addWidget(self.money_combobox_costo_regreso_nuevo_viaje_2, 2, 2, 1, 1)
 
         self.label_73 = QLabel(self.frame_14)
         self.label_73.setObjectName(u"label_73")
@@ -2798,11 +2840,17 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-color: #CAE9FF;\n"
 "}")
-        self.boton_guardar_gasto.setIcon(icon14)
+        self.boton_guardar_gasto.setIcon(icon15)
         self.boton_guardar_gasto.setIconSize(QSize(30, 30))
         self.boton_guardar_gasto.setCheckable(True)
 
         self.gridLayout_37.addWidget(self.boton_guardar_gasto, 3, 2, 1, 1)
+
+        self.descripcion_del_gasto = QLineEdit(self.frame_14)
+        self.descripcion_del_gasto.setObjectName(u"descripcion_del_gasto")
+        self.descripcion_del_gasto.setMinimumSize(QSize(0, 40))
+
+        self.gridLayout_37.addWidget(self.descripcion_del_gasto, 1, 1, 1, 1)
 
 
         self.gridLayout_39.addLayout(self.gridLayout_37, 3, 0, 1, 1)
@@ -3221,7 +3269,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.addWidget(self.label_13)
 
         self.lista_agregar_recordatorios = QListWidget(self.frame)
-        QListWidgetItem(self.lista_agregar_recordatorios)
         self.lista_agregar_recordatorios.setObjectName(u"lista_agregar_recordatorios")
         self.lista_agregar_recordatorios.setStyleSheet(u"QListWidget {\n"
 "    font-size: 14px; /* Aumenta el tama\u00f1o de la fuente para los elementos */\n"
@@ -3252,7 +3299,7 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-color: #CAE9FF;\n"
 "}")
-        self.eliminar_recordatorio_button.setIcon(icon13)
+        self.eliminar_recordatorio_button.setIcon(icon11)
         self.eliminar_recordatorio_button.setIconSize(QSize(35, 35))
         self.eliminar_recordatorio_button.setCheckable(True)
 
@@ -3372,9 +3419,9 @@ class Ui_MainWindow(object):
         self.volver_recordatorios_agregar_recordatorio_page.setMinimumSize(QSize(50, 50))
         self.volver_recordatorios_agregar_recordatorio_page.setStyleSheet(u"border: none;\n"
 "background: transparent;")
-        icon15 = QIcon()
-        icon15.addFile(u":/Icons/icons/icons8-back-48.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.volver_recordatorios_agregar_recordatorio_page.setIcon(icon15)
+        icon16 = QIcon()
+        icon16.addFile(u":/Icons/icons/icons8-back-48.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.volver_recordatorios_agregar_recordatorio_page.setIcon(icon16)
         self.volver_recordatorios_agregar_recordatorio_page.setIconSize(QSize(50, 50))
 
         self.verticalLayout_24.addWidget(self.volver_recordatorios_agregar_recordatorio_page)
@@ -3912,7 +3959,7 @@ class Ui_MainWindow(object):
         self.back_button_support.setObjectName(u"back_button_support")
         self.back_button_support.setMinimumSize(QSize(50, 50))
         self.back_button_support.setStyleSheet(u"background: transparent;")
-        self.back_button_support.setIcon(icon15)
+        self.back_button_support.setIcon(icon16)
         self.back_button_support.setIconSize(QSize(50, 50))
 
         self.verticalLayout_29.addWidget(self.back_button_support)
@@ -4154,7 +4201,7 @@ class Ui_MainWindow(object):
         self.back_button_about_us.setObjectName(u"back_button_about_us")
         self.back_button_about_us.setMinimumSize(QSize(50, 50))
         self.back_button_about_us.setStyleSheet(u"background: transparent;")
-        self.back_button_about_us.setIcon(icon15)
+        self.back_button_about_us.setIcon(icon16)
         self.back_button_about_us.setIconSize(QSize(50, 50))
 
         self.verticalLayout_26.addWidget(self.back_button_about_us)
@@ -4553,9 +4600,9 @@ class Ui_MainWindow(object):
         self.open_pic_to_profile_pic_2.setStyleSheet(u"border: none;\n"
 "background: transparent;\n"
 "")
-        icon16 = QIcon()
-        icon16.addFile(u":/Icons/icons/icons8-camera-50.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.open_pic_to_profile_pic_2.setIcon(icon16)
+        icon17 = QIcon()
+        icon17.addFile(u":/Icons/icons/icons8-camera-50.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.open_pic_to_profile_pic_2.setIcon(icon17)
         self.open_pic_to_profile_pic_2.setIconSize(QSize(40, 40))
         self.open_pic_to_profile_pic_2.setCheckable(False)
 
@@ -4570,7 +4617,7 @@ class Ui_MainWindow(object):
         self.delete_profile_pic_2.setStyleSheet(u"border: none;\n"
 "background: transparent;\n"
 "")
-        self.delete_profile_pic_2.setIcon(icon13)
+        self.delete_profile_pic_2.setIcon(icon11)
         self.delete_profile_pic_2.setIconSize(QSize(40, 40))
         self.delete_profile_pic_2.setCheckable(False)
 
@@ -4700,9 +4747,9 @@ class Ui_MainWindow(object):
         self.home_small_button1.toggled.connect(self.home_small_button2.setChecked)
         self.off2button.toggled.connect(self.off1button.setChecked)
 
-        self.stackedWidget.setCurrentIndex(7)
+        self.stackedWidget.setCurrentIndex(2)
         self.notifications_stacked.setCurrentIndex(0)
-        self.configuraciones_stacked.setCurrentIndex(1)
+        self.configuraciones_stacked.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -4750,47 +4797,42 @@ class Ui_MainWindow(object):
         self.label_41.setText(QCoreApplication.translate("MainWindow", u"Hotel SeaAvenue: 5 d\u00edas/4 noches:", None))
         self.label_42.setText(QCoreApplication.translate("MainWindow", u"$1.690.000", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Mis viajes", None))
-        self.agregue_algun_viaje.setText(QCoreApplication.translate("MainWindow", u"Agregue algun viaje", None))
+        self.ver_viaje_guardado_button.setText("")
+        self.eliminar_viajeguardado_button.setText("")
         self.label_36.setText(QCoreApplication.translate("MainWindow", u"Nuevo viaje", None))
         self.label_33.setText(QCoreApplication.translate("MainWindow", u"Titulo", None))
         self.lineedit_titulo_nuevo_viaje.setPlaceholderText("")
         self.label_35.setText(QCoreApplication.translate("MainWindow", u"Destino", None))
         self.label_37.setText(QCoreApplication.translate("MainWindow", u"Fecha inicio", None))
+        self.lineedit_fechainicio_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"d\u00eda-mes-a\u00f1o", None))
         self.label_34.setText(QCoreApplication.translate("MainWindow", u"Fecha fin", None))
+        self.lineedit_fechafin_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"d\u00eda-mes-a\u00f1o", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Presupuesto", None))
-        self.money_combobox_presupuesto_nuevo_viaje.setItemText(0, QCoreApplication.translate("MainWindow", u"$ COP", None))
-        self.money_combobox_presupuesto_nuevo_viaje.setItemText(1, QCoreApplication.translate("MainWindow", u"$ USD", None))
-        self.money_combobox_presupuesto_nuevo_viaje.setItemText(2, QCoreApplication.translate("MainWindow", u"\u20ac Euro", None))
-
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"Personas", None))
         self.boton_pareja_nuevo_viaje.setText("")
         self.boton_familia_nuevo_viaje.setText("")
         self.boton_solo_nuevo_viaje.setText("")
         self.checkbox_vuelos_nuevo_viaje.setText(QCoreApplication.translate("MainWindow", u"Vuelos", None))
-        self.groupBox_5.setTitle(QCoreApplication.translate("MainWindow", u"Ida", None))
+        self.grupo_ida_viaje.setTitle(QCoreApplication.translate("MainWindow", u"Ida", None))
         self.label_54.setText(QCoreApplication.translate("MainWindow", u"Hora:", None))
+        self.lineedit_hora_ida_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"00:00", None))
         self.combobox_ampm_hora_ida_nuevo_viaje.setItemText(0, QCoreApplication.translate("MainWindow", u"AM", None))
         self.combobox_ampm_hora_ida_nuevo_viaje.setItemText(1, QCoreApplication.translate("MainWindow", u"PM", None))
 
         self.label_55.setText(QCoreApplication.translate("MainWindow", u"Fecha:", None))
+        self.lineedit_fecha_ida_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"d\u00eda-mes-a\u00f1o", None))
         self.label_56.setText(QCoreApplication.translate("MainWindow", u"Costo:", None))
-        self.money_combobox_costo_ida_nuevo_viaje.setItemText(0, QCoreApplication.translate("MainWindow", u"$ COP", None))
-        self.money_combobox_costo_ida_nuevo_viaje.setItemText(1, QCoreApplication.translate("MainWindow", u"$ USD", None))
-        self.money_combobox_costo_ida_nuevo_viaje.setItemText(2, QCoreApplication.translate("MainWindow", u"\u20ac Euro", None))
-
-        self.groupBox_8.setTitle(QCoreApplication.translate("MainWindow", u"Regreso", None))
+        self.grupo_regreso_viaje.setTitle(QCoreApplication.translate("MainWindow", u"Regreso", None))
         self.label_67.setText(QCoreApplication.translate("MainWindow", u"Hora:", None))
+        self.lineedit_hora_regreso_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"00:00", None))
         self.combobox_ampm_hora_regreso_nuevo_viaje.setItemText(0, QCoreApplication.translate("MainWindow", u"AM", None))
         self.combobox_ampm_hora_regreso_nuevo_viaje.setItemText(1, QCoreApplication.translate("MainWindow", u"PM", None))
 
         self.label_68.setText(QCoreApplication.translate("MainWindow", u"Fecha:", None))
+        self.lineedit_fecha_regreso_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"d\u00eda-mes-a\u00f1o", None))
         self.label_69.setText(QCoreApplication.translate("MainWindow", u"Costo:", None))
-        self.money_combobox_costo_regreso_nuevo_viaje.setItemText(0, QCoreApplication.translate("MainWindow", u"$ COP", None))
-        self.money_combobox_costo_regreso_nuevo_viaje.setItemText(1, QCoreApplication.translate("MainWindow", u"$ USD", None))
-        self.money_combobox_costo_regreso_nuevo_viaje.setItemText(2, QCoreApplication.translate("MainWindow", u"\u20ac Euro", None))
-
         self.checkbox_alojaimento_nuevo_viaje.setText(QCoreApplication.translate("MainWindow", u"Alojamiento", None))
-        self.groupBox_6.setTitle("")
+        self.groupbox_alojamiento_viaje.setTitle("")
         self.label_57.setText(QCoreApplication.translate("MainWindow", u"Hospedaje:", None))
         self.combobox_hote_o_airbnb_nuevo_viaje.setItemText(0, QCoreApplication.translate("MainWindow", u"Hotel", None))
         self.combobox_hote_o_airbnb_nuevo_viaje.setItemText(1, QCoreApplication.translate("MainWindow", u"Airbnb", None))
@@ -4798,36 +4840,25 @@ class Ui_MainWindow(object):
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Direcci\u00f3n:", None))
         self.label_59.setText(QCoreApplication.translate("MainWindow", u"Inicio", None))
         self.label_61.setText(QCoreApplication.translate("MainWindow", u"Hora:", None))
+        self.lineedit_hora_inicio_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"00:00", None))
         self.combobox_ampm_hora_inicio_nuevo_viaje.setItemText(0, QCoreApplication.translate("MainWindow", u"AM", None))
         self.combobox_ampm_hora_inicio_nuevo_viaje.setItemText(1, QCoreApplication.translate("MainWindow", u"PM", None))
 
         self.label_66.setText(QCoreApplication.translate("MainWindow", u"Fecha:", None))
+        self.lineedit_fecha_inicio_alojamiento_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"d\u00eda-mes-a\u00f1o", None))
         self.label_60.setText(QCoreApplication.translate("MainWindow", u"Fin", None))
         self.label_62.setText(QCoreApplication.translate("MainWindow", u"Hora:", None))
+        self.lineedit_hora_fin_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"00:00", None))
         self.combobox_ampm_hora_fin_nuevo_viaje.setItemText(0, QCoreApplication.translate("MainWindow", u"AM", None))
         self.combobox_ampm_hora_fin_nuevo_viaje.setItemText(1, QCoreApplication.translate("MainWindow", u"PM", None))
 
         self.label_64.setText(QCoreApplication.translate("MainWindow", u"Fecha:", None))
+        self.lineedit_fecha_fin_alojamiento_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"d\u00eda-mes-a\u00f1o", None))
         self.label_58.setText(QCoreApplication.translate("MainWindow", u"Costo:", None))
-        self.money_combobox_costo_alojamiento_nuevo_viaje.setItemText(0, QCoreApplication.translate("MainWindow", u"$ COP", None))
-        self.money_combobox_costo_alojamiento_nuevo_viaje.setItemText(1, QCoreApplication.translate("MainWindow", u"$ USD", None))
-        self.money_combobox_costo_alojamiento_nuevo_viaje.setItemText(2, QCoreApplication.translate("MainWindow", u"\u20ac Euro", None))
-
         self.label_65.setText(QCoreApplication.translate("MainWindow", u"Informacion adicional", None))
-        self.save_new_travel_bbutton.setText(QCoreApplication.translate("MainWindow", u"Guardar Viaje", None))
+        self.save_new_travel_button.setText(QCoreApplication.translate("MainWindow", u"Guardar Viaje", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Itinerario", None))
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"Seleccionar viaje:", None))
-
-        __sortingEnabled = self.list_widget_de_planes.isSortingEnabled()
-        self.list_widget_de_planes.setSortingEnabled(False)
-        ___qlistwidgetitem = self.list_widget_de_planes.item(0)
-        ___qlistwidgetitem.setText(QCoreApplication.translate("MainWindow", u"1.", None));
-        ___qlistwidgetitem1 = self.list_widget_de_planes.item(1)
-        ___qlistwidgetitem1.setText(QCoreApplication.translate("MainWindow", u"2.", None));
-        ___qlistwidgetitem2 = self.list_widget_de_planes.item(2)
-        ___qlistwidgetitem2.setText(QCoreApplication.translate("MainWindow", u"3.", None));
-        self.list_widget_de_planes.setSortingEnabled(__sortingEnabled)
-
         self.eliminar_plan_button.setText("")
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Agregar plan:", None))
         self.label_17.setText(QCoreApplication.translate("MainWindow", u"Plan:", None))
@@ -4839,25 +4870,10 @@ class Ui_MainWindow(object):
         self.boton_guardar_plan.setText("")
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Gastos", None))
         self.label_18.setText(QCoreApplication.translate("MainWindow", u"Seleccionar viaje:", None))
-
-        __sortingEnabled1 = self.list_widget_gastos.isSortingEnabled()
-        self.list_widget_gastos.setSortingEnabled(False)
-        ___qlistwidgetitem3 = self.list_widget_gastos.item(0)
-        ___qlistwidgetitem3.setText(QCoreApplication.translate("MainWindow", u"1.", None));
-        ___qlistwidgetitem4 = self.list_widget_gastos.item(1)
-        ___qlistwidgetitem4.setText(QCoreApplication.translate("MainWindow", u"2.", None));
-        ___qlistwidgetitem5 = self.list_widget_gastos.item(2)
-        ___qlistwidgetitem5.setText(QCoreApplication.translate("MainWindow", u"3.", None));
-        self.list_widget_gastos.setSortingEnabled(__sortingEnabled1)
-
         self.eliminar_gasto_button.setText("")
         self.label_19.setText(QCoreApplication.translate("MainWindow", u"Agregar gasto:", None))
         self.label_20.setText(QCoreApplication.translate("MainWindow", u"Descripcion:", None))
         self.label_72.setText(QCoreApplication.translate("MainWindow", u"Valor", None))
-        self.money_combobox_costo_regreso_nuevo_viaje_2.setItemText(0, QCoreApplication.translate("MainWindow", u"$ COP", None))
-        self.money_combobox_costo_regreso_nuevo_viaje_2.setItemText(1, QCoreApplication.translate("MainWindow", u"$ USD", None))
-        self.money_combobox_costo_regreso_nuevo_viaje_2.setItemText(2, QCoreApplication.translate("MainWindow", u"\u20ac Euro", None))
-
         self.label_73.setText(QCoreApplication.translate("MainWindow", u"Fecha:", None))
         self.boton_guardar_gasto.setText("")
         self.label_21.setText(QCoreApplication.translate("MainWindow", u"Presupuesto del viaje:", None))
@@ -4871,13 +4887,6 @@ class Ui_MainWindow(object):
         self.label_25.setText(QCoreApplication.translate("MainWindow", u"Alojamiento:", None))
         self.label_costo_del_alojamiento.setText(QCoreApplication.translate("MainWindow", u"$0", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Recordatorios", None))
-
-        __sortingEnabled2 = self.lista_agregar_recordatorios.isSortingEnabled()
-        self.lista_agregar_recordatorios.setSortingEnabled(False)
-        ___qlistwidgetitem6 = self.lista_agregar_recordatorios.item(0)
-        ___qlistwidgetitem6.setText(QCoreApplication.translate("MainWindow", u"1.", None));
-        self.lista_agregar_recordatorios.setSortingEnabled(__sortingEnabled2)
-
         self.eliminar_recordatorio_button.setText("")
         self.agregar_recordatorio_nuevo.setText(QCoreApplication.translate("MainWindow", u"Agregar recordatorio", None))
         self.volver_recordatorios_agregar_recordatorio_page.setText("")
@@ -4896,17 +4905,17 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"Informaci\u00f3n acerca de los creadores", None))
         self.back_button_support.setText("")
 
-        __sortingEnabled3 = self.list_apoyo.isSortingEnabled()
+        __sortingEnabled = self.list_apoyo.isSortingEnabled()
         self.list_apoyo.setSortingEnabled(False)
-        ___qlistwidgetitem7 = self.list_apoyo.item(0)
-        ___qlistwidgetitem7.setText(QCoreApplication.translate("MainWindow", u"Sugerencias", None));
-        ___qlistwidgetitem8 = self.list_apoyo.item(1)
-        ___qlistwidgetitem8.setText(QCoreApplication.translate("MainWindow", u"Comentarios", None));
-        ___qlistwidgetitem9 = self.list_apoyo.item(2)
-        ___qlistwidgetitem9.setText(QCoreApplication.translate("MainWindow", u"Donaci\u00f3n", None));
-        ___qlistwidgetitem10 = self.list_apoyo.item(3)
-        ___qlistwidgetitem10.setText(QCoreApplication.translate("MainWindow", u"Otro", None));
-        self.list_apoyo.setSortingEnabled(__sortingEnabled3)
+        ___qlistwidgetitem = self.list_apoyo.item(0)
+        ___qlistwidgetitem.setText(QCoreApplication.translate("MainWindow", u"Sugerencias", None));
+        ___qlistwidgetitem1 = self.list_apoyo.item(1)
+        ___qlistwidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Comentarios", None));
+        ___qlistwidgetitem2 = self.list_apoyo.item(2)
+        ___qlistwidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Donaci\u00f3n", None));
+        ___qlistwidgetitem3 = self.list_apoyo.item(3)
+        ___qlistwidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Otro", None));
+        self.list_apoyo.setSortingEnabled(__sortingEnabled)
 
         self.plaintext_apoyo.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Escribe aqui", None))
         self.money_combobox_apoyo.setItemText(0, QCoreApplication.translate("MainWindow", u"$ COP", None))
