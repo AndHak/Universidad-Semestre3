@@ -1,298 +1,249 @@
 from ui_viajes_final_ui import Ui_MainWindow
+from login_ui import Ui_MainWindow_login
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from hacerpdf import crear_pdf
+from clase_widgets import *
 import sys
 import os
 import re
 import datetime
 
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QSizePolicy, QApplication
-import sys
+from login_ui import Ui_MainWindow_login
+from PySide6 import QtWidgets, QtGui
 
-class TravelWidget(QWidget):
-    def __init__(self, indice, titulo, destino, datos_fecha_viaje_inicio, datos_fecha_viaje_fin, presupuesto=0, personas="1", vuelos=None, alojamiento=None):
+#Primer diccionario de recordatorios y segundo diccionario de viajes(contine en su interior itinerario del viaje y gastos)
+dic_usuarios = {'andresfg13789@gmail.com': ['Andres', 'Guerra', '2567AndresG', {}, {}]}
+class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
+    basedir = os.path.dirname(__file__)
+    def __init__(self):
+        self.basedir = os.path.dirname(__file__)
         super().__init__()
-        self.indice = indice
+        self.setupUi(self)
+        #botones login
+        self.button_registrate_stacked.clicked.connect(self.cambiar_a_registro)
+        self.button_ver_password.pressed.connect(lambda: self.mirar_password(self.line_password_login, self.button_ver_password))
+        self.button_ver_password.released.connect(lambda: self.ocultar_password(self.line_password_login, self.button_ver_password))
+        self.button_inicia_sesion.clicked.connect(self.validar_login)
 
-        # Estilos para el widget
-        self.setStyleSheet("""
-            QWidget {
-                background-color: #f5f5f5;
-                border-radius: 10px;
-                padding: 10px;
-            }
-            QLabel {
-                font-family: "Arial", sans-serif;
-            }
-            QLabel[objectName^="label_"] {
-                font-weight: bold;
-            }
-        """)
+        #botones registro
+        self.button_inicia_sesion_stacked.clicked.connect(self.cambiar_a_login)
+        self.button_ver_password_registro.pressed.connect(lambda: self.mirar_password(self.line_password_registro, self.button_ver_password))
+        self.button_ver_password_registro.released.connect(lambda: self.ocultar_password(self.line_password_registro, self.button_ver_password))
+        self.pushButton_7.pressed.connect(lambda: self.mirar_password(self.line_password_validacion_registro, self.pushButton_7))
+        self.pushButton_7.released.connect(lambda: self.ocultar_password(self.line_password_validacion_registro, self.pushButton_7))
+        self.button_registrarse.clicked.connect(self.validar_registro)
+        self.line_usuario_login.setText("andresfg13789@gmail.com")
+        self.line_password_login.setText("2567AndresG")
 
-        # Diseño horizontal
-        layout = QHBoxLayout(self)
+        
 
-        # Primer cuadro: Título, Destino, Presupuesto, y Personas
-        title_dest_layout = QVBoxLayout()
 
-        title_label = QLabel(f"Título: {titulo}")
-        title_label.setObjectName("label_title")
-        title_label.setStyleSheet("color: rgb(27, 73, 101); font-size: 16px;")
-        title_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        title_label.setWordWrap(True)
-        title_dest_layout.addWidget(title_label)
+    def cambiar_a_login(self):
+        self.stackedWidget.setCurrentWidget(self.login_widget)  # Cambia a la página de inicio
+        self.line_usuario_login.clear()
+        self.line_password_login.clear()
+        self.line_usuario_login.setStyleSheet("background-color: rgba(255, 255, 255, 50%); border-bottom: 1px solid black; border-radius: 5px; color: black; height: 30px; font-size: 13px;")
+        self.line_password_login.setStyleSheet("background-color: rgba(255, 255, 255, 50%); border-bottom: 1px solid black; border-radius: 5px; color: black; height: 30px; font-size: 13px;")
 
-        destination_label = QLabel(f"Destino: {destino}")
-        destination_label.setObjectName("label_destination")
-        destination_label.setStyleSheet("color: #9C27B0;")
-        destination_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        destination_label.setWordWrap(True)
-        title_dest_layout.addWidget(destination_label)
+    def cambiar_a_registro(self):
+        self.stackedWidget.setCurrentWidget(self.singup_widget)
+        self.line_nombre_registro.clear()
+        self.line_apellido_registro.clear()
+        self.line_email.clear()
+        self.line_password_registro.clear()
+        self.line_password_validacion_registro.clear()
+        self.line_nombre_registro.setStyleSheet("background-color: rgba(255, 255, 255, 50%); border-bottom: 1px solid black; border-radius: 5px; color: black; height: 30px; font-size: 13px;")
+        self.line_apellido_registro.setStyleSheet("background-color: rgba(255, 255, 255, 50%); border-bottom: 1px solid black; border-radius: 5px; color: black; height: 30px; font-size: 13px;")
+        self.line_email.setStyleSheet("background-color: rgba(255, 255, 255, 50%); border-bottom: 1px solid black; border-radius: 5px; color: black; height: 30px; font-size: 13px;")
+        self.line_password_registro.setStyleSheet("background-color: rgba(255, 255, 255, 50%); border-bottom: 1px solid black; border-radius: 5px; color: black; height: 30px; font-size: 13px;")
+        self.line_password_validacion_registro.setStyleSheet("background-color: rgba(255, 255, 255, 50%); border-bottom: 1px solid black; border-radius: 5px; color: black; height: 30px; font-size: 13px;")
 
-        budget_label = QLabel(f"Presupuesto: {presupuesto}")
-        budget_label.setObjectName("label_budget")
-        budget_label.setStyleSheet("color: #4CAF50;")
-        budget_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        budget_label.setWordWrap(True)
-        title_dest_layout.addWidget(budget_label)
+    
+    def mirar_password(self, line_edit, button):
+        line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Normal)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(os.path.join(self.basedir, "icons_login/ojo-abierto-morado.png")))
+        button.setIcon(icon)
+    
+    def ocultar_password(self, line_edit, button):
+        line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(os.path.join(self.basedir, "icons_login/ojo-cerrado-morado.png")))
+        button.setIcon(icon)
+    
+    def validar_login(self):
+        usuario = self.line_usuario_login.text().strip()
+        contraseña = self.line_password_login.text().strip()
 
-        people_label = QLabel(f"Personas: {personas}")
-        people_label.setObjectName("label_people")
-        people_label.setStyleSheet("color: #FF9800;")
-        people_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        people_label.setWordWrap(True)
-        title_dest_layout.addWidget(people_label)
+        if usuario and contraseña:
+            if usuario in dic_usuarios:
+                password = dic_usuarios[usuario][2]  # Obtener la contraseña almacenada
+                if contraseña == password:
+                    self.line_usuario_login.clear()
+                    self.line_password_login.clear()
+                    # self.line_usuario_login.setStyleSheet("border-color: black;")
+                    # self.line_password_login.setStyleSheet("border-color: black;")
+                    # implementacion para la pagina principal
+                    self.main_window = MainApp()
+                    self.main_window.name_edit_profile_2.setText(f"{dic_usuarios[usuario][0]}")
+                    self.main_window.lastname_edit_profile_2.setText(f"{dic_usuarios[usuario][1]}")
+                    self.main_window.email_edit_profile_2.setText(usuario)
+                    self.main_window.pass_edit_profile_2.setText(contraseña)
+                    self.main_window.show()
+                    self.close()
+                else:
+                    self.mostrar_warning("Contraseña incorrecta.")
+                    # self.line_password_login.setStyleSheet("border-color: red;")
+                    return
+            else:
+                self.mostrar_warning("El usuario no existe.")
+                # self.line_usuario_login.setStyleSheet("border-color: red;")
+                return
 
-        layout.addLayout(title_dest_layout)
+        else:
+            if not usuario:
+                # self.line_usuario_login.setStyleSheet("border-color: red;")
+                self.mostrar_warning("El campo de usuario no puede estar vacío.")
+                return
+            if not contraseña:
+                # self.line_password_login.setStyleSheet("border-color: red;")
+                self.mostrar_warning("El campo de contraseña no puede estar vacío.")
+                return
 
-        # Segundo cuadro: Fecha de inicio
-        start_date_layout = QVBoxLayout()
+    def validar_registro(self):
+        nombre = self.line_nombre_registro.text().strip()
+        apellido = self.line_apellido_registro.text().strip()
+        email = self.line_email.text().strip()
+        password = self.line_password_registro.text().strip()
+        validacion_password = self.line_password_validacion_registro.text().strip()
 
-        start_date_label = QLabel("Fecha de inicio")
-        start_date_label.setObjectName("label_start_date_title")
-        start_date_label.setStyleSheet("color: #2196F3;")
-        start_date_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        start_date_label.setWordWrap(True)
-        start_date_layout.addWidget(start_date_label)
+        mensajes_alerta = []  # Lista para almacenar mensajes de alerta
 
-        start_day_value_label = QLabel(f"Día: {datos_fecha_viaje_inicio[0]}")
-        start_day_value_label.setObjectName("label_start_day_value")
-        start_day_value_label.setStyleSheet("color: #2196F3;")
-        start_day_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        start_day_value_label.setWordWrap(True)
-        start_date_layout.addWidget(start_day_value_label)
+        if not nombre:
+            mensajes_alerta.append("El nombre no puede estar vacío.")
 
-        start_month_value_label = QLabel(f"Mes: {datos_fecha_viaje_inicio[1]}")
-        start_month_value_label.setObjectName("label_start_month_value")
-        start_month_value_label.setStyleSheet("color: #2196F3;")
-        start_month_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        start_month_value_label.setWordWrap(True)
-        start_date_layout.addWidget(start_month_value_label)
+        if not apellido:
+            mensajes_alerta.append("El apellido no puede estar vacío.")
 
-        start_year_value_label = QLabel(f"Año: {datos_fecha_viaje_inicio[2]}")
-        start_year_value_label.setObjectName("label_start_year_value")
-        start_year_value_label.setStyleSheet("color: #2196F3;")
-        start_year_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        start_year_value_label.setWordWrap(True)
-        start_date_layout.addWidget(start_year_value_label)
+        if not email:
+            mensajes_alerta.append("El email no puede estar vacío.")
 
-        layout.addLayout(start_date_layout)
+        if not password:
+            mensajes_alerta.append("La contraseña no puede estar vacía.")
 
-        # Tercer cuadro: Fecha de fin
-        end_date_layout = QVBoxLayout()
+        if not validacion_password:
+            mensajes_alerta.append("La verificación de contraseña no puede estar vacía.")
 
-        end_date_label = QLabel("Fecha de fin")
-        end_date_label.setObjectName("label_end_date_title")
-        end_date_label.setStyleSheet("color: #2196F3;")
-        end_date_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        end_date_label.setWordWrap(True)
-        end_date_layout.addWidget(end_date_label)
+        if mensajes_alerta:
+            self.mostrar_warning("\n".join(mensajes_alerta))
+            return
 
-        end_day_value_label = QLabel(f"Día: {datos_fecha_viaje_fin[0]}")
-        end_day_value_label.setObjectName("label_end_day_value")
-        end_day_value_label.setStyleSheet("color: #2196F3;")
-        end_day_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        end_day_value_label.setWordWrap(True)
-        end_date_layout.addWidget(end_day_value_label)
-
-        end_month_value_label = QLabel(f"Mes: {datos_fecha_viaje_fin[1]}")
-        end_month_value_label.setObjectName("label_end_month_value")
-        end_month_value_label.setStyleSheet("color: #2196F3;")
-        end_month_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        end_month_value_label.setWordWrap(True)
-        end_date_layout.addWidget(end_month_value_label)
-
-        end_year_value_label = QLabel(f"Año: {datos_fecha_viaje_fin[2]}")
-        end_year_value_label.setObjectName("label_end_year_value")
-        end_year_value_label.setStyleSheet("color: #2196F3;")
-        end_year_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        end_year_value_label.setWordWrap(True)
-        end_date_layout.addWidget(end_year_value_label)
-
-        layout.addLayout(end_date_layout)
-
-        # Cuarto cuadro: Detalles de vuelos
-        if vuelos:
-            vuelos_layout = QVBoxLayout()
+        if password != validacion_password:
+            self.mostrar_warning("Verifica que tus contraseñas sean iguales")
+            return
+        else:
             
-            vuelos_label = QLabel("Vuelos")
-            vuelos_label.setObjectName("label_vuelos_title")
-            vuelos_label.setStyleSheet("color: #FF5722;")
-            vuelos_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            vuelos_label.setWordWrap(True)
-            vuelos_layout.addWidget(vuelos_label)
+            if self.validar_nombre_registro(self.line_nombre_registro): 
+                if self.validar_apellido_registro(self.line_apellido_registro):
+                    if self.validar_email_registro(self.line_email): 
+                        if self.validar_password_registro(self.line_password_registro):
+                            nombre = self.line_nombre_registro.text()
+                            apellido = self.line_apellido_registro.text()
+                            email = self.line_email.text()
+                            contraseña = self.line_password_registro.text()
+                            msg_box = QMessageBox()
+                            msg_box.setIcon(QMessageBox.Information)
+                            msg_box.setText("Cuenta creada con éxito.")
+                            msg_box.setWindowTitle("Cuenta Creada")
 
-            vuelos_content_layout = QHBoxLayout()
+                            # Cambiar el tamaño del QMessageBox
+                            msg_box.resize(300, 200)
 
-            # Ida
-            ida_layout = QVBoxLayout()
-            ida_label = QLabel("Ida")
-            ida_label.setObjectName("label_ida_title")
-            ida_label.setStyleSheet("color: #FF5722;")
-            ida_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            ida_label.setWordWrap(True)
-            ida_layout.addWidget(ida_label)
+                            # Cambiar el estilo del botón
+                            msg_box.setStyleSheet("""
+                                QPushButton {
+                                    min-width: 30px;
+                                    min-height: 15px;
+                                }
+                            """)
+                            dic_usuarios[email] = [nombre, apellido, contraseña]
+                        
 
-            fecha_ida_label = QLabel(f"Fecha: {vuelos['fecha_ida']}")
-            fecha_ida_label.setObjectName("label_fecha_ida")
-            fecha_ida_label.setStyleSheet("color: #FF5722;")
-            fecha_ida_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            fecha_ida_label.setWordWrap(True)
-            ida_layout.addWidget(fecha_ida_label)
-
-            hora_ida_label = QLabel(f"Hora: {vuelos['hora_ida']} {vuelos['ampm_ida']}")
-            hora_ida_label.setObjectName("label_hora_ida")
-            hora_ida_label.setStyleSheet("color: #FF5722;")
-            hora_ida_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            hora_ida_label.setWordWrap(True)
-            ida_layout.addWidget(hora_ida_label)
-
-            costo_ida_label = QLabel(f"Costo: ${vuelos['costo_ida'] if vuelos['costo_ida'] else 'N/A'}")
-            costo_ida_label.setObjectName("label_costo_ida")
-            costo_ida_label.setStyleSheet("color: #FF5722;")
-            costo_ida_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            costo_ida_label.setWordWrap(True)
-            ida_layout.addWidget(costo_ida_label)
-
-            vuelos_content_layout.addLayout(ida_layout)
-
-            # Regreso
-            regreso_layout = QVBoxLayout()
-            regreso_label = QLabel("Regreso")
-            regreso_label.setObjectName("label_regreso_title")
-            regreso_label.setStyleSheet("color: #FF5722;")
-            regreso_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            regreso_label.setWordWrap(True)
-            regreso_layout.addWidget(regreso_label)
-
-            fecha_regreso_label = QLabel(f"Fecha: {vuelos['fecha_regreso']}")
-            fecha_regreso_label.setObjectName("label_fecha_regreso")
-            fecha_regreso_label.setStyleSheet("color: #FF5722;")
-            fecha_regreso_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            fecha_regreso_label.setWordWrap(True)
-            regreso_layout.addWidget(fecha_regreso_label)
-
-            hora_regreso_label = QLabel(f"Hora: {vuelos['hora_regreso']} {vuelos['ampm_regreso']}")
-            hora_regreso_label.setObjectName("label_hora_regreso")
-            hora_regreso_label.setStyleSheet("color: #FF5722;")
-            hora_regreso_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            hora_regreso_label.setWordWrap(True)
-            regreso_layout.addWidget(hora_regreso_label)
-
-            costo_regreso_label = QLabel(f"Costo: ${vuelos['costo_regreso'] if vuelos['costo_regreso'] else 'N/A'}")
-            costo_regreso_label.setObjectName("label_costo_regreso")
-            costo_regreso_label.setStyleSheet("color: #FF5722;")
-            costo_regreso_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            costo_regreso_label.setWordWrap(True)
-            regreso_layout.addWidget(costo_regreso_label)
-
-            vuelos_content_layout.addLayout(regreso_layout)
-
-            vuelos_layout.addLayout(vuelos_content_layout)
-            layout.addLayout(vuelos_layout)
-
-        # Quinto cuadro: Detalles de alojamiento
-        if alojamiento:
-            alojamiento_layout = QVBoxLayout()
-
-            alojamiento_label = QLabel(f"Alojamiento: {alojamiento['Tipo']}")
-            alojamiento_label.setObjectName("label_alojamiento_title")
-            alojamiento_label.setStyleSheet("color: #9C27B0;")
-            alojamiento_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            alojamiento_label.setWordWrap(True)
-            alojamiento_layout.addWidget(alojamiento_label)
+                            print(dic_usuarios)
+                            ok = msg_box.exec()
+                            if ok:
+                                self.stackedWidget.setCurrentWidget(self.login_widget)
+                            self.line_nombre_registro.clear()
+                            self.line_apellido_registro.clear()
+                            self.line_email.clear()
+                            self.line_password_registro.clear()
+                            self.line_password_validacion_registro.clear()
+                            # self.line_nombre_registro.setStyleSheet("border-color: black;")
+                            # self.line_apellido_registro.setStyleSheet("border-color: black;")
+                            # self.line_email.setStyleSheet("border-color: black;")
+                            # self.line_password_registro.setStyleSheet("border-color: black;")
+                            # self.line_password_validacion_registro.setStyleSheet("border-color: black;")
 
 
-            alojamiento_content_layout = QHBoxLayout()
+    def validar_nombre_registro(self, nombre_line_edit):
+        nombre = nombre_line_edit.text().strip()
+        if not re.match(r'^[a-zA-Z\s]+$', nombre):
+            self.mostrar_warning("El nombre no puede contener caracteres especiales ni dígitos.")
+            # nombre_line_edit.setStyleSheet("border-color: red;")
+            return False
+        elif len(nombre.split()) > 3:
+            self.mostrar_warning("No puede haber más de tres nombres.")
+            # nombre_line_edit.setStyleSheet("border-color: red;")
+            return False
+        else:
+            nombre = ' '.join(nombre.split()).title()
+            nombre_line_edit.setText(nombre)
+            # nombre_line_edit.setStyleSheet("border-color: green;")
 
-            inicio_layout = QVBoxLayout()
-            inicio_label = QLabel("Inicio")
-            inicio_label.setObjectName("label_inicio_title")
-            inicio_label.setStyleSheet("color: #9C27B0;")
-            inicio_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            inicio_label.setWordWrap(True)
-            inicio_layout.addWidget(inicio_label)
+            return nombre
 
-            fecha_inicio_label = QLabel(f"Fecha: {alojamiento['fecha_inicio']}")
-            fecha_inicio_label.setObjectName("label_fecha_inicio_alojamiento")
-            fecha_inicio_label.setStyleSheet("color: #9C27B0;")
-            fecha_inicio_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            fecha_inicio_label.setWordWrap(True)
-            inicio_layout.addWidget(fecha_inicio_label)
+    def validar_apellido_registro(self, apellido_line_edit):
+        apellido = apellido_line_edit.text().strip()
+        if not re.match(r'^[a-zA-Z\s]+$', apellido):
+            self.mostrar_warning("El apellido no puede contener caracteres especiales ni dígitos.")
+            # apellido_line_edit.setStyleSheet("border-color: red;")
+            return False
+        elif len(apellido.split()) > 3:
+            self.mostrar_warning("No puede haber más de tres apellidos.")
+            # apellido_line_edit.setStyleSheet("border-color: red;")
+            return False
+        else:
+            apellido = ' '.join(apellido.split()).title()
+            apellido_line_edit.setText(apellido)
+            # apellido_line_edit.setStyleSheet("border-color: green;")
+            return apellido
 
-            hora_inicio_label = QLabel(f"Hora: {alojamiento['hora_inicio']} {alojamiento['ampm_inicio']}")
-            hora_inicio_label.setObjectName("label_hora_inicio_alojamiento")
-            hora_inicio_label.setStyleSheet("color: #9C27B0;")
-            hora_inicio_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            hora_inicio_label.setWordWrap(True)
-            inicio_layout.addWidget(hora_inicio_label)
+    def validar_email_registro(self, email_line_edit):
+        email = email_line_edit.text()
+        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_regex, email.strip()):
+            self.mostrar_warning("Debe colocar un email válido.")
+            # email_line_edit.setStyleSheet("border-color: red;")
+            return False
+        # email_line_edit.setStyleSheet("border-color: green;")
+        email_line_edit.setText(email)
+        return email
 
-            alojamiento_content_layout.addLayout(inicio_layout)
+    def validar_password_registro(self, password_line_edit):
+        password = password_line_edit.text()
+        password_regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$'
+        if not re.match(password_regex, password.strip()):
+            self.mostrar_warning("La contraseña debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula y un número. No se permiten caracteres especiales.")
+            # password_line_edit.setStyleSheet("border-color: red;")
+            return False
+        # password_line_edit.setStyleSheet("border-color: green;")
+        password_line_edit.setText(password)
+        return password
 
-            fin_layout = QVBoxLayout()
-            fin_label = QLabel("Fin")
-            fin_label.setObjectName("label_fin_title")
-            fin_label.setStyleSheet("color: #9C27B0;")
-            fin_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            fin_label.setWordWrap(True)
-            fin_layout.addWidget(fin_label)
-
-            fecha_fin_label = QLabel(f"Fecha: {alojamiento['fecha_fin']}")
-            fecha_fin_label.setObjectName("label_fecha_fin_alojamiento")
-            fecha_fin_label.setStyleSheet("color: #9C27B0;")
-            fecha_fin_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            fecha_fin_label.setWordWrap(True)
-            fin_layout.addWidget(fecha_fin_label)
-
-            hora_fin_label = QLabel(f"Hora: {alojamiento['hora_fin']} {alojamiento['ampm_fin']}")
-            hora_fin_label.setObjectName("label_hora_fin_alojamiento")
-            hora_fin_label.setStyleSheet("color: #9C27B0;")
-            hora_fin_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            hora_fin_label.setWordWrap(True)
-            fin_layout.addWidget(hora_fin_label)
-
-            alojamiento_content_layout.addLayout(fin_layout)
-
-            alojamiento_layout.addLayout(alojamiento_content_layout)
-
-            costo_alojamiento_label = QLabel(f"Costo: ${alojamiento['costo'] if alojamiento['costo'] else 0}")
-            costo_alojamiento_label.setObjectName("label_costo_alojamiento")
-            costo_alojamiento_label.setStyleSheet("color: #9C27B0;")
-            costo_alojamiento_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            costo_alojamiento_label.setWordWrap(True)
-            alojamiento_layout.addWidget(costo_alojamiento_label)
-
-            info_adicional_label = QLabel(f"Información adicional: {alojamiento['info_adicional'] if alojamiento['info_adicional'] else 'N/A'}")
-            info_adicional_label.setObjectName("label_info_adicional_alojamiento")
-            info_adicional_label.setStyleSheet("color: #9C27B0;")
-            info_adicional_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-            info_adicional_label.setWordWrap(True)
-            alojamiento_layout.addWidget(info_adicional_label)
-
-            layout.addLayout(alojamiento_layout)
-
+    def mostrar_warning(self, mensaje):
+        QtWidgets.QMessageBox.warning(self, "Validaciónes", mensaje)
 
 
 
@@ -588,6 +539,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 self.list_widget_viajes_guardados.addItem(item)
                 self.list_widget_viajes_guardados.setItemWidget(item, travel_widget)
             self.list_widget_viajes_guardados.scrollToTop()
+            
         
 
     def cargar_viajes_iniciales(self):
@@ -620,7 +572,9 @@ class MainApp(QMainWindow, Ui_MainWindow):
                     "ampm_fin": "AM",
                     "costo": 500,
                     "info_adicional": "Hotel de 4 estrellas"
-                }
+                }, 
+                "Itinerario": [], 
+                "Gastos": [],
             },
             1: {
                 "titulo": "Viaje a Tokio",
@@ -650,7 +604,9 @@ class MainApp(QMainWindow, Ui_MainWindow):
                     "ampm_fin": "AM",
                     "costo": 1000,
                     "info_adicional": "Airbnb en el centro de la ciudad"
-                }
+                },
+                "Itinerario": [], 
+                "Gastos": []
             }
         }
         self.indice_viajes_guardados = max(self.viajes_usuario.keys())
@@ -1109,8 +1065,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentWidget(self.settings_page)
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainApp()
-    window.show()
+    app = QtWidgets.QApplication(sys.argv)
+    login_window = LoginWindow()
+    login_window.show()
     sys.exit(app.exec())
-

@@ -1,8 +1,11 @@
 from login_ui import Ui_MainWindow_login
-from PyQt6 import QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui
 
-dic_usuarios = {}
+
+
 class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
+    basedir = os.path.dirname(__file__)
+    dic_usuarios = {}
     def __init__(self):
         self.basedir = os.path.dirname(__file__)
         super().__init__()
@@ -49,13 +52,13 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
     def mirar_password(self, line_edit, button):
         line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Normal)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("C:\\Users\\SEBASTIAN\\OneDrive\\Documentos\\GitHub\\Tercer_Semestre_U\\trabajos_finales\\Proyecto 1\\img_trabajos\\ojo-abierto-morado.png"))
+        icon.addPixmap(QtGui.QPixmap(os.path.join(self.basedir, "icons_login/ojo-abierto-morado.png")))
         button.setIcon(icon)
     
     def ocultar_password(self, line_edit, button):
         line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("C:\\Users\\SEBASTIAN\\OneDrive\\Documentos\\GitHub\\Tercer_Semestre_U\\trabajos_finales\\Proyecto 1\\img_trabajos\\ojo-cerrado-morado.png"))
+        icon.addPixmap(QtGui.QPixmap(os.path.join(self.basedir, "icons_login/ojo-cerrado-morado.png")))
         button.setIcon(icon)
     
     def validar_login(self):
