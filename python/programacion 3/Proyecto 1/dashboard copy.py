@@ -356,6 +356,11 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
         #Botones de los gastos del viaje
         self.seleccionar_viaje_gasto.currentIndexChanged.connect(self.actualizar_gastos_del_viaje)
+        self.boton_guardar_gasto.clicked.connect(self.añadir_gasto)
+        self.eliminar_gasto_button.clicked.connect(self.eliminar_gasto)
+
+
+
 
     def pasar_datos_to_pdf(self):
         current_item = self.list_widget_viajes_guardados.currentItem()
@@ -538,25 +543,42 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 gastos = viaje_encontrado.get("Gastos", [])
 
                 total_vuelos = float(vuelos['costo_ida']) + float(vuelos['costo_regreso'])
+                total_gastos_varios = 0
 
-                self.label_presupuesto_del_viaje.setText(f"${presupuesto}")
-                self.label_costo_de_los_vuelos.setText(f"${total_vuelos}")
-                self.label_costo_del_alojamiento.setText(f"${float(alojamiento['costo'])}")
+                self.label_presupuesto_del_viaje.setText(f"${presupuesto:.2f}")
+                self.label_costo_de_los_vuelos.setText(f"${total_vuelos:.2f}")
+                self.label_costo_del_alojamiento.setText(f"${float(alojamiento['costo']):.2f}")
 
-                total_de_gastos = float(presupuesto) - total_vuelos - float(alojamiento['costo'])
-                self.label_total_total_gastos.setText(f"${total_de_gastos}")
+            
 
-            if gastos:
-                pass
-            else:
-                pass
+                # Actualizar la lista de gastos en la interfaz
+                self.list_widget_gastos.clear()
+                for gasto in gastos:
+                    descripcion, valor, fecha = gasto
+                            # Añadir el gasto a la interfaz
+                    gasto_widget = GastoWidget(descripcion, valor, fecha)
+                    gasto_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+                    gasto_widget.setMinimumHeight(60)
+                    item = QListWidgetItem(self.list_widget_gastos)
+                    item.setSizeHint(gasto_widget.sizeHint())
+                    self.list_widget_gastos.addItem(item)
+                    self.list_widget_gastos.setItemWidget(item, gasto_widget)
 
-    def añadir_gasto(self, gastos):
+
+                    total_gastos_varios += valor
+
+                self.label_total_de_los_gastos_varios.setText(f"${total_gastos_varios:.2f}")
+
+                total_de_gastos = float(presupuesto) - total_vuelos - float(alojamiento['costo']) - total_gastos_varios
+                self.label_total_total_gastos.setText(f"${total_de_gastos:.2f}")
+            
+
+    def añadir_gasto(self):
         descripcion = self.descripcion_del_gasto.text().strip()
         if not descripcion:
             self.mostrar_warning("Debe agregar una descripción del gasto")
             return
-        
+
         valor = self.costo_del_gasto.text().strip()
         if not valor:
             self.mostrar_warning("Agregue el costo del gasto")
@@ -566,17 +588,52 @@ class MainApp(QMainWindow, Ui_MainWindow):
         else:
             self.mostrar_warning("Escriba un valor númerico")
             return
-        
+
         fecha = self.fecha_del_gasto.text()
-        if not self.validar_solo_fecha(fecha):
+        if fecha.strip() == "":
+            self.mostrar_warning("Escriba una fecha")
             return
-        else:
-            gasto_widget = GastoWidget(descripcion, valor, fecha)
-            item = QListWidgetItem(self.list_widget_gastos)
-            item.setSizeHint(gasto_widget.sizeHint())
-            self.list_widget_gastos.setItemWidget(item, gasto_widget)
-            info_gasto = [descripcion, gasto, fecha]
-            gastos.append(info_gasto)
+        if not self.validar_solo_fecha(fecha, "Fecha gasto"):
+            return
+
+        clave_seleccionada = self.seleccionar_viaje_gasto.currentData()
+        if clave_seleccionada is not None:
+            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada)
+            if viaje_encontrado:
+                gastos = viaje_encontrado.get("Gastos", [])
+                info_gasto = [descripcion, gasto, fecha]
+                gastos.append(info_gasto)
+                viaje_encontrado["Gastos"] = gastos
+                self.viajes_usuario[clave_seleccionada] = viaje_encontrado
+
+
+                self.mostrar_exito("El gasto se ha agregado correctamente")
+                self.actualizar_gastos_del_viaje()
+            else:
+                self.mostrar_warning("Viaje no encontrado")
+
+    def eliminar_gasto(self):
+        clave_seleccionada = self.seleccionar_viaje_gasto.currentData()
+        if clave_seleccionada is not None:
+            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada)
+            if viaje_encontrado:
+                gastos = viaje_encontrado.get("Gastos", [])
+                gasto_seleccionado = self.list_widget_gastos.currentItem()
+                if gasto_seleccionado:
+                    item_index = self.list_widget_gastos.row(gasto_seleccionado)
+                    confirmacion = QMessageBox.question(self, "Confirmar eliminación", "¿Está seguro de que desea eliminar este gasto?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                    if confirmacion == QMessageBox.Yes:
+                        self.list_widget_gastos.takeItem(item_index)
+                        if 0 <= item_index < len(gastos):
+                            del gastos[item_index]
+                        viaje_encontrado["Gastos"] = gastos
+                        self.viajes_usuario[clave_seleccionada] = viaje_encontrado
+                        self.mostrar_exito("El gasto se ha eliminado correctamente")
+                        self.actualizar_gastos_del_viaje()
+                else:
+                    self.mostrar_warning("Seleccione un gasto para eliminar")
+            else:
+                self.mostrar_warning("Viaje no encontrado")
             
 
     def listar_viajes(self):
@@ -643,7 +700,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
                     "info_adicional": "Hotel de 4 estrellas"
                 }, 
                 "Itinerario": [], 
-                "Gastos": [],
+                "Gastos": [["Pan con queso", 2000, "18-11-2024"]],
             },
             2: {
                 "titulo": "Viaje a Tokio",
@@ -675,7 +732,9 @@ class MainApp(QMainWindow, Ui_MainWindow):
                     "info_adicional": "Airbnb en el centro de la ciudad"
                 },
                 "Itinerario": [], 
-                "Gastos": []
+                "Gastos": [["Cena elegante", 20000, "23-11-2024"],
+                           ["Pan con queso", 22000, "18-11-2024"],
+                           ["Almojabanas", 12000, "18-11-2024"]]
             }
         }
         self.indice_viajes_guardados = max(self.viajes_usuario.keys())

@@ -46,7 +46,7 @@ def crear_pdf(datos):
     c.drawString(100, y_position, f"Fecha de Fin: {fecha_fin_str}")
     
     y_position -= 20
-    c.drawString(100, y_position, f"Presupuesto: {datos['presupuesto']}")
+    c.drawString(100, y_position, f"Presupuesto: {datos['presupuesto']:.2f}")
     
     y_position -= 20
     c.drawString(100, y_position, f"Personas: {datos['personas']}")
@@ -77,8 +77,8 @@ def crear_pdf(datos):
         c.drawString(300, y_position, f"Hora de Regreso: {vuelos.get('hora_regreso', 'N/A')} {vuelos.get('ampm_regreso', 'N/A')}")
         
         y_position -= 20
-        c.drawString(100, y_position, f"Costo de Ida: {vuelos.get('costo_ida', 'N/A')}")
-        c.drawString(300, y_position, f"Costo de Regreso: {vuelos.get('costo_regreso', 'N/A')}")
+        c.drawString(100, y_position, f"Costo de Ida: {vuelos.get('costo_ida', 'N/A'):.2f}")
+        c.drawString(300, y_position, f"Costo de Regreso: {vuelos.get('costo_regreso', 'N/A'):.2f}")
     
     # Espacio adicional
     y_position -= 40
@@ -107,7 +107,7 @@ def crear_pdf(datos):
         
         y_position -= 20
         c.drawString(100, y_position, f"Tipo: {alojamiento.get('tipo', 'N/A')}")
-        c.drawString(300, y_position, f"Costo: {alojamiento.get('costo', 'N/A')}")
+        c.drawString(300, y_position, f"Costo: {alojamiento.get('costo', 'N/A'):.2f}")
         
         y_position -= 20
         c.drawString(100, y_position, f"Dirección: {alojamiento.get('direccion', 'N/A')}")

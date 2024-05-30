@@ -4569,14 +4569,17 @@ font-size: 20px;</string>
                      <widget class="QListWidget" name="list_widget_gastos">
                       <property name="styleSheet">
                        <string notr="true">QListWidget {
-    font-size: 14px; /* Aumenta el tamaño de la fuente para los elementos */
+    font-size: 15px; /* Aumenta el tamaño de la fuente para los elementos */
     padding: 5px; /* Añade un padding alrededor del contenido del QListWidget */
 }
 
 QListWidget::item {
     padding: 10px; /* Añade padding a cada elemento para aumentar el espacio entre ellos */
-    margin: 5px 0; /* Añade un margen entre cada elemento para mayor separación vertical */
-}</string>
+    margin: 5px 0; /* Añade un margen entre cada elemento para mayor separación vertical*/
+	width: 200px:
+	height: 25px;
+}
+</string>
                       </property>
                      </widget>
                     </item>
@@ -5049,7 +5052,7 @@ QLabel {
 </string>
                     </property>
                     <property name="currentIndex">
-                     <number>1</number>
+                     <number>0</number>
                     </property>
                     <widget class="QWidget" name="recordatorios_page">
                      <layout class="QGridLayout" name="gridLayout_23">
@@ -5242,14 +5245,17 @@ font-size: 20px;</string>
                             <widget class="QListWidget" name="lista_agregar_recordatorios">
                              <property name="styleSheet">
                               <string notr="true">QListWidget {
-    font-size: 14px; /* Aumenta el tamaño de la fuente para los elementos */
+    font-size: 15px; /* Aumenta el tamaño de la fuente para los elementos */
     padding: 5px; /* Añade un padding alrededor del contenido del QListWidget */
 }
 
 QListWidget::item {
     padding: 10px; /* Añade padding a cada elemento para aumentar el espacio entre ellos */
-    margin: 5px 0; /* Añade un margen entre cada elemento para mayor separación vertical */
-}</string>
+    margin: 5px 0; /* Añade un margen entre cada elemento para mayor separación vertical*/
+	width: 200px:
+	height: 25px;
+}
+</string>
                              </property>
                             </widget>
                            </item>

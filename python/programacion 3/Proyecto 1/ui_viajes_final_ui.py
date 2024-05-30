@@ -2762,14 +2762,17 @@ class Ui_MainWindow(object):
         self.list_widget_gastos = QListWidget(self.frame_14)
         self.list_widget_gastos.setObjectName(u"list_widget_gastos")
         self.list_widget_gastos.setStyleSheet(u"QListWidget {\n"
-"    font-size: 14px; /* Aumenta el tama\u00f1o de la fuente para los elementos */\n"
+"    font-size: 15px; /* Aumenta el tama\u00f1o de la fuente para los elementos */\n"
 "    padding: 5px; /* A\u00f1ade un padding alrededor del contenido del QListWidget */\n"
 "}\n"
 "\n"
 "QListWidget::item {\n"
 "    padding: 10px; /* A\u00f1ade padding a cada elemento para aumentar el espacio entre ellos */\n"
-"    margin: 5px 0; /* A\u00f1ade un margen entre cada elemento para mayor separaci\u00f3n vertical */\n"
-"}")
+"    margin: 5px 0; /* A\u00f1ade un margen entre cada elemento para mayor separaci\u00f3n vertical*/\n"
+"	width: 200px:\n"
+"	height: 25px;\n"
+"}\n"
+"")
 
         self.verticalLayout_36.addWidget(self.list_widget_gastos)
 
@@ -3289,14 +3292,17 @@ class Ui_MainWindow(object):
         self.lista_agregar_recordatorios = QListWidget(self.frame)
         self.lista_agregar_recordatorios.setObjectName(u"lista_agregar_recordatorios")
         self.lista_agregar_recordatorios.setStyleSheet(u"QListWidget {\n"
-"    font-size: 14px; /* Aumenta el tama\u00f1o de la fuente para los elementos */\n"
+"    font-size: 15px; /* Aumenta el tama\u00f1o de la fuente para los elementos */\n"
 "    padding: 5px; /* A\u00f1ade un padding alrededor del contenido del QListWidget */\n"
 "}\n"
 "\n"
 "QListWidget::item {\n"
 "    padding: 10px; /* A\u00f1ade padding a cada elemento para aumentar el espacio entre ellos */\n"
-"    margin: 5px 0; /* A\u00f1ade un margen entre cada elemento para mayor separaci\u00f3n vertical */\n"
-"}")
+"    margin: 5px 0; /* A\u00f1ade un margen entre cada elemento para mayor separaci\u00f3n vertical*/\n"
+"	width: 200px:\n"
+"	height: 25px;\n"
+"}\n"
+"")
 
         self.verticalLayout_12.addWidget(self.lista_agregar_recordatorios)
 
@@ -4819,7 +4825,7 @@ class Ui_MainWindow(object):
         self.off2button.toggled.connect(self.off1button.setChecked)
 
         self.stackedWidget.setCurrentIndex(5)
-        self.notifications_stacked.setCurrentIndex(1)
+        self.notifications_stacked.setCurrentIndex(0)
         self.configuraciones_stacked.setCurrentIndex(0)
 
 
