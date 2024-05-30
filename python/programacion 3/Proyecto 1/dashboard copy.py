@@ -573,16 +573,12 @@ class MainApp(QMainWindow, Ui_MainWindow):
         else:
             gasto_widget = GastoWidget(descripcion, valor, fecha)
             item = QListWidgetItem(self.list_widget_gastos)
+            item.setSizeHint(gasto_widget.sizeHint())
+            self.list_widget_gastos.setItemWidget(item, gasto_widget)
             info_gasto = [descripcion, gasto, fecha]
             gastos.append(info_gasto)
             
 
-        
-
-
-                
-
-            
     def listar_viajes(self):
         if self.viajes_usuario:
             viajes_ordenados = sorted(self.viajes_usuario.items(), key=lambda x: x[0], reverse=True)
