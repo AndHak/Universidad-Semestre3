@@ -2,7 +2,6 @@ from ui_viajes_final_ui import Ui_MainWindow
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
-from hacerpdf import crear_pdf
 import sys
 import os
 import re
@@ -14,7 +13,6 @@ import sys
 class TravelWidget(QWidget):
     def __init__(self, indice, titulo, destino, datos_fecha_viaje_inicio, datos_fecha_viaje_fin, presupuesto=0, personas="1", vuelos=None, alojamiento=None):
         super().__init__()
-        self.indice = indice
 
         # Estilos para el widget
         self.setStyleSheet("""
@@ -217,13 +215,12 @@ class TravelWidget(QWidget):
         if alojamiento:
             alojamiento_layout = QVBoxLayout()
 
-            alojamiento_label = QLabel(f"Alojamiento: {alojamiento['Tipo']}")
+            alojamiento_label = QLabel("Alojamiento")
             alojamiento_label.setObjectName("label_alojamiento_title")
             alojamiento_label.setStyleSheet("color: #9C27B0;")
             alojamiento_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
             alojamiento_label.setWordWrap(True)
             alojamiento_layout.addWidget(alojamiento_label)
-
 
             alojamiento_content_layout = QHBoxLayout()
 
@@ -315,6 +312,19 @@ class MainApp(QMainWindow, Ui_MainWindow):
     viajes_usuario = {}
     indice_viajes_guardados = 0
 
+    meses = {1: "Enero",
+             2: "Febrero",
+             3: "Marzo",
+             4: "Abril",
+             5: "Mayo",
+             6: "Junio",
+             7: "Julio",
+             8: "Agosto",
+             9: "Septiembre",
+             10: "Octubre",
+             11: "Noviembre",
+             12: "Diciembre"}
+
     pasos_totales = 9
     pasos_completados = 0
     def __init__(self):
@@ -390,33 +400,10 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.checkbox_vuelos_nuevo_viaje.stateChanged.connect(self.activar_regreso_ida_avion)
         self.checkbox_alojaimento_nuevo_viaje.stateChanged.connect(self.activar_alojamiento)
         self.save_new_travel_button.clicked.connect(self.evaluar_viaje)
+        self.eliminar_viajeguardado_button.clicked.connect(self.eliminar_viaje_guardado)
         self.boton_familia_nuevo_viaje.clicked.connect(self.activar_line_edit_familia)
         self.boton_solo_nuevo_viaje.clicked.connect(self.activar_line_edit_familia)
         self.boton_pareja_nuevo_viaje.clicked.connect(self.activar_line_edit_familia)
-
-        #Botones de la pagina mis viajes
-        self.eliminar_viajeguardado_button.clicked.connect(self.eliminar_viaje_guardado)
-        self.ver_viaje_guardado_button.clicked.connect(self.pasar_datos_to_pdf)
-
-    def pasar_datos_to_pdf(self):
-        current_item = self.list_widget_viajes_guardados.currentItem()
-        if current_item is None:
-            self.mostrar_warning("Por favor, selecciona un viaje primero.")
-            return
-        
-        item_widget = self.list_widget_viajes_guardados.itemWidget(current_item)
-        if item_widget is None:
-            self.mostrar_warning("El elemento seleccionado no tiene datos asociados.")
-            return
-        
-        indice = item_widget.indice
-        datos = self.viajes_usuario.get(indice)
-        if datos is None:
-            self.mostrar_warning("No se encontraron datos para el viaje seleccionado.")
-            return
-        
-        crear_pdf(datos)
-
 
     
     def activar_line_edit_familia(self):
@@ -448,14 +435,36 @@ class MainApp(QMainWindow, Ui_MainWindow):
             self.mostrar_warning("La fecha de fin es obligatoria")
             return
 
-        if not self.validar_solo_fecha(fecha_inicio, "Inicio del viaje") or not self.validar_solo_fecha(fecha_fin, "Fin del viaje"):
-            return
-
         lista_fechas_inicio = fecha_inicio.split("-")
         lista_fechas_fin = fecha_fin.split("-")
-        dia_inicio_viaje, mes_inicio_viaje, año_inicio_viaje = lista_fechas_inicio[0], lista_fechas_inicio[1], lista_fechas_inicio[2]
-        dia_fin_viaje, mes_fin_viaje, año_fin_viaje = lista_fechas_fin[0], lista_fechas_fin[1], lista_fechas_fin[2]
 
+        if len(lista_fechas_inicio) != 3 or not lista_fechas_inicio[0].isdigit() or not lista_fechas_inicio[1].isalnum() or not lista_fechas_inicio[2].isdigit():
+            self.mostrar_warning("El formato de la fecha de inicio no es válido")
+            return
+
+        if len(lista_fechas_fin) != 3 or not lista_fechas_fin[0].isdigit() or not lista_fechas_fin[1].isalnum() or not lista_fechas_fin[2].isdigit():
+            self.mostrar_warning("El formato de la fecha de fin no es válido")
+            return
+
+        indicador_de_mes_inicio = None
+        indicador_de_mes_fin = None
+
+        for i, mes in self.meses.items():
+            if lista_fechas_inicio[1].capitalize() == mes:
+                indicador_de_mes_inicio = i
+            if lista_fechas_fin[1].capitalize() == mes:
+                indicador_de_mes_fin = i
+
+        if not indicador_de_mes_inicio:
+            self.mostrar_warning("El mes de inicio es incorrecto, escriba el mes correctamente")
+            return
+
+        if not indicador_de_mes_fin:
+            self.mostrar_warning("El mes de fin es incorrecto, escriba el mes correctamente")
+            return
+
+        dia_inicio_viaje, mes_inicio_viaje, año_inicio_viaje = int(lista_fechas_inicio[0]), indicador_de_mes_inicio, int(lista_fechas_inicio[2])
+        dia_fin_viaje, mes_fin_viaje, año_fin_viaje = int(lista_fechas_fin[0]), indicador_de_mes_fin, int(lista_fechas_fin[2])
 
         if not self.comparar_fechas(dia_inicio_viaje, mes_inicio_viaje, año_inicio_viaje, dia_fin_viaje, mes_fin_viaje, año_fin_viaje):
             self.mostrar_warning("La fecha de fin no puede ser antes de la fecha de inicio")
@@ -562,7 +571,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
         self.listar_viajes()
         self.mytravels_small_button1.click()
-        self.reset_formulario_nuevo_viaje()
+
 
         self.mostrar_exito("El viaje se ha agregado correctamente")
 
@@ -611,7 +620,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
                     "info_adicional": "Vuelos directos"
                 },
                 "alojamiento": {
-                    "Tipo": "Hotel",
                     "fecha_inicio": "01-Ene-2024",
                     "hora_inicio": "12:00",
                     "ampm_inicio": "PM",
@@ -641,7 +649,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
                     "info_adicional": "Escala en Los Ángeles"
                 },
                 "alojamiento": {
-                    "Tipo": "Airbnb",
                     "fecha_inicio": "15-Feb-2024",
                     "hora_inicio": "02:00",
                     "ampm_inicio": "PM",
@@ -656,12 +663,13 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.indice_viajes_guardados = max(self.viajes_usuario.keys())
 
 
+
     def validar_fecha_hora(self, fecha, hora, ampm, tipo):
         # Validar formato de fecha
         try:
             datetime.datetime.strptime(fecha, '%d-%m-%Y')
         except ValueError:
-            self.mostrar_warning(f"El formato de la fecha de {tipo} no es válido.")
+            self.mostrar_warning(f"El formato de la fecha de {tipo} no es válido. Use DD-MM-YYYY")
             return False
 
         # Validar formato de hora
@@ -676,18 +684,9 @@ class MainApp(QMainWindow, Ui_MainWindow):
             return False
 
         return True
-    
-    def validar_solo_fecha(self, fecha, tipo):
-        try:
-            datetime.datetime.strptime(fecha, '%d-%m-%Y')
-        except ValueError:
-            self.mostrar_warning(f"El formato de la fecha de {tipo} no es válido.")
-            return False
-        return True
 
 
     def comparar_fechas(self, dia_inicio, mes_inicio, año_inicio, dia_fin, mes_fin, año_fin):
-        dia_inicio, mes_inicio, año_inicio, dia_fin, mes_fin, año_fin = map(int, [dia_inicio, mes_inicio, año_inicio, dia_fin, mes_fin, año_fin])
         fecha_inicio = datetime.date(año_inicio, mes_inicio, dia_inicio)
         fecha_fin = datetime.date(año_fin, mes_fin, dia_fin)
         return fecha_fin >= fecha_inicio

@@ -2691,7 +2691,7 @@ QGroupBox::title:disabled {
                      <property name="geometry">
                       <rect>
                        <x>0</x>
-                       <y>-35</y>
+                       <y>-415</y>
                        <width>1198</width>
                        <height>1226</height>
                       </rect>
@@ -2958,6 +2958,13 @@ font-size: 20px;</string>
                            <widget class="QLineEdit" name="line_edit_familia_nuevo_viaje">
                             <property name="enabled">
                              <bool>false</bool>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">QLineEdit:disabled {
+    background-color: #F0F0F0; /* Color de fondo desactivado */
+    border: 2px solid #D9D9D9; /* Borde desactivado */
+    color: #A9A9A9; /* Color de texto desactivado */
+}</string>
                             </property>
                            </widget>
                           </item>
@@ -3436,6 +3443,9 @@ QPushButton:checked {
                              </item>
                              <item>
                               <widget class="QComboBox" name="combobox_hote_o_airbnb_nuevo_viaje">
+                               <property name="editable">
+                                <bool>true</bool>
+                               </property>
                                <item>
                                 <property name="text">
                                  <string>Hotel</string>
@@ -3456,7 +3466,7 @@ QPushButton:checked {
                               <widget class="QLabel" name="label_7">
                                <property name="minimumSize">
                                 <size>
-                                 <width>90</width>
+                                 <width>120</width>
                                  <height>0</height>
                                 </size>
                                </property>
@@ -3467,7 +3477,7 @@ QPushButton:checked {
                                 </size>
                                </property>
                                <property name="text">
-                                <string>Dirección:</string>
+                                <string>Dirección o lugar:</string>
                                </property>
                               </widget>
                              </item>
@@ -3508,14 +3518,14 @@ QPushButton:checked {
                               </widget>
                              </item>
                              <item row="1" column="1">
-                              <widget class="QLineEdit" name="lineedit_hora_inicio_nuevo_viaje">
+                              <widget class="QLineEdit" name="lineedit_hora_inicio_nuevo_viaje_alojamiento">
                                <property name="placeholderText">
                                 <string>00:00</string>
                                </property>
                               </widget>
                              </item>
                              <item row="1" column="2">
-                              <widget class="QComboBox" name="combobox_ampm_hora_inicio_nuevo_viaje">
+                              <widget class="QComboBox" name="combobox_ampm_hora_inicio_nuevo_viaje_alojamiento">
                                <property name="sizePolicy">
                                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                                  <horstretch>0</horstretch>
@@ -3600,14 +3610,14 @@ QPushButton:checked {
                               </widget>
                              </item>
                              <item row="1" column="1">
-                              <widget class="QLineEdit" name="lineedit_hora_fin_nuevo_viaje">
+                              <widget class="QLineEdit" name="lineedit_hora_fin_nuevo_viaje_alojamiento">
                                <property name="placeholderText">
                                 <string>00:00</string>
                                </property>
                               </widget>
                              </item>
                              <item row="1" column="2">
-                              <widget class="QComboBox" name="combobox_ampm_hora_fin_nuevo_viaje">
+                              <widget class="QComboBox" name="combobox_ampm_hora_fin_nuevo_viaje_alojamiento">
                                <property name="sizePolicy">
                                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                                  <horstretch>0</horstretch>

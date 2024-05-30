@@ -1557,7 +1557,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -35, 1198, 1226))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -415, 1198, 1226))
         sizePolicy4.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy4)
         self.scrollAreaWidgetContents.setStyleSheet(u"QCheckBox {\n"
@@ -1707,6 +1707,11 @@ class Ui_MainWindow(object):
         self.line_edit_familia_nuevo_viaje = QLineEdit(self.scrollAreaWidgetContents)
         self.line_edit_familia_nuevo_viaje.setObjectName(u"line_edit_familia_nuevo_viaje")
         self.line_edit_familia_nuevo_viaje.setEnabled(False)
+        self.line_edit_familia_nuevo_viaje.setStyleSheet(u"QLineEdit:disabled {\n"
+"    background-color: #F0F0F0; /* Color de fondo desactivado */\n"
+"    border: 2px solid #D9D9D9; /* Borde desactivado */\n"
+"    color: #A9A9A9; /* Color de texto desactivado */\n"
+"}")
 
         self.gridLayout_29.addWidget(self.line_edit_familia_nuevo_viaje, 1, 6, 1, 1)
 
@@ -1955,6 +1960,7 @@ class Ui_MainWindow(object):
         self.combobox_hote_o_airbnb_nuevo_viaje.addItem("")
         self.combobox_hote_o_airbnb_nuevo_viaje.addItem("")
         self.combobox_hote_o_airbnb_nuevo_viaje.setObjectName(u"combobox_hote_o_airbnb_nuevo_viaje")
+        self.combobox_hote_o_airbnb_nuevo_viaje.setEditable(True)
 
         self.horizontalLayout_20.addWidget(self.combobox_hote_o_airbnb_nuevo_viaje)
 
@@ -1965,7 +1971,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
         self.label_7 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_7.setObjectName(u"label_7")
-        self.label_7.setMinimumSize(QSize(90, 0))
+        self.label_7.setMinimumSize(QSize(120, 0))
         self.label_7.setMaximumSize(QSize(90, 16777215))
 
         self.horizontalLayout_19.addWidget(self.label_7)
@@ -1993,21 +1999,21 @@ class Ui_MainWindow(object):
 
         self.gridLayout_30.addWidget(self.label_61, 1, 0, 1, 1)
 
-        self.lineedit_hora_inicio_nuevo_viaje = QLineEdit(self.groupbox_alojamiento_viaje)
-        self.lineedit_hora_inicio_nuevo_viaje.setObjectName(u"lineedit_hora_inicio_nuevo_viaje")
+        self.lineedit_hora_inicio_nuevo_viaje_alojamiento = QLineEdit(self.groupbox_alojamiento_viaje)
+        self.lineedit_hora_inicio_nuevo_viaje_alojamiento.setObjectName(u"lineedit_hora_inicio_nuevo_viaje_alojamiento")
 
-        self.gridLayout_30.addWidget(self.lineedit_hora_inicio_nuevo_viaje, 1, 1, 1, 1)
+        self.gridLayout_30.addWidget(self.lineedit_hora_inicio_nuevo_viaje_alojamiento, 1, 1, 1, 1)
 
-        self.combobox_ampm_hora_inicio_nuevo_viaje = QComboBox(self.groupbox_alojamiento_viaje)
-        self.combobox_ampm_hora_inicio_nuevo_viaje.addItem("")
-        self.combobox_ampm_hora_inicio_nuevo_viaje.addItem("")
-        self.combobox_ampm_hora_inicio_nuevo_viaje.setObjectName(u"combobox_ampm_hora_inicio_nuevo_viaje")
-        sizePolicy6.setHeightForWidth(self.combobox_ampm_hora_inicio_nuevo_viaje.sizePolicy().hasHeightForWidth())
-        self.combobox_ampm_hora_inicio_nuevo_viaje.setSizePolicy(sizePolicy6)
-        self.combobox_ampm_hora_inicio_nuevo_viaje.setMinimumSize(QSize(100, 40))
-        self.combobox_ampm_hora_inicio_nuevo_viaje.setMaximumSize(QSize(100, 40))
+        self.combobox_ampm_hora_inicio_nuevo_viaje_alojamiento = QComboBox(self.groupbox_alojamiento_viaje)
+        self.combobox_ampm_hora_inicio_nuevo_viaje_alojamiento.addItem("")
+        self.combobox_ampm_hora_inicio_nuevo_viaje_alojamiento.addItem("")
+        self.combobox_ampm_hora_inicio_nuevo_viaje_alojamiento.setObjectName(u"combobox_ampm_hora_inicio_nuevo_viaje_alojamiento")
+        sizePolicy6.setHeightForWidth(self.combobox_ampm_hora_inicio_nuevo_viaje_alojamiento.sizePolicy().hasHeightForWidth())
+        self.combobox_ampm_hora_inicio_nuevo_viaje_alojamiento.setSizePolicy(sizePolicy6)
+        self.combobox_ampm_hora_inicio_nuevo_viaje_alojamiento.setMinimumSize(QSize(100, 40))
+        self.combobox_ampm_hora_inicio_nuevo_viaje_alojamiento.setMaximumSize(QSize(100, 40))
 
-        self.gridLayout_30.addWidget(self.combobox_ampm_hora_inicio_nuevo_viaje, 1, 2, 1, 1)
+        self.gridLayout_30.addWidget(self.combobox_ampm_hora_inicio_nuevo_viaje_alojamiento, 1, 2, 1, 1)
 
         self.label_66 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_66.setObjectName(u"label_66")
@@ -2038,21 +2044,21 @@ class Ui_MainWindow(object):
 
         self.gridLayout_31.addWidget(self.label_62, 1, 0, 1, 1)
 
-        self.lineedit_hora_fin_nuevo_viaje = QLineEdit(self.groupbox_alojamiento_viaje)
-        self.lineedit_hora_fin_nuevo_viaje.setObjectName(u"lineedit_hora_fin_nuevo_viaje")
+        self.lineedit_hora_fin_nuevo_viaje_alojamiento = QLineEdit(self.groupbox_alojamiento_viaje)
+        self.lineedit_hora_fin_nuevo_viaje_alojamiento.setObjectName(u"lineedit_hora_fin_nuevo_viaje_alojamiento")
 
-        self.gridLayout_31.addWidget(self.lineedit_hora_fin_nuevo_viaje, 1, 1, 1, 1)
+        self.gridLayout_31.addWidget(self.lineedit_hora_fin_nuevo_viaje_alojamiento, 1, 1, 1, 1)
 
-        self.combobox_ampm_hora_fin_nuevo_viaje = QComboBox(self.groupbox_alojamiento_viaje)
-        self.combobox_ampm_hora_fin_nuevo_viaje.addItem("")
-        self.combobox_ampm_hora_fin_nuevo_viaje.addItem("")
-        self.combobox_ampm_hora_fin_nuevo_viaje.setObjectName(u"combobox_ampm_hora_fin_nuevo_viaje")
-        sizePolicy6.setHeightForWidth(self.combobox_ampm_hora_fin_nuevo_viaje.sizePolicy().hasHeightForWidth())
-        self.combobox_ampm_hora_fin_nuevo_viaje.setSizePolicy(sizePolicy6)
-        self.combobox_ampm_hora_fin_nuevo_viaje.setMinimumSize(QSize(100, 40))
-        self.combobox_ampm_hora_fin_nuevo_viaje.setMaximumSize(QSize(100, 40))
+        self.combobox_ampm_hora_fin_nuevo_viaje_alojamiento = QComboBox(self.groupbox_alojamiento_viaje)
+        self.combobox_ampm_hora_fin_nuevo_viaje_alojamiento.addItem("")
+        self.combobox_ampm_hora_fin_nuevo_viaje_alojamiento.addItem("")
+        self.combobox_ampm_hora_fin_nuevo_viaje_alojamiento.setObjectName(u"combobox_ampm_hora_fin_nuevo_viaje_alojamiento")
+        sizePolicy6.setHeightForWidth(self.combobox_ampm_hora_fin_nuevo_viaje_alojamiento.sizePolicy().hasHeightForWidth())
+        self.combobox_ampm_hora_fin_nuevo_viaje_alojamiento.setSizePolicy(sizePolicy6)
+        self.combobox_ampm_hora_fin_nuevo_viaje_alojamiento.setMinimumSize(QSize(100, 40))
+        self.combobox_ampm_hora_fin_nuevo_viaje_alojamiento.setMaximumSize(QSize(100, 40))
 
-        self.gridLayout_31.addWidget(self.combobox_ampm_hora_fin_nuevo_viaje, 1, 2, 1, 1)
+        self.gridLayout_31.addWidget(self.combobox_ampm_hora_fin_nuevo_viaje_alojamiento, 1, 2, 1, 1)
 
         self.label_64 = QLabel(self.groupbox_alojamiento_viaje)
         self.label_64.setObjectName(u"label_64")
@@ -4837,20 +4843,20 @@ class Ui_MainWindow(object):
         self.combobox_hote_o_airbnb_nuevo_viaje.setItemText(0, QCoreApplication.translate("MainWindow", u"Hotel", None))
         self.combobox_hote_o_airbnb_nuevo_viaje.setItemText(1, QCoreApplication.translate("MainWindow", u"Airbnb", None))
 
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Direcci\u00f3n:", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Direcci\u00f3n o lugar:", None))
         self.label_59.setText(QCoreApplication.translate("MainWindow", u"Inicio", None))
         self.label_61.setText(QCoreApplication.translate("MainWindow", u"Hora:", None))
-        self.lineedit_hora_inicio_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"00:00", None))
-        self.combobox_ampm_hora_inicio_nuevo_viaje.setItemText(0, QCoreApplication.translate("MainWindow", u"AM", None))
-        self.combobox_ampm_hora_inicio_nuevo_viaje.setItemText(1, QCoreApplication.translate("MainWindow", u"PM", None))
+        self.lineedit_hora_inicio_nuevo_viaje_alojamiento.setPlaceholderText(QCoreApplication.translate("MainWindow", u"00:00", None))
+        self.combobox_ampm_hora_inicio_nuevo_viaje_alojamiento.setItemText(0, QCoreApplication.translate("MainWindow", u"AM", None))
+        self.combobox_ampm_hora_inicio_nuevo_viaje_alojamiento.setItemText(1, QCoreApplication.translate("MainWindow", u"PM", None))
 
         self.label_66.setText(QCoreApplication.translate("MainWindow", u"Fecha:", None))
         self.lineedit_fecha_inicio_alojamiento_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"d\u00eda-mes-a\u00f1o", None))
         self.label_60.setText(QCoreApplication.translate("MainWindow", u"Fin", None))
         self.label_62.setText(QCoreApplication.translate("MainWindow", u"Hora:", None))
-        self.lineedit_hora_fin_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"00:00", None))
-        self.combobox_ampm_hora_fin_nuevo_viaje.setItemText(0, QCoreApplication.translate("MainWindow", u"AM", None))
-        self.combobox_ampm_hora_fin_nuevo_viaje.setItemText(1, QCoreApplication.translate("MainWindow", u"PM", None))
+        self.lineedit_hora_fin_nuevo_viaje_alojamiento.setPlaceholderText(QCoreApplication.translate("MainWindow", u"00:00", None))
+        self.combobox_ampm_hora_fin_nuevo_viaje_alojamiento.setItemText(0, QCoreApplication.translate("MainWindow", u"AM", None))
+        self.combobox_ampm_hora_fin_nuevo_viaje_alojamiento.setItemText(1, QCoreApplication.translate("MainWindow", u"PM", None))
 
         self.label_64.setText(QCoreApplication.translate("MainWindow", u"Fecha:", None))
         self.lineedit_fecha_fin_alojamiento_nuevo_viaje.setPlaceholderText(QCoreApplication.translate("MainWindow", u"d\u00eda-mes-a\u00f1o", None))
