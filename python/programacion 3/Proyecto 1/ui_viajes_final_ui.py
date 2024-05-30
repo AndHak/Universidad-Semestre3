@@ -1557,7 +1557,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -415, 1198, 1226))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1198, 1226))
         sizePolicy4.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy4)
         self.scrollAreaWidgetContents.setStyleSheet(u"QCheckBox {\n"
@@ -1823,6 +1823,7 @@ class Ui_MainWindow(object):
         self.grupo_ida_viaje = QGroupBox(self.scrollAreaWidgetContents)
         self.grupo_ida_viaje.setObjectName(u"grupo_ida_viaje")
         self.grupo_ida_viaje.setEnabled(False)
+        self.grupo_ida_viaje.setStyleSheet(u"")
         self.gridLayout_28 = QGridLayout(self.grupo_ida_viaje)
         self.gridLayout_28.setSpacing(15)
         self.gridLayout_28.setObjectName(u"gridLayout_28")
@@ -2448,6 +2449,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_25.addWidget(self.label_15)
 
         self.seleccionar_viaje_itinerario = QComboBox(self.frame_13)
+        self.seleccionar_viaje_itinerario.addItem("")
         self.seleccionar_viaje_itinerario.setObjectName(u"seleccionar_viaje_itinerario")
         self.seleccionar_viaje_itinerario.setMinimumSize(QSize(0, 40))
         self.seleccionar_viaje_itinerario.setMaximumSize(QSize(16777215, 40))
@@ -2724,8 +2726,8 @@ class Ui_MainWindow(object):
         self.frame_14.setFrameShape(QFrame.StyledPanel)
         self.frame_14.setFrameShadow(QFrame.Raised)
         self.gridLayout_39 = QGridLayout(self.frame_14)
+        self.gridLayout_39.setSpacing(15)
         self.gridLayout_39.setObjectName(u"gridLayout_39")
-        self.gridLayout_39.setHorizontalSpacing(15)
         self.gridLayout_39.setContentsMargins(50, 50, 50, 50)
         self.label_12 = QLabel(self.frame_14)
         self.label_12.setObjectName(u"label_12")
@@ -2745,6 +2747,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_26.addWidget(self.label_18)
 
         self.seleccionar_viaje_gasto = QComboBox(self.frame_14)
+        self.seleccionar_viaje_gasto.addItem("")
         self.seleccionar_viaje_gasto.setObjectName(u"seleccionar_viaje_gasto")
         self.seleccionar_viaje_gasto.setMinimumSize(QSize(0, 40))
         self.seleccionar_viaje_gasto.setMaximumSize(QSize(16777215, 40))
@@ -2819,10 +2822,10 @@ class Ui_MainWindow(object):
 
         self.gridLayout_37.addWidget(self.label_72, 2, 0, 1, 1)
 
-        self.hora_del_gasto = QLineEdit(self.frame_14)
-        self.hora_del_gasto.setObjectName(u"hora_del_gasto")
+        self.costo_del_gasto = QLineEdit(self.frame_14)
+        self.costo_del_gasto.setObjectName(u"costo_del_gasto")
 
-        self.gridLayout_37.addWidget(self.hora_del_gasto, 2, 1, 1, 1)
+        self.gridLayout_37.addWidget(self.costo_del_gasto, 2, 1, 1, 1)
 
         self.label_73 = QLabel(self.frame_14)
         self.label_73.setObjectName(u"label_73")
@@ -3087,7 +3090,16 @@ class Ui_MainWindow(object):
 "    border: 2px solid #1B4965; /* Color del borde cuando est\u00e1 marcado */\n"
 "}\n"
 "\n"
-"\n"
+"/* Estilo desactivado para QLabel */\n"
+"QLabel:disabled {\n"
+"    background-color: #F0F0F0; /* Color de texto desactivado */\n"
+"	color: #A9A9A9;\n"
+"}\n"
+"QGroupBox::title:disabled {\n"
+"    background-color: #F0F0F0; /* Color de texto desactivado */\n"
+"	color: #A9A9A9;\n"
+"	border-radius: 5px;\n"
+"}\n"
 "")
         self.frame_17.setFrameShape(QFrame.StyledPanel)
         self.frame_17.setFrameShadow(QFrame.Raised)
@@ -3399,9 +3411,50 @@ class Ui_MainWindow(object):
 "    background-color: #1B4965; /* Color de fondo cuando est\u00e1 marcado */\n"
 "    border: 2px solid #1B4965; /* Color del borde cuando est\u00e1 marcado */\n"
 "}\n"
+"/* Estilo desactivado para QLabel */\n"
+"QLineEdit:disabled {\n"
+"    background-color: #F0F0F0; /* Color de fondo desactivado */\n"
+"    border: 2px solid #D9D9D9; /* Borde desactivado */\n"
+"    color: #A9A9A9; /* Color de texto desactivado */\n"
+"}\n"
 "\n"
+"/* Estilo desactivado para QGroupBox */\n"
+"QGroupBox"
+                        ":disabled {\n"
+"    border: 2px solid #D9D9D9; /* Borde desactivado */\n"
+"    background-color: #F0F0F0; /* Color de fondo desactivado */\n"
+"}\n"
 "\n"
-"")
+"/* Estilo desactivado para QComboBox */\n"
+"QComboBox:disabled {\n"
+"    background-color: #F0F0F0; /* Color de fondo desactivado */\n"
+"    border: 2px solid #D9D9D9; /* Borde desactivado */\n"
+"    color: #A9A9A9; /* Color de texto desactivado */\n"
+"}\n"
+"\n"
+"/* Estilo desactivado para QPlainTextEdit */\n"
+"QPlainTextEdit:disabled {\n"
+"    background-color: #F0F0F0; /* Color de fondo desactivado */\n"
+"    border: 2px solid #D9D9D9; /* Borde desactivado */\n"
+"    color: #A9A9A9; /* Color de texto desactivado */\n"
+"}\n"
+"/* Estilo desactivado para QLabel */\n"
+"QLabel:disabled {\n"
+"    background-color: #F0F0F0; /* Color de texto desactivado */\n"
+"	color: #A9A9A9;\n"
+"}\n"
+"QGroupBox::title:disabled {\n"
+"    background-color: #F0F0F0; /* Color de texto desactivado */\n"
+"	color: #A9A9A9;\n"
+"	border-radius: 5px;\n"
+"}\n"
+"\n"
+"QPlainTextEdit:disabled"
+                        " {\n"
+"    background-color: #F0F0F0; /* Color de fondo desactivado */\n"
+"    border: 2px solid #D9D9D9; /* Borde desactivado */\n"
+"    color: #A9A9A9; /* Color de texto desactivado */\n"
+"}")
         self.frame_2.setFrameShape(QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QFrame.Raised)
         self.gridLayout_5 = QGridLayout(self.frame_2)
@@ -3458,7 +3511,8 @@ class Ui_MainWindow(object):
         self.text_edit_recordatorio.setObjectName(u"text_edit_recordatorio")
         self.text_edit_recordatorio.setMaximumSize(QSize(16777215, 50))
         self.text_edit_recordatorio.setStyleSheet(u"border-bottom: 2px solid gray;\n"
-"border-radius: 0px;")
+"border-radius: 0px;\n"
+"")
 
         self.verticalLayout_16.addWidget(self.text_edit_recordatorio)
 
@@ -3482,6 +3536,7 @@ class Ui_MainWindow(object):
 
         self.lineedit_hora_recordatorio = QLineEdit(self.frame_2)
         self.lineedit_hora_recordatorio.setObjectName(u"lineedit_hora_recordatorio")
+        self.lineedit_hora_recordatorio.setEnabled(False)
 
         self.horizontalLayout_12.addWidget(self.lineedit_hora_recordatorio)
 
@@ -3489,6 +3544,7 @@ class Ui_MainWindow(object):
         self.am_pm_hora_recordatorio.addItem("")
         self.am_pm_hora_recordatorio.addItem("")
         self.am_pm_hora_recordatorio.setObjectName(u"am_pm_hora_recordatorio")
+        self.am_pm_hora_recordatorio.setEnabled(False)
         sizePolicy6.setHeightForWidth(self.am_pm_hora_recordatorio.sizePolicy().hasHeightForWidth())
         self.am_pm_hora_recordatorio.setSizePolicy(sizePolicy6)
         self.am_pm_hora_recordatorio.setMinimumSize(QSize(100, 40))
@@ -3509,6 +3565,7 @@ class Ui_MainWindow(object):
 
         self.lineedit_fecha_recordatorio = QLineEdit(self.frame_2)
         self.lineedit_fecha_recordatorio.setObjectName(u"lineedit_fecha_recordatorio")
+        self.lineedit_fecha_recordatorio.setEnabled(False)
 
         self.horizontalLayout_8.addWidget(self.lineedit_fecha_recordatorio)
 
@@ -3527,12 +3584,20 @@ class Ui_MainWindow(object):
 
         self.lineedit_lugar_recordatorio = QLineEdit(self.frame_2)
         self.lineedit_lugar_recordatorio.setObjectName(u"lineedit_lugar_recordatorio")
+        self.lineedit_lugar_recordatorio.setEnabled(False)
         self.lineedit_lugar_recordatorio.setMinimumSize(QSize(0, 30))
         self.lineedit_lugar_recordatorio.setMaximumSize(QSize(16777215, 30))
-        self.lineedit_lugar_recordatorio.setStyleSheet(u"background: transparent;\n"
+        self.lineedit_lugar_recordatorio.setStyleSheet(u"QLineEdit{\n"
+"background: transparent;\n"
 "border: none;\n"
 "font-size: 13px;\n"
-"border-bottom: 2px solid gray;")
+"border-bottom: 2px solid gray;\n"
+"}\n"
+"QLineEdit:disabled {\n"
+"    background-color: #F0F0F0; /* Color de fondo desactivado */\n"
+"    border: 2px solid #D9D9D9; /* Borde desactivado */\n"
+"    color: #A9A9A9; /* Color de texto desactivado */\n"
+"}")
 
         self.verticalLayout_15.addWidget(self.lineedit_lugar_recordatorio)
 
@@ -4753,8 +4818,8 @@ class Ui_MainWindow(object):
         self.home_small_button1.toggled.connect(self.home_small_button2.setChecked)
         self.off2button.toggled.connect(self.off1button.setChecked)
 
-        self.stackedWidget.setCurrentIndex(2)
-        self.notifications_stacked.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(5)
+        self.notifications_stacked.setCurrentIndex(1)
         self.configuraciones_stacked.setCurrentIndex(0)
 
 
@@ -4865,6 +4930,8 @@ class Ui_MainWindow(object):
         self.save_new_travel_button.setText(QCoreApplication.translate("MainWindow", u"Guardar Viaje", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Itinerario", None))
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"Seleccionar viaje:", None))
+        self.seleccionar_viaje_itinerario.setItemText(0, QCoreApplication.translate("MainWindow", u"No Seleccionado", None))
+
         self.eliminar_plan_button.setText("")
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Agregar plan:", None))
         self.label_17.setText(QCoreApplication.translate("MainWindow", u"Plan:", None))
@@ -4876,6 +4943,8 @@ class Ui_MainWindow(object):
         self.boton_guardar_plan.setText("")
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Gastos", None))
         self.label_18.setText(QCoreApplication.translate("MainWindow", u"Seleccionar viaje:", None))
+        self.seleccionar_viaje_gasto.setItemText(0, QCoreApplication.translate("MainWindow", u"No Seleccionado", None))
+
         self.eliminar_gasto_button.setText("")
         self.label_19.setText(QCoreApplication.translate("MainWindow", u"Agregar gasto:", None))
         self.label_20.setText(QCoreApplication.translate("MainWindow", u"Descripcion:", None))

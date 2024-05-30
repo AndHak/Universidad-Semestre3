@@ -282,3 +282,82 @@ class TravelWidget(QWidget):
 
             layout.addLayout(alojamiento_layout)
 
+
+class GastoWidget(QWidget):
+    def __init__(self, descripcion, gasto, fecha):
+        super().__init__()
+        
+        # Estilos para el widget
+        self.setStyleSheet("""
+            QWidget {
+                background-color: #f5f5f5;
+                border-radius: 10px;
+                padding: 10px;
+            }
+            QLabel {
+                font-family: "Arial", sans-serif;
+            }
+            QLabel[objectName^="label_"] {
+                font-weight: bold;
+            }
+        """)
+
+        # Diseño horizontal
+        layout = QHBoxLayout(self)
+
+        # Primer cuadro: Descripción
+        descripcion_layout = QVBoxLayout()
+
+        descripcion_label = QLabel("Descripción")
+        descripcion_label.setObjectName("label_descripcion_title")
+        descripcion_label.setStyleSheet("color: #2196F3;")
+        descripcion_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        descripcion_label.setWordWrap(True)
+        descripcion_layout.addWidget(descripcion_label)
+
+        descripcion_value_label = QLabel(f"{descripcion}")
+        descripcion_value_label.setObjectName("label_descripcion_value")
+        descripcion_value_label.setStyleSheet("color: #2196F3;")
+        descripcion_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        descripcion_value_label.setWordWrap(True)
+        descripcion_layout.addWidget(descripcion_value_label)
+
+        layout.addLayout(descripcion_layout)
+
+        # Segundo cuadro: Gasto
+        gasto_layout = QVBoxLayout()
+
+        gasto_label = QLabel("Valor")
+        gasto_label.setObjectName("label_gasto_title")
+        gasto_label.setStyleSheet("color: #4CAF50;")
+        gasto_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        gasto_label.setWordWrap(True)
+        gasto_layout.addWidget(gasto_label)
+
+        gasto_value_label = QLabel(f"${gasto}")
+        gasto_value_label.setObjectName("label_gasto_value")
+        gasto_value_label.setStyleSheet("color: #4CAF50;")
+        gasto_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        gasto_value_label.setWordWrap(True)
+        gasto_layout.addWidget(gasto_value_label)
+
+        layout.addLayout(gasto_layout)
+
+        # Tercer cuadro: Fecha
+        fecha_layout = QVBoxLayout()
+
+        fecha_label = QLabel("Fecha")
+        fecha_label.setObjectName("label_fecha_title")
+        fecha_label.setStyleSheet("color: #FF9800;")
+        fecha_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        fecha_label.setWordWrap(True)
+        fecha_layout.addWidget(fecha_label)
+
+        fecha_value_label = QLabel(f"{fecha}")
+        fecha_value_label.setObjectName("label_fecha_value")
+        fecha_value_label.setStyleSheet("color: #FF9800;")
+        fecha_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        fecha_value_label.setWordWrap(True)
+        fecha_layout.addWidget(fecha_value_label)
+
+        layout.addLayout(fecha_layout)

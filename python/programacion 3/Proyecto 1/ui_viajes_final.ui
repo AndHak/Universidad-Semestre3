@@ -1400,7 +1400,7 @@ QCheckBox::indicator:checked {
 </string>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>5</number>
              </property>
              <widget class="QWidget" name="home_page">
               <layout class="QGridLayout" name="gridLayout_11">
@@ -2691,7 +2691,7 @@ QGroupBox::title:disabled {
                      <property name="geometry">
                       <rect>
                        <x>0</x>
-                       <y>-415</y>
+                       <y>0</y>
                        <width>1198</width>
                        <height>1226</height>
                       </rect>
@@ -3185,6 +3185,9 @@ QPushButton:checked {
                          <widget class="QGroupBox" name="grupo_ida_viaje">
                           <property name="enabled">
                            <bool>false</bool>
+                          </property>
+                          <property name="styleSheet">
+                           <string notr="true"/>
                           </property>
                           <property name="title">
                            <string>Ida</string>
@@ -4131,6 +4134,11 @@ font-size: 20px;</string>
                         <height>40</height>
                        </size>
                       </property>
+                      <item>
+                       <property name="text">
+                        <string>No Seleccionado</string>
+                       </property>
+                      </item>
                      </widget>
                     </item>
                    </layout>
@@ -4501,7 +4509,7 @@ QCheckBox::indicator:unchecked:hover {
                   <property name="bottomMargin">
                    <number>50</number>
                   </property>
-                  <property name="horizontalSpacing">
+                  <property name="spacing">
                    <number>15</number>
                   </property>
                   <item row="0" column="0">
@@ -4546,6 +4554,11 @@ font-size: 20px;</string>
                         <height>40</height>
                        </size>
                       </property>
+                      <item>
+                       <property name="text">
+                        <string>No Seleccionado</string>
+                       </property>
+                      </item>
                      </widget>
                     </item>
                    </layout>
@@ -4658,7 +4671,7 @@ background-color: #CAE9FF;
                      </widget>
                     </item>
                     <item row="2" column="1">
-                     <widget class="QLineEdit" name="hora_del_gasto"/>
+                     <widget class="QLineEdit" name="costo_del_gasto"/>
                     </item>
                     <item row="3" column="0">
                      <widget class="QLabel" name="label_73">
@@ -4995,7 +5008,16 @@ QCheckBox::indicator:checked {
     border: 2px solid #1B4965; /* Color del borde cuando está marcado */
 }
 
-
+/* Estilo desactivado para QLabel */
+QLabel:disabled {
+    background-color: #F0F0F0; /* Color de texto desactivado */
+	color: #A9A9A9;
+}
+QGroupBox::title:disabled {
+    background-color: #F0F0F0; /* Color de texto desactivado */
+	color: #A9A9A9;
+	border-radius: 5px;
+}
 </string>
                  </property>
                  <property name="frameShape">
@@ -5027,7 +5049,7 @@ QLabel {
 </string>
                     </property>
                     <property name="currentIndex">
-                     <number>0</number>
+                     <number>1</number>
                     </property>
                     <widget class="QWidget" name="recordatorios_page">
                      <layout class="QGridLayout" name="gridLayout_23">
@@ -5392,9 +5414,48 @@ QCheckBox::indicator:checked {
     background-color: #1B4965; /* Color de fondo cuando está marcado */
     border: 2px solid #1B4965; /* Color del borde cuando está marcado */
 }
+/* Estilo desactivado para QLabel */
+QLineEdit:disabled {
+    background-color: #F0F0F0; /* Color de fondo desactivado */
+    border: 2px solid #D9D9D9; /* Borde desactivado */
+    color: #A9A9A9; /* Color de texto desactivado */
+}
 
+/* Estilo desactivado para QGroupBox */
+QGroupBox:disabled {
+    border: 2px solid #D9D9D9; /* Borde desactivado */
+    background-color: #F0F0F0; /* Color de fondo desactivado */
+}
 
-</string>
+/* Estilo desactivado para QComboBox */
+QComboBox:disabled {
+    background-color: #F0F0F0; /* Color de fondo desactivado */
+    border: 2px solid #D9D9D9; /* Borde desactivado */
+    color: #A9A9A9; /* Color de texto desactivado */
+}
+
+/* Estilo desactivado para QPlainTextEdit */
+QPlainTextEdit:disabled {
+    background-color: #F0F0F0; /* Color de fondo desactivado */
+    border: 2px solid #D9D9D9; /* Borde desactivado */
+    color: #A9A9A9; /* Color de texto desactivado */
+}
+/* Estilo desactivado para QLabel */
+QLabel:disabled {
+    background-color: #F0F0F0; /* Color de texto desactivado */
+	color: #A9A9A9;
+}
+QGroupBox::title:disabled {
+    background-color: #F0F0F0; /* Color de texto desactivado */
+	color: #A9A9A9;
+	border-radius: 5px;
+}
+
+QPlainTextEdit:disabled {
+    background-color: #F0F0F0; /* Color de fondo desactivado */
+    border: 2px solid #D9D9D9; /* Borde desactivado */
+    color: #A9A9A9; /* Color de texto desactivado */
+}</string>
                         </property>
                         <property name="frameShape">
                          <enum>QFrame::StyledPanel</enum>
@@ -5510,7 +5571,8 @@ font-size: 20px;</string>
                                    </property>
                                    <property name="styleSheet">
                                     <string notr="true">border-bottom: 2px solid gray;
-border-radius: 0px;</string>
+border-radius: 0px;
+</string>
                                    </property>
                                   </widget>
                                  </item>
@@ -5541,10 +5603,17 @@ border-radius: 0px;</string>
                                     </widget>
                                    </item>
                                    <item>
-                                    <widget class="QLineEdit" name="lineedit_hora_recordatorio"/>
+                                    <widget class="QLineEdit" name="lineedit_hora_recordatorio">
+                                     <property name="enabled">
+                                      <bool>false</bool>
+                                     </property>
+                                    </widget>
                                    </item>
                                    <item>
                                     <widget class="QComboBox" name="am_pm_hora_recordatorio">
+                                     <property name="enabled">
+                                      <bool>false</bool>
+                                     </property>
                                      <property name="sizePolicy">
                                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                                        <horstretch>0</horstretch>
@@ -5593,7 +5662,11 @@ border-radius: 0px;</string>
                                     </widget>
                                    </item>
                                    <item>
-                                    <widget class="QLineEdit" name="lineedit_fecha_recordatorio"/>
+                                    <widget class="QLineEdit" name="lineedit_fecha_recordatorio">
+                                     <property name="enabled">
+                                      <bool>false</bool>
+                                     </property>
+                                    </widget>
                                    </item>
                                   </layout>
                                  </item>
@@ -5610,6 +5683,9 @@ border-radius: 0px;</string>
                                  </item>
                                  <item>
                                   <widget class="QLineEdit" name="lineedit_lugar_recordatorio">
+                                   <property name="enabled">
+                                    <bool>false</bool>
+                                   </property>
                                    <property name="minimumSize">
                                     <size>
                                      <width>0</width>
@@ -5623,10 +5699,17 @@ border-radius: 0px;</string>
                                     </size>
                                    </property>
                                    <property name="styleSheet">
-                                    <string notr="true">background: transparent;
+                                    <string notr="true">QLineEdit{
+background: transparent;
 border: none;
 font-size: 13px;
-border-bottom: 2px solid gray;</string>
+border-bottom: 2px solid gray;
+}
+QLineEdit:disabled {
+    background-color: #F0F0F0; /* Color de fondo desactivado */
+    border: 2px solid #D9D9D9; /* Borde desactivado */
+    color: #A9A9A9; /* Color de texto desactivado */
+}</string>
                                    </property>
                                   </widget>
                                  </item>

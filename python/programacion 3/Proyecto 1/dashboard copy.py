@@ -334,9 +334,10 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.timer_reloj.timeout.connect(self.update_time)
         self.timer_reloj.start(1000)
 
-        self.actualizar_progreso()
         self.cargar_viajes_iniciales()
         self.listar_viajes()
+        self.actualizar_gastos_del_viaje()
+        self.actualizar_progreso()
         
 
         #Botones de la pagina nuevo viaje
@@ -527,22 +528,16 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.mostrar_exito("El viaje se ha agregado correctamente")
 
     def actualizar_gastos_del_viaje(self):
-        indice_seleccionado = self.seleccionar_viaje_gasto.currentIndex()
-        viaje_encontrado = self.viajes_usuario.get(indice_seleccionado)
-        if indice_seleccionado:
+        clave_seleccionada = self.seleccionar_viaje_gasto.currentData()
+        if clave_seleccionada is not None:
+            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada)
             if viaje_encontrado:
-                texto_titulo = viaje_encontrado["titulo"]
-                texto_destino = viaje_encontrado["destino"]
-                lista_fechas_inicio = viaje_encontrado["fecha_inicio"]
-                lista_fechas_fin = viaje_encontrado["fecha_fin"]
                 presupuesto = viaje_encontrado["presupuesto"]
-                personas_de_viaje_encontrado = viaje_encontrado["personas"]
                 vuelos = viaje_encontrado.get("vuelos", {})
                 alojamiento = viaje_encontrado.get("alojamiento", {})
-                itinerario = viaje_encontrado.get("Itinerario", [])
                 gastos = viaje_encontrado.get("Gastos", [])
 
-                total_vuelos = float(vuelos['costo_ida'])+float(vuelos['costo_regreso'])
+                total_vuelos = float(vuelos['costo_ida']) + float(vuelos['costo_regreso'])
 
                 self.label_presupuesto_del_viaje.setText(f"${presupuesto}")
                 self.label_costo_de_los_vuelos.setText(f"${total_vuelos}")
@@ -550,11 +545,44 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
                 total_de_gastos = float(presupuesto) - total_vuelos - float(alojamiento['costo'])
                 self.label_total_total_gastos.setText(f"${total_de_gastos}")
+
+            if gastos:
+                pass
+            else:
+                pass
+
+    def añadir_gasto(self, gastos):
+        descripcion = self.descripcion_del_gasto.text().strip()
+        if not descripcion:
+            self.mostrar_warning("Debe agregar una descripción del gasto")
+            return
+        
+        valor = self.costo_del_gasto.text().strip()
+        if not valor:
+            self.mostrar_warning("Agregue el costo del gasto")
+            return
+        if valor.isdigit():
+            gasto = float(valor)
+        else:
+            self.mostrar_warning("Escriba un valor númerico")
+            return
+        
+        fecha = self.fecha_del_gasto.text()
+        if not self.validar_solo_fecha(fecha):
+            return
+        else:
+            gasto_widget = GastoWidget(descripcion, valor, fecha)
+            item = QListWidgetItem(self.list_widget_gastos)
+            info_gasto = [descripcion, gasto, fecha]
+            gastos.append(info_gasto)
+            
+
+        
+
+
                 
 
             
-
-
     def listar_viajes(self):
         if self.viajes_usuario:
             viajes_ordenados = sorted(self.viajes_usuario.items(), key=lambda x: x[0], reverse=True)
@@ -562,7 +590,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
             self.seleccionar_viaje_gasto.clear()
             self.seleccionar_viaje_itinerario.clear()
             for i, viaje in viajes_ordenados:
-                indice = i
                 texto_titulo = viaje["titulo"]
                 texto_destino = viaje["destino"]
                 lista_fechas_inicio = viaje["fecha_inicio"]
@@ -576,20 +603,21 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
                 texto_combo = f"Título: {texto_titulo} - Destino: {texto_destino} - Numero de personas: {personas_de_viaje}"
 
-                travel_widget = TravelWidget(indice, texto_titulo, texto_destino, lista_fechas_inicio, lista_fechas_fin, presupuesto, personas_de_viaje, vuelos, alojamiento, itinerario, gastos)
+                travel_widget = TravelWidget(i, texto_titulo, texto_destino, lista_fechas_inicio, lista_fechas_fin, presupuesto, personas_de_viaje, vuelos, alojamiento, itinerario, gastos)
                 item = QListWidgetItem(self.list_widget_viajes_guardados)
                 item.setSizeHint(travel_widget.sizeHint())
                 self.list_widget_viajes_guardados.addItem(item)
                 self.list_widget_viajes_guardados.setItemWidget(item, travel_widget)
-                self.seleccionar_viaje_gasto.addItem(texto_combo)
-                self.seleccionar_viaje_itinerario.addItem(texto_combo)
+                self.seleccionar_viaje_gasto.addItem(texto_combo, userData=i)  
+                self.seleccionar_viaje_itinerario.addItem(texto_combo, userData=i)
             self.list_widget_viajes_guardados.scrollToTop()
+
             
         
 
     def cargar_viajes_iniciales(self):
         self.viajes_usuario = {
-            0: {
+            1: {
                 "titulo": "Viaje a Paris",
                 "destino": "Paris, Francia",
                 "fecha_inicio": ["01", "Ene", 2024],
@@ -621,7 +649,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 "Itinerario": [], 
                 "Gastos": [],
             },
-            1: {
+            2: {
                 "titulo": "Viaje a Tokio",
                 "destino": "Tokio, Japón",
                 "fecha_inicio": ["15", "Feb", 2024],
