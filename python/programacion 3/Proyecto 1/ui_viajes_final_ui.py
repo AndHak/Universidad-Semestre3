@@ -2470,8 +2470,11 @@ class Ui_MainWindow(object):
 "\n"
 "QListWidget::item {\n"
 "    padding: 10px; /* A\u00f1ade padding a cada elemento para aumentar el espacio entre ellos */\n"
-"    margin: 5px 0; /* A\u00f1ade un margen entre cada elemento para mayor separaci\u00f3n vertical */\n"
-"}")
+"    margin: 5px 0; /* A\u00f1ade un margen entre cada elemento para mayor separaci\u00f3n vertical*/\n"
+"	width: 200px:\n"
+"	height: 25px;\n"
+"}\n"
+"")
 
         self.verticalLayout_35.addWidget(self.list_widget_de_planes)
 
@@ -4824,7 +4827,7 @@ class Ui_MainWindow(object):
         self.home_small_button1.toggled.connect(self.home_small_button2.setChecked)
         self.off2button.toggled.connect(self.off1button.setChecked)
 
-        self.stackedWidget.setCurrentIndex(5)
+        self.stackedWidget.setCurrentIndex(3)
         self.notifications_stacked.setCurrentIndex(0)
         self.configuraciones_stacked.setCurrentIndex(0)
 

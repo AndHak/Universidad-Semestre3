@@ -360,6 +360,10 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.eliminar_gasto_button.clicked.connect(self.eliminar_gasto)
 
 
+        #Botones de agregar itinerario
+        self.boton_guardar_plan.clicked.connect(self.añadir_plan)
+
+
 
 
     def pasar_datos_to_pdf(self):
@@ -378,7 +382,8 @@ class MainApp(QMainWindow, Ui_MainWindow):
         if datos is None:
             self.mostrar_warning("No se encontraron datos para el viaje seleccionado.")
             return
-        
+    
+
         crear_pdf(datos)
 
 
@@ -532,6 +537,82 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
         self.mostrar_exito("El viaje se ha agregado correctamente")
 
+    def añadir_plan(self):
+        plan = self.descripcion_del_plan.text()
+        if not plan:
+            self.mostrar_warning("Debe agregar un plan")
+            return
+
+        fecha = self.fecha_del_plan.text()
+        if not fecha:
+            self.mostrar_warning("Agregue la fecha de cuando se realizará el plan")
+            return
+
+        hora = self.hora_del_plan.text()
+        if not hora:
+            self.mostrar_warning("Agregue la hora")
+            return
+
+        if not self.validar_fecha_hora(fecha, hora, self.am_pm_del_plan.currentText(), "Itinerario"):
+            return
+        else:
+            clave_seleccionada = self.seleccionar_viaje_itinerario.currentData()
+            if clave_seleccionada is not None:
+                viaje_encontrado = self.viajes_usuario.get(clave_seleccionada)
+                if viaje_encontrado:
+                    itinerario = viaje_encontrado.get("Itinerario", [])
+                    info_plan = [plan, hora, fecha]
+                    itinerario.append(info_plan)
+                    viaje_encontrado["Itinerario"] = itinerario
+                    self.viajes_usuario[clave_seleccionada] = viaje_encontrado
+
+                    self.mostrar_exito("El plan se ha agregado correctamente.")
+                    self.actualizar_planes_del_itinerario()
+                else:
+                    self.mostrar_warning("Viaje no encontrado")
+
+    def actualizar_planes_del_itinerario(self):
+        clave_seleccionada = self.seleccionar_viaje_itinerario.currentData()
+        if clave_seleccionada is not None:
+            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada)
+            if viaje_encontrado:
+                planes = viaje_encontrado.get("Itinerario", [])
+
+                self.list_widget_de_planes.clear()
+                for plan in planes:
+                    descripcion_del_plan, hora, fecha = plan
+                    plan_widget = PlanWidget(descripcion_del_plan, hora, fecha)
+                    item=QListWidgetItem(self.list_widget_de_planes)
+                    item.setSizeHint(plan_widget.sizeHint())
+                    self.list_widget_de_planes.addItem(item)
+                    self.list_widget_de_planes.setItemWidget(item, plan_widget)
+    
+    def eliminar_plan(self):
+        clave_seleccionada = self.seleccionar_viaje_itinerario.currentData()
+        if clave_seleccionada is not None:
+            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada)
+            if viaje_encontrado:
+                planes = viaje_encontrado.get("Itinerario", [])
+                plan_seleccionado = self.list_widget_de_planes.currentItem()
+                if plan_seleccionado:
+                    item_index = self.list_widget_de_planes.row(plan_seleccionado)
+                    confirmacion = QMessageBox.question(self, "Confirmar eliminación", "¿Está seguro de que desea eliminar este plan?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                    if confirmacion == QMessageBox.Yes:
+                        self.list_widget_de_planes.takeItem(item_index)
+                        if 0 <= item_index < len(planes):
+                            del planes[item_index]
+                        viaje_encontrado["Itinerario"] = planes
+                        self.viajes_usuario[clave_seleccionada] = viaje_encontrado
+                        self.mostrar_exito("El plan se ha eliminado correctamente")
+                        self.actualizar_planes_del_itinerario()
+                else:
+                    self.mostrar_warning("Seleccione un plan para eliminar")
+            else:
+                self.mostrar_warning("Viaje no encontrado")
+
+                
+
+
     def actualizar_gastos_del_viaje(self):
         clave_seleccionada = self.seleccionar_viaje_gasto.currentData()
         if clave_seleccionada is not None:
@@ -549,16 +630,12 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 self.label_costo_de_los_vuelos.setText(f"${total_vuelos:.2f}")
                 self.label_costo_del_alojamiento.setText(f"${float(alojamiento['costo']):.2f}")
 
-            
-
                 # Actualizar la lista de gastos en la interfaz
                 self.list_widget_gastos.clear()
                 for gasto in gastos:
                     descripcion, valor, fecha = gasto
                             # Añadir el gasto a la interfaz
                     gasto_widget = GastoWidget(descripcion, valor, fecha)
-                    gasto_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-                    gasto_widget.setMinimumHeight(60)
                     item = QListWidgetItem(self.list_widget_gastos)
                     item.setSizeHint(gasto_widget.sizeHint())
                     self.list_widget_gastos.addItem(item)
@@ -572,7 +649,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 total_de_gastos = float(presupuesto) - total_vuelos - float(alojamiento['costo']) - total_gastos_varios
                 self.label_total_total_gastos.setText(f"${total_de_gastos:.2f}")
             
-
     def añadir_gasto(self):
         descripcion = self.descripcion_del_gasto.text().strip()
         if not descripcion:
@@ -635,7 +711,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
             else:
                 self.mostrar_warning("Viaje no encontrado")
             
-
     def listar_viajes(self):
         if self.viajes_usuario:
             viajes_ordenados = sorted(self.viajes_usuario.items(), key=lambda x: x[0], reverse=True)

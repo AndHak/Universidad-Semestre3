@@ -1400,7 +1400,7 @@ QCheckBox::indicator:checked {
 </string>
              </property>
              <property name="currentIndex">
-              <number>5</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="home_page">
               <layout class="QGridLayout" name="gridLayout_11">
@@ -4155,8 +4155,11 @@ font-size: 20px;</string>
 
 QListWidget::item {
     padding: 10px; /* Añade padding a cada elemento para aumentar el espacio entre ellos */
-    margin: 5px 0; /* Añade un margen entre cada elemento para mayor separación vertical */
-}</string>
+    margin: 5px 0; /* Añade un margen entre cada elemento para mayor separación vertical*/
+	width: 200px:
+	height: 25px;
+}
+</string>
                       </property>
                      </widget>
                     </item>
