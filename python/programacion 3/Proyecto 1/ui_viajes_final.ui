@@ -1400,7 +1400,7 @@ QCheckBox::indicator:checked {
 </string>
              </property>
              <property name="currentIndex">
-              <number>4</number>
+              <number>6</number>
              </property>
              <widget class="QWidget" name="home_page">
               <layout class="QGridLayout" name="gridLayout_11">
@@ -5887,7 +5887,7 @@ QPushButton:pressed {
                         <string notr="true">background: transparent;</string>
                        </property>
                        <property name="currentIndex">
-                        <number>0</number>
+                        <number>1</number>
                        </property>
                        <widget class="QWidget" name="apoyo_about_us_page">
                         <property name="styleSheet">
@@ -6263,6 +6263,23 @@ QGroupBox::title {
 
 
 
+QPlainTextEdit {
+    background-color: white; 
+    border: 2px solid #BDBDBD;
+    border-radius: 5px; 
+    padding: 10px;
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+    color: #212121; /* Color del texto */
+}
+
+QPlainTextEdit:focus {
+    border: 2px solid #1B4965; /* Color principal */
+}
+
+QPlainTextEdit:hover {
+    border: 2px solid #1B4965; /* Color principal cuando se pasa el ratón por encima */
+}
 </string>
                         </property>
                         <layout class="QGridLayout" name="gridLayout_21">
@@ -6346,97 +6363,18 @@ border-radius: 5px;</string>
                                </item>
                                <item>
                                 <property name="text">
-                                 <string>Donación</string>
-                                </property>
-                               </item>
-                               <item>
-                                <property name="text">
                                  <string>Otro</string>
                                 </property>
                                </item>
                               </widget>
                              </item>
                              <item>
-                              <widget class="QPlainTextEdit" name="plaintext_apoyo">
-                               <property name="minimumSize">
-                                <size>
-                                 <width>0</width>
-                                 <height>100</height>
-                                </size>
-                               </property>
-                               <property name="maximumSize">
-                                <size>
-                                 <width>16777215</width>
-                                 <height>100</height>
-                                </size>
-                               </property>
-                               <property name="tabStopDistance">
-                                <double>80.000000000000000</double>
-                               </property>
-                               <property name="centerOnScroll">
-                                <bool>true</bool>
-                               </property>
-                               <property name="placeholderText">
-                                <string>Escribe aqui</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <layout class="QHBoxLayout" name="horizontalLayout_7">
+                              <layout class="QHBoxLayout" name="horizontalLayout_document">
                                <item>
-                                <widget class="QLineEdit" name="money_edit_apoyo">
-                                 <property name="sizePolicy">
-                                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                                   <horstretch>0</horstretch>
-                                   <verstretch>0</verstretch>
-                                  </sizepolicy>
+                                <widget class="QPlainTextEdit" name="plainTextEdit">
+                                 <property name="styleSheet">
+                                  <string notr="true"/>
                                  </property>
-                                 <property name="minimumSize">
-                                  <size>
-                                   <width>0</width>
-                                   <height>40</height>
-                                  </size>
-                                 </property>
-                                 <property name="maximumSize">
-                                  <size>
-                                   <width>16777215</width>
-                                   <height>40</height>
-                                  </size>
-                                 </property>
-                                 <property name="maxLength">
-                                  <number>10</number>
-                                 </property>
-                                </widget>
-                               </item>
-                               <item>
-                                <widget class="QComboBox" name="money_combobox_apoyo">
-                                 <property name="minimumSize">
-                                  <size>
-                                   <width>100</width>
-                                   <height>40</height>
-                                  </size>
-                                 </property>
-                                 <property name="maximumSize">
-                                  <size>
-                                   <width>100</width>
-                                   <height>40</height>
-                                  </size>
-                                 </property>
-                                 <item>
-                                  <property name="text">
-                                   <string>$ COP</string>
-                                  </property>
-                                 </item>
-                                 <item>
-                                  <property name="text">
-                                   <string>$ USD</string>
-                                  </property>
-                                 </item>
-                                 <item>
-                                  <property name="text">
-                                   <string>€ Euro</string>
-                                  </property>
-                                 </item>
                                 </widget>
                                </item>
                               </layout>

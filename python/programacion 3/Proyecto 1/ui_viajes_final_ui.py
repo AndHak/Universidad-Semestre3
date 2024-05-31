@@ -4028,6 +4028,24 @@ class Ui_MainWindow(object):
 "\n"
 "\n"
 "\n"
+"QPlainTextEdit {\n"
+"    background-color: white; \n"
+"    border: 2px solid #BDBDBD;\n"
+"    border-radius: 5px; \n"
+"    padding: 10px;\n"
+"    font-size: 15px;\n"
+"    font-family: 'Roboto', sans-serif;\n"
+"    color: #212121; /* Color del texto */\n"
+"}\n"
+"\n"
+"QPlainTextEdit:focus {\n"
+"    border: 2px solid #1B4965; /* Color principal */\n"
+"}\n"
+"\n"
+"QPlainTextEdit:hover {\n"
+"    border"
+                        ": 2px solid #1B4965; /* Color principal cuando se pasa el rat\u00f3n por encima */\n"
+"}\n"
 "")
         self.gridLayout_21 = QGridLayout(self.apoyo_page)
         self.gridLayout_21.setObjectName(u"gridLayout_21")
@@ -4057,7 +4075,6 @@ class Ui_MainWindow(object):
         QListWidgetItem(self.list_apoyo)
         QListWidgetItem(self.list_apoyo)
         QListWidgetItem(self.list_apoyo)
-        QListWidgetItem(self.list_apoyo)
         self.list_apoyo.setObjectName(u"list_apoyo")
         self.list_apoyo.setMinimumSize(QSize(0, 200))
         self.list_apoyo.setMaximumSize(QSize(16777215, 200))
@@ -4069,39 +4086,16 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_10.addWidget(self.list_apoyo)
 
-        self.plaintext_apoyo = QPlainTextEdit(self.apoyo_page)
-        self.plaintext_apoyo.setObjectName(u"plaintext_apoyo")
-        self.plaintext_apoyo.setMinimumSize(QSize(0, 100))
-        self.plaintext_apoyo.setMaximumSize(QSize(16777215, 100))
-        self.plaintext_apoyo.setTabStopDistance(80.000000000000000)
-        self.plaintext_apoyo.setCenterOnScroll(True)
+        self.horizontalLayout_document = QHBoxLayout()
+        self.horizontalLayout_document.setObjectName(u"horizontalLayout_document")
+        self.plainTextEdit = QPlainTextEdit(self.apoyo_page)
+        self.plainTextEdit.setObjectName(u"plainTextEdit")
+        self.plainTextEdit.setStyleSheet(u"")
 
-        self.verticalLayout_10.addWidget(self.plaintext_apoyo)
-
-        self.horizontalLayout_7 = QHBoxLayout()
-        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
-        self.money_edit_apoyo = QLineEdit(self.apoyo_page)
-        self.money_edit_apoyo.setObjectName(u"money_edit_apoyo")
-        sizePolicy5.setHeightForWidth(self.money_edit_apoyo.sizePolicy().hasHeightForWidth())
-        self.money_edit_apoyo.setSizePolicy(sizePolicy5)
-        self.money_edit_apoyo.setMinimumSize(QSize(0, 40))
-        self.money_edit_apoyo.setMaximumSize(QSize(16777215, 40))
-        self.money_edit_apoyo.setMaxLength(10)
-
-        self.horizontalLayout_7.addWidget(self.money_edit_apoyo)
-
-        self.money_combobox_apoyo = QComboBox(self.apoyo_page)
-        self.money_combobox_apoyo.addItem("")
-        self.money_combobox_apoyo.addItem("")
-        self.money_combobox_apoyo.addItem("")
-        self.money_combobox_apoyo.setObjectName(u"money_combobox_apoyo")
-        self.money_combobox_apoyo.setMinimumSize(QSize(100, 40))
-        self.money_combobox_apoyo.setMaximumSize(QSize(100, 40))
-
-        self.horizontalLayout_7.addWidget(self.money_combobox_apoyo)
+        self.horizontalLayout_document.addWidget(self.plainTextEdit)
 
 
-        self.verticalLayout_10.addLayout(self.horizontalLayout_7)
+        self.verticalLayout_10.addLayout(self.horizontalLayout_document)
 
         self.enviar_buttton_apoyo = QPushButton(self.apoyo_page)
         self.enviar_buttton_apoyo.setObjectName(u"enviar_buttton_apoyo")
@@ -4827,9 +4821,9 @@ class Ui_MainWindow(object):
         self.home_small_button1.toggled.connect(self.home_small_button2.setChecked)
         self.off2button.toggled.connect(self.off1button.setChecked)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(6)
         self.notifications_stacked.setCurrentIndex(0)
-        self.configuraciones_stacked.setCurrentIndex(0)
+        self.configuraciones_stacked.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -5001,15 +4995,8 @@ class Ui_MainWindow(object):
         ___qlistwidgetitem1 = self.list_apoyo.item(1)
         ___qlistwidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Comentarios", None));
         ___qlistwidgetitem2 = self.list_apoyo.item(2)
-        ___qlistwidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Donaci\u00f3n", None));
-        ___qlistwidgetitem3 = self.list_apoyo.item(3)
-        ___qlistwidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Otro", None));
+        ___qlistwidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Otro", None));
         self.list_apoyo.setSortingEnabled(__sortingEnabled)
-
-        self.plaintext_apoyo.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Escribe aqui", None))
-        self.money_combobox_apoyo.setItemText(0, QCoreApplication.translate("MainWindow", u"$ COP", None))
-        self.money_combobox_apoyo.setItemText(1, QCoreApplication.translate("MainWindow", u"$ USD", None))
-        self.money_combobox_apoyo.setItemText(2, QCoreApplication.translate("MainWindow", u"\u20ac Euro", None))
 
         self.enviar_buttton_apoyo.setText(QCoreApplication.translate("MainWindow", u"Enviar", None))
         self.back_button_about_us.setText("")

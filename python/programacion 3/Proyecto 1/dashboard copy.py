@@ -13,8 +13,11 @@ import datetime
 from login_ui import Ui_MainWindow_login
 from PySide6 import QtWidgets, QtGui
 
-#Primer diccionario de recordatorios y segundo diccionario de viajes(contine en su interior itinerario del viaje y gastos)
-dic_usuarios = {'andresfg13789@gmail.com': ['Andres', 'Guerra', '2567AndresG', [], {}]}
+#Primer diccionario de recordatorios y segundo diccionario de viajes(contine en su interior itinerario del viaje y gastos) y el ultimo de datos del perfil
+datos_usuario = {
+    ""
+}
+dic_usuarios = {'andresfg13789@gmail.com': ['Andres', 'Guerra', '2567AndresG', [{'texto': 'a'}], {}, {}]}
 class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
     basedir = os.path.dirname(__file__)
     def __init__(self):
@@ -458,6 +461,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
         if email_usuario in dic_usuarios:
             # Obtener la lista de recordatorios del usuario
             recordatorios_usuario = dic_usuarios[email_usuario][3]
+            print(recordatorios_usuario)
 
             # Iterar sobre los recordatorios del usuario y crear widgets para cada uno
             for recordatorio_info in recordatorios_usuario:
