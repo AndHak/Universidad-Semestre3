@@ -340,7 +340,7 @@ class GastoWidget(QWidget):
 
 
 class PlanWidget(QWidget):
-    def __init__(self, plan, hora, fecha):
+    def __init__(self, plan, hora, am_pm, fecha):
         super().__init__()
         
         # Estilos para el widget
@@ -375,7 +375,7 @@ class PlanWidget(QWidget):
         # Segundo cuadro: Hora
         hora_layout = QVBoxLayout()
 
-        hora_label = QLabel(f"Hora: {hora}")
+        hora_label = QLabel(f"Hora: {hora} {am_pm}")
         hora_label.setObjectName("label_hora_title")
         hora_label.setStyleSheet("color: #4CAF50;")
         hora_label.setWordWrap(True)
@@ -393,3 +393,105 @@ class PlanWidget(QWidget):
         fecha_layout.addWidget(fecha_label)
 
         layout.addLayout(fecha_layout)
+
+
+class RecordatorioWidget(QWidget):
+    def __init__(self, asunto, fecha=None, hora=None, lugar=None):
+        super().__init__()
+        
+        # Estilos para el widget
+        self.setStyleSheet("""
+            QWidget {
+                background-color: #f5f5f5;
+                border-radius: 10px;
+                padding: 10px;
+            }
+            QLabel {
+                font-family: "Arial", sans-serif;
+            }
+            QLabel[objectName^="label_"] {
+                font-weight: bold;
+            }
+        """)
+
+        # Diseño horizontal
+        layout = QHBoxLayout(self)
+
+        # Primer cuadro: Asunto
+        asunto_layout = QVBoxLayout()
+
+        asunto_label = QLabel("Asunto")
+        asunto_label.setObjectName("label_asunto_title")
+        asunto_label.setStyleSheet("color: #2196F3;")
+        asunto_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        asunto_label.setWordWrap(True)
+        asunto_layout.addWidget(asunto_label)
+
+        asunto_value_label = QLabel(f"{asunto}")
+        asunto_value_label.setObjectName("label_asunto_value")
+        asunto_value_label.setStyleSheet("color: #2196F3;")
+        asunto_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        asunto_value_label.setWordWrap(True)
+        asunto_layout.addWidget(asunto_value_label)
+
+        layout.addLayout(asunto_layout)
+
+        # Segundo cuadro: Fecha
+        if fecha:
+            fecha_layout = QVBoxLayout()
+
+            fecha_label = QLabel("Fecha")
+            fecha_label.setObjectName("label_fecha_title")
+            fecha_label.setStyleSheet("color: #FF9800;")
+            fecha_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+            fecha_label.setWordWrap(True)
+            fecha_layout.addWidget(fecha_label)
+
+            fecha_value_label = QLabel(f"{fecha}")
+            fecha_value_label.setObjectName("label_fecha_value")
+            fecha_value_label.setStyleSheet("color: #FF9800;")
+            fecha_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+            fecha_value_label.setWordWrap(True)
+            fecha_layout.addWidget(fecha_value_label)
+
+            layout.addLayout(fecha_layout)
+
+        # Tercer cuadro: Hora
+        if hora:
+            hora_layout = QVBoxLayout()
+
+            hora_label = QLabel("Hora")
+            hora_label.setObjectName("label_hora_title")
+            hora_label.setStyleSheet("color: #FF5722;")
+            hora_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+            hora_label.setWordWrap(True)
+            hora_layout.addWidget(hora_label)
+
+            hora_value_label = QLabel(f"{hora}")
+            hora_value_label.setObjectName("label_hora_value")
+            hora_value_label.setStyleSheet("color: #FF5722;")
+            hora_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+            hora_value_label.setWordWrap(True)
+            hora_layout.addWidget(hora_value_label)
+
+            layout.addLayout(hora_layout)
+
+        # Cuarto cuadro: Lugar
+        if lugar:
+            lugar_layout = QVBoxLayout()
+
+            lugar_label = QLabel("Lugar")
+            lugar_label.setObjectName("label_lugar_title")
+            lugar_label.setStyleSheet("color: #4CAF50;")
+            lugar_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+            lugar_label.setWordWrap(True)
+            lugar_layout.addWidget(lugar_label)
+
+            lugar_value_label = QLabel(f"{lugar}")
+            lugar_value_label.setObjectName("label_lugar_value")
+            lugar_value_label.setStyleSheet("color: #4CAF50;")
+            lugar_value_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+            lugar_value_label.setWordWrap(True)
+            lugar_layout.addWidget(lugar_value_label)
+
+            layout.addLayout(lugar_layout)

@@ -12,17 +12,20 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
         self.setupUi(self)
         #botones login
         self.button_registrate_stacked.clicked.connect(self.cambiar_a_registro)
-        self.button_ver_password.pressed.connect(lambda: self.mirar_password(self.line_password_login, self.button_ver_password))
-        self.button_ver_password.released.connect(lambda: self.ocultar_password(self.line_password_login, self.button_ver_password))
+        self.button_ver_password.pressed.connect(lambda: self.mirar_password(self.line_password_login, self.button_ver_password, "ojo-abierto-morado.png"))
+        self.button_ver_password.released.connect(lambda: self.ocultar_password(self.line_password_login, self.button_ver_password, "ojo-cerrado-morado.png"))
         self.button_inicia_sesion.clicked.connect(self.validar_login)
 
         #botones registro
         self.button_inicia_sesion_stacked.clicked.connect(self.cambiar_a_login)
-        self.button_ver_password_registro.pressed.connect(lambda: self.mirar_password(self.line_password_registro, self.button_ver_password))
-        self.button_ver_password_registro.released.connect(lambda: self.ocultar_password(self.line_password_registro, self.button_ver_password))
-        self.pushButton_7.pressed.connect(lambda: self.mirar_password(self.line_password_validacion_registro, self.pushButton_7))
-        self.pushButton_7.released.connect(lambda: self.ocultar_password(self.line_password_validacion_registro, self.pushButton_7))
-        self.button_registrarse.clicked.connect(self.validar_registro)
+        self.button_ver_password_registro.pressed.connect(lambda: self.mirar_password(self.line_password_registro, self.button_ver_password_registro, "ojo-abierto-morado.png"))
+        self.button_ver_password_registro.released.connect(lambda: self.ocultar_password(self.line_password_registro, self.button_ver_password_registro, "ojo-cerrado-morado.png"))
+        self.pushButton_7.pressed.connect(lambda: self.mirar_password(self.line_password_validacion_registro, self.pushButton_7, "ojo-abierto-morado.png"))
+        self.pushButton_7.released.connect(lambda: self.ocultar_password(self.line_password_validacion_registro, self.pushButton_7, "ojo-cerrado-morado.png"))
+        self.button_registrarse.clicked.connect(self.validar_registro) 
+        
+        self.line_usuario_login.setText("andresfg13789@gmail.com")
+        self.line_password_login.setText("2567AndresG")
 
         
 
@@ -49,16 +52,16 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
         self.line_password_validacion_registro.setStyleSheet("background-color: rgba(255, 255, 255, 50%); border-bottom: 1px solid black; border-radius: 5px; color: black; height: 30px; font-size: 13px;")
 
     
-    def mirar_password(self, line_edit, button):
+    def mirar_password(self, line_edit, button, icon_name):
         line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Normal)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(os.path.join(self.basedir, "icons_login/ojo-abierto-morado.png")))
+        icon.addPixmap(QtGui.QPixmap(os.path.join(self.basedir, "img_trabajos", icon_name)))
         button.setIcon(icon)
     
-    def ocultar_password(self, line_edit, button):
+    def ocultar_password(self, line_edit, button, icon_name):
         line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(os.path.join(self.basedir, "icons_login/ojo-cerrado-morado.png")))
+        icon.addPixmap(QtGui.QPixmap(os.path.join(self.basedir, "img_trabajos", icon_name)))
         button.setIcon(icon)
     
     def validar_login(self):

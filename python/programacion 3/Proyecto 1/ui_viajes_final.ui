@@ -1400,7 +1400,7 @@ QCheckBox::indicator:checked {
 </string>
              </property>
              <property name="currentIndex">
-              <number>3</number>
+              <number>5</number>
              </property>
              <widget class="QWidget" name="home_page">
               <layout class="QGridLayout" name="gridLayout_11">
@@ -4261,7 +4261,11 @@ background-color: #CAE9FF;
                      </widget>
                     </item>
                     <item row="2" column="1">
-                     <widget class="QLineEdit" name="hora_del_plan"/>
+                     <widget class="QLineEdit" name="hora_del_plan">
+                      <property name="placeholderText">
+                       <string>00:00</string>
+                      </property>
+                     </widget>
                     </item>
                     <item row="2" column="2">
                      <widget class="QComboBox" name="am_pm_del_plan">
@@ -4309,7 +4313,11 @@ background-color: #CAE9FF;
                      </widget>
                     </item>
                     <item row="3" column="1">
-                     <widget class="QLineEdit" name="fecha_del_plan"/>
+                     <widget class="QLineEdit" name="fecha_del_plan">
+                      <property name="placeholderText">
+                       <string>día-mes-año</string>
+                      </property>
+                     </widget>
                     </item>
                     <item row="3" column="2">
                      <widget class="QPushButton" name="boton_guardar_plan">
@@ -4693,7 +4701,11 @@ background-color: #CAE9FF;
                      </widget>
                     </item>
                     <item row="3" column="1">
-                     <widget class="QLineEdit" name="fecha_del_gasto"/>
+                     <widget class="QLineEdit" name="fecha_del_gasto">
+                      <property name="placeholderText">
+                       <string>día-mes-año</string>
+                      </property>
+                     </widget>
                     </item>
                     <item row="3" column="2">
                      <widget class="QPushButton" name="boton_guardar_gasto">
@@ -5055,7 +5067,7 @@ QLabel {
 </string>
                     </property>
                     <property name="currentIndex">
-                     <number>0</number>
+                     <number>1</number>
                     </property>
                     <widget class="QWidget" name="recordatorios_page">
                      <layout class="QGridLayout" name="gridLayout_23">
@@ -5616,6 +5628,9 @@ border-radius: 0px;
                                      <property name="enabled">
                                       <bool>false</bool>
                                      </property>
+                                     <property name="placeholderText">
+                                      <string>00:00</string>
+                                     </property>
                                     </widget>
                                    </item>
                                    <item>
@@ -5674,6 +5689,9 @@ border-radius: 0px;
                                     <widget class="QLineEdit" name="lineedit_fecha_recordatorio">
                                      <property name="enabled">
                                       <bool>false</bool>
+                                     </property>
+                                     <property name="placeholderText">
+                                      <string>día-mes-año</string>
                                      </property>
                                     </widget>
                                    </item>

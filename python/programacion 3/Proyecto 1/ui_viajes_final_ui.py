@@ -4827,8 +4827,8 @@ class Ui_MainWindow(object):
         self.home_small_button1.toggled.connect(self.home_small_button2.setChecked)
         self.off2button.toggled.connect(self.off1button.setChecked)
 
-        self.stackedWidget.setCurrentIndex(3)
-        self.notifications_stacked.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(5)
+        self.notifications_stacked.setCurrentIndex(1)
         self.configuraciones_stacked.setCurrentIndex(0)
 
 
@@ -4945,10 +4945,12 @@ class Ui_MainWindow(object):
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Agregar plan:", None))
         self.label_17.setText(QCoreApplication.translate("MainWindow", u"Plan:", None))
         self.label_71.setText(QCoreApplication.translate("MainWindow", u"Hora:", None))
+        self.hora_del_plan.setPlaceholderText(QCoreApplication.translate("MainWindow", u"00:00", None))
         self.am_pm_del_plan.setItemText(0, QCoreApplication.translate("MainWindow", u"AM", None))
         self.am_pm_del_plan.setItemText(1, QCoreApplication.translate("MainWindow", u"PM", None))
 
         self.label_70.setText(QCoreApplication.translate("MainWindow", u"Fecha:", None))
+        self.fecha_del_plan.setPlaceholderText(QCoreApplication.translate("MainWindow", u"d\u00eda-mes-a\u00f1o", None))
         self.boton_guardar_plan.setText("")
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Gastos", None))
         self.label_18.setText(QCoreApplication.translate("MainWindow", u"Seleccionar viaje:", None))
@@ -4959,6 +4961,7 @@ class Ui_MainWindow(object):
         self.label_20.setText(QCoreApplication.translate("MainWindow", u"Descripcion:", None))
         self.label_72.setText(QCoreApplication.translate("MainWindow", u"Valor", None))
         self.label_73.setText(QCoreApplication.translate("MainWindow", u"Fecha:", None))
+        self.fecha_del_gasto.setPlaceholderText(QCoreApplication.translate("MainWindow", u"d\u00eda-mes-a\u00f1o", None))
         self.boton_guardar_gasto.setText("")
         self.label_21.setText(QCoreApplication.translate("MainWindow", u"Presupuesto del viaje:", None))
         self.label_presupuesto_del_viaje.setText(QCoreApplication.translate("MainWindow", u"$0", None))
@@ -4977,10 +4980,12 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setText(QCoreApplication.translate("MainWindow", u"Recordatorio", None))
         self.check_box_hora_recordatorio.setText(QCoreApplication.translate("MainWindow", u"Hora", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Hora:", None))
+        self.lineedit_hora_recordatorio.setPlaceholderText(QCoreApplication.translate("MainWindow", u"00:00", None))
         self.am_pm_hora_recordatorio.setItemText(0, QCoreApplication.translate("MainWindow", u"AM", None))
         self.am_pm_hora_recordatorio.setItemText(1, QCoreApplication.translate("MainWindow", u"PM", None))
 
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Fecha:", None))
+        self.lineedit_fecha_recordatorio.setPlaceholderText(QCoreApplication.translate("MainWindow", u"d\u00eda-mes-a\u00f1o", None))
         self.checkbox_lugar_recordatorio.setText(QCoreApplication.translate("MainWindow", u"Lugar", None))
         self.agregar_recordatorio_button.setText(QCoreApplication.translate("MainWindow", u"Agregar recordatorio", None))
         self.suppor_button_settings.setText(QCoreApplication.translate("MainWindow", u"Apoyo", None))
