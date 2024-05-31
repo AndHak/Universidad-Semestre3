@@ -658,7 +658,6 @@ class Ui_MainWindow(object):
         self.money_combobox_apoyo_2 = QComboBox(self.frame_10)
         self.money_combobox_apoyo_2.addItem("")
         self.money_combobox_apoyo_2.addItem("")
-        self.money_combobox_apoyo_2.addItem("")
         self.money_combobox_apoyo_2.setObjectName(u"money_combobox_apoyo_2")
         self.money_combobox_apoyo_2.setMinimumSize(QSize(100, 40))
         self.money_combobox_apoyo_2.setMaximumSize(QSize(100, 40))
@@ -1222,25 +1221,6 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_29.addWidget(self.ver_viaje_guardado_button)
 
-        self.eliminar_viajeguardado_button = QPushButton(self.frame_mis_viajes)
-        self.eliminar_viajeguardado_button.setObjectName(u"eliminar_viajeguardado_button")
-        self.eliminar_viajeguardado_button.setMinimumSize(QSize(60, 60))
-        self.eliminar_viajeguardado_button.setStyleSheet(u"QPushButton {\n"
-"border: none;\n"
-"background: transparent;\n"
-"}\n"
-"QPushButton:hover {\n"
-"border: none;\n"
-"background-color: #CAE9FF;\n"
-"}")
-        icon11 = QIcon()
-        icon11.addFile(u":/Icons/icons/icons8-trash-50.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.eliminar_viajeguardado_button.setIcon(icon11)
-        self.eliminar_viajeguardado_button.setIconSize(QSize(35, 35))
-        self.eliminar_viajeguardado_button.setCheckable(True)
-
-        self.horizontalLayout_29.addWidget(self.eliminar_viajeguardado_button)
-
 
         self.gridLayout_43.addLayout(self.horizontalLayout_29, 2, 0, 1, 1)
 
@@ -1738,9 +1718,9 @@ class Ui_MainWindow(object):
 "	background-color: rgb(95, 168, 211);\n"
 "	border: none;\n"
 "}")
-        icon12 = QIcon()
-        icon12.addFile(u":/Icons/icons/icons8-couple-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.boton_pareja_nuevo_viaje.setIcon(icon12)
+        icon11 = QIcon()
+        icon11.addFile(u":/Icons/icons/icons8-couple-64.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.boton_pareja_nuevo_viaje.setIcon(icon11)
         self.boton_pareja_nuevo_viaje.setIconSize(QSize(40, 40))
         self.boton_pareja_nuevo_viaje.setCheckable(True)
         self.boton_pareja_nuevo_viaje.setAutoExclusive(True)
@@ -1761,9 +1741,9 @@ class Ui_MainWindow(object):
 "	background-color: rgb(95, 168, 211);\n"
 "	border: none;\n"
 "}")
-        icon13 = QIcon()
-        icon13.addFile(u":/Icons/icons/icons8-family-40.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.boton_familia_nuevo_viaje.setIcon(icon13)
+        icon12 = QIcon()
+        icon12.addFile(u":/Icons/icons/icons8-family-40.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.boton_familia_nuevo_viaje.setIcon(icon12)
         self.boton_familia_nuevo_viaje.setIconSize(QSize(40, 40))
         self.boton_familia_nuevo_viaje.setCheckable(True)
         self.boton_familia_nuevo_viaje.setAutoExclusive(True)
@@ -1784,9 +1764,9 @@ class Ui_MainWindow(object):
 "	background-color: rgb(95, 168, 211);\n"
 "	border: none;\n"
 "}")
-        icon14 = QIcon()
-        icon14.addFile(u":/Icons/icons/icons8-me-58.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.boton_solo_nuevo_viaje.setIcon(icon14)
+        icon13 = QIcon()
+        icon13.addFile(u":/Icons/icons/icons8-me-58.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.boton_solo_nuevo_viaje.setIcon(icon13)
         self.boton_solo_nuevo_viaje.setIconSize(QSize(40, 40))
         self.boton_solo_nuevo_viaje.setCheckable(True)
         self.boton_solo_nuevo_viaje.setChecked(True)
@@ -2495,7 +2475,9 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-color: #CAE9FF;\n"
 "}")
-        self.eliminar_plan_button.setIcon(icon11)
+        icon14 = QIcon()
+        icon14.addFile(u":/Icons/icons/icons8-trash-50.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.eliminar_plan_button.setIcon(icon14)
         self.eliminar_plan_button.setIconSize(QSize(35, 35))
         self.eliminar_plan_button.setCheckable(True)
 
@@ -2796,7 +2778,7 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-color: #CAE9FF;\n"
 "}")
-        self.eliminar_gasto_button.setIcon(icon11)
+        self.eliminar_gasto_button.setIcon(icon14)
         self.eliminar_gasto_button.setIconSize(QSize(35, 35))
         self.eliminar_gasto_button.setCheckable(True)
 
@@ -3326,7 +3308,7 @@ class Ui_MainWindow(object):
 "border: none;\n"
 "background-color: #CAE9FF;\n"
 "}")
-        self.eliminar_recordatorio_button.setIcon(icon11)
+        self.eliminar_recordatorio_button.setIcon(icon14)
         self.eliminar_recordatorio_button.setIconSize(QSize(35, 35))
         self.eliminar_recordatorio_button.setCheckable(True)
 
@@ -4691,7 +4673,7 @@ class Ui_MainWindow(object):
         self.delete_profile_pic_2.setStyleSheet(u"border: none;\n"
 "background: transparent;\n"
 "")
-        self.delete_profile_pic_2.setIcon(icon11)
+        self.delete_profile_pic_2.setIcon(icon14)
         self.delete_profile_pic_2.setIconSize(QSize(40, 40))
         self.delete_profile_pic_2.setCheckable(False)
 
@@ -4823,7 +4805,7 @@ class Ui_MainWindow(object):
 
         self.stackedWidget.setCurrentIndex(6)
         self.notifications_stacked.setCurrentIndex(0)
-        self.configuraciones_stacked.setCurrentIndex(1)
+        self.configuraciones_stacked.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -4856,7 +4838,6 @@ class Ui_MainWindow(object):
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Viajes Recomendados", None))
         self.money_combobox_apoyo_2.setItemText(0, QCoreApplication.translate("MainWindow", u"$ COP", None))
         self.money_combobox_apoyo_2.setItemText(1, QCoreApplication.translate("MainWindow", u"$ USD", None))
-        self.money_combobox_apoyo_2.setItemText(2, QCoreApplication.translate("MainWindow", u"\u20ac Euro", None))
 
         self.label_22.setText(QCoreApplication.translate("MainWindow", u"Paquete a Cartagena de Indias", None))
         self.label_6.setText("")
@@ -4872,7 +4853,6 @@ class Ui_MainWindow(object):
         self.label_42.setText(QCoreApplication.translate("MainWindow", u"$1.690.000", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Mis viajes", None))
         self.ver_viaje_guardado_button.setText("")
-        self.eliminar_viajeguardado_button.setText("")
         self.label_36.setText(QCoreApplication.translate("MainWindow", u"Nuevo viaje", None))
         self.label_33.setText(QCoreApplication.translate("MainWindow", u"Titulo", None))
         self.lineedit_titulo_nuevo_viaje.setPlaceholderText("")

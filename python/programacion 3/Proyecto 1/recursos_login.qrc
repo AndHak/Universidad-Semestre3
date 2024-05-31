@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="img">
+    <file>icons_login/avion.jpg</file>
+    <file>icons_login/ojo-abierto-morado.png</file>
+    <file>icons_login/ojo-cerrado-morado.png</file>
+  </qresource>
+</RCC>

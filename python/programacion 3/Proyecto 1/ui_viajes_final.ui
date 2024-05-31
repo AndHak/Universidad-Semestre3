@@ -1513,11 +1513,6 @@ QComboBox:focus {
                         <string>$ USD</string>
                        </property>
                       </item>
-                      <item>
-                       <property name="text">
-                        <string>€ Euro</string>
-                       </property>
-                      </item>
                      </widget>
                     </item>
                    </layout>
@@ -2307,42 +2302,6 @@ background-color: #CAE9FF;
                         <property name="icon">
                          <iconset resource="recursos_1.qrc">
                           <normaloff>:/Icons/icons/icons8-view-50.png</normaloff>:/Icons/icons/icons8-view-50.png</iconset>
-                        </property>
-                        <property name="iconSize">
-                         <size>
-                          <width>35</width>
-                          <height>35</height>
-                         </size>
-                        </property>
-                        <property name="checkable">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="eliminar_viajeguardado_button">
-                        <property name="minimumSize">
-                         <size>
-                          <width>60</width>
-                          <height>60</height>
-                         </size>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">QPushButton {
-border: none;
-background: transparent;
-}
-QPushButton:hover {
-border: none;
-background-color: #CAE9FF;
-}</string>
-                        </property>
-                        <property name="text">
-                         <string/>
-                        </property>
-                        <property name="icon">
-                         <iconset resource="recursos_1.qrc">
-                          <normaloff>:/Icons/icons/icons8-trash-50.png</normaloff>:/Icons/icons/icons8-trash-50.png</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
@@ -5887,7 +5846,7 @@ QPushButton:pressed {
                         <string notr="true">background: transparent;</string>
                        </property>
                        <property name="currentIndex">
-                        <number>1</number>
+                        <number>0</number>
                        </property>
                        <widget class="QWidget" name="apoyo_about_us_page">
                         <property name="styleSheet">

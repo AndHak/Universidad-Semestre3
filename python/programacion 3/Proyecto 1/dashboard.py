@@ -9,34 +9,37 @@ import sys
 import os
 import re
 import datetime
+import webbrowser
 
 from login_ui import Ui_MainWindow_login
 from PySide6 import QtWidgets, QtGui
 
 #Primer diccionario de recordatorios y segundo diccionario de viajes(contine en su interior itinerario del viaje y gastos)
-dic_usuarios = {'andresfg13789@gmail.com': ['Andres', 'Guerra', '2567AndresG', {}, {}]}
+dic_usuarios = {'andresfg13789@gmail.com': ['Andres', 'Guerra', '2567AndresG', [], {}]}
 class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
     basedir = os.path.dirname(__file__)
     def __init__(self):
         self.basedir = os.path.dirname(__file__)
         super().__init__()
         self.setupUi(self)
+        
+        self.setWindowTitle("My Travel app")
         #botones login
         self.button_registrate_stacked.clicked.connect(self.cambiar_a_registro)
-        self.button_ver_password.pressed.connect(lambda: self.mirar_password(self.line_password_login, self.button_ver_password))
-        self.button_ver_password.released.connect(lambda: self.ocultar_password(self.line_password_login, self.button_ver_password))
+        self.button_ver_password.pressed.connect(lambda: self.mirar_password(self.line_password_login, self.button_ver_password, "ojo-abierto-morado.png"))
+        self.button_ver_password.released.connect(lambda: self.ocultar_password(self.line_password_login, self.button_ver_password, "ojo-cerrado-morado.png"))
         self.button_inicia_sesion.clicked.connect(self.validar_login)
 
         #botones registro
         self.button_inicia_sesion_stacked.clicked.connect(self.cambiar_a_login)
-        self.button_ver_password_registro.pressed.connect(lambda: self.mirar_password(self.line_password_registro, self.button_ver_password))
-        self.button_ver_password_registro.released.connect(lambda: self.ocultar_password(self.line_password_registro, self.button_ver_password))
-        self.pushButton_7.pressed.connect(lambda: self.mirar_password(self.line_password_validacion_registro, self.pushButton_7))
-        self.pushButton_7.released.connect(lambda: self.ocultar_password(self.line_password_validacion_registro, self.pushButton_7))
-        self.button_registrarse.clicked.connect(self.validar_registro)
+        self.button_ver_password_registro.pressed.connect(lambda: self.mirar_password(self.line_password_registro, self.button_ver_password_registro, "ojo-abierto-morado.png"))
+        self.button_ver_password_registro.released.connect(lambda: self.ocultar_password(self.line_password_registro, self.button_ver_password_registro, "ojo-cerrado-morado.png"))
+        self.pushButton_7.pressed.connect(lambda: self.mirar_password(self.line_password_validacion_registro, self.pushButton_7, "ojo-abierto-morado.png"))
+        self.pushButton_7.released.connect(lambda: self.ocultar_password(self.line_password_validacion_registro, self.pushButton_7, "ojo-cerrado-morado.png"))
+        self.button_registrarse.clicked.connect(self.validar_registro) 
+        
         self.line_usuario_login.setText("andresfg13789@gmail.com")
         self.line_password_login.setText("2567AndresG")
-
         
 
 
@@ -61,16 +64,16 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
         self.line_password_validacion_registro.setStyleSheet("background-color: rgba(255, 255, 255, 50%); border-bottom: 1px solid black; border-radius: 5px; color: black; height: 30px; font-size: 13px;")
 
     
-    def mirar_password(self, line_edit, button):
+    def mirar_password(self, line_edit, button, icon_name):
         line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Normal)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(os.path.join(self.basedir, "icons_login/ojo-abierto-morado.png")))
+        icon.addPixmap(QtGui.QPixmap(os.path.join(self.basedir, "img_trabajos", icon_name)))
         button.setIcon(icon)
     
-    def ocultar_password(self, line_edit, button):
+    def ocultar_password(self, line_edit, button, icon_name):
         line_edit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(os.path.join(self.basedir, "icons_login/ojo-cerrado-morado.png")))
+        icon.addPixmap(QtGui.QPixmap(os.path.join(self.basedir, "img_trabajos", icon_name)))
         button.setIcon(icon)
     
     def validar_login(self):
@@ -168,7 +171,7 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
                                     min-height: 15px;
                                 }
                             """)
-                            dic_usuarios[email] = [nombre, apellido, contraseña]
+                            dic_usuarios[email] = [nombre, apellido, contraseña, [], {}]
                         
 
                             print(dic_usuarios)
@@ -276,6 +279,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.menub.setHidden(True)
 
         self.home_small_button1.setChecked(True)
+        self.configuraciones_stacked.setCurrentIndex(0)
         self.mostrar_pagina_home()
 
         self.open_pic_to_profile_pic_2.setHidden(True)
@@ -332,9 +336,10 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.timer_reloj.timeout.connect(self.update_time)
         self.timer_reloj.start(1000)
 
-        self.actualizar_progreso()
-        self.cargar_viajes_iniciales()
         self.listar_viajes()
+        self.actualizar_gastos_del_viaje()
+        self.actualizar_planes_del_itinerario()
+        self.actualizar_progreso()
         
 
         #Botones de la pagina nuevo viaje
@@ -346,8 +351,184 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.boton_pareja_nuevo_viaje.clicked.connect(self.activar_line_edit_familia)
 
         #Botones de la pagina mis viajes
-        self.eliminar_viajeguardado_button.clicked.connect(self.eliminar_viaje_guardado)
         self.ver_viaje_guardado_button.clicked.connect(self.pasar_datos_to_pdf)
+
+        #Botones de los gastos del viaje
+        self.seleccionar_viaje_gasto.currentIndexChanged.connect(self.actualizar_gastos_del_viaje)
+        self.boton_guardar_gasto.clicked.connect(self.añadir_gasto)
+        self.eliminar_gasto_button.clicked.connect(self.eliminar_gasto)
+
+        #Botones de agregar itinerario
+        self.seleccionar_viaje_itinerario.currentIndexChanged.connect(self.actualizar_planes_del_itinerario)
+        self.boton_guardar_plan.clicked.connect(self.añadir_plan)
+        self.eliminar_plan_button.clicked.connect(self.eliminar_plan)
+
+        #señales recordatorio
+        self.check_box_hora_recordatorio.stateChanged.connect(self.activar_fecha_hora)
+        self.agregar_recordatorio_button.clicked.connect(self.agregar_recordatorio)
+        self.checkbox_lugar_recordatorio.stateChanged.connect(self.activar_line_lugar_recordatorio)
+        self.eliminar_recordatorio_button.clicked.connect(self.borrar_recordatorio)
+
+        #señales home
+        self.money_combobox_apoyo_2.activated.connect(self.cambiar_moneda)
+        #señal configuracion
+        self.enviar_buttton_apoyo.clicked.connect(self.enviar_correo)
+
+
+    
+    def agregar_recordatorio(self):
+        texto = self.text_edit_recordatorio.toPlainText()
+        fecha = self.lineedit_fecha_recordatorio.text().strip()
+        hora = self.lineedit_hora_recordatorio.text().strip()
+        formato = self.am_pm_hora_recordatorio.currentText()
+        lugar = self.lineedit_lugar_recordatorio.text()
+
+        if texto:
+            # Crear el recordatorio
+            if self.check_box_hora_recordatorio.isChecked():
+                if self.validar_fecha_hora(fecha, hora, formato, "Recordatorio"):
+                    if self.checkbox_lugar_recordatorio.isChecked():
+                        if lugar:
+                            recordatorio_info = {
+                                "texto": texto,
+                                "fecha": fecha,
+                                "hora": hora,
+                                "lugar": lugar
+                            }
+                        else:
+                            self.mostrar_warning("Si activaste el lugar no debe quedar vacío")
+                            return  # Salir de la función si no se cumple la condición
+                    else:
+                        recordatorio_info = {
+                            "texto": texto,
+                            "fecha": fecha,
+                            "hora": hora
+                        }
+            elif self.checkbox_lugar_recordatorio.isChecked():
+                if lugar:
+                    recordatorio_info = {
+                        "texto": texto,
+                        "lugar": lugar
+                    }
+                else:
+                    self.mostrar_warning("Si activaste el lugar no debe quedar vacío")
+                    return  # Salir de la función si no se cumple la condición
+            else:
+                recordatorio_info = {"texto": texto}
+
+            # Agregar el recordatorio al diccionario de usuarios
+            email_usuario = self.email_edit_profile_2.text()
+            if email_usuario in dic_usuarios:
+                dic_recordatorios = dic_usuarios[email_usuario][3]
+                dic_recordatorios.append(recordatorio_info)
+            else:
+                self.mostrar_warning("Usuario no encontrado en el diccionario de usuarios")
+                return  # Salir de la función si el usuario no está en el diccionario
+
+            # Actualizar la lista de recordatorios en la interfaz
+            self.cargar_recordatorios()
+
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Information)
+            msg_box.setText("Recordatorio creado con exito")
+            msg_box.setWindowTitle("Recordatorio")
+
+            # Cambiar el tamaño del QMessageBox
+            msg_box.resize(300, 200)
+
+            # Cambiar el estilo del botón
+            msg_box.setStyleSheet("""
+                QPushButton {
+                    min-width: 30px;
+                    min-height: 15px;
+                }
+            """)
+            ok = msg_box.exec()
+            if ok:
+                self.mostrar_pagina_recordatorios()
+        else:
+            self.mostrar_warning("El recordatorio no debe quedar vacío")
+
+    def cargar_recordatorios(self):
+        # Limpiar la lista de recordatorios antes de cargar nuevos
+        self.lista_agregar_recordatorios.clear()
+
+        # Obtener el correo electrónico del usuario actual
+        email_usuario = self.email_edit_profile_2.text()
+
+        # Verificar si el usuario está en el diccionario de usuarios
+        if email_usuario in dic_usuarios:
+            # Obtener la lista de recordatorios del usuario
+            recordatorios_usuario = dic_usuarios[email_usuario][3]
+
+            # Iterar sobre los recordatorios del usuario y crear widgets para cada uno
+            for recordatorio_info in recordatorios_usuario:
+                texto = recordatorio_info.get("texto", "")
+                fecha = recordatorio_info.get("fecha", "")
+                hora = recordatorio_info.get("hora", "")
+                lugar = recordatorio_info.get("lugar", "")
+
+                # Crear un widget RecordatorioWidget para el recordatorio actual
+                recordatorio_widget = RecordatorioWidget(texto, fecha, hora, lugar)
+
+                # Agregar el widget a la lista en la interfaz
+                item = QListWidgetItem()  # Crear un ítem de lista
+                item.setSizeHint(recordatorio_widget.sizeHint())  # Establecer el tamaño del ítem
+                self.lista_agregar_recordatorios.addItem(item)  # Agregar el ítem a la lista
+                self.lista_agregar_recordatorios.setItemWidget(item, recordatorio_widget)  # Asociar el widget con el ítem
+        else:
+            # Mostrar un mensaje si el usuario no está en el diccionario de usuarios
+            self.mostrar_warning("Usuario no encontrado en el diccionario de usuarios")
+
+    def borrar_recordatorio(self):
+        recordatorio_a_borrar = self.lista_agregar_recordatorios.currentItem()
+        if recordatorio_a_borrar:
+            confirmacion = QMessageBox.question(self, "Confirmar eliminación", "¿Seguro que quiere eliminar este recordatorio?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+            if confirmacion == QMessageBox.StandardButton.Yes:
+                # Obtener el índice del recordatorio en la lista
+                indice_recordatorio = self.lista_agregar_recordatorios.row(recordatorio_a_borrar)
+
+                # Obtener el correo electrónico del usuario actual
+                email_usuario = self.email_edit_profile_2.text()
+
+                # Verificar si el usuario está en el diccionario de usuarios
+                if email_usuario in dic_usuarios:
+                    # Obtener la lista de recordatorios del usuario
+                    recordatorios_usuario = dic_usuarios[email_usuario][3]
+
+                    # Eliminar el recordatorio correspondiente de la lista
+                    if indice_recordatorio < len(recordatorios_usuario):
+                        del recordatorios_usuario[indice_recordatorio]
+
+                    # Eliminar el recordatorio de la lista en la interfaz
+                    self.lista_agregar_recordatorios.takeItem(indice_recordatorio)
+
+                else:
+                    # Mostrar un mensaje si el usuario no está en el diccionario de usuarios
+                    self.mostrar_warning("Usuario no encontrado en el diccionario de usuarios")
+        else:
+            self.mostrar_warning("Para borrar un recordatorio primero lo debe seleccionar")
+        
+    def activar_fecha_hora(self):
+        if self.check_box_hora_recordatorio.isChecked():
+            self.lineedit_hora_recordatorio.setEnabled(True)
+            self.lineedit_fecha_recordatorio.setEnabled(True)
+            self.am_pm_hora_recordatorio.setEnabled(True)
+        else:
+            self.lineedit_hora_recordatorio.setEnabled(False)
+            self.lineedit_fecha_recordatorio.setEnabled(False)
+            self.am_pm_hora_recordatorio.setEnabled(False)
+            self.lineedit_hora_recordatorio.clear()
+            self.lineedit_fecha_recordatorio.clear()
+            self.checkbox_lugar_recordatorio.setChecked(False)
+            self.check_box_hora_recordatorio.setChecked(False)
+
+    def activar_line_lugar_recordatorio(self):
+        if self.checkbox_lugar_recordatorio.isChecked():
+            self.lineedit_lugar_recordatorio.setEnabled(True)
+        else:
+            self.lineedit_lugar_recordatorio.setEnabled(False)
+            self.lineedit_lugar_recordatorio.clear()
 
     def pasar_datos_to_pdf(self):
         current_item = self.list_widget_viajes_guardados.currentItem()
@@ -365,11 +546,10 @@ class MainApp(QMainWindow, Ui_MainWindow):
         if datos is None:
             self.mostrar_warning("No se encontraron datos para el viaje seleccionado.")
             return
-        
+    
+
         crear_pdf(datos)
 
-
-    
     def activar_line_edit_familia(self):
         if self.boton_familia_nuevo_viaje.isChecked():
             self.line_edit_familia_nuevo_viaje.setEnabled(True)
@@ -487,7 +667,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 return
 
             alojamiento = {
-                "tipo": alojamiento_tipo,
+                "Tipo": alojamiento_tipo,
                 "direccion": direccion,
                 "fecha_inicio": fecha_inicio_aloja,
                 "hora_inicio": hora_inicio_aloja,
@@ -508,7 +688,9 @@ class MainApp(QMainWindow, Ui_MainWindow):
             "presupuesto": presupuesto,
             "personas": personas_de_viaje,
             "vuelos": vuelos,
-            "alojamiento": alojamiento
+            "alojamiento": alojamiento,
+            "Itinerario": [],
+            "Gastos": []
         }
 
         self.listar_viajes()
@@ -517,13 +699,245 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
         self.mostrar_exito("El viaje se ha agregado correctamente")
 
+    def añadir_plan(self):
+        plan = self.descripcion_del_plan.text()
+        if not plan:
+            self.mostrar_warning("Debe agregar un plan")
+            return
 
+        fecha = self.fecha_del_plan.text()
+        if not fecha:
+            self.mostrar_warning("Agregue la fecha de cuando se realizará el plan")
+            return
+
+        hora = self.hora_del_plan.text()
+        if not hora:
+            self.mostrar_warning("Agregue la hora")
+            return
+        
+        am_pm = self.am_pm_del_plan.currentText()
+        if not self.validar_fecha_hora(fecha, hora, self.am_pm_del_plan.currentText(), "Itinerario"):
+            return
+
+        else:
+            clave_seleccionada = self.seleccionar_viaje_itinerario.currentData()
+            if clave_seleccionada is not None:
+                viaje_encontrado = self.viajes_usuario.get(clave_seleccionada)
+                if viaje_encontrado:
+                    itinerario = viaje_encontrado.get("Itinerario", [])
+                    info_plan = [plan, hora, am_pm, fecha]
+                    itinerario.append(info_plan)
+                    viaje_encontrado["Itinerario"] = itinerario
+                    self.viajes_usuario[clave_seleccionada] = viaje_encontrado
+
+                    self.mostrar_exito("El plan se ha agregado correctamente.")
+                    self.actualizar_planes_del_itinerario()
+                    self.fecha_del_plan.clear()
+                    self.hora_del_plan.clear()
+                    self.descripcion_del_plan.clear()
+                else:
+                    self.mostrar_warning("Viaje no encontrado")
+
+
+    def actualizar_planes_del_itinerario(self):
+        clave_seleccionada = self.seleccionar_viaje_itinerario.currentData()
+        if clave_seleccionada is not None:
+            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada, {})
+            planes = viaje_encontrado.get("Itinerario", [])
+
+            # Convertir las fechas y horas a objetos datetime para facilitar la ordenación
+            def convertir_a_datetime(plan):
+                descripcion_del_plan, hora, am_pm, fecha = plan
+                # Convertir la hora a formato 24 horas
+                hora_partes = hora.split(":")
+                hora_int = int(hora_partes[0])
+                minuto_int = int(hora_partes[1])
+                if am_pm.lower() == 'pm' and hora_int != 12:
+                    hora_int += 12
+                if am_pm.lower() == 'am' and hora_int == 12:
+                    hora_int = 0
+                fecha_hora_str = f"{fecha} {hora_int:02}:{minuto_int:02}"
+                fecha_hora_dt = datetime.datetime.strptime(fecha_hora_str, "%d-%m-%Y %H:%M")
+                return fecha_hora_dt
+
+            # Ordenar los planes primero por fecha y luego por hora
+            if planes:
+                planes_ordenados = sorted(planes, key=convertir_a_datetime)
+
+                self.list_widget_de_planes.clear()
+                for plan in planes_ordenados:
+                    descripcion_del_plan, hora, am_pm, fecha = plan
+                    plan_widget = PlanWidget(descripcion_del_plan, hora, am_pm, fecha)
+                    item = QListWidgetItem(self.list_widget_de_planes)
+                    item.setSizeHint(plan_widget.sizeHint())
+                    self.list_widget_de_planes.addItem(item)
+                    self.list_widget_de_planes.setItemWidget(item, plan_widget)
+
+                # Actualizar el itinerario ordenado en el diccionario viajes_usuario
+                viaje_encontrado["Itinerario"] = planes_ordenados
+            else:
+                self.list_widget_de_planes.clear()
+
+            # Actualizar el diccionario con el viaje actualizado
+            self.viajes_usuario[clave_seleccionada] = viaje_encontrado
+
+
+        
+    def eliminar_plan(self):
+        clave_seleccionada = self.seleccionar_viaje_itinerario.currentData()
+        if clave_seleccionada is not None:
+            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada)
+            if viaje_encontrado:
+                planes = viaje_encontrado.get("Itinerario", [])
+                plan_seleccionado = self.list_widget_de_planes.currentItem()
+                if plan_seleccionado:
+                    item_index = self.list_widget_de_planes.row(plan_seleccionado)
+                    confirmacion = QMessageBox.question(self, "Confirmar eliminación", "¿Está seguro de que desea eliminar este plan?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                    if confirmacion == QMessageBox.Yes:
+                        self.list_widget_de_planes.takeItem(item_index)
+                        if 0 <= item_index < len(planes):
+                            del planes[item_index]
+                        viaje_encontrado["Itinerario"] = planes
+                        self.viajes_usuario[clave_seleccionada] = viaje_encontrado
+                        self.mostrar_exito("El plan se ha eliminado correctamente")
+                        self.actualizar_planes_del_itinerario()
+                else:
+                    self.mostrar_warning("Seleccione un plan para eliminar")
+            else:
+                self.mostrar_warning("Viaje no encontrado")
+
+
+    def actualizar_gastos_del_viaje(self):
+        clave_seleccionada = self.seleccionar_viaje_gasto.currentData()
+        if clave_seleccionada is not None:
+            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada, {})
+            presupuesto = viaje_encontrado.get("presupuesto")
+            vuelos = viaje_encontrado.get("vuelos", {})
+            alojamiento = viaje_encontrado.get("alojamiento", {})
+            gastos = viaje_encontrado.get("Gastos", [])
+            
+            costo_alojamiento = float(alojamiento.get('costo')) if alojamiento else 0
+
+            total_vuelos = 0
+            if vuelos:
+                total_vuelos = float(vuelos.get('costo_ida')) + float(vuelos.get('costo_regreso'))
+
+            total_gastos_varios = 0
+
+            if gastos:
+                self.label_presupuesto_del_viaje.setText(f"${presupuesto:.2f}")
+                self.label_costo_de_los_vuelos.setText(f"${total_vuelos:.2f}")
+                self.label_costo_del_alojamiento.setText(f"${costo_alojamiento:.2f}")
+
+                # Actualizar la lista de gastos en la interfaz
+                self.list_widget_gastos.clear()
+                for gasto in gastos:
+                    descripcion, valor, fecha = gasto
+                    # Añadir el gasto a la interfaz
+                    gasto_widget = GastoWidget(descripcion, valor, fecha)
+                    item = QListWidgetItem(self.list_widget_gastos)
+                    item.setSizeHint(gasto_widget.sizeHint())
+                    self.list_widget_gastos.addItem(item)
+                    self.list_widget_gastos.setItemWidget(item, gasto_widget)
+
+                    total_gastos_varios += valor
+            
+
+                self.label_total_de_los_gastos_varios.setText(f"${total_gastos_varios:.2f}")
+            
+            else:
+                #Añade un intem vacio que diga agregar astos
+                self.label_presupuesto_del_viaje.setText("$0.00")
+                self.label_costo_de_los_vuelos.setText("$0.00")
+                self.label_costo_del_alojamiento.setText("$0.00")
+                self.label_total_de_los_gastos_varios.setText("$0.00")
+                self.label_total_total_gastos.setText("$0.00")
+                self.list_widget_gastos.clear()
+                
+
+            total_de_gastos = float(presupuesto) - total_vuelos - costo_alojamiento - total_gastos_varios
+            self.label_total_total_gastos.setText(f"${total_de_gastos:.2f}")
+        else:
+            # Si no hay un viaje seleccionado, limpiar los labels de gastos
+            self.label_presupuesto_del_viaje.setText("$0.00")
+            self.label_costo_de_los_vuelos.setText("$0.00")
+            self.label_costo_del_alojamiento.setText("$0.00")
+            self.label_total_de_los_gastos_varios.setText("$0.00")
+            self.label_total_total_gastos.setText("$0.00")
+            self.list_widget_gastos.clear()
+            
+    def añadir_gasto(self):
+        descripcion = self.descripcion_del_gasto.text().strip()
+        if not descripcion:
+            self.mostrar_warning("Debe agregar una descripción del gasto")
+            return
+
+        valor = self.costo_del_gasto.text().strip()
+        if not valor:
+            self.mostrar_warning("Agregue el costo del gasto")
+            return
+        if valor.isdigit():
+            gasto = float(valor)
+        else:
+            self.mostrar_warning("Escriba un valor númerico")
+            return
+
+        fecha = self.fecha_del_gasto.text()
+        if fecha.strip() == "":
+            self.mostrar_warning("Escriba una fecha")
+            return
+        if not self.validar_solo_fecha(fecha, "Fecha gasto"):
+            return
+
+        clave_seleccionada = self.seleccionar_viaje_gasto.currentData()
+        if clave_seleccionada is not None:
+            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada)
+            if viaje_encontrado:
+                gastos = viaje_encontrado.get("Gastos", [])
+                info_gasto = [descripcion, gasto, fecha]
+                gastos.append(info_gasto)
+                viaje_encontrado["Gastos"] = gastos
+                self.viajes_usuario[clave_seleccionada] = viaje_encontrado
+
+
+                self.mostrar_exito("El gasto se ha agregado correctamente")
+                self.actualizar_gastos_del_viaje()
+                self.fecha_del_gasto.clear()
+                self.descripcion_del_gasto.clear()
+                self.costo_del_gasto.clear()
+            else:
+                self.mostrar_warning("Viaje no encontrado")
+
+    def eliminar_gasto(self):
+        clave_seleccionada = self.seleccionar_viaje_gasto.currentData()
+        if clave_seleccionada is not None:
+            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada)
+            if viaje_encontrado:
+                gastos = viaje_encontrado.get("Gastos", [])
+                gasto_seleccionado = self.list_widget_gastos.currentItem()
+                if gasto_seleccionado:
+                    item_index = self.list_widget_gastos.row(gasto_seleccionado)
+                    confirmacion = QMessageBox.question(self, "Confirmar eliminación", "¿Está seguro de que desea eliminar este gasto?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                    if confirmacion == QMessageBox.Yes:
+                        self.list_widget_gastos.takeItem(item_index)
+                        if 0 <= item_index < len(gastos):
+                            del gastos[item_index]
+                        viaje_encontrado["Gastos"] = gastos
+                        self.viajes_usuario[clave_seleccionada] = viaje_encontrado
+                        self.mostrar_exito("El gasto se ha eliminado correctamente")
+                        self.actualizar_gastos_del_viaje()
+                else:
+                    self.mostrar_warning("Seleccione un gasto para eliminar")
+            else:
+                self.mostrar_warning("Viaje no encontrado")
+            
     def listar_viajes(self):
         if self.viajes_usuario:
             viajes_ordenados = sorted(self.viajes_usuario.items(), key=lambda x: x[0], reverse=True)
             self.list_widget_viajes_guardados.clear()
+            self.seleccionar_viaje_gasto.clear()
+            self.seleccionar_viaje_itinerario.clear()
             for i, viaje in viajes_ordenados:
-                indice = i
                 texto_titulo = viaje["titulo"]
                 texto_destino = viaje["destino"]
                 lista_fechas_inicio = viaje["fecha_inicio"]
@@ -532,84 +946,22 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 personas_de_viaje = viaje["personas"]
                 vuelos = viaje.get("vuelos", {})
                 alojamiento = viaje.get("alojamiento", {})
+                itinerario = viaje.get("Itinerario", [])
+                gastos = viaje.get("Gastos", [])
 
-                travel_widget = TravelWidget(indice, texto_titulo, texto_destino, lista_fechas_inicio, lista_fechas_fin, presupuesto, personas_de_viaje, vuelos, alojamiento)
+                texto_combo = f"Título: {texto_titulo} - Destino: {texto_destino} - Numero de personas: {personas_de_viaje}"
+
+                travel_widget = TravelWidget(i, texto_titulo, texto_destino, lista_fechas_inicio, lista_fechas_fin, presupuesto, personas_de_viaje, vuelos, alojamiento, itinerario, gastos)
                 item = QListWidgetItem(self.list_widget_viajes_guardados)
                 item.setSizeHint(travel_widget.sizeHint())
                 self.list_widget_viajes_guardados.addItem(item)
                 self.list_widget_viajes_guardados.setItemWidget(item, travel_widget)
-            self.list_widget_viajes_guardados.scrollToTop()
+                self.seleccionar_viaje_gasto.addItem(texto_combo, userData=i)  
+                self.seleccionar_viaje_itinerario.addItem(texto_combo, userData=i)
             
-        
-
-    def cargar_viajes_iniciales(self):
-        self.viajes_usuario = {
-            0: {
-                "titulo": "Viaje a Paris",
-                "destino": "Paris, Francia",
-                "fecha_inicio": ["01", "Ene", 2024],
-                "fecha_fin": ["10", "Ene", 2024],
-                "presupuesto": 1500,
-                "personas": 2,
-                "vuelos": {
-                    "fecha_ida": "01-Ene-2024",
-                    "hora_ida": "10:00",
-                    "ampm_ida": "AM",
-                    "fecha_regreso": "10-Ene-2024",
-                    "hora_regreso": "08:00",
-                    "ampm_regreso": "PM",
-                    "costo_ida": 500,
-                    "costo_regreso": 500,
-                    "info_adicional": "Vuelos directos"
-                },
-                "alojamiento": {
-                    "Tipo": "Hotel",
-                    "fecha_inicio": "01-Ene-2024",
-                    "hora_inicio": "12:00",
-                    "ampm_inicio": "PM",
-                    "fecha_fin": "10-Ene-2024",
-                    "hora_fin": "10:00",
-                    "ampm_fin": "AM",
-                    "costo": 500,
-                    "info_adicional": "Hotel de 4 estrellas"
-                }, 
-                "Itinerario": [], 
-                "Gastos": [],
-            },
-            1: {
-                "titulo": "Viaje a Tokio",
-                "destino": "Tokio, Japón",
-                "fecha_inicio": ["15", "Feb", 2024],
-                "fecha_fin": ["25", "Feb", 2024],
-                "presupuesto": 3000,
-                "personas": 1,
-                "vuelos": {
-                    "fecha_ida": "15-Feb-2024",
-                    "hora_ida": "05:00",
-                    "ampm_ida": "AM",
-                    "fecha_regreso": "25-Feb-2024",
-                    "hora_regreso": "11:00",
-                    "ampm_regreso": "AM",
-                    "costo_ida": 1000,
-                    "costo_regreso": 1000,
-                    "info_adicional": "Escala en Los Ángeles"
-                },
-                "alojamiento": {
-                    "Tipo": "Airbnb",
-                    "fecha_inicio": "15-Feb-2024",
-                    "hora_inicio": "02:00",
-                    "ampm_inicio": "PM",
-                    "fecha_fin": "25-Feb-2024",
-                    "hora_fin": "10:00",
-                    "ampm_fin": "AM",
-                    "costo": 1000,
-                    "info_adicional": "Airbnb en el centro de la ciudad"
-                },
-                "Itinerario": [], 
-                "Gastos": []
-            }
-        }
-        self.indice_viajes_guardados = max(self.viajes_usuario.keys())
+            self.list_widget_viajes_guardados.scrollToTop()
+            self.actualizar_gastos_del_viaje()
+            self.actualizar_planes_del_itinerario()
 
 
     def validar_fecha_hora(self, fecha, hora, ampm, tipo):
@@ -641,7 +993,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
             return False
         return True
 
-
     def comparar_fechas(self, dia_inicio, mes_inicio, año_inicio, dia_fin, mes_fin, año_fin):
         dia_inicio, mes_inicio, año_inicio, dia_fin, mes_fin, año_fin = map(int, [dia_inicio, mes_inicio, año_inicio, dia_fin, mes_fin, año_fin])
         fecha_inicio = datetime.date(año_inicio, mes_inicio, dia_inicio)
@@ -653,13 +1004,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
         fecha_regreso_dt = datetime.datetime.strptime(fecha_regreso, '%d-%m-%Y')
         return fecha_regreso_dt >= fecha_ida_dt
 
-
-    def eliminar_viaje_guardado(self):
-        viaje_seleccionado = self.list_widget_viajes_guardados.currentItem()
-        if viaje_seleccionado:
-            item = self.list_widget_viajes_guardados.row(viaje_seleccionado)
-            self.list_widget_viajes_guardados.takeItem(item)  
-    
     def activar_alojamiento(self):
         if self.checkbox_alojaimento_nuevo_viaje.isChecked():
             self.groupbox_alojamiento_viaje.setEnabled(True)
@@ -706,7 +1050,63 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.line_edit_costo_alojamiento_nuevo_viaje.clear()
         self.plaintextedit_info_adicional_nuevo_viaje.clear()
 
+    def enviar_correo(self):
+        seleccionado = self.list_apoyo.currentItem()
+        texto = self.plainTextEdit.toPlainText().strip()
+        texto_a_enviar = self.plainTextEdit.toPlainText()
 
+        if seleccionado:
+            asunto = seleccionado.text()
+            if texto:
+                destinatario = "afmartinez23a@udenar.edu.co"
+                # Crear el enlace mailto
+                mailto_link = f"mailto:{destinatario}?subject={asunto}&body={texto_a_enviar}"
+
+                #
+                mailto_link = mailto_link.replace(' ', '%20')
+
+                # Abrir el enlace en el navegador predeterminado
+                webbrowser.open(mailto_link)
+                self.mostrar_pagina_botones_configuraciones()
+                self.plainTextEdit.clear()
+
+            else:
+                self.mostrar_warning("El texto del recuadro inferior no debe estar vacio")
+        else:
+            self.mostrar_warning("Debes seleccionar un asunto de la lista")
+
+
+
+
+    def cambiar_moneda(self):
+        tasa_dolar = 3866.00
+        tasa_euro = 4183.00
+
+        # Obtener la moneda seleccionada del QComboBox
+        moneda_destino = self.money_combobox_apoyo_2.currentText()
+        # Realizar la conversión según la moneda seleccionada
+        if moneda_destino == "$ USD":
+            cantidad_1_dolares = 790000 / tasa_dolar
+            cantidad_2_dolares = 1690000 / tasa_dolar
+            # Actualizar las etiquetas con los valores convertidos, agregando el símbolo de la moneda
+            self.label_39.setText(f"$ {cantidad_1_dolares:.2f}")
+            self.label_42.setText(f"$ {cantidad_2_dolares:.2f}")
+        elif moneda_destino == "$ Euro":
+            cantidad_1_euros = 790000  / tasa_euro
+            cantidad_2_euros = 1690000 / tasa_euro
+            # Actualizar las etiquetas con los valores convertidos, agregando el símbolo de la moneda
+            self.label_39.setText(f"$ {cantidad_1_euros:.2f}")
+            self.label_42.setText(f"$ {cantidad_2_euros:.2f}")
+        elif moneda_destino == "$ COP":
+            # Convertir de regreso a pesos colombianos usando las cantidades originales
+            cantidad_1_pesos = 790000 
+            cantidad_2_pesos = 1690000
+            # Actualizar las etiquetas con los valores convertidos, agregando el símbolo de la moneda
+            self.label_39.setText(f"$ {cantidad_1_pesos}")
+            self.label_42.setText(f"$ {cantidad_2_pesos}")
+        else:
+            # Si la moneda seleccionada no es válida, no se realiza ninguna conversión
+            pass
 
     def activar_edicion_de_perfil(self):
         if self.edit_profile_2.text() == "Editar perfil":
@@ -1039,6 +1439,17 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
     def mostrar_pagina_recordatorios(self):
         self.notifications_stacked.setCurrentIndex(0)
+        self.lineedit_hora_recordatorio.clear()
+        self.lineedit_fecha_recordatorio.clear()
+        self.text_edit_recordatorio.clear()
+        self.checkbox_lugar_recordatorio.setChecked(False)
+        self.check_box_hora_recordatorio.setChecked(False)
+
+
+    def mostrar_pagina_notificaciones(self):
+        self.stackedWidget.setCurrentWidget(self.notifications_page)
+        self.cargar_recordatorios()
+
 
     def mostrar_pagina_perfil(self):
         self.stackedWidget.setCurrentWidget(self.profile_page)
@@ -1058,8 +1469,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
     def mostrar_pagina_gastos(self):
         self.stackedWidget.setCurrentWidget(self.gastos_page)
 
-    def mostrar_pagina_notificaciones(self):
-        self.stackedWidget.setCurrentWidget(self.notifications_page)
 
     def mostrar_configuraciones_page(self):
         self.stackedWidget.setCurrentWidget(self.settings_page)

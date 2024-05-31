@@ -1,7 +1,9 @@
 from PySide6.QtWidgets import *
 
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QSizePolicy
+
 class TravelWidget(QWidget):
-    def __init__(self, indice, titulo, destino, datos_fecha_viaje_inicio, datos_fecha_viaje_fin, presupuesto=0, personas="1", vuelos=None, alojamiento=None, itinerario=None, gastos=None):
+    def __init__(self, indice, titulo, destino, datos_fecha_viaje_inicio, datos_fecha_viaje_fin, presupuesto=0.0, personas="1", vuelos=None, alojamiento=None, itinerario=None, gastos=None):
         super().__init__()
         self.indice = indice
 
@@ -40,7 +42,7 @@ class TravelWidget(QWidget):
         destination_label.setWordWrap(True)
         title_dest_layout.addWidget(destination_label)
 
-        budget_label = QLabel(f"Presupuesto: {presupuesto:.2f}")
+        budget_label = QLabel(f"Presupuesto: ${float(presupuesto):.2f}")
         budget_label.setObjectName("label_budget")
         budget_label.setStyleSheet("color: #4CAF50;")
         budget_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -158,7 +160,7 @@ class TravelWidget(QWidget):
             hora_ida_label.setWordWrap(True)
             ida_layout.addWidget(hora_ida_label)
 
-            costo_ida_label = QLabel(f"Costo: ${vuelos['costo_ida'] if vuelos['costo_ida'] else 'N/A':.2f}")
+            costo_ida_label = QLabel(f"Costo: ${float(vuelos['costo_ida']) if vuelos['costo_ida'] else 0.00:.2f}")
             costo_ida_label.setObjectName("label_costo_ida")
             costo_ida_label.setStyleSheet("color: #FF5722;")
             costo_ida_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -190,7 +192,7 @@ class TravelWidget(QWidget):
             hora_regreso_label.setWordWrap(True)
             regreso_layout.addWidget(hora_regreso_label)
 
-            costo_regreso_label = QLabel(f"Costo: ${vuelos['costo_regreso'] if vuelos['costo_regreso'] else 'N/A':.2f}")
+            costo_regreso_label = QLabel(f"Costo: ${float(vuelos['costo_regreso']) if vuelos['costo_regreso'] else 0.00:.2f}")
             costo_regreso_label.setObjectName("label_costo_regreso")
             costo_regreso_label.setStyleSheet("color: #FF5722;")
             costo_regreso_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -266,7 +268,7 @@ class TravelWidget(QWidget):
 
             alojamiento_layout.addLayout(alojamiento_content_layout)
 
-            costo_alojamiento_label = QLabel(f"Costo: ${alojamiento['costo'] if alojamiento['costo'] else 0:.2f}")
+            costo_alojamiento_label = QLabel(f"Costo: ${float(alojamiento['costo']) if alojamiento['costo'] else 0.00:.2f}")
             costo_alojamiento_label.setObjectName("label_costo_alojamiento")
             costo_alojamiento_label.setStyleSheet("color: #9C27B0;")
             costo_alojamiento_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -283,10 +285,12 @@ class TravelWidget(QWidget):
             layout.addLayout(alojamiento_layout)
 
 
+
+
 class GastoWidget(QWidget):
     def __init__(self, descripcion, gasto, fecha):
         super().__init__()
-        
+
         # Estilos para el widget
         self.setStyleSheet("""
             QWidget {
@@ -319,7 +323,7 @@ class GastoWidget(QWidget):
         # Segundo cuadro: Gasto
         gasto_layout = QVBoxLayout()
 
-        gasto_label = QLabel(f"Valor: ${gasto:.2f}")
+        gasto_label = QLabel(f"Valor: ${float(gasto):.2f}" if gasto else "Valor: N/A")
         gasto_label.setObjectName("label_gasto_title")
         gasto_label.setStyleSheet("color: #4CAF50;")
         gasto_label.setWordWrap(True)

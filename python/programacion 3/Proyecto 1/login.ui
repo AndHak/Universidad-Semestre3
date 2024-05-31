@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>833</width>
+    <height>647</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: white; /* Fondo blanco */
+        color: black; /* Letras negras */
+        border-radius: 15px; /* Bordes redondeados */</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="layout_imagen" native="true">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>0</y>
+      <width>411</width>
+      <height>651</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="0">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="recursos_login.qrc">:/img/icons_login/avion.jpg</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>411</width>
+      <height>631</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="login_widget">
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>80</y>
+        <width>401</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 700 35pt &quot;Unispace&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Inicia Sesion!</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>210</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>¿No tienes una cuenta?</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_registrate_stacked">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>210</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #1B4965; /* Color #1B4965 */
+        color: white; /* Letras blancas */
+        border: none; /* Sin borde */
+        padding: 5px 8px; /* Espaciado interno */
+        border-radius: 10px; /* Bordes redondeados */
+        height: 27px; /* Altura personalizada */
+        font-size: 15px;</string>
+      </property>
+      <property name="text">
+       <string>Registrate</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="line_usuario_login">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>270</y>
+        <width>351</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">        background-color: rgba(255, 255, 255, 50%); /* Fondo transparente */
+        border-bottom: 1px solid black; /* Borde inferior */
+        border-radius: 5px; /* Bordes redondeados */
+        color: black; /* Letras negras */
+        height: 30px; /* Altura personalizada */
+        font-size: 13px;</string>
+      </property>
+      <property name="placeholderText">
+       <string>Usuario</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="line_password_login">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>320</y>
+        <width>351</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">        background-color: rgba(255, 255, 255, 50%); /* Fondo transparente */
+        border-bottom: 1px solid black; /* Borde inferior */
+        border-radius: 5px; /* Bordes redondeados */
+        color: black; /* Letras negras */
+        height: 30px; /* Altura personalizada */
+        font-size: 13px;</string>
+      </property>
+      <property name="placeholderText">
+       <string>Contraseña</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_ver_password">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>320</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #1B4965; /* Color #1B4965 */
+        color: white; /* Letras blancas */
+        border: none; /* Sin borde */
+        padding: 5px 8px; /* Espaciado interno */
+        border-radius: 10px; /* Bordes redondeados */
+        height: 27px; /* Altura personalizada */
+        font-size: 15px;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="recursos_login.qrc">
+        <normaloff>:/img/icons_login/ojo-cerrado-morado.png</normaloff>
+        <normalon>:/img/icons_login/ojo-abierto-morado.png</normalon>:/img/icons_login/ojo-cerrado-morado.png</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_inicia_sesion">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>380</y>
+        <width>401</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(27, 73, 101);
+
+background-color: #1B4965; /* Color #1B4965 */
+        color: white; /* Letras blancas */
+        border: none; /* Sin borde */
+        padding: 5px 8px; /* Espaciado interno */
+        border-radius: 10px; /* Bordes redondeados */
+        height: 27px; /* Altura personalizada */
+        font-size: 15px;
+</string>
+      </property>
+      <property name="text">
+       <string>Iniciar Sesion</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="singup_widget">
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>70</y>
+        <width>381</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 700 35pt &quot;Unispace&quot;;
+</string>
+      </property>
+      <property name="text">
+       <string>Registrate!</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>200</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>¿Ya tienes una cuenta?</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="line_nombre_registro">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>260</y>
+        <width>191</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">        background-color: rgba(255, 255, 255, 50%); /* Fondo transparente */
+        border-bottom: 1px solid black; /* Borde inferior */
+        border-radius: 5px; /* Bordes redondeados */
+        color: black; /* Letras negras */
+        height: 30px; /* Altura personalizada */
+        font-size: 13px;</string>
+      </property>
+      <property name="placeholderText">
+       <string>Nombre</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="line_apellido_registro">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>260</y>
+        <width>191</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">        background-color: rgba(255, 255, 255, 50%); /* Fondo transparente */
+        border-bottom: 1px solid black; /* Borde inferior */
+        border-radius: 5px; /* Bordes redondeados */
+        color: black; /* Letras negras */
+        height: 30px; /* Altura personalizada */
+        font-size: 13px;</string>
+      </property>
+      <property name="placeholderText">
+       <string>Apellido</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="line_email">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>310</y>
+        <width>401</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">        background-color: rgba(255, 255, 255, 50%); /* Fondo transparente */
+        border-bottom: 1px solid black; /* Borde inferior */
+        border-radius: 5px; /* Bordes redondeados */
+        color: black; /* Letras negras */
+        height: 30px; /* Altura personalizada */
+        font-size: 13px;</string>
+      </property>
+      <property name="placeholderText">
+       <string>Email (recuerda este sera tu usuario)</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="line_password_registro">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>360</y>
+        <width>351</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">        background-color: rgba(255, 255, 255, 50%); /* Fondo transparente */
+        border-bottom: 1px solid black; /* Borde inferior */
+        border-radius: 5px; /* Bordes redondeados */
+        color: black; /* Letras negras */
+        height: 30px; /* Altura personalizada */
+        font-size: 13px;</string>
+      </property>
+      <property name="placeholderText">
+       <string>Contraseña</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="line_password_validacion_registro">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>410</y>
+        <width>351</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">        background-color: rgba(255, 255, 255, 50%); /* Fondo transparente */
+        border-bottom: 1px solid black; /* Borde inferior */
+        border-radius: 5px; /* Bordes redondeados */
+        color: black; /* Letras negras */
+        height: 30px; /* Altura personalizada */
+        font-size: 13px;</string>
+      </property>
+      <property name="placeholderText">
+       <string>Repite la Contraseña</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_inicia_sesion_stacked">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>200</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #1B4965; /* Color #1B4965 */
+        color: white; /* Letras blancas */
+        border: none; /* Sin borde */
+        padding: 5px 8px; /* Espaciado interno */
+        border-radius: 10px; /* Bordes redondeados */
+        height: 27px; /* Altura personalizada */
+        font-size: 15px;</string>
+      </property>
+      <property name="text">
+       <string>Inicia sesion</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_registrarse">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>450</y>
+        <width>401</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #1B4965; /* Color #1B4965 */
+        color: white; /* Letras blancas */
+        border: none; /* Sin borde */
+        padding: 5px 8px; /* Espaciado interno */
+        border-radius: 10px; /* Bordes redondeados */
+        height: 27px; /* Altura personalizada */
+        font-size: 15px;</string>
+      </property>
+      <property name="text">
+       <string>Registrate</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_ver_password_registro">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>350</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #1B4965; /* Color #1B4965 */
+        color: white; /* Letras blancas */
+        border: none; /* Sin borde */
+        padding: 5px 8px; /* Espaciado interno */
+        border-radius: 10px; /* Bordes redondeados */
+        height: 27px; /* Altura personalizada */
+        font-size: 15px;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="recursos_login.qrc">
+        <normaloff>:/img/icons_login/ojo-cerrado-morado.png</normaloff>
+        <normalon>:/img/icons_login/ojo-abierto-morado.png</normalon>:/img/icons_login/ojo-cerrado-morado.png</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_7">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>400</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #1B4965; /* Color #1B4965 */
+        color: white; /* Letras blancas */
+        border: none; /* Sin borde */
+        padding: 5px 8px; /* Espaciado interno */
+        border-radius: 10px; /* Bordes redondeados */
+        height: 27px; /* Altura personalizada */
+        font-size: 15px;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="recursos_login.qrc">
+        <normaloff>:/img/icons_login/ojo-cerrado-morado.png</normaloff>
+        <normalon>:/img/icons_login/ojo-abierto-morado.png</normalon>:/img/icons_login/ojo-cerrado-morado.png</iconset>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="recursos_1.qrc"/>
+  <include location="recursos_login.qrc"/>
+ </resources>
+ <connections/>
+</ui>

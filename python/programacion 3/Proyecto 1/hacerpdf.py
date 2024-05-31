@@ -3,6 +3,7 @@ import sys
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
+from datetime import datetime
 
 def crear_pdf(datos):
     pdf_path = "C:\\Users\\Public\\Documents\\Wondershare\\CreatorTemp\\tmp8ay9wn62.pdf"
@@ -35,7 +36,6 @@ def crear_pdf(datos):
     y_position -= 20
     c.drawString(100, y_position, f"Destino: {datos['destino']}")
     
-    # Convertir los elementos de fecha_inicio y fecha_fin a cadenas
     fecha_inicio_str = '-'.join(map(str, datos['fecha_inicio']))
     fecha_fin_str = '-'.join(map(str, datos['fecha_fin']))
     
@@ -77,8 +77,8 @@ def crear_pdf(datos):
         c.drawString(300, y_position, f"Hora de Regreso: {vuelos.get('hora_regreso', 'N/A')} {vuelos.get('ampm_regreso', 'N/A')}")
         
         y_position -= 20
-        c.drawString(100, y_position, f"Costo de Ida: ${vuelos.get('costo_ida', 'N/A'):.2f}")
-        c.drawString(300, y_position, f"Costo de Regreso: ${vuelos.get('costo_regreso', 'N/A'):.2f}")
+        c.drawString(100, y_position, f"Costo de Ida: ${vuelos.get('costo_ida', 'N/A')}")
+        c.drawString(300, y_position, f"Costo de Regreso: ${vuelos.get('costo_regreso', 'N/A')}")
     
     # Espacio adicional
     y_position -= 40
@@ -107,7 +107,7 @@ def crear_pdf(datos):
         
         y_position -= 20
         c.drawString(100, y_position, f"Tipo: {alojamiento.get('tipo', 'N/A')}")
-        c.drawString(300, y_position, f"Costo: ${alojamiento.get('costo', 'N/A'):.2f}")
+        c.drawString(300, y_position, f"Costo: ${alojamiento.get('costo', 'N/A')}")
         
         y_position -= 20
         c.drawString(100, y_position, f"Dirección: {alojamiento.get('direccion', 'N/A')}")
@@ -135,8 +135,32 @@ def crear_pdf(datos):
             c.setFont("Helvetica", 12)
             c.setFillColor(colors.black)
             c.drawString(100, y_position, f"{gasto[0]}")
-            c.drawString(250, y_position, f"${gasto[1]:.2f}")
+            c.drawString(250, y_position, f"${gasto[1]}")
             c.drawString(350, y_position, f"{gasto[2]}")
+    
+    # Espacio adicional
+    y_position -= 40
+
+    # Detalles del itinerario
+    itinerario = datos.get('Itinerario')
+    if itinerario:
+        c.setFont("Helvetica-Bold", 14)
+        c.setFillColor(colors.darkblue)
+        c.drawString(100, y_position, "Detalles del Itinerario")
+        
+        y_position -= 20
+        c.setFont("Helvetica-Bold", 12)
+        c.drawString(100, y_position, "Descripción")
+        c.drawString(250, y_position, "Hora")
+        c.drawString(350, y_position, "Fecha")
+        
+        for plan in itinerario:
+            y_position -= 20
+            c.setFont("Helvetica", 12)
+            c.setFillColor(colors.black)
+            c.drawString(100, y_position, f"{plan[0]}")
+            c.drawString(250, y_position, f"{plan[1]} {plan[2]}")
+            c.drawString(350, y_position, f"{plan[3]}")
     
     c.save()
     
@@ -151,41 +175,3 @@ def abrir_pdf_temporalmente(pdf_path):
         os.system(f"open {pdf_path}")
     else:
         os.system(f"xdg-open {pdf_path}")
-
-# Datos de ejemplo
-datos = {
-    "titulo": "Viaje a Paris",
-    "destino": "Paris, Francia",
-    "fecha_inicio": ["01", "Ene", 2024],
-    "fecha_fin": ["10", "Ene", 2024],
-    "presupuesto": 5000,
-    "personas": 2,
-    "vuelos": {
-        "fecha_ida": "01-Ene-2024",
-        "hora_ida": "10:00",
-        "ampm_ida": "AM",
-        "fecha_regreso": "10-Ene-2024",
-        "hora_regreso": "08:00",
-        "ampm_regreso": "PM",
-        "costo_ida": 500,
-        "costo_regreso": 500,
-        "info_adicional": "Vuelos directos"
-    },
-    "alojamiento": {
-        "tipo": "Hotel",
-        "fecha_inicio": "01-Ene-2024",
-        "hora_inicio": "12:00",
-        "ampm_inicio": "PM",
-        "fecha_fin": "10-Ene-2024",
-        "hora_fin": "10:00",
-        "ampm_fin": "AM",
-        "costo": 500,
-        "direccion": "Calle Ejemplo 123, Paris",
-        "info_adicional": "Hotel de 4 estrellas"
-    },
-    "Gastos": [
-        ["Pan con queso", 2000, "18-11-2024"]
-    ]
-}
-
-

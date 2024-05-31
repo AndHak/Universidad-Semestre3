@@ -9,15 +9,13 @@ import sys
 import os
 import re
 import datetime
+import webbrowser
 
 from login_ui import Ui_MainWindow_login
 from PySide6 import QtWidgets, QtGui
 
-#Primer diccionario de recordatorios y segundo diccionario de viajes(contine en su interior itinerario del viaje y gastos) y el ultimo de datos del perfil
-datos_usuario = {
-    ""
-}
-dic_usuarios = {'andresfg13789@gmail.com': ['Andres', 'Guerra', '2567AndresG', [{'texto': 'a'}], {}, {}]}
+#Primer diccionario de recordatorios y segundo diccionario de viajes(contine en su interior itinerario del viaje y gastos)
+dic_usuarios = {'andresfg13789@gmail.com': ['Andres', 'Guerra', '2567AndresG', [], {}]}
 class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
     basedir = os.path.dirname(__file__)
     def __init__(self):
@@ -25,6 +23,7 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
         super().__init__()
         self.setupUi(self)
         
+        self.setWindowTitle("My Travel app")
         #botones login
         self.button_registrate_stacked.clicked.connect(self.cambiar_a_registro)
         self.button_ver_password.pressed.connect(lambda: self.mirar_password(self.line_password_login, self.button_ver_password, "ojo-abierto-morado.png"))
@@ -41,8 +40,6 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
         
         self.line_usuario_login.setText("andresfg13789@gmail.com")
         self.line_password_login.setText("2567AndresG")
-        
-
         
 
 
@@ -174,7 +171,7 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
                                     min-height: 15px;
                                 }
                             """)
-                            dic_usuarios[email] = [nombre, apellido, contraseña]
+                            dic_usuarios[email] = [nombre, apellido, contraseña, [], {}]
                         
 
                             print(dic_usuarios)
@@ -282,6 +279,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.menub.setHidden(True)
 
         self.home_small_button1.setChecked(True)
+        self.configuraciones_stacked.setCurrentIndex(0)
         self.mostrar_pagina_home()
 
         self.open_pic_to_profile_pic_2.setHidden(True)
@@ -338,7 +336,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.timer_reloj.timeout.connect(self.update_time)
         self.timer_reloj.start(1000)
 
-        self.cargar_viajes_iniciales()
         self.listar_viajes()
         self.actualizar_gastos_del_viaje()
         self.actualizar_planes_del_itinerario()
@@ -354,16 +351,12 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.boton_pareja_nuevo_viaje.clicked.connect(self.activar_line_edit_familia)
 
         #Botones de la pagina mis viajes
-        self.eliminar_viajeguardado_button.clicked.connect(self.eliminar_viaje_guardado)
         self.ver_viaje_guardado_button.clicked.connect(self.pasar_datos_to_pdf)
-
-
 
         #Botones de los gastos del viaje
         self.seleccionar_viaje_gasto.currentIndexChanged.connect(self.actualizar_gastos_del_viaje)
         self.boton_guardar_gasto.clicked.connect(self.añadir_gasto)
         self.eliminar_gasto_button.clicked.connect(self.eliminar_gasto)
-
 
         #Botones de agregar itinerario
         self.seleccionar_viaje_itinerario.currentIndexChanged.connect(self.actualizar_planes_del_itinerario)
@@ -375,6 +368,12 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.agregar_recordatorio_button.clicked.connect(self.agregar_recordatorio)
         self.checkbox_lugar_recordatorio.stateChanged.connect(self.activar_line_lugar_recordatorio)
         self.eliminar_recordatorio_button.clicked.connect(self.borrar_recordatorio)
+
+        #señales home
+        self.money_combobox_apoyo_2.activated.connect(self.cambiar_moneda)
+        #señal configuracion
+        self.enviar_buttton_apoyo.clicked.connect(self.enviar_correo)
+
 
     
     def agregar_recordatorio(self):
@@ -461,7 +460,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
         if email_usuario in dic_usuarios:
             # Obtener la lista de recordatorios del usuario
             recordatorios_usuario = dic_usuarios[email_usuario][3]
-            print(recordatorios_usuario)
 
             # Iterar sobre los recordatorios del usuario y crear widgets para cada uno
             for recordatorio_info in recordatorios_usuario:
@@ -669,7 +667,7 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 return
 
             alojamiento = {
-                "tipo": alojamiento_tipo,
+                "Tipo": alojamiento_tipo,
                 "direccion": direccion,
                 "fecha_inicio": fecha_inicio_aloja,
                 "hora_inicio": hora_inicio_aloja,
@@ -734,25 +732,51 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
                     self.mostrar_exito("El plan se ha agregado correctamente.")
                     self.actualizar_planes_del_itinerario()
+                    self.fecha_del_plan.clear()
+                    self.hora_del_plan.clear()
+                    self.descripcion_del_plan.clear()
                 else:
                     self.mostrar_warning("Viaje no encontrado")
+
 
     def actualizar_planes_del_itinerario(self):
         clave_seleccionada = self.seleccionar_viaje_itinerario.currentData()
         if clave_seleccionada is not None:
-            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada)
-            if viaje_encontrado:
-                planes = viaje_encontrado.get("Itinerario", [])
+            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada, {})
+            planes = viaje_encontrado.get("Itinerario", [])
+
+            # Convertir las fechas y horas a objetos datetime para facilitar la ordenación
+            def convertir_a_datetime(plan):
+                descripcion_del_plan, hora, am_pm, fecha = plan
+                # Convertir la hora a formato 24 horas
+                hora_partes = hora.split(":")
+                hora_int = int(hora_partes[0])
+                minuto_int = int(hora_partes[1])
+                if am_pm.lower() == 'pm' and hora_int != 12:
+                    hora_int += 12
+                if am_pm.lower() == 'am' and hora_int == 12:
+                    hora_int = 0
+                fecha_hora_str = f"{fecha} {hora_int:02}:{minuto_int:02}"
+                fecha_hora_dt = datetime.datetime.strptime(fecha_hora_str, "%d-%m-%Y %H:%M")
+                return fecha_hora_dt
+
+            # Ordenar los planes primero por fecha y luego por hora
+            if planes:
+                planes_ordenados = sorted(planes, key=convertir_a_datetime)
 
                 self.list_widget_de_planes.clear()
-                for plan in planes:
+                for plan in planes_ordenados:
                     descripcion_del_plan, hora, am_pm, fecha = plan
                     plan_widget = PlanWidget(descripcion_del_plan, hora, am_pm, fecha)
-                    item=QListWidgetItem(self.list_widget_de_planes)
+                    item = QListWidgetItem(self.list_widget_de_planes)
                     item.setSizeHint(plan_widget.sizeHint())
                     self.list_widget_de_planes.addItem(item)
                     self.list_widget_de_planes.setItemWidget(item, plan_widget)
-    
+            else:
+                self.list_widget_de_planes.clear()
+
+
+        
     def eliminar_plan(self):
         clave_seleccionada = self.seleccionar_viaje_itinerario.currentData()
         if clave_seleccionada is not None:
@@ -775,63 +799,66 @@ class MainApp(QMainWindow, Ui_MainWindow):
                     self.mostrar_warning("Seleccione un plan para eliminar")
             else:
                 self.mostrar_warning("Viaje no encontrado")
-        
-    def eliminar_viaje_guardado(self):
-        viaje_seleccionado = self.list_widget_viajes_guardados.currentItem()
-        if viaje_seleccionado:
-            item_index = self.list_widget_viajes_guardados.row(viaje_seleccionado)
-            clave_seleccionada = self.list_widget_viajes_guardados.item(item_index).data(Qt.UserRole)
 
-            confirmacion = QMessageBox.question(self, "Confirmar eliminación", "¿Está seguro de que desea eliminar este viaje?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-            if confirmacion == QMessageBox.Yes:
-                # Eliminar el viaje de la listas
-                self.list_widget_viajes_guardados.takeItem(item_index)
-
-                # Eliminar el viaje del diccionario
-                if clave_seleccionada in self.viajes_usuario:
-                    del self.viajes_usuario[clave_seleccionada]
-
-                self.mostrar_exito("El viaje se ha eliminado correctamente")
-                self.actualizar_planes_del_itinerario()
-                self.actualizar_gastos_del_viaje()
-        else:
-            self.mostrar_warning("Seleccione un viaje para eliminar")
 
     def actualizar_gastos_del_viaje(self):
         clave_seleccionada = self.seleccionar_viaje_gasto.currentData()
         if clave_seleccionada is not None:
-            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada)
-            if viaje_encontrado:
-                presupuesto = viaje_encontrado["presupuesto"]
-                vuelos = viaje_encontrado.get("vuelos", {})
-                alojamiento = viaje_encontrado.get("alojamiento", {})
-                gastos = viaje_encontrado.get("Gastos", [])
+            viaje_encontrado = self.viajes_usuario.get(clave_seleccionada, {})
+            presupuesto = viaje_encontrado.get("presupuesto")
+            vuelos = viaje_encontrado.get("vuelos", {})
+            alojamiento = viaje_encontrado.get("alojamiento", {})
+            gastos = viaje_encontrado.get("Gastos", [])
+            
+            costo_alojamiento = float(alojamiento.get('costo')) if alojamiento else 0
 
-                total_vuelos = float(vuelos['costo_ida']) + float(vuelos['costo_regreso'])
-                total_gastos_varios = 0
+            total_vuelos = 0
+            if vuelos:
+                total_vuelos = float(vuelos.get('costo_ida')) + float(vuelos.get('costo_regreso'))
 
+            total_gastos_varios = 0
+
+            if gastos:
                 self.label_presupuesto_del_viaje.setText(f"${presupuesto:.2f}")
                 self.label_costo_de_los_vuelos.setText(f"${total_vuelos:.2f}")
-                self.label_costo_del_alojamiento.setText(f"${float(alojamiento['costo']):.2f}")
+                self.label_costo_del_alojamiento.setText(f"${costo_alojamiento:.2f}")
 
                 # Actualizar la lista de gastos en la interfaz
                 self.list_widget_gastos.clear()
                 for gasto in gastos:
                     descripcion, valor, fecha = gasto
-                            # Añadir el gasto a la interfaz
+                    # Añadir el gasto a la interfaz
                     gasto_widget = GastoWidget(descripcion, valor, fecha)
                     item = QListWidgetItem(self.list_widget_gastos)
                     item.setSizeHint(gasto_widget.sizeHint())
                     self.list_widget_gastos.addItem(item)
                     self.list_widget_gastos.setItemWidget(item, gasto_widget)
 
-
                     total_gastos_varios += valor
+            
 
                 self.label_total_de_los_gastos_varios.setText(f"${total_gastos_varios:.2f}")
+            
+            else:
+                #Añade un intem vacio que diga agregar astos
+                self.label_presupuesto_del_viaje.setText("$0.00")
+                self.label_costo_de_los_vuelos.setText("$0.00")
+                self.label_costo_del_alojamiento.setText("$0.00")
+                self.label_total_de_los_gastos_varios.setText("$0.00")
+                self.label_total_total_gastos.setText("$0.00")
+                self.list_widget_gastos.clear()
+                
 
-                total_de_gastos = float(presupuesto) - total_vuelos - float(alojamiento['costo']) - total_gastos_varios
-                self.label_total_total_gastos.setText(f"${total_de_gastos:.2f}")
+            total_de_gastos = float(presupuesto) - total_vuelos - costo_alojamiento - total_gastos_varios
+            self.label_total_total_gastos.setText(f"${total_de_gastos:.2f}")
+        else:
+            # Si no hay un viaje seleccionado, limpiar los labels de gastos
+            self.label_presupuesto_del_viaje.setText("$0.00")
+            self.label_costo_de_los_vuelos.setText("$0.00")
+            self.label_costo_del_alojamiento.setText("$0.00")
+            self.label_total_de_los_gastos_varios.setText("$0.00")
+            self.label_total_total_gastos.setText("$0.00")
+            self.list_widget_gastos.clear()
             
     def añadir_gasto(self):
         descripcion = self.descripcion_del_gasto.text().strip()
@@ -869,6 +896,9 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
                 self.mostrar_exito("El gasto se ha agregado correctamente")
                 self.actualizar_gastos_del_viaje()
+                self.fecha_del_gasto.clear()
+                self.descripcion_del_gasto.clear()
+                self.costo_del_gasto.clear()
             else:
                 self.mostrar_warning("Viaje no encontrado")
 
@@ -922,80 +952,11 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 self.list_widget_viajes_guardados.setItemWidget(item, travel_widget)
                 self.seleccionar_viaje_gasto.addItem(texto_combo, userData=i)  
                 self.seleccionar_viaje_itinerario.addItem(texto_combo, userData=i)
+            
             self.list_widget_viajes_guardados.scrollToTop()
+            self.actualizar_gastos_del_viaje()
+            self.actualizar_planes_del_itinerario()
 
-    def cargar_viajes_iniciales(self):
-        self.viajes_usuario = {
-            1: {
-                "titulo": "Viaje a Paris",
-                "destino": "Paris, Francia",
-                "fecha_inicio": ["01", "Ene", 2024],
-                "fecha_fin": ["10", "Ene", 2024],
-                "presupuesto": 5000,
-                "personas": 2,
-                "vuelos": {
-                    "fecha_ida": "01-Ene-2024",
-                    "hora_ida": "10:00",
-                    "ampm_ida": "AM",
-                    "fecha_regreso": "10-Ene-2024",
-                    "hora_regreso": "08:00",
-                    "ampm_regreso": "PM",
-                    "costo_ida": 500,
-                    "costo_regreso": 500,
-                    "info_adicional": "Vuelos directos"
-                },
-                "alojamiento": {
-                    "Tipo": "Hotel",
-                    "fecha_inicio": "01-Ene-2024",
-                    "hora_inicio": "12:00",
-                    "ampm_inicio": "PM",
-                    "fecha_fin": "10-Ene-2024",
-                    "hora_fin": "10:00",
-                    "ampm_fin": "AM",
-                    "costo": 500,
-                    "info_adicional": "Hotel de 4 estrellas"
-                }, 
-                "Itinerario": [["Ir de compras", "12:00", "AM", "11-11-2024"],
-                               ["Ir al monte fuji", "5:00", "AM", "12-11-2024"],
-                               ["Salir a cenar", "7:00", "PM", "13-11-2024"]], 
-                "Gastos": [["Pan con queso", 2000, "18-11-2024"]],
-            },
-            2: {
-                "titulo": "Viaje a Tokio",
-                "destino": "Tokio, Japón",
-                "fecha_inicio": ["15", "Feb", 2024],
-                "fecha_fin": ["25", "Feb", 2024],
-                "presupuesto": 3000,
-                "personas": 1,
-                "vuelos": {
-                    "fecha_ida": "15-Feb-2024",
-                    "hora_ida": "05:00",
-                    "ampm_ida": "AM",
-                    "fecha_regreso": "25-Feb-2024",
-                    "hora_regreso": "11:00",
-                    "ampm_regreso": "AM",
-                    "costo_ida": 1000,
-                    "costo_regreso": 1000,
-                    "info_adicional": "Escala en Los Ángeles"
-                },
-                "alojamiento": {
-                    "Tipo": "Airbnb",
-                    "fecha_inicio": "15-Feb-2024",
-                    "hora_inicio": "02:00",
-                    "ampm_inicio": "PM",
-                    "fecha_fin": "25-Feb-2024",
-                    "hora_fin": "10:00",
-                    "ampm_fin": "AM",
-                    "costo": 12000,
-                    "info_adicional": "Airbnb en el centro de la ciudad"
-                },
-                "Itinerario": [], 
-                "Gastos": [["Cena elegante", 20000, "23-11-2024"],
-                           ["Pan con queso", 22000, "18-11-2024"],
-                           ["Almojabanas", 12000, "18-11-2024"]]
-            }
-        }
-        self.indice_viajes_guardados = max(self.viajes_usuario.keys())
 
     def validar_fecha_hora(self, fecha, hora, ampm, tipo):
         # Validar formato de fecha
@@ -1083,7 +1044,63 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.line_edit_costo_alojamiento_nuevo_viaje.clear()
         self.plaintextedit_info_adicional_nuevo_viaje.clear()
 
+    def enviar_correo(self):
+        seleccionado = self.list_apoyo.currentItem()
+        texto = self.plainTextEdit.toPlainText().strip()
+        texto_a_enviar = self.plainTextEdit.toPlainText()
 
+        if seleccionado:
+            asunto = seleccionado.text()
+            if texto:
+                destinatario = "afmartinez23a@udenar.edu.co"
+                # Crear el enlace mailto
+                mailto_link = f"mailto:{destinatario}?subject={asunto}&body={texto_a_enviar}"
+
+                #
+                mailto_link = mailto_link.replace(' ', '%20')
+
+                # Abrir el enlace en el navegador predeterminado
+                webbrowser.open(mailto_link)
+                self.mostrar_pagina_botones_configuraciones()
+                self.plainTextEdit.clear()
+
+            else:
+                self.mostrar_warning("El texto del recuadro inferior no debe estar vacio")
+        else:
+            self.mostrar_warning("Debes seleccionar un asunto de la lista")
+
+
+
+
+    def cambiar_moneda(self):
+        tasa_dolar = 3866.00
+        tasa_euro = 4183.00
+
+        # Obtener la moneda seleccionada del QComboBox
+        moneda_destino = self.money_combobox_apoyo_2.currentText()
+        # Realizar la conversión según la moneda seleccionada
+        if moneda_destino == "$ USD":
+            cantidad_1_dolares = 790000 / tasa_dolar
+            cantidad_2_dolares = 1690000 / tasa_dolar
+            # Actualizar las etiquetas con los valores convertidos, agregando el símbolo de la moneda
+            self.label_39.setText(f"$ {cantidad_1_dolares:.2f}")
+            self.label_42.setText(f"$ {cantidad_2_dolares:.2f}")
+        elif moneda_destino == "$ Euro":
+            cantidad_1_euros = 790000  / tasa_euro
+            cantidad_2_euros = 1690000 / tasa_euro
+            # Actualizar las etiquetas con los valores convertidos, agregando el símbolo de la moneda
+            self.label_39.setText(f"$ {cantidad_1_euros:.2f}")
+            self.label_42.setText(f"$ {cantidad_2_euros:.2f}")
+        elif moneda_destino == "$ COP":
+            # Convertir de regreso a pesos colombianos usando las cantidades originales
+            cantidad_1_pesos = 790000 
+            cantidad_2_pesos = 1690000
+            # Actualizar las etiquetas con los valores convertidos, agregando el símbolo de la moneda
+            self.label_39.setText(f"$ {cantidad_1_pesos}")
+            self.label_42.setText(f"$ {cantidad_2_pesos}")
+        else:
+            # Si la moneda seleccionada no es válida, no se realiza ninguna conversión
+            pass
 
     def activar_edicion_de_perfil(self):
         if self.edit_profile_2.text() == "Editar perfil":
