@@ -1400,7 +1400,7 @@ QCheckBox::indicator:checked {
 </string>
              </property>
              <property name="currentIndex">
-              <number>5</number>
+              <number>4</number>
              </property>
              <widget class="QWidget" name="home_page">
               <layout class="QGridLayout" name="gridLayout_11">
@@ -5067,7 +5067,7 @@ QLabel {
 </string>
                     </property>
                     <property name="currentIndex">
-                     <number>1</number>
+                     <number>0</number>
                     </property>
                     <widget class="QWidget" name="recordatorios_page">
                      <layout class="QGridLayout" name="gridLayout_23">

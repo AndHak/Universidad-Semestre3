@@ -4827,8 +4827,8 @@ class Ui_MainWindow(object):
         self.home_small_button1.toggled.connect(self.home_small_button2.setChecked)
         self.off2button.toggled.connect(self.off1button.setChecked)
 
-        self.stackedWidget.setCurrentIndex(5)
-        self.notifications_stacked.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(4)
+        self.notifications_stacked.setCurrentIndex(0)
         self.configuraciones_stacked.setCurrentIndex(0)
 
 

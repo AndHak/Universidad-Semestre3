@@ -14,7 +14,7 @@ from login_ui import Ui_MainWindow_login
 from PySide6 import QtWidgets, QtGui
 
 #Primer diccionario de recordatorios y segundo diccionario de viajes(contine en su interior itinerario del viaje y gastos)
-dic_usuarios = {'andresfg13789@gmail.com': ['Andres', 'Guerra', '2567AndresG', {}, {}]}
+dic_usuarios = {'andresfg13789@gmail.com': ['Andres', 'Guerra', '2567AndresG', [], {}]}
 class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
     basedir = os.path.dirname(__file__)
     def __init__(self):
@@ -483,10 +483,29 @@ class MainApp(QMainWindow, Ui_MainWindow):
         if recordatorio_a_borrar:
             confirmacion = QMessageBox.question(self, "Confirmar eliminación", "¿Seguro que quiere eliminar este recordatorio?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
             if confirmacion == QMessageBox.StandardButton.Yes:
-                self.lista_agregar_recordatorios.takeItem(self.lista_agregar_recordatorios.row(recordatorio_a_borrar))
+                # Obtener el índice del recordatorio en la lista
+                indice_recordatorio = self.lista_agregar_recordatorios.row(recordatorio_a_borrar)
+
+                # Obtener el correo electrónico del usuario actual
+                email_usuario = self.email_edit_profile_2.text()
+
+                # Verificar si el usuario está en el diccionario de usuarios
+                if email_usuario in dic_usuarios:
+                    # Obtener la lista de recordatorios del usuario
+                    recordatorios_usuario = dic_usuarios[email_usuario][3]
+
+                    # Eliminar el recordatorio correspondiente de la lista
+                    if indice_recordatorio < len(recordatorios_usuario):
+                        del recordatorios_usuario[indice_recordatorio]
+
+                    # Eliminar el recordatorio de la lista en la interfaz
+                    self.lista_agregar_recordatorios.takeItem(indice_recordatorio)
+
+                else:
+                    # Mostrar un mensaje si el usuario no está en el diccionario de usuarios
+                    self.mostrar_warning("Usuario no encontrado en el diccionario de usuarios")
         else:
             self.mostrar_warning("Para borrar un recordatorio primero lo debe seleccionar")
-
         
     def activar_fecha_hora(self):
         if self.check_box_hora_recordatorio.isChecked():
@@ -502,16 +521,12 @@ class MainApp(QMainWindow, Ui_MainWindow):
             self.checkbox_lugar_recordatorio.setChecked(False)
             self.check_box_hora_recordatorio.setChecked(False)
 
-
     def activar_line_lugar_recordatorio(self):
         if self.checkbox_lugar_recordatorio.isChecked():
             self.lineedit_lugar_recordatorio.setEnabled(True)
         else:
             self.lineedit_lugar_recordatorio.setEnabled(False)
             self.lineedit_lugar_recordatorio.clear()
-
-
- 
 
     def pasar_datos_to_pdf(self):
         current_item = self.list_widget_viajes_guardados.currentItem()
@@ -533,8 +548,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
         crear_pdf(datos)
 
-
-    
     def activar_line_edit_familia(self):
         if self.boton_familia_nuevo_viaje.isChecked():
             self.line_edit_familia_nuevo_viaje.setEnabled(True)
@@ -779,9 +792,6 @@ class MainApp(QMainWindow, Ui_MainWindow):
                 self.actualizar_gastos_del_viaje()
         else:
             self.mostrar_warning("Seleccione un viaje para eliminar")
-
-            
-
 
     def actualizar_gastos_del_viaje(self):
         clave_seleccionada = self.seleccionar_viaje_gasto.currentData()
