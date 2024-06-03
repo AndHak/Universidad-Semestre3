@@ -52,6 +52,8 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.timer.timeout.connect(self.update_time)
         self.timer.start(1000)  # Actualizar cada segundo
 
+        #Cambiar ejemplo de 
+
         self.update_time()
 
     def update_time(self):
@@ -149,7 +151,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 # Crear el enlace mailto
                 mailto_link = f"mailto:{destinatario}?subject={asunto}&body={texto_a_enviar}"
 
-                #
                 mailto_link = mailto_link.replace(' ', '%20')
 
                 # Abrir el enlace en el navegador predeterminado
