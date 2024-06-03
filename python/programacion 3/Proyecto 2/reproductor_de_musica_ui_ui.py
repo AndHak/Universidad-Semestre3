@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1187, 700)
+        MainWindow.resize(1187, 787)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_12 = QVBoxLayout(self.centralwidget)
@@ -76,6 +76,26 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.fontComboBox.sizePolicy().hasHeightForWidth())
         self.fontComboBox.setSizePolicy(sizePolicy)
         self.fontComboBox.setMinimumSize(QSize(0, 40))
+        self.fontComboBox.setStyleSheet(u"QFontComboBox {\n"
+"    border: 1px solid #bbb;\n"
+"    border-radius: 5px;\n"
+"    background: rgb(226, 224, 239);\n"
+"    padding: 5px;\n"
+"}\n"
+"\n"
+"QFontComboBox::drop-down {\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: top right;\n"
+"    width: 20px;\n"
+"    border: 1px solid #5c5c5c;\n"
+"    background: rgb(226, 224, 239);\n"
+"    border-radius: 0px;\n"
+"}\n"
+"\n"
+"QFontComboBox::drop-down:hover {\n"
+"    background: rgb(216, 214, 229);\n"
+"}\n"
+"")
 
         self.gridLayout_6.addWidget(self.fontComboBox, 1, 0, 1, 1)
 
@@ -86,6 +106,43 @@ class Ui_MainWindow(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.spin_box_aumentar_letra.sizePolicy().hasHeightForWidth())
         self.spin_box_aumentar_letra.setSizePolicy(sizePolicy1)
+        self.spin_box_aumentar_letra.setStyleSheet(u"QSpinBox {\n"
+"    border: 1px solid #bbb;\n"
+"    border-radius: 5px;\n"
+"    background: rgb(226, 224, 239);\n"
+"    padding: 5px;\n"
+"}\n"
+"\n"
+"QSpinBox::up-button {\n"
+"    subcontrol-origin: border;\n"
+"    subcontrol-position: top right;\n"
+"    width: 16px;\n"
+"    background: rgb(226, 224, 239);\n"
+"    border: 1px solid #5c5c5c;\n"
+"    border-radius: 0px;\n"
+"}\n"
+"\n"
+"QSpinBox::up-button:hover {\n"
+"    background: rgb(216, 214, 229);\n"
+"}\n"
+"\n"
+"QSpinBox::down-button {\n"
+"    subcontrol-origin: border;\n"
+"    subcontrol-position: bottom right;\n"
+"    width: 16px;\n"
+"    background: rgb(226, 224, 239);\n"
+"    border: 1px solid #5c5c5c;\n"
+"    border-radius: 0px;\n"
+"}\n"
+"\n"
+"QSpinBox::down-button:hover {\n"
+"    background: rgb(216, 214, 229);\n"
+"}\n"
+"\n"
+"QSpinBox::up-arrow, QSpinBox::down-arrow {\n"
+"    /* Deja los iconos por defecto, no es necesario especificar aqu\u00ed */\n"
+"}\n"
+"")
         self.spin_box_aumentar_letra.setMinimum(10)
         self.spin_box_aumentar_letra.setMaximum(16)
 
@@ -106,7 +163,7 @@ class Ui_MainWindow(object):
         self.gridLayout_9.setHorizontalSpacing(15)
         self.gridLayout_9.setVerticalSpacing(30)
         self.gridLayout_9.setContentsMargins(30, 20, 30, 20)
-        self.verticalSpacer_6 = QSpacerItem(17, 52, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalSpacer_6 = QSpacerItem(17, 96, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.gridLayout_9.addItem(self.verticalSpacer_6, 0, 0, 1, 1)
 
@@ -142,7 +199,7 @@ class Ui_MainWindow(object):
 
         self.gridLayout_9.addWidget(self.after_current_label_song_ej, 3, 0, 1, 1)
 
-        self.verticalSpacer_5 = QSpacerItem(17, 52, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalSpacer_5 = QSpacerItem(17, 95, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.gridLayout_9.addItem(self.verticalSpacer_5, 4, 0, 1, 1)
 
@@ -1302,7 +1359,33 @@ class Ui_MainWindow(object):
         self.profile_page.setObjectName(u"profile_page")
         self.profile_page.setStyleSheet(u"QPushButton {\n"
 "	border: none;\n"
-"}")
+"}\n"
+"QCheckBox {\n"
+"    spacing: 5px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator {\n"
+"    width: 20px;\n"
+"    height: 20px;\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:unchecked {\n"
+"    border: 1px solid #bbb;\n"
+"    border-radius: 3px;\n"
+"    background: rgb(226, 224, 239);\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:unchecked:hover {\n"
+"    background: rgb(216, 214, 229);\n"
+"}\n"
+"\n"
+"QCheckBox::indicator:checked {\n"
+"    border: 1px solid #5c5c5c;\n"
+"    border-radius: 3px;\n"
+"    background: rgb(155, 129, 255);\n"
+"}\n"
+"\n"
+"")
         self.gridLayout_24 = QGridLayout(self.profile_page)
         self.gridLayout_24.setObjectName(u"gridLayout_24")
         self.gridLayout_23 = QGridLayout()
@@ -1341,6 +1424,7 @@ class Ui_MainWindow(object):
         self.boton_foto_de_perfil = QPushButton(self.widget)
         self.boton_foto_de_perfil.setObjectName(u"boton_foto_de_perfil")
         self.boton_foto_de_perfil.setCursor(QCursor(Qt.PointingHandCursor))
+        self.boton_foto_de_perfil.setStyleSheet(u"border-radius: 87px;")
         icon14 = QIcon()
         icon14.addFile(u":/icons/icons/user 2.png", QSize(), QIcon.Normal, QIcon.Off)
         self.boton_foto_de_perfil.setIcon(icon14)
@@ -1363,22 +1447,22 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.label_perfil)
 
-        self.pushButton = QPushButton(self.widget)
-        self.pushButton.setObjectName(u"pushButton")
+        self.tu_nombre_button = QPushButton(self.widget)
+        self.tu_nombre_button.setObjectName(u"tu_nombre_button")
         sizePolicy17 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.MinimumExpanding)
         sizePolicy17.setHorizontalStretch(0)
         sizePolicy17.setVerticalStretch(0)
-        sizePolicy17.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
-        self.pushButton.setSizePolicy(sizePolicy17)
+        sizePolicy17.setHeightForWidth(self.tu_nombre_button.sizePolicy().hasHeightForWidth())
+        self.tu_nombre_button.setSizePolicy(sizePolicy17)
         font8 = QFont()
         font8.setFamilies([u"Moran Demo"])
-        font8.setPointSize(40)
+        font8.setPointSize(58)
         font8.setBold(False)
-        self.pushButton.setFont(font8)
-        self.pushButton.setCursor(QCursor(Qt.PointingHandCursor))
-        self.pushButton.setCheckable(True)
+        self.tu_nombre_button.setFont(font8)
+        self.tu_nombre_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.tu_nombre_button.setCheckable(True)
 
-        self.verticalLayout_2.addWidget(self.pushButton)
+        self.verticalLayout_2.addWidget(self.tu_nombre_button)
 
 
         self.gridLayout_22.addLayout(self.verticalLayout_2, 0, 2, 2, 1)
@@ -1412,11 +1496,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.label_agregar_tu_nombre, 0, 0, 1, 1)
 
-        self.chackbox_agrega_tu_nombre = QCheckBox(self.profile_page)
-        self.chackbox_agrega_tu_nombre.setObjectName(u"chackbox_agrega_tu_nombre")
-        self.chackbox_agrega_tu_nombre.setCheckable(False)
+        self.checkbox_agrega_tu_nombre = QCheckBox(self.profile_page)
+        self.checkbox_agrega_tu_nombre.setObjectName(u"checkbox_agrega_tu_nombre")
+        self.checkbox_agrega_tu_nombre.setCheckable(False)
 
-        self.gridLayout_2.addWidget(self.chackbox_agrega_tu_nombre, 0, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.checkbox_agrega_tu_nombre, 0, 1, 1, 1)
 
         self.label_pon_una_foto = QLabel(self.profile_page)
         self.label_pon_una_foto.setObjectName(u"label_pon_una_foto")
@@ -1426,11 +1510,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.label_pon_una_foto, 1, 0, 1, 1)
 
-        self.chackbox_pon_una_foto = QCheckBox(self.profile_page)
-        self.chackbox_pon_una_foto.setObjectName(u"chackbox_pon_una_foto")
-        self.chackbox_pon_una_foto.setCheckable(False)
+        self.checkbox_pon_una_foto = QCheckBox(self.profile_page)
+        self.checkbox_pon_una_foto.setObjectName(u"checkbox_pon_una_foto")
+        self.checkbox_pon_una_foto.setCheckable(False)
 
-        self.gridLayout_2.addWidget(self.chackbox_pon_una_foto, 1, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.checkbox_pon_una_foto, 1, 1, 1, 1)
 
         self.label_agrega_canciones = QLabel(self.profile_page)
         self.label_agrega_canciones.setObjectName(u"label_agrega_canciones")
@@ -1440,11 +1524,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.label_agrega_canciones, 2, 0, 1, 1)
 
-        self.chackbox_agrega_canciones = QCheckBox(self.profile_page)
-        self.chackbox_agrega_canciones.setObjectName(u"chackbox_agrega_canciones")
-        self.chackbox_agrega_canciones.setCheckable(False)
+        self.checkbox_agrega_canciones = QCheckBox(self.profile_page)
+        self.checkbox_agrega_canciones.setObjectName(u"checkbox_agrega_canciones")
+        self.checkbox_agrega_canciones.setCheckable(False)
 
-        self.gridLayout_2.addWidget(self.chackbox_agrega_canciones, 2, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.checkbox_agrega_canciones, 2, 1, 1, 1)
 
         self.label_agrega_favoritas = QLabel(self.profile_page)
         self.label_agrega_favoritas.setObjectName(u"label_agrega_favoritas")
@@ -1454,11 +1538,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.label_agrega_favoritas, 3, 0, 1, 1)
 
-        self.chackbox_agrega_favoritas = QCheckBox(self.profile_page)
-        self.chackbox_agrega_favoritas.setObjectName(u"chackbox_agrega_favoritas")
-        self.chackbox_agrega_favoritas.setCheckable(False)
+        self.checkbox_agrega_favoritas = QCheckBox(self.profile_page)
+        self.checkbox_agrega_favoritas.setObjectName(u"checkbox_agrega_favoritas")
+        self.checkbox_agrega_favoritas.setCheckable(False)
 
-        self.gridLayout_2.addWidget(self.chackbox_agrega_favoritas, 3, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.checkbox_agrega_favoritas, 3, 1, 1, 1)
 
 
         self.gridLayout_3.addLayout(self.gridLayout_2, 1, 2, 1, 1)
@@ -1535,7 +1619,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(5)
         self.stacked_songs.setCurrentIndex(0)
 
 
@@ -1644,15 +1728,15 @@ class Ui_MainWindow(object):
         self.back_to_home_profile.setText("")
         self.boton_foto_de_perfil.setText("")
         self.label_perfil.setText(QCoreApplication.translate("MainWindow", u"perfil", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"TU NOMBRE", None))
+        self.tu_nombre_button.setText(QCoreApplication.translate("MainWindow", u"TU NOMBRE", None))
         self.label_agregar_tu_nombre.setText(QCoreApplication.translate("MainWindow", u"Agrega tu nonbre", None))
-        self.chackbox_agrega_tu_nombre.setText("")
+        self.checkbox_agrega_tu_nombre.setText("")
         self.label_pon_una_foto.setText(QCoreApplication.translate("MainWindow", u"Pon una foto", None))
-        self.chackbox_pon_una_foto.setText("")
+        self.checkbox_pon_una_foto.setText("")
         self.label_agrega_canciones.setText(QCoreApplication.translate("MainWindow", u"Agrega canciones", None))
-        self.chackbox_agrega_canciones.setText("")
+        self.checkbox_agrega_canciones.setText("")
         self.label_agrega_favoritas.setText(QCoreApplication.translate("MainWindow", u"A\u00f1ade 5 canciones a favoritas", None))
-        self.chackbox_agrega_favoritas.setText("")
+        self.checkbox_agrega_favoritas.setText("")
         self.label_progreso_en_la_app.setText(QCoreApplication.translate("MainWindow", u"Progreso en la app", None))
     # retranslateUi
 

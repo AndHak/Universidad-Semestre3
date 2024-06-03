@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1187</width>
-    <height>700</height>
+    <height>787</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,7 +37,7 @@
        <enum>QFrame::Plain</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="setting_page">
        <property name="cursor">
@@ -110,6 +110,28 @@
                   <height>40</height>
                  </size>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">QFontComboBox {
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    background: rgb(226, 224, 239);
+    padding: 5px;
+}
+
+QFontComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 20px;
+    border: 1px solid #5c5c5c;
+    background: rgb(226, 224, 239);
+    border-radius: 0px;
+}
+
+QFontComboBox::drop-down:hover {
+    background: rgb(216, 214, 229);
+}
+</string>
+                </property>
                </widget>
               </item>
               <item row="1" column="1">
@@ -119,6 +141,45 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QSpinBox {
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    background: rgb(226, 224, 239);
+    padding: 5px;
+}
+
+QSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 16px;
+    background: rgb(226, 224, 239);
+    border: 1px solid #5c5c5c;
+    border-radius: 0px;
+}
+
+QSpinBox::up-button:hover {
+    background: rgb(216, 214, 229);
+}
+
+QSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 16px;
+    background: rgb(226, 224, 239);
+    border: 1px solid #5c5c5c;
+    border-radius: 0px;
+}
+
+QSpinBox::down-button:hover {
+    background: rgb(216, 214, 229);
+}
+
+QSpinBox::up-arrow, QSpinBox::down-arrow {
+    /* Deja los iconos por defecto, no es necesario especificar aquí */
+}
+</string>
                 </property>
                 <property name="minimum">
                  <number>10</number>
@@ -166,7 +227,7 @@ border-radius: 30px;
                  <property name="sizeHint" stdset="0">
                   <size>
                    <width>17</width>
-                   <height>52</height>
+                   <height>96</height>
                   </size>
                  </property>
                 </spacer>
@@ -242,7 +303,7 @@ border-radius: 30px;
                  <property name="sizeHint" stdset="0">
                   <size>
                    <width>17</width>
-                   <height>52</height>
+                   <height>95</height>
                   </size>
                  </property>
                 </spacer>
@@ -2591,7 +2652,33 @@ QSlider::add-page:horizontal {
        <property name="styleSheet">
         <string notr="true">QPushButton {
 	border: none;
-}</string>
+}
+QCheckBox {
+    spacing: 5px;
+}
+
+QCheckBox::indicator {
+    width: 20px;
+    height: 20px;
+}
+
+QCheckBox::indicator:unchecked {
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    background: rgb(226, 224, 239);
+}
+
+QCheckBox::indicator:unchecked:hover {
+    background: rgb(216, 214, 229);
+}
+
+QCheckBox::indicator:checked {
+    border: 1px solid #5c5c5c;
+    border-radius: 3px;
+    background: rgb(155, 129, 255);
+}
+
+</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_24">
         <item row="0" column="0">
@@ -2673,6 +2760,9 @@ QSlider::add-page:horizontal {
                <property name="cursor">
                 <cursorShape>PointingHandCursor</cursorShape>
                </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius: 87px;</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -2719,7 +2809,7 @@ QSlider::add-page:horizontal {
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="tu_nombre_button">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
                    <horstretch>0</horstretch>
@@ -2729,7 +2819,7 @@ QSlider::add-page:horizontal {
                  <property name="font">
                   <font>
                    <family>Moran Demo</family>
-                   <pointsize>40</pointsize>
+                   <pointsize>58</pointsize>
                    <bold>false</bold>
                   </font>
                  </property>
@@ -2814,7 +2904,7 @@ QSlider::add-page:horizontal {
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QCheckBox" name="chackbox_agrega_tu_nombre">
+               <widget class="QCheckBox" name="checkbox_agrega_tu_nombre">
                 <property name="text">
                  <string/>
                 </property>
@@ -2843,7 +2933,7 @@ QSlider::add-page:horizontal {
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QCheckBox" name="chackbox_pon_una_foto">
+               <widget class="QCheckBox" name="checkbox_pon_una_foto">
                 <property name="text">
                  <string/>
                 </property>
@@ -2872,7 +2962,7 @@ QSlider::add-page:horizontal {
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QCheckBox" name="chackbox_agrega_canciones">
+               <widget class="QCheckBox" name="checkbox_agrega_canciones">
                 <property name="text">
                  <string/>
                 </property>
@@ -2901,7 +2991,7 @@ QSlider::add-page:horizontal {
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="QCheckBox" name="chackbox_agrega_favoritas">
+               <widget class="QCheckBox" name="checkbox_agrega_favoritas">
                 <property name="text">
                  <string/>
                 </property>
