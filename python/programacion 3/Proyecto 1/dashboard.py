@@ -22,7 +22,7 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
         self.basedir = os.path.dirname(__file__)
         super().__init__()
         self.setupUi(self)
-        
+    
         self.setWindowTitle("My Travel app")
         #botones login
         self.button_registrate_stacked.clicked.connect(self.cambiar_a_registro)
@@ -700,6 +700,11 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.mostrar_exito("El viaje se ha agregado correctamente")
 
     def añadir_plan(self):
+        viaje_seleccionado = self.seleccionar_viaje_itinerario.currentText()
+        if viaje_seleccionado == "No Seleccionado":
+            self.mostrar_warning("Debe seleccionar un viaje")
+            return
+        
         plan = self.descripcion_del_plan.text()
         if not plan:
             self.mostrar_warning("Debe agregar un plan")
@@ -867,6 +872,11 @@ class MainApp(QMainWindow, Ui_MainWindow):
             self.list_widget_gastos.clear()
             
     def añadir_gasto(self):
+        viaje_seleccionado = self.seleccionar_viaje_gasto.currentText()
+        if viaje_seleccionado == "No Seleccionado":
+            self.mostrar_warning("Debe seleccionar un viaje")
+            return
+
         descripcion = self.descripcion_del_gasto.text().strip()
         if not descripcion:
             self.mostrar_warning("Debe agregar una descripción del gasto")

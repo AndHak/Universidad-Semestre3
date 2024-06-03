@@ -11,3 +11,17 @@ usuarios_que_no_te_siguen = [i for i in following if i not in followers]
 print(", ".join(usuarios_que_no_te_siguen))
 
 print(len(usuarios_que_no_te_siguen))
+
+
+"""
+let listaDeUsuarios = [];
+document.querySelectorAll('a.x1i10hfl').forEach(el => {
+    const username = el.href.split('/').filter(Boolean).pop();
+    if (username) listaDeUsuarios.push(username);
+});
+
+let usuariosUnicos = [...new Set(listaDeUsuarios)];
+let resultado = usuariosUnicos.join(", ");
+console.log(resultado);
+copy(resultado);
+"""

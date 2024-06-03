@@ -1,0 +1,27 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>icons/icons8-back-100.png</file>
+    <file>icons/icons8-music-100.png</file>
+    <file>icons/icons8-home-50.png</file>
+    <file>icons/icons8-sound-50.png</file>
+    <file>icons/icons8-replay-100off.png</file>
+    <file>icons/icons8-replay-100on.png</file>
+    <file>icons/icons8-shuffle-100off.png</file>
+    <file>icons/icons8-shuffle-100on.png</file>
+    <file>icons/all_songs.png</file>
+    <file>icons/icons8-configuration-50.png</file>
+    <file>icons/icons8-heart-32.png</file>
+    <file>icons/icons8-heart-48.png</file>
+    <file>icons/icons8-pause-48.png</file>
+    <file>icons/icons8-pixel-heart-100.png</file>
+    <file>icons/icons8-song-100.png</file>
+    <file>icons/icons8-toggle-off-100.png</file>
+    <file>icons/icons8-toggle-on.png</file>
+    <file>icons/icons8-toggle-on2.png</file>
+    <file>icons/icons8-user-100.png</file>
+    <file>icons/next.png</file>
+    <file>icons/previo.png</file>
+    <file>icons/user 2.png</file>
+    <file>icons/user.png</file>
+  </qresource>
+</RCC>

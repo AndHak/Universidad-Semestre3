@@ -10,19 +10,36 @@ import os
 import re
 import datetime
 import webbrowser
+import pickle
 
 from login_ui import Ui_MainWindow_login
 from PySide6 import QtWidgets, QtGui
+
+def guardar_diccionario(diccionario, archivo):
+    with open(archivo, 'wb') as f:
+        pickle.dump(diccionario, f)
+
+# Cargar el diccionario desde un archivo
+def cargar_diccionario(archivo):
+    try:
+        with open(archivo, 'rb') as f:
+            return pickle.load(f)
+    except FileNotFoundError:
+        return {}
 
 #Primer diccionario de recordatorios y segundo diccionario de viajes(contine en su interior itinerario del viaje y gastos)
 dic_usuarios = {'andresfg13789@gmail.com': ['Andres', 'Guerra', '2567AndresG', [], {}]}
 class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
     basedir = os.path.dirname(__file__)
+    archivo_usuarios = os.path.join(basedir, 'usuarios.pkl')
     def __init__(self):
         self.basedir = os.path.dirname(__file__)
         super().__init__()
         self.setupUi(self)
+        global dic_usuarios
+        dic_usuarios = cargar_diccionario(self.archivo_usuarios)
         
+    
         self.setWindowTitle("My Travel app")
         #botones login
         self.button_registrate_stacked.clicked.connect(self.cambiar_a_registro)
@@ -252,6 +269,7 @@ class LoginWindow(QtWidgets.QMainWindow, Ui_MainWindow_login):
 
 class MainApp(QMainWindow, Ui_MainWindow):
     basedir = os.path.dirname(__file__)
+    archivo_usuarios = os.path.join(basedir, 'usuarios.pkl')
     #Validaciones del perfil
     paso_foto_de_perfil = False
     paso_escoger_sexualidad = False
@@ -275,6 +293,8 @@ class MainApp(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("My travel app")
+        global dic_usuarios
+        dic_usuarios = cargar_diccionario(self.archivo_usuarios)
 
         self.menub.setHidden(True)
 
@@ -700,6 +720,11 @@ class MainApp(QMainWindow, Ui_MainWindow):
         self.mostrar_exito("El viaje se ha agregado correctamente")
 
     def añadir_plan(self):
+        viaje_seleccionado = self.seleccionar_viaje_itinerario.currentText()
+        if viaje_seleccionado == "No Seleccionado":
+            self.mostrar_warning("Debe seleccionar un viaje")
+            return
+        
         plan = self.descripcion_del_plan.text()
         if not plan:
             self.mostrar_warning("Debe agregar un plan")
@@ -772,8 +797,14 @@ class MainApp(QMainWindow, Ui_MainWindow):
                     item.setSizeHint(plan_widget.sizeHint())
                     self.list_widget_de_planes.addItem(item)
                     self.list_widget_de_planes.setItemWidget(item, plan_widget)
+
+                # Actualizar el itinerario ordenado en el diccionario viajes_usuario
+                viaje_encontrado["Itinerario"] = planes_ordenados
             else:
                 self.list_widget_de_planes.clear()
+
+            # Actualizar el diccionario con el viaje actualizado
+            self.viajes_usuario[clave_seleccionada] = viaje_encontrado
 
 
         
@@ -861,6 +892,11 @@ class MainApp(QMainWindow, Ui_MainWindow):
             self.list_widget_gastos.clear()
             
     def añadir_gasto(self):
+        viaje_seleccionado = self.seleccionar_viaje_gasto.currentText()
+        if viaje_seleccionado == "No Seleccionado":
+            self.mostrar_warning("Debe seleccionar un viaje")
+            return
+
         descripcion = self.descripcion_del_gasto.text().strip()
         if not descripcion:
             self.mostrar_warning("Debe agregar una descripción del gasto")
@@ -1466,6 +1502,10 @@ class MainApp(QMainWindow, Ui_MainWindow):
 
     def mostrar_configuraciones_page(self):
         self.stackedWidget.setCurrentWidget(self.settings_page)
+    
+    def closeEvent(self, event):
+        guardar_diccionario(dic_usuarios, self.archivo_usuarios)
+        event.accept()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
