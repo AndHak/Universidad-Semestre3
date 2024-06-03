@@ -37,7 +37,7 @@
        <enum>QFrame::Plain</enum>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="setting_page">
        <property name="cursor">
@@ -1851,7 +1851,7 @@ border-radius: 30px;
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>82</height>
+                  <height>126</height>
                  </size>
                 </property>
                </spacer>
@@ -1927,7 +1927,7 @@ border-radius: 30px;
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>82</height>
+                  <height>125</height>
                  </size>
                 </property>
                </spacer>
@@ -2122,6 +2122,11 @@ border-radius: 30px;
                      <height>40</height>
                     </size>
                    </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>9</pointsize>
+                    </font>
+                   </property>
                    <property name="cursor">
                     <cursorShape>PointingHandCursor</cursorShape>
                    </property>
@@ -2130,7 +2135,8 @@ border-radius: 30px;
                    </property>
                    <property name="icon">
                     <iconset resource="recurses.qrc">
-                     <normaloff>:/icons/icons/icons8-sound-50.png</normaloff>:/icons/icons/icons8-sound-50.png</iconset>
+                     <normaloff>:/icons/icons/icons8-sound-50.png</normaloff>
+                     <normalon>:/icons/icons/icons8-no-audio-64.png</normalon>:/icons/icons/icons8-sound-50.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -2331,7 +2337,8 @@ QSlider::add-page:horizontal {
                    </property>
                    <property name="icon">
                     <iconset resource="recurses.qrc">
-                     <normaloff>:/icons/icons/icons8-pause-48.png</normaloff>:/icons/icons/icons8-pause-48.png</iconset>
+                     <normaloff>:/icons/icons/icons8-reproducir-64.png</normaloff>
+                     <normalon>:/icons/icons/icons8-pause-48.png</normalon>:/icons/icons/icons8-reproducir-64.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>

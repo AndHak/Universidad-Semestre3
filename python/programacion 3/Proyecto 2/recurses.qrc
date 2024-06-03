@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icons">
+    <file>icons/icons8-no-audio-64.png</file>
+    <file>icons/icons8-reproducir-64.png</file>
     <file>icons/icons8-plus-64.png</file>
     <file>icons/icons8-back-100.png</file>
     <file>icons/icons8-music-100.png</file>

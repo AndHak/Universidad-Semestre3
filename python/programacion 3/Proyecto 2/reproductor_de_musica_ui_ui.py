@@ -933,7 +933,7 @@ class Ui_MainWindow(object):
         self.gridLayout.setHorizontalSpacing(15)
         self.gridLayout.setVerticalSpacing(50)
         self.gridLayout.setContentsMargins(40, 30, 40, 30)
-        self.verticalSpacer_9 = QSpacerItem(20, 82, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalSpacer_9 = QSpacerItem(20, 126, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.gridLayout.addItem(self.verticalSpacer_9, 0, 0, 1, 1)
 
@@ -963,7 +963,7 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.after_current_label_song, 3, 0, 1, 1)
 
-        self.verticalSpacer_10 = QSpacerItem(20, 82, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalSpacer_10 = QSpacerItem(20, 125, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.gridLayout.addItem(self.verticalSpacer_10, 4, 0, 1, 1)
 
@@ -1063,9 +1063,13 @@ class Ui_MainWindow(object):
         self.pushButton_21 = QPushButton(self.frame)
         self.pushButton_21.setObjectName(u"pushButton_21")
         self.pushButton_21.setMinimumSize(QSize(40, 40))
+        font7 = QFont()
+        font7.setPointSize(9)
+        self.pushButton_21.setFont(font7)
         self.pushButton_21.setCursor(QCursor(Qt.PointingHandCursor))
         icon7 = QIcon()
         icon7.addFile(u":/icons/icons/icons8-sound-50.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon7.addFile(u":/icons/icons/icons8-no-audio-64.png", QSize(), QIcon.Normal, QIcon.On)
         self.pushButton_21.setIcon(icon7)
         self.pushButton_21.setIconSize(QSize(25, 25))
         self.pushButton_21.setCheckable(True)
@@ -1174,7 +1178,8 @@ class Ui_MainWindow(object):
         self.pause_button.setMinimumSize(QSize(50, 50))
         self.pause_button.setCursor(QCursor(Qt.PointingHandCursor))
         icon10 = QIcon()
-        icon10.addFile(u":/icons/icons/icons8-pause-48.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon10.addFile(u":/icons/icons/icons8-reproducir-64.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon10.addFile(u":/icons/icons/icons8-pause-48.png", QSize(), QIcon.Normal, QIcon.On)
         self.pause_button.setIcon(icon10)
         self.pause_button.setIconSize(QSize(50, 50))
         self.pause_button.setCheckable(True)
@@ -1440,10 +1445,10 @@ class Ui_MainWindow(object):
         sizePolicy16.setHeightForWidth(self.label_perfil.sizePolicy().hasHeightForWidth())
         self.label_perfil.setSizePolicy(sizePolicy16)
         self.label_perfil.setMinimumSize(QSize(0, 25))
-        font7 = QFont()
-        font7.setFamilies([u"Verdana"])
-        font7.setBold(True)
-        self.label_perfil.setFont(font7)
+        font8 = QFont()
+        font8.setFamilies([u"Verdana"])
+        font8.setBold(True)
+        self.label_perfil.setFont(font8)
 
         self.verticalLayout_2.addWidget(self.label_perfil)
 
@@ -1454,11 +1459,11 @@ class Ui_MainWindow(object):
         sizePolicy17.setVerticalStretch(0)
         sizePolicy17.setHeightForWidth(self.tu_nombre_button.sizePolicy().hasHeightForWidth())
         self.tu_nombre_button.setSizePolicy(sizePolicy17)
-        font8 = QFont()
-        font8.setFamilies([u"Moran Demo"])
-        font8.setPointSize(58)
-        font8.setBold(False)
-        self.tu_nombre_button.setFont(font8)
+        font9 = QFont()
+        font9.setFamilies([u"Moran Demo"])
+        font9.setPointSize(58)
+        font9.setBold(False)
+        self.tu_nombre_button.setFont(font9)
         self.tu_nombre_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.tu_nombre_button.setCheckable(True)
 
@@ -1489,10 +1494,10 @@ class Ui_MainWindow(object):
         self.label_agregar_tu_nombre.setObjectName(u"label_agregar_tu_nombre")
         sizePolicy.setHeightForWidth(self.label_agregar_tu_nombre.sizePolicy().hasHeightForWidth())
         self.label_agregar_tu_nombre.setSizePolicy(sizePolicy)
-        font9 = QFont()
-        font9.setFamilies([u"Verdana"])
-        font9.setPointSize(11)
-        self.label_agregar_tu_nombre.setFont(font9)
+        font10 = QFont()
+        font10.setFamilies([u"Verdana"])
+        font10.setPointSize(11)
+        self.label_agregar_tu_nombre.setFont(font10)
 
         self.gridLayout_2.addWidget(self.label_agregar_tu_nombre, 0, 0, 1, 1)
 
@@ -1506,7 +1511,7 @@ class Ui_MainWindow(object):
         self.label_pon_una_foto.setObjectName(u"label_pon_una_foto")
         sizePolicy.setHeightForWidth(self.label_pon_una_foto.sizePolicy().hasHeightForWidth())
         self.label_pon_una_foto.setSizePolicy(sizePolicy)
-        self.label_pon_una_foto.setFont(font9)
+        self.label_pon_una_foto.setFont(font10)
 
         self.gridLayout_2.addWidget(self.label_pon_una_foto, 1, 0, 1, 1)
 
@@ -1520,7 +1525,7 @@ class Ui_MainWindow(object):
         self.label_agrega_canciones.setObjectName(u"label_agrega_canciones")
         sizePolicy.setHeightForWidth(self.label_agrega_canciones.sizePolicy().hasHeightForWidth())
         self.label_agrega_canciones.setSizePolicy(sizePolicy)
-        self.label_agrega_canciones.setFont(font9)
+        self.label_agrega_canciones.setFont(font10)
 
         self.gridLayout_2.addWidget(self.label_agrega_canciones, 2, 0, 1, 1)
 
@@ -1534,7 +1539,7 @@ class Ui_MainWindow(object):
         self.label_agrega_favoritas.setObjectName(u"label_agrega_favoritas")
         sizePolicy.setHeightForWidth(self.label_agrega_favoritas.sizePolicy().hasHeightForWidth())
         self.label_agrega_favoritas.setSizePolicy(sizePolicy)
-        self.label_agrega_favoritas.setFont(font9)
+        self.label_agrega_favoritas.setFont(font10)
 
         self.gridLayout_2.addWidget(self.label_agrega_favoritas, 3, 0, 1, 1)
 
@@ -1619,7 +1624,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(5)
+        self.stackedWidget.setCurrentIndex(4)
         self.stacked_songs.setCurrentIndex(0)
 
 
