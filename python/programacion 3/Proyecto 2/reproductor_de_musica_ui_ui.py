@@ -735,7 +735,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.boton_abrir_perfil_page = QPushButton(self.frame_2)
         self.boton_abrir_perfil_page.setObjectName(u"boton_abrir_perfil_page")
-        self.boton_abrir_perfil_page.setMinimumSize(QSize(160, 50))
+        self.boton_abrir_perfil_page.setMinimumSize(QSize(60, 50))
         self.boton_abrir_perfil_page.setCursor(QCursor(Qt.PointingHandCursor))
         icon2 = QIcon()
         icon2.addFile(u":/icons/icons/user.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -763,28 +763,14 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_7)
 
-        self.dark_mode_button = QPushButton(self.frame_2)
-        self.dark_mode_button.setObjectName(u"dark_mode_button")
-        self.dark_mode_button.setMinimumSize(QSize(100, 0))
-        self.dark_mode_button.setMaximumSize(QSize(100, 16777215))
-        self.dark_mode_button.setCursor(QCursor(Qt.PointingHandCursor))
-        icon3 = QIcon()
-        icon3.addFile(u":/icons/icons/icons8-toggle-off-100.png", QSize(), QIcon.Normal, QIcon.Off)
-        icon3.addFile(u":/icons/icons/icons8-toggle-on2.png", QSize(), QIcon.Normal, QIcon.On)
-        self.dark_mode_button.setIcon(icon3)
-        self.dark_mode_button.setIconSize(QSize(50, 50))
-        self.dark_mode_button.setCheckable(True)
-
-        self.horizontalLayout_3.addWidget(self.dark_mode_button)
-
         self.settings_button = QPushButton(self.frame_2)
         self.settings_button.setObjectName(u"settings_button")
         self.settings_button.setMinimumSize(QSize(40, 40))
         self.settings_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.settings_button.setContextMenuPolicy(Qt.PreventContextMenu)
-        icon4 = QIcon()
-        icon4.addFile(u":/icons/icons/icons8-configuration-50.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.settings_button.setIcon(icon4)
+        icon3 = QIcon()
+        icon3.addFile(u":/icons/icons/icons8-configuration-50.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.settings_button.setIcon(icon3)
         self.settings_button.setIconSize(QSize(40, 40))
         self.settings_button.setCheckable(True)
 
@@ -819,9 +805,9 @@ class Ui_MainWindow(object):
         self.all_songs_button.setMinimumSize(QSize(70, 70))
         self.all_songs_button.setMaximumSize(QSize(70, 70))
         self.all_songs_button.setCursor(QCursor(Qt.PointingHandCursor))
-        icon5 = QIcon()
-        icon5.addFile(u":/icons/icons/all_songs.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.all_songs_button.setIcon(icon5)
+        icon4 = QIcon()
+        icon4.addFile(u":/icons/icons/all_songs.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.all_songs_button.setIcon(icon4)
         self.all_songs_button.setIconSize(QSize(70, 70))
         self.all_songs_button.setCheckable(True)
 
@@ -845,9 +831,9 @@ class Ui_MainWindow(object):
         self.favorite_songs_button.setMinimumSize(QSize(70, 70))
         self.favorite_songs_button.setMaximumSize(QSize(70, 70))
         self.favorite_songs_button.setCursor(QCursor(Qt.PointingHandCursor))
-        icon6 = QIcon()
-        icon6.addFile(u":/icons/icons/icons8-pixel-heart-100.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.favorite_songs_button.setIcon(icon6)
+        icon5 = QIcon()
+        icon5.addFile(u":/icons/icons/icons8-pixel-heart-100.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.favorite_songs_button.setIcon(icon5)
         self.favorite_songs_button.setIconSize(QSize(70, 70))
         self.favorite_songs_button.setCheckable(True)
 
@@ -950,6 +936,20 @@ class Ui_MainWindow(object):
         self.all_songs_list.setObjectName(u"all_songs_list")
 
         self.verticalLayout_11.addWidget(self.all_songs_list)
+
+        self.cargar_canciones_button = QPushButton(self.all_songs_stack)
+        self.cargar_canciones_button.setObjectName(u"cargar_canciones_button")
+        self.cargar_canciones_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.cargar_canciones_button.setStyleSheet(u"QPushButton {\n"
+"	border: none;\n"
+"	background: transparent;\n"
+"}")
+        icon6 = QIcon()
+        icon6.addFile(u":/icons/icons/icons8-plus-64.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.cargar_canciones_button.setIcon(icon6)
+        self.cargar_canciones_button.setIconSize(QSize(40, 40))
+
+        self.verticalLayout_11.addWidget(self.cargar_canciones_button, 0, Qt.AlignRight)
 
         self.stacked_songs.addWidget(self.all_songs_stack)
         self.favorite_songs_stack = QWidget()
@@ -1536,7 +1536,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(4)
-        self.stacked_songs.setCurrentIndex(1)
+        self.stacked_songs.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1618,7 +1618,6 @@ class Ui_MainWindow(object):
         self.label_equalizer_16k.setText(QCoreApplication.translate("MainWindow", u"16000 Hz", None))
         self.boton_abrir_perfil_page.setText("")
         self.label_hora.setText(QCoreApplication.translate("MainWindow", u"00:00", None))
-        self.dark_mode_button.setText("")
         self.settings_button.setText("")
         self.all_songs_button.setText("")
         self.label_20.setText(QCoreApplication.translate("MainWindow", u"Todas las canciones", None))
@@ -1628,6 +1627,7 @@ class Ui_MainWindow(object):
         self.actual_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion actual", None))
         self.after_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion despues", None))
         self.all_songs_label_stack.setText(QCoreApplication.translate("MainWindow", u"Todas las canciones", None))
+        self.cargar_canciones_button.setText("")
         self.favoritas_label_stack.setText(QCoreApplication.translate("MainWindow", u"Favoritas", None))
         self.pushButton_21.setText("")
         self.repeat_button.setText("")

@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>icons/icons8-plus-64.png</file>
     <file>icons/icons8-back-100.png</file>
     <file>icons/icons8-music-100.png</file>
     <file>icons/icons8-home-50.png</file>

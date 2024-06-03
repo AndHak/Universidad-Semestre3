@@ -39,7 +39,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.back_to_config_support.clicked.connect(self.mostrar_pagina_settings)
         self.all_songs_button.clicked.connect(self.mostrar_all_songs)
         self.favorite_songs_button.clicked.connect(self.mostrar_favoritas)
-        self.dark_mode_button.clicked.connect(self.modo_oscuro)
 
         self.mostrar_pagina_principal()
         
@@ -69,15 +68,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
     def mostrar_favoritas(self):
         self.stacked_songs.setCurrentWidget(self.favorite_songs_stack)
 
-    def modo_oscuro(self):
-        if self.modo_oscuro_activado:
-            self.stackedWidget.setStyleSheet("background-color: rgb(251, 249, 255);")
-            self.modo_oscuro_activado = False 
-        else:
-            self.stackedWidget.setStyleSheet("background-color: #2c2a53;")
-            self.modo_oscuro_activado = True  
-
-
+   
 
 
 

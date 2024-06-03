@@ -1467,7 +1467,7 @@ QSlider::sub-page:vertical {
               <widget class="QPushButton" name="boton_abrir_perfil_page">
                <property name="minimumSize">
                 <size>
-                 <width>160</width>
+                 <width>60</width>
                  <height>50</height>
                 </size>
                </property>
@@ -1541,42 +1541,6 @@ QSlider::sub-page:vertical {
                 </size>
                </property>
               </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="dark_mode_button">
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>100</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset resource="recurses.qrc">
-                 <normaloff>:/icons/icons/icons8-toggle-off-100.png</normaloff>
-                 <normalon>:/icons/icons/icons8-toggle-on2.png</normalon>:/icons/icons/icons8-toggle-off-100.png</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>50</width>
-                 <height>50</height>
-                </size>
-               </property>
-               <property name="checkable">
-                <bool>true</bool>
-               </property>
-              </widget>
              </item>
              <item>
               <widget class="QPushButton" name="settings_button">
@@ -1925,7 +1889,7 @@ border-radius: 30px;
 }</string>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="all_songs_stack">
               <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -1950,6 +1914,32 @@ border-radius: 30px;
                </item>
                <item>
                 <widget class="QListWidget" name="all_songs_list"/>
+               </item>
+               <item alignment="Qt::AlignRight">
+                <widget class="QPushButton" name="cargar_canciones_button">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+	border: none;
+	background: transparent;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="recurses.qrc">
+                   <normaloff>:/icons/icons/icons8-plus-64.png</normaloff>:/icons/icons/icons8-plus-64.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
