@@ -143,8 +143,9 @@ class Ui_MainWindow(object):
 "    /* Deja los iconos por defecto, no es necesario especificar aqu\u00ed */\n"
 "}\n"
 "")
-        self.spin_box_aumentar_letra.setMinimum(10)
-        self.spin_box_aumentar_letra.setMaximum(16)
+        self.spin_box_aumentar_letra.setMinimum(1)
+        self.spin_box_aumentar_letra.setMaximum(5)
+        self.spin_box_aumentar_letra.setValue(2)
 
         self.gridLayout_6.addWidget(self.spin_box_aumentar_letra, 1, 1, 1, 1)
 
@@ -771,10 +772,24 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.equalizer_page)
         self.principal_page = QWidget()
         self.principal_page.setObjectName(u"principal_page")
-        self.principal_page.setStyleSheet(u"QPushButton {\n"
+        self.principal_page.setStyleSheet(u"/* Estilo base */\n"
+"QPushButton {\n"
 "	border: none;\n"
 "	background: transparent;\n"
-"}")
+"}\n"
+"\n"
+"/* Estilo hover */\n"
+"QPushButton:hover {\n"
+"	background-color: rgba(255, 255, 255, 0.5);\n"
+"	border-radius: 5px; /* Border radius */\n"
+"}\n"
+"\n"
+"/* Estilo seleccionado */\n"
+"QPushButton:selected {\n"
+"	background-color: rgba(255, 255, 255, 0.8); /* Cambia la transparencia */\n"
+"	border-radius: 5px; /* Border radius */\n"
+"}\n"
+"")
         self.gridLayout_18 = QGridLayout(self.principal_page)
         self.gridLayout_18.setObjectName(u"gridLayout_18")
         self.gridLayout_18.setVerticalSpacing(15)
@@ -846,67 +861,64 @@ class Ui_MainWindow(object):
         self.widget_3.setStyleSheet(u"QWidget {\n"
 "background-color: rgb(226, 224, 239);\n"
 "border-radius: 30px;\n"
-"}")
+"}\n"
+"/* Estilo base */\n"
+"QPushButton {\n"
+"	font-size: 20px;\n"
+"	border: none;\n"
+"	background: transparent;\n"
+"}\n"
+"\n"
+"/* Estilo hover */\n"
+"QPushButton:hover {\n"
+"	background-color: rgba(255, 255, 255, 0.4); /* Cambia la transparencia */\n"
+"	border-radius: 5px; /* Border radius */\n"
+"}\n"
+"\n"
+"/* Estilo seleccionado */\n"
+"QPushButton:selected {\n"
+"	background-color: rgba(255, 255, 255, 0.6); /* Cambia la transparencia */\n"
+"	border-radius: 5px; /* Border radius */\n"
+"}\n"
+"")
         self.gridLayout_13 = QGridLayout(self.widget_3)
         self.gridLayout_13.setObjectName(u"gridLayout_13")
-        self.gridLayout_13.setVerticalSpacing(15)
-        self.gridLayout_13.setContentsMargins(30, 20, 20, 20)
+        self.gridLayout_13.setContentsMargins(30, 30, 30, 30)
         self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setSpacing(15)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setSpacing(15)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.all_songs_button = QPushButton(self.widget_3)
         self.all_songs_button.setObjectName(u"all_songs_button")
+        sizePolicy5.setHeightForWidth(self.all_songs_button.sizePolicy().hasHeightForWidth())
+        self.all_songs_button.setSizePolicy(sizePolicy5)
         self.all_songs_button.setMinimumSize(QSize(70, 70))
-        self.all_songs_button.setMaximumSize(QSize(70, 70))
+        self.all_songs_button.setMaximumSize(QSize(16777215, 70))
         self.all_songs_button.setCursor(QCursor(Qt.PointingHandCursor))
         icon4 = QIcon()
         icon4.addFile(u":/icons/icons/all_songs.png", QSize(), QIcon.Normal, QIcon.Off)
         self.all_songs_button.setIcon(icon4)
         self.all_songs_button.setIconSize(QSize(70, 70))
         self.all_songs_button.setCheckable(True)
+        self.all_songs_button.setAutoExclusive(True)
 
-        self.horizontalLayout.addWidget(self.all_songs_button)
+        self.verticalLayout_3.addWidget(self.all_songs_button)
 
-        self.label_20 = QLabel(self.widget_3)
-        self.label_20.setObjectName(u"label_20")
-        self.label_20.setFont(font6)
-        self.label_20.setWordWrap(True)
-
-        self.horizontalLayout.addWidget(self.label_20)
-
-
-        self.verticalLayout_3.addLayout(self.horizontalLayout)
-
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setSpacing(15)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.favorite_songs_button = QPushButton(self.widget_3)
         self.favorite_songs_button.setObjectName(u"favorite_songs_button")
+        sizePolicy5.setHeightForWidth(self.favorite_songs_button.sizePolicy().hasHeightForWidth())
+        self.favorite_songs_button.setSizePolicy(sizePolicy5)
         self.favorite_songs_button.setMinimumSize(QSize(70, 70))
-        self.favorite_songs_button.setMaximumSize(QSize(70, 70))
+        self.favorite_songs_button.setMaximumSize(QSize(16777215, 70))
         self.favorite_songs_button.setCursor(QCursor(Qt.PointingHandCursor))
         icon5 = QIcon()
         icon5.addFile(u":/icons/icons/icons8-pixel-heart-100.png", QSize(), QIcon.Normal, QIcon.Off)
         self.favorite_songs_button.setIcon(icon5)
         self.favorite_songs_button.setIconSize(QSize(70, 70))
         self.favorite_songs_button.setCheckable(True)
+        self.favorite_songs_button.setAutoExclusive(True)
 
-        self.horizontalLayout_2.addWidget(self.favorite_songs_button)
+        self.verticalLayout_3.addWidget(self.favorite_songs_button)
 
-        self.label_22 = QLabel(self.widget_3)
-        self.label_22.setObjectName(u"label_22")
-        self.label_22.setFont(font6)
-        self.label_22.setWordWrap(True)
-
-        self.horizontalLayout_2.addWidget(self.label_22)
-
-
-        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
-
-        self.verticalSpacer_11 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalSpacer_11 = QSpacerItem(20, 372, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_3.addItem(self.verticalSpacer_11)
 
@@ -1268,6 +1280,7 @@ class Ui_MainWindow(object):
 "    border-radius: 5px;\n"
 "}\n"
 "")
+        self.slider_song.setMaximum(1000)
         self.slider_song.setOrientation(Qt.Horizontal)
 
         self.horizontalLayout_4.addWidget(self.slider_song)
@@ -1625,7 +1638,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(4)
-        self.stacked_songs.setCurrentIndex(0)
+        self.stacked_songs.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1708,10 +1721,8 @@ class Ui_MainWindow(object):
         self.boton_abrir_perfil_page.setText("")
         self.label_hora.setText(QCoreApplication.translate("MainWindow", u"00:00", None))
         self.settings_button.setText("")
-        self.all_songs_button.setText("")
-        self.label_20.setText(QCoreApplication.translate("MainWindow", u"Todas las canciones", None))
-        self.favorite_songs_button.setText("")
-        self.label_22.setText(QCoreApplication.translate("MainWindow", u"Favoritas", None))
+        self.all_songs_button.setText(QCoreApplication.translate("MainWindow", u"  Todas las canciones", None))
+        self.favorite_songs_button.setText(QCoreApplication.translate("MainWindow", u"  Favoritas", None))
         self.before_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion antes", None))
         self.actual_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion actual", None))
         self.after_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion despues", None))

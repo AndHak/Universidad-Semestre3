@@ -182,10 +182,13 @@ QSpinBox::up-arrow, QSpinBox::down-arrow {
 </string>
                 </property>
                 <property name="minimum">
-                 <number>10</number>
+                 <number>1</number>
                 </property>
                 <property name="maximum">
-                 <number>16</number>
+                 <number>5</number>
+                </property>
+                <property name="value">
+                 <number>2</number>
                 </property>
                </widget>
               </item>
@@ -1483,10 +1486,24 @@ QSlider::sub-page:vertical {
       </widget>
       <widget class="QWidget" name="principal_page">
        <property name="styleSheet">
-        <string notr="true">QPushButton {
+        <string notr="true">/* Estilo base */
+QPushButton {
 	border: none;
 	background: transparent;
-}</string>
+}
+
+/* Estilo hover */
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 0.5);
+	border-radius: 5px; /* Border radius */
+}
+
+/* Estilo seleccionado */
+QPushButton:selected {
+	background-color: rgba(255, 255, 255, 0.8); /* Cambia la transparencia */
+	border-radius: 5px; /* Border radius */
+}
+</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_18">
         <property name="verticalSpacing">
@@ -1649,142 +1666,129 @@ QSlider::sub-page:vertical {
               <string notr="true">QWidget {
 background-color: rgb(226, 224, 239);
 border-radius: 30px;
-}</string>
+}
+/* Estilo base */
+QPushButton {
+	font-size: 20px;
+	border: none;
+	background: transparent;
+}
+
+/* Estilo hover */
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 0.4); /* Cambia la transparencia */
+	border-radius: 5px; /* Border radius */
+}
+
+/* Estilo seleccionado */
+QPushButton:selected {
+	background-color: rgba(255, 255, 255, 0.6); /* Cambia la transparencia */
+	border-radius: 5px; /* Border radius */
+}
+</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_13">
               <property name="leftMargin">
                <number>30</number>
               </property>
               <property name="topMargin">
-               <number>20</number>
+               <number>30</number>
               </property>
               <property name="rightMargin">
-               <number>20</number>
+               <number>30</number>
               </property>
               <property name="bottomMargin">
-               <number>20</number>
-              </property>
-              <property name="verticalSpacing">
-               <number>15</number>
+               <number>30</number>
               </property>
               <item row="0" column="0">
                <layout class="QVBoxLayout" name="verticalLayout_3">
-                <property name="spacing">
-                 <number>15</number>
-                </property>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout">
-                  <property name="spacing">
-                   <number>15</number>
+                 <widget class="QPushButton" name="all_songs_button">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
-                  <item>
-                   <widget class="QPushButton" name="all_songs_button">
-                    <property name="minimumSize">
-                     <size>
-                      <width>70</width>
-                      <height>70</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>70</width>
-                      <height>70</height>
-                     </size>
-                    </property>
-                    <property name="cursor">
-                     <cursorShape>PointingHandCursor</cursorShape>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="recurses.qrc">
-                      <normaloff>:/icons/icons/all_songs.png</normaloff>:/icons/icons/all_songs.png</iconset>
-                    </property>
-                    <property name="iconSize">
-                     <size>
-                      <width>70</width>
-                      <height>70</height>
-                     </size>
-                    </property>
-                    <property name="checkable">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_20">
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Todas las canciones</string>
-                    </property>
-                    <property name="wordWrap">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
+                  <property name="minimumSize">
+                   <size>
+                    <width>70</width>
+                    <height>70</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>70</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="text">
+                   <string>  Todas las canciones</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="recurses.qrc">
+                    <normaloff>:/icons/icons/all_songs.png</normaloff>:/icons/icons/all_songs.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>70</width>
+                    <height>70</height>
+                   </size>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_2">
-                  <property name="spacing">
-                   <number>15</number>
+                 <widget class="QPushButton" name="favorite_songs_button">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
-                  <item>
-                   <widget class="QPushButton" name="favorite_songs_button">
-                    <property name="minimumSize">
-                     <size>
-                      <width>70</width>
-                      <height>70</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>70</width>
-                      <height>70</height>
-                     </size>
-                    </property>
-                    <property name="cursor">
-                     <cursorShape>PointingHandCursor</cursorShape>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="recurses.qrc">
-                      <normaloff>:/icons/icons/icons8-pixel-heart-100.png</normaloff>:/icons/icons/icons8-pixel-heart-100.png</iconset>
-                    </property>
-                    <property name="iconSize">
-                     <size>
-                      <width>70</width>
-                      <height>70</height>
-                     </size>
-                    </property>
-                    <property name="checkable">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_22">
-                    <property name="font">
-                     <font>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Favoritas</string>
-                    </property>
-                    <property name="wordWrap">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
+                  <property name="minimumSize">
+                   <size>
+                    <width>70</width>
+                    <height>70</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>70</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="text">
+                   <string>  Favoritas</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="recurses.qrc">
+                    <normaloff>:/icons/icons/icons8-pixel-heart-100.png</normaloff>:/icons/icons/icons8-pixel-heart-100.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>70</width>
+                    <height>70</height>
+                   </size>
+                  </property>
+                  <property name="checkable">
+                   <bool>true</bool>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
                 </item>
                 <item>
                  <spacer name="verticalSpacer_11">
@@ -1794,7 +1798,7 @@ border-radius: 30px;
                   <property name="sizeHint" stdset="0">
                    <size>
                     <width>20</width>
-                    <height>40</height>
+                    <height>372</height>
                    </size>
                   </property>
                  </spacer>
@@ -1950,7 +1954,7 @@ border-radius: 30px;
 }</string>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="all_songs_stack">
               <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -2483,6 +2487,9 @@ QSlider::add-page:horizontal {
     border-radius: 5px;
 }
 </string>
+                   </property>
+                   <property name="maximum">
+                    <number>1000</number>
                    </property>
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
