@@ -76,55 +76,75 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         #conexiones ventana principal
         self.cargar_canciones_button.clicked.connect(lambda: self.agregar_archivos(self.lista_de_reproduccion, self.all_songs_list))
         self.pause_button.setCheckable(True)
-        self.pause_button.toggled.connect(self.button_toggled)
+        self.pause_button.clicked.connect(self.toggle_play_pause)  # Cambiado a clicked para manejar manualmente el estado
 
         pygame.mixer.init()
         self.timer = QTimer()
         self.timer.timeout.connect(self.actualizar_slider)
 
-
+        self.all_songs_list.itemDoubleClicked.connect(self.on_doubleclick_song)
         self.update_time()
 
-    def button_toggled(self, checked):
-        if checked:
-            self.reproducir_musica(self.lista_de_reproduccion, self.all_songs_list)
+
+    def toggle_play_pause(self):
+        if self.lista_reproducidas:
+            if pygame.mixer.music.get_busy() or self.paused:
+                self.pausar_musica()
+            else:
+                ruta_archivo, nombre_cancion, duracion_total = self.lista_reproducidas[-1]
+                self.reproducir_musica(ruta_archivo, nombre_cancion, duracion_total)
         else:
-            self.pausar_musica()
+            self.mostrar_dialogo_advertencia("Debes seleccionar una canción primero.")
+            self.pause_button.setChecked(False)
 
-    def reproducir_musica(self, lista_de_reproduccion, lista_widget, mixer=pygame.mixer):
-        if lista_de_reproduccion:
-            # Detener la música actual si está reproduciéndose
-            if mixer.music.get_busy():
-                mixer.music.stop()
+    def reproducir_musica(self, ruta_archivo, nombre_cancion, duracion_total, mixer=pygame.mixer):
+        # Detener la musica actual si está reproduciéndose y no es la misma canción
+        if mixer.music.get_busy() and (ruta_archivo, nombre_cancion, duracion_total) != self.lista_reproducidas[-1]:
+            mixer.music.stop()
+            self.timer.stop()
 
-            # Obtener la canción seleccionada
-            self.indice_actual = self.seleccionar_cancion(lista_widget)
-            if self.indice_actual is not None:
-                ruta_archivo, nombre_cancion, duracion_total = lista_de_reproduccion[self.indice_actual]
-
-                # Cargar y reproducir la nueva canción seleccionada
+        # Cargar y reproducir la canción seleccionada
+        if not mixer.music.get_busy() or mixer.music.get_busy() and self.paused:
+            if not mixer.music.get_busy():
                 mixer.music.load(ruta_archivo)
                 mixer.music.play()
                 self.slider_song.setRange(0, int(duracion_total))
                 self.label_12.setText(f"{self.formato_tiempo(duracion_total)}")
-                self.paused = False
-                self.timer.start(1000)
-                icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
-                self.pause_button.setIcon(icon)
+            else:
+                mixer.music.unpause()
+
+            self.paused = False
+            self.timer.start(1000)
+            icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
+            self.pause_button.setIcon(icon)
+            self.pause_button.setChecked(True) 
+
+            # Solo agregar a la lista de reproducidas si no está ya ahí
+            if (ruta_archivo, nombre_cancion, duracion_total) not in self.lista_reproducidas:
                 self.lista_reproducidas.append((ruta_archivo, nombre_cancion, duracion_total))
 
+    def on_doubleclick_song(self, item):
+        index = self.all_songs_list.row(item)
+        if 0 <= index < len(self.lista_de_reproduccion):
+            ruta_archivo, nombre_cancion, duracion_total = self.lista_de_reproduccion[index]
+            self.indice_actual = index  # Actualizar el índice actual
+            self.reproducir_musica(ruta_archivo, nombre_cancion, duracion_total)
 
     def pausar_musica(self, mixer=pygame.mixer):
         if self.paused:
             mixer.music.unpause()
             icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
             self.pause_button.setIcon(icon)
+            self.pause_button.setChecked(True)
             self.paused = False
+            self.timer.start(1000)  # Reiniciar el timer para actualizar el slider
         else:
             mixer.music.pause()
             self.paused = True
             icon = QIcon(os.path.join(self.basedir, "icons/icons8-reproducir-64.png"))
             self.pause_button.setIcon(icon)
+            self.pause_button.setChecked(False)
+            self.timer.stop()  # Detener el timer cuando se pausa
 
     def actualizar_slider(self):
         if pygame.mixer.music.get_busy():
@@ -194,8 +214,8 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         duracion = sound.get_length()
         return duracion
 
-    def mostrar_dialogo_advertencia(self, message_box=QMessageBox):
-        message_box.warning(self, "Advertencia", "Debes seleccionar una canción antes de reproducirla.")
+    def mostrar_dialogo_advertencia(self, mensaje, message_box=QMessageBox):
+        message_box.warning(self, "Advertencia", mensaje)
 
     def update_time(self):
         current_time = QTime.currentTime().toString('hh:mm AP')

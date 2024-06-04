@@ -1,5 +1,6 @@
 from PySide6.QtCore import *
-
+from PySide6.QtGui import *
+from PySide6.QtWidgets import *
 class CargarArchivosThread(QThread):
     progreso = Signal(int)
     archivos_cargados = Signal(list)
