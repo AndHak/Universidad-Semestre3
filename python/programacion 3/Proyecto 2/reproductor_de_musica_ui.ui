@@ -37,7 +37,7 @@
        <enum>QFrame::Plain</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="setting_page">
        <property name="cursor">
@@ -1552,6 +1552,9 @@ QPushButton:selected {
                <property name="cursor">
                 <cursorShape>PointingHandCursor</cursorShape>
                </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius: 25px;</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -2341,8 +2344,7 @@ QSlider::add-page:horizontal {
                    </property>
                    <property name="icon">
                     <iconset resource="recurses.qrc">
-                     <normaloff>:/icons/icons/icons8-reproducir-64.png</normaloff>
-                     <normalon>:/icons/icons/icons8-pause-48.png</normalon>:/icons/icons/icons8-reproducir-64.png</iconset>
+                     <normaloff>:/icons/icons/icons8-reproducir-64.png</normaloff>:/icons/icons/icons8-reproducir-64.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -2723,51 +2725,21 @@ QCheckBox::indicator:checked {
              <property name="bottomMargin">
               <number>40</number>
              </property>
-             <item row="0" column="0">
-              <layout class="QVBoxLayout" name="verticalLayout_7">
-               <item alignment="Qt::AlignLeft">
-                <widget class="QPushButton" name="back_to_home_profile">
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton {
-	border: none;
-	background: transparent;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="recurses.qrc">
-                   <normaloff>:/icons/icons/icons8-home-50.png</normaloff>:/icons/icons/icons8-home-50.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>40</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::MinimumExpanding</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>150</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
+             <item row="1" column="3">
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>400</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
              <item row="0" column="1" rowspan="2">
               <widget class="QPushButton" name="boton_foto_de_perfil">
@@ -2850,21 +2822,51 @@ QCheckBox::indicator:checked {
                </item>
               </layout>
              </item>
-             <item row="1" column="3">
-              <spacer name="horizontalSpacer">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>400</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
+             <item row="0" column="0">
+              <layout class="QVBoxLayout" name="verticalLayout_7">
+               <item alignment="Qt::AlignLeft">
+                <widget class="QPushButton" name="back_to_home_profile">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+	border: none;
+	background: transparent;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="recurses.qrc">
+                   <normaloff>:/icons/icons/icons8-home-50.png</normaloff>:/icons/icons/icons8-home-50.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::MinimumExpanding</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>150</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>
@@ -3140,6 +3142,7 @@ QProgressBar::chunk:hover {
  </widget>
  <resources>
   <include location="recurses.qrc"/>
+  <include location="../../../../../Users/andre/.designer/backup/recurses.qrc"/>
  </resources>
  <connections/>
 </ui>

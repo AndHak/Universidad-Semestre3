@@ -22,6 +22,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDial,
     QSlider, QSpacerItem, QSpinBox, QStackedWidget,
     QTextBrowser, QVBoxLayout, QWidget)
 import recurses_rc
+import recurses_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -809,6 +810,7 @@ class Ui_MainWindow(object):
         self.boton_abrir_perfil_page.setObjectName(u"boton_abrir_perfil_page")
         self.boton_abrir_perfil_page.setMinimumSize(QSize(60, 50))
         self.boton_abrir_perfil_page.setCursor(QCursor(Qt.PointingHandCursor))
+        self.boton_abrir_perfil_page.setStyleSheet(u"border-radius: 25px;")
         icon2 = QIcon()
         icon2.addFile(u":/icons/icons/user.png", QSize(), QIcon.Normal, QIcon.Off)
         self.boton_abrir_perfil_page.setIcon(icon2)
@@ -1191,7 +1193,6 @@ class Ui_MainWindow(object):
         self.pause_button.setCursor(QCursor(Qt.PointingHandCursor))
         icon10 = QIcon()
         icon10.addFile(u":/icons/icons/icons8-reproducir-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        icon10.addFile(u":/icons/icons/icons8-pause-48.png", QSize(), QIcon.Normal, QIcon.On)
         self.pause_button.setIcon(icon10)
         self.pause_button.setIconSize(QSize(50, 50))
         self.pause_button.setCheckable(True)
@@ -1418,26 +1419,9 @@ class Ui_MainWindow(object):
         self.gridLayout_22 = QGridLayout(self.widget)
         self.gridLayout_22.setObjectName(u"gridLayout_22")
         self.gridLayout_22.setContentsMargins(30, 40, 40, 40)
-        self.verticalLayout_7 = QVBoxLayout()
-        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.back_to_home_profile = QPushButton(self.widget)
-        self.back_to_home_profile.setObjectName(u"back_to_home_profile")
-        self.back_to_home_profile.setCursor(QCursor(Qt.PointingHandCursor))
-        self.back_to_home_profile.setStyleSheet(u"QPushButton {\n"
-"	border: none;\n"
-"	background: transparent;\n"
-"}")
-        self.back_to_home_profile.setIcon(icon)
-        self.back_to_home_profile.setIconSize(QSize(40, 40))
+        self.horizontalSpacer = QSpacerItem(400, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.verticalLayout_7.addWidget(self.back_to_home_profile, 0, Qt.AlignLeft)
-
-        self.horizontalSpacer_2 = QSpacerItem(150, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
-
-        self.verticalLayout_7.addItem(self.horizontalSpacer_2)
-
-
-        self.gridLayout_22.addLayout(self.verticalLayout_7, 0, 0, 1, 1)
+        self.gridLayout_22.addItem(self.horizontalSpacer, 1, 3, 1, 1)
 
         self.boton_foto_de_perfil = QPushButton(self.widget)
         self.boton_foto_de_perfil.setObjectName(u"boton_foto_de_perfil")
@@ -1485,9 +1469,26 @@ class Ui_MainWindow(object):
 
         self.gridLayout_22.addLayout(self.verticalLayout_2, 0, 2, 2, 1)
 
-        self.horizontalSpacer = QSpacerItem(400, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.verticalLayout_7 = QVBoxLayout()
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.back_to_home_profile = QPushButton(self.widget)
+        self.back_to_home_profile.setObjectName(u"back_to_home_profile")
+        self.back_to_home_profile.setCursor(QCursor(Qt.PointingHandCursor))
+        self.back_to_home_profile.setStyleSheet(u"QPushButton {\n"
+"	border: none;\n"
+"	background: transparent;\n"
+"}")
+        self.back_to_home_profile.setIcon(icon)
+        self.back_to_home_profile.setIconSize(QSize(40, 40))
 
-        self.gridLayout_22.addItem(self.horizontalSpacer, 1, 3, 1, 1)
+        self.verticalLayout_7.addWidget(self.back_to_home_profile, 0, Qt.AlignLeft)
+
+        self.horizontalSpacer_2 = QSpacerItem(150, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
+
+        self.verticalLayout_7.addItem(self.horizontalSpacer_2)
+
+
+        self.gridLayout_22.addLayout(self.verticalLayout_7, 0, 0, 1, 1)
 
 
         self.gridLayout_23.addWidget(self.widget, 0, 0, 1, 1)
@@ -1637,7 +1638,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(5)
         self.stacked_songs.setCurrentIndex(1)
 
 
@@ -1741,10 +1742,10 @@ class Ui_MainWindow(object):
         self.label_imagen_song.setText("")
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"artist", None))
         self.label_30.setText(QCoreApplication.translate("MainWindow", u"Favoritas", None))
-        self.back_to_home_profile.setText("")
         self.boton_foto_de_perfil.setText("")
         self.label_perfil.setText(QCoreApplication.translate("MainWindow", u"perfil", None))
         self.tu_nombre_button.setText(QCoreApplication.translate("MainWindow", u"TU NOMBRE", None))
+        self.back_to_home_profile.setText("")
         self.label_agregar_tu_nombre.setText(QCoreApplication.translate("MainWindow", u"Agrega tu nonbre", None))
         self.checkbox_agrega_tu_nombre.setText("")
         self.label_pon_una_foto.setText(QCoreApplication.translate("MainWindow", u"Pon una foto", None))
