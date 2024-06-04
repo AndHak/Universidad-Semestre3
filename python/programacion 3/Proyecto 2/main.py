@@ -10,6 +10,7 @@ import os
 import webbrowser
 import pygame
 import random
+import re
 
 
 
@@ -33,6 +34,15 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.RELOG = pygame.time.Clock()
         self.RELOG.tick(self.FPS)
 
+        # Diccionario para almacenar letras con sus marcas de tiempo
+        self.letras_con_tiempos = {}
+
+        # Actualizar la letra de la canción cada segundo
+        self.timer_letra = QTimer(self)
+        self.timer_letra.timeout.connect(self.actualizar_letra)
+        self.timer_letra.start(500)  # Actualizar cada segundo
+        
+
         #Carga de canciones
         self.lista_reproducidas = []  # Lista de canciones reproducidas
         self.indice_actual = 0
@@ -49,8 +59,8 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         os.path.join(self.basedir, "canciones/Ojitos Chiquitos, Don Omar.mp3"),
         os.path.join(self.basedir, "canciones/Pa que la pases bien, Arcangel.mp3"),
         os.path.join(self.basedir, "canciones/Remix Exclusivo, Feid.mp3"),
-        os.path.join(self.basedir, "songs/Cinco Noches_ Paquito Guzman (letra)(MP3_128K).mp3"),
-        os.path.join(self.basedir, "songs/MI TRISTEZA  -  LUIS ALBERTO POSADA (VIDEO OFICIAL)(MP3_128K).mp3"),
+        os.path.join(self.basedir, "canciones/Cinco Noches_ Paquito Guzman (letra)(MP3_128K).mp3"),
+        os.path.join(self.basedir, "canciones/MI TRISTEZA  -  LUIS ALBERTO POSADA (VIDEO OFICIAL)(MP3_128K).mp3"),
         os.path.join(self.basedir, "canciones/Si sabe Ferxxo, Blessd Feid.mp3"),
         ]
 
@@ -124,6 +134,104 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         pygame.mixer.music.set_volume(self.slider_volume.value() / 100.0)
         self.update_time()
 
+        #conexion de combo para fuente de los labels
+        self.fontComboBox.currentFontChanged.connect(self.cambiar_fuente)
+
+        #conexion de spinbox para el tamaño de la letra
+        self.spin_box_aumentar_letra.setRange(-5,5)
+        self.spin_box_aumentar_letra.setValue(0)
+
+        # Guardar las fuentes originales de los QLabel sin ej
+        self.font_before_original = self.before_current_label_song.font()
+        self.font_actual_original = self.actual_current_label_song.font()
+        self.font_after_original = self.after_current_label_song.font()
+
+        # Hacer copias de las fuentes originales para evitar modificarlas directamente
+        self.font_before_original_copy = QFont(self.font_before_original)
+        self.font_actual_original_copy = QFont(self.font_actual_original)
+        self.font_after_original_copy = QFont(self.font_after_original)
+
+        # Conectar el signal `valueChanged` del QSpinBox al método `cambiar_tamaño_letra`
+        self.spin_box_aumentar_letra.valueChanged.connect(self.cambiar_tamaño_letra)
+
+        #conexion de slider para moverlo
+        self.slider_song.sliderPressed.connect(self.pausar_musica)
+        self.slider_song.sliderReleased.connect(self.soltar_slider)
+        self.posicion_absoluta = 0
+
+    def cargar_letra(self, ruta_archivo_lrc):
+        """Carga y procesa el archivo .lrc"""
+        self.letras_con_tiempos.clear()
+        with open(ruta_archivo_lrc, 'r', encoding='utf-8') as f:
+            for line in f:
+                if line.startswith('[') and ']' in line:
+                    tiempo_str, texto = line.split(']', 1)
+                    tiempo_str = tiempo_str[1:]  # Eliminar el primer carácter '['
+                    if ':' in tiempo_str:
+                        minutos, segundos = tiempo_str.split(':', 1)
+                        try:
+                            tiempo = int(minutos) * 60 + float(segundos)
+                            self.letras_con_tiempos[tiempo] = texto.strip()
+                        except ValueError:
+                            print("El archivo lrc esta dañado")
+                            continue
+
+    def actualizar_letra(self):
+        """Actualiza los labels con la letra correspondiente a la posición actual de la canción"""
+        posicion_actual = self.posicion_absoluta 
+        tiempos = sorted(self.letras_con_tiempos.keys())
+        letra_anterior = ""
+        letra_actual = ""
+        letra_siguiente = ""
+        for i, tiempo in enumerate(tiempos):
+            if tiempo > posicion_actual:
+                if i > 0:
+                    letra_anterior = self.letras_con_tiempos[tiempos[i-2]]
+                letra_actual = self.letras_con_tiempos[tiempos[i-1]]
+                if i < len(tiempos) - 1:
+                    letra_siguiente = self.letras_con_tiempos[tiempos[i]]
+                break
+            letra_anterior = letra_actual
+            letra_actual = self.letras_con_tiempos[tiempos[i-1]]
+            if i < len(tiempos) - 1:
+                letra_siguiente = self.letras_con_tiempos[tiempos[i]]
+
+        self.before_current_label_song.setText(letra_anterior)
+        self.actual_current_label_song.setText(letra_actual)
+        self.after_current_label_song.setText(letra_siguiente)
+
+        # Si no hay letra, mostrar el mensaje correspondiente
+        if not self.letras_con_tiempos:
+            self.before_current_label_song.setText("")
+            self.actual_current_label_song.setText("Esta canción no tiene letra")
+            self.after_current_label_song.setText("")
+
+
+
+
+    def soltar_slider(self):
+        # extraer el valor del slider y actualizar la cancion
+        self.posicion_absoluta = self.slider_song.value()
+        pygame.mixer.music.set_pos(self.posicion_absoluta)
+        posicion_actual = self.slider_song.value()
+        self.label_11.setText(f"{self.formato_tiempo(posicion_actual)}")
+        pygame.mixer.music.set_pos(posicion_actual)
+        pygame.mixer.music.unpause()
+        self.timer.start(1000)
+        self.paused = False
+        icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
+        self.pause_button.setIcon(icon)
+        self.actualizar_letra()
+
+        # Convertir la duración total de la canción en segundos
+        duracion_total = self.label_12.text()
+        minutos, segundos = map(int, duracion_total.split(':'))
+        duracion_total_segundos = minutos * 60 + segundos
+        
+        # Comprobar si la canción ha terminado
+        if posicion_actual+1 >= duracion_total_segundos:
+            self.next_song(self.lista_de_reproduccion, self.all_songs_list)
+
 
     def cambiar_volumen(self, value):
         volumen = value / 100.0
@@ -165,6 +273,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
     def next_song(self, lista_de_reproduccion, lista_widget):
         if lista_de_reproduccion:
+            self.posicion_absoluta = 0
             print("Modo de reproducción:", self.modo_reproduccion)
             print("Índice actual antes del cambio:", self.indice_actual)
             if self.modo_reproduccion == "secuencial":
@@ -182,6 +291,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
     def cancion_anterior(self, lista_de_reproduccion, lista_widget, mixer=pygame.mixer):
         if lista_de_reproduccion:
+            self.posicion_absoluta = 0
             if self.modo_reproduccion == "aleatorio":
                 if len(self.lista_reproducidas) <= 1:
                     return
@@ -216,6 +326,15 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 self.label_titulo_song.setText(titulo)
                 self.label_artista_song.setText(artista)
                 self.actualizar_posicion_texto()
+
+                # Cargar el archivo .lrc correspondiente
+                archivo_lrc = ruta_archivo.replace('.mp3', '.lrc')
+                if os.path.exists(archivo_lrc):
+                    self.actual_current_label_song.clear()
+                    self.cargar_letra(archivo_lrc)
+                else:
+                    self.letras_con_tiempos.clear()
+                    self.actual_current_label_song.setText("Esta canción no tiene letra")
 
                 # Extraer la imagen de los metadatos
                 imagen_data = extraer_imagen(ruta_archivo)
@@ -275,7 +394,11 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
     
     def actualizar_slider(self):
         if pygame.mixer.music.get_busy():
-            posicion_actual = pygame.mixer.music.get_pos() / 1000  # Convertir a segundos
+            if self.posicion_absoluta is not None:
+                posicion_actual = self.posicion_absoluta
+                self.posicion_absoluta += 1  # Incrementar la posición absoluta cada segundo
+            else:
+                posicion_actual = pygame.mixer.music.get_pos() / 1000  # Convertir a segundos
             self.slider_song.setValue(int(posicion_actual))
             self.label_11.setText(f"{self.formato_tiempo(posicion_actual)}")
             
@@ -283,14 +406,13 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             duracion_total = self.label_12.text()
             minutos, segundos = map(int, duracion_total.split(':'))
             duracion_total_segundos = minutos * 60 + segundos
+            self.actualizar_letra()
 
             # Comprobar si la canción ha terminado
             if posicion_actual+1 >= duracion_total_segundos:
                 self.next_song(self.lista_de_reproduccion, self.all_songs_list)
         else:
             self.timer.stop()
-
-
 
     def cargar_canciones_iniciales(self):
         # Cargar canciones predefinidas en el QListWidget
@@ -519,6 +641,72 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
     
     def mostrar_warning(self, message):
         QMessageBox.warning(self, "Advertencia", message)
+
+    def cambiar_tamaño_letra(self):
+        valor_a_cambiar = self.spin_box_aumentar_letra.value()
+
+        # Calcular el nuevo tamaño de la fuente sumando el valor del spinBox
+        before_nuevo = max(8, min(self.font_before_original_copy.pointSize() + valor_a_cambiar, 18))
+        actual_nuevo = max(15, min(self.font_actual_original_copy.pointSize() + valor_a_cambiar, 25))
+        after_nuevo = max(8, min(self.font_after_original_copy.pointSize() + valor_a_cambiar, 18))
+
+        # Si el valor_a_cambiar lleva el tamaño de la fuente actual por debajo de 15, no lo cambiamos
+        if valor_a_cambiar < 0 and actual_nuevo < 15:
+            return
+
+        # Crear nuevas fuentes con los nuevos tamaños
+        nueva_fuente_before = QFont(self.font_before_original)
+        nueva_fuente_before.setPointSize(before_nuevo)
+        nueva_fuente_actual = QFont(self.font_actual_original)
+        nueva_fuente_actual.setPointSize(actual_nuevo)
+        nueva_fuente_after = QFont(self.font_after_original)
+        nueva_fuente_after.setPointSize(after_nuevo)
+
+        # Establecer la nueva fuente en cada QLabel con "ej"
+        self.before_current_label_song_ej.setFont(nueva_fuente_before)
+        self.actual_current_label_song_ej.setFont(nueva_fuente_actual)
+        self.after_current_label_song_ej.setFont(nueva_fuente_after)
+
+        # Crear nuevas fuentes sin "ej"
+        nueva_fuente_before_no_ej = QFont(nueva_fuente_before)
+        nueva_fuente_actual_no_ej = QFont(nueva_fuente_actual)
+        nueva_fuente_after_no_ej = QFont(nueva_fuente_after)
+
+        # Establecer la nueva fuente en cada QLabel sin "ej"
+        self.before_current_label_song.setFont(nueva_fuente_before_no_ej)
+        self.actual_current_label_song.setFont(nueva_fuente_actual_no_ej)
+        self.after_current_label_song.setFont(nueva_fuente_after_no_ej)
+
+    def cambiar_fuente(self, nueva_fuente):
+        # Obtener el tamaño de fuente actual
+        before_size = self.before_current_label_song_ej.font().pointSize()
+        actual_size = self.actual_current_label_song_ej.font().pointSize()
+
+        # Crear una nueva fuente con el nombre seleccionado y el tamaño actual
+        font_grande = QFont(nueva_fuente)
+        font_grande.setPointSize(actual_size)
+
+        font_pequeña = QFont(nueva_fuente)
+        font_pequeña.setPointSize(before_size)
+
+        # Establecer la nueva fuente en cada QLabel con ej
+        self.before_current_label_song_ej.setFont(font_pequeña)
+        self.actual_current_label_song_ej.setFont(font_grande)
+        self.after_current_label_song_ej.setFont(font_pequeña)
+
+        # Establecer la nueva fuente en cada QLabel sin "ej"
+        self.before_current_label_song.setFont(font_pequeña)
+        self.actual_current_label_song.setFont(font_grande)
+        self.after_current_label_song.setFont(font_pequeña)
+
+        #actualizar las fuentes en las variables
+        self.font_before_original = self.before_current_label_song.font()
+        self.font_actual_original = self.actual_current_label_song.font()
+        self.font_after_original = self.after_current_label_song.font()
+
+        # Restablecer el valor del spinbox a 0
+        self.spin_box_aumentar_letra.setValue(0)
+
 
 
 if __name__ == "__main__":
