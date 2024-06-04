@@ -206,6 +206,10 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             if self.indice_actual is not None:
                 ruta_archivo, nombre_cancion, duracion_total = lista_de_reproduccion[self.indice_actual]
 
+                titulo, artista = self.extraer_info_cancion(ruta_archivo)
+                self.label_titulo_song.setText(titulo)
+                self.label_artista_song.setText(artista)
+
                 if not self.paused:
                     # Cargar y reproducir la nueva canción seleccionada
                     mixer.music.load(ruta_archivo)
@@ -262,6 +266,26 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         else:
             self.timer.stop()
 
+    def extraer_info_cancion(self, ruta_archivo):
+        #Eliminar la extension del archivo
+        nombre_archivo = os.path.splitext(os.path.basename(ruta_archivo))[0]
+
+        #separar el nombre y el artista
+        partes = nombre_archivo.split(",")
+        if len(partes) == 2:
+            titulo = partes[0].strip()
+            artista = partes[1].strip()
+        else:
+            #Caso para el guion
+            partes = nombre_archivo.split("-")
+            if len(partes) == 2:
+                titulo = partes[0].strip()
+                artista = partes[1].strip()
+            else:
+                titulo = partes[0].strip()
+                artista = "Desconocido"
+
+        return titulo, artista
 
 
     def cargar_canciones_iniciales(self):

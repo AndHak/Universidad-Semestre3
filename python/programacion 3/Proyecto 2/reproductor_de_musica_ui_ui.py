@@ -17,10 +17,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDial,
     QFontComboBox, QFrame, QGridLayout, QHBoxLayout,
-    QLabel, QListWidget, QListWidgetItem, QMainWindow,
-    QPlainTextEdit, QProgressBar, QPushButton, QSizePolicy,
-    QSlider, QSpacerItem, QSpinBox, QStackedWidget,
-    QTextBrowser, QVBoxLayout, QWidget)
+    QLabel, QLayout, QListWidget, QListWidgetItem,
+    QMainWindow, QPlainTextEdit, QProgressBar, QPushButton,
+    QSizePolicy, QSlider, QSpacerItem, QSpinBox,
+    QStackedWidget, QTextBrowser, QVBoxLayout, QWidget)
 import recurses_rc
 import recurses_rc
 
@@ -1089,7 +1089,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setSpacing(15)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_6.addItem(self.horizontalSpacer_11)
 
@@ -1321,6 +1321,7 @@ class Ui_MainWindow(object):
 
         self.gridLayout_10 = QGridLayout()
         self.gridLayout_10.setObjectName(u"gridLayout_10")
+        self.gridLayout_10.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.gridLayout_10.setHorizontalSpacing(15)
         self.gridLayout_10.setVerticalSpacing(0)
         self.favorite_button = QPushButton(self.frame)
@@ -1357,32 +1358,34 @@ class Ui_MainWindow(object):
 
         self.gridLayout_10.addWidget(self.label_imagen_song, 0, 0, 2, 1)
 
-        self.label_15 = QLabel(self.frame)
-        self.label_15.setObjectName(u"label_15")
+        self.label_artista_song = QLabel(self.frame)
+        self.label_artista_song.setObjectName(u"label_artista_song")
         sizePolicy15 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
         sizePolicy15.setHorizontalStretch(0)
         sizePolicy15.setVerticalStretch(0)
-        sizePolicy15.setHeightForWidth(self.label_15.sizePolicy().hasHeightForWidth())
-        self.label_15.setSizePolicy(sizePolicy15)
-        self.label_15.setMinimumSize(QSize(0, 20))
+        sizePolicy15.setHeightForWidth(self.label_artista_song.sizePolicy().hasHeightForWidth())
+        self.label_artista_song.setSizePolicy(sizePolicy15)
+        self.label_artista_song.setMinimumSize(QSize(0, 20))
+        self.label_artista_song.setMaximumSize(QSize(150, 16777215))
 
-        self.gridLayout_10.addWidget(self.label_15, 1, 1, 1, 1, Qt.AlignTop)
+        self.gridLayout_10.addWidget(self.label_artista_song, 1, 1, 1, 1, Qt.AlignTop)
 
-        self.label_30 = QLabel(self.frame)
-        self.label_30.setObjectName(u"label_30")
+        self.label_titulo_song = QLabel(self.frame)
+        self.label_titulo_song.setObjectName(u"label_titulo_song")
         sizePolicy16 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Maximum)
         sizePolicy16.setHorizontalStretch(0)
         sizePolicy16.setVerticalStretch(0)
-        sizePolicy16.setHeightForWidth(self.label_30.sizePolicy().hasHeightForWidth())
-        self.label_30.setSizePolicy(sizePolicy16)
-        self.label_30.setMinimumSize(QSize(0, 40))
-        self.label_30.setFont(font6)
-        self.label_30.setWordWrap(True)
-        self.label_30.setMargin(0)
+        sizePolicy16.setHeightForWidth(self.label_titulo_song.sizePolicy().hasHeightForWidth())
+        self.label_titulo_song.setSizePolicy(sizePolicy16)
+        self.label_titulo_song.setMinimumSize(QSize(150, 40))
+        self.label_titulo_song.setMaximumSize(QSize(150, 16777215))
+        self.label_titulo_song.setFont(font6)
+        self.label_titulo_song.setWordWrap(True)
+        self.label_titulo_song.setMargin(0)
 
-        self.gridLayout_10.addWidget(self.label_30, 0, 1, 1, 1, Qt.AlignBottom)
+        self.gridLayout_10.addWidget(self.label_titulo_song, 0, 1, 1, 1, Qt.AlignBottom)
 
-        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
 
         self.gridLayout_10.addItem(self.horizontalSpacer_10, 0, 3, 1, 1)
 
@@ -1762,8 +1765,8 @@ class Ui_MainWindow(object):
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"00:00", None))
         self.favorite_button.setText("")
         self.label_imagen_song.setText("")
-        self.label_15.setText(QCoreApplication.translate("MainWindow", u"artist", None))
-        self.label_30.setText(QCoreApplication.translate("MainWindow", u"Favoritas", None))
+        self.label_artista_song.setText(QCoreApplication.translate("MainWindow", u"artist", None))
+        self.label_titulo_song.setText(QCoreApplication.translate("MainWindow", u"Favoritas", None))
         self.boton_foto_de_perfil.setText("")
         self.label_perfil.setText(QCoreApplication.translate("MainWindow", u"perfil", None))
         self.tu_nombre_button.setText(QCoreApplication.translate("MainWindow", u"TU NOMBRE", None))

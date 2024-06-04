@@ -2128,7 +2128,7 @@ border-radius: 30px;
                   <enum>Qt::Horizontal</enum>
                  </property>
                  <property name="sizeType">
-                  <enum>QSizePolicy::Preferred</enum>
+                  <enum>QSizePolicy::Expanding</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
@@ -2533,6 +2533,9 @@ QSlider::add-page:horizontal {
              </item>
              <item row="0" column="0">
               <layout class="QGridLayout" name="gridLayout_10">
+               <property name="sizeConstraint">
+                <enum>QLayout::SetDefaultConstraint</enum>
+               </property>
                <property name="horizontalSpacing">
                 <number>15</number>
                </property>
@@ -2613,7 +2616,7 @@ QSlider::add-page:horizontal {
                 </widget>
                </item>
                <item row="1" column="1" alignment="Qt::AlignTop">
-                <widget class="QLabel" name="label_15">
+                <widget class="QLabel" name="label_artista_song">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                    <horstretch>0</horstretch>
@@ -2626,13 +2629,19 @@ QSlider::add-page:horizontal {
                    <height>20</height>
                   </size>
                  </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>150</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="text">
                   <string>artist</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1" alignment="Qt::AlignBottom">
-                <widget class="QLabel" name="label_30">
+                <widget class="QLabel" name="label_titulo_song">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
                    <horstretch>0</horstretch>
@@ -2641,8 +2650,14 @@ QSlider::add-page:horizontal {
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>0</width>
+                   <width>150</width>
                    <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>150</width>
+                   <height>16777215</height>
                   </size>
                  </property>
                  <property name="font">
@@ -2667,7 +2682,7 @@ QSlider::add-page:horizontal {
                   <enum>Qt::Horizontal</enum>
                  </property>
                  <property name="sizeType">
-                  <enum>QSizePolicy::Minimum</enum>
+                  <enum>QSizePolicy::MinimumExpanding</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
