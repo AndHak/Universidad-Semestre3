@@ -155,6 +155,8 @@ class Ui_MainWindow(object):
 
         self.widget_ejemplo = QWidget(self.setting_page)
         self.widget_ejemplo.setObjectName(u"widget_ejemplo")
+        sizePolicy1.setHeightForWidth(self.widget_ejemplo.sizePolicy().hasHeightForWidth())
+        self.widget_ejemplo.setSizePolicy(sizePolicy1)
         self.widget_ejemplo.setStyleSheet(u"QWidget {\n"
 "background-color: rgb(226, 224, 239);\n"
 "border-radius: 30px;\n"
@@ -171,6 +173,11 @@ class Ui_MainWindow(object):
 
         self.before_current_label_song_ej = QLabel(self.widget_ejemplo)
         self.before_current_label_song_ej.setObjectName(u"before_current_label_song_ej")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.before_current_label_song_ej.sizePolicy().hasHeightForWidth())
+        self.before_current_label_song_ej.setSizePolicy(sizePolicy2)
         font1 = QFont()
         font1.setPointSize(13)
         font1.setBold(True)
@@ -183,6 +190,8 @@ class Ui_MainWindow(object):
 
         self.actual_current_label_song_ej = QLabel(self.widget_ejemplo)
         self.actual_current_label_song_ej.setObjectName(u"actual_current_label_song_ej")
+        sizePolicy2.setHeightForWidth(self.actual_current_label_song_ej.sizePolicy().hasHeightForWidth())
+        self.actual_current_label_song_ej.setSizePolicy(sizePolicy2)
         font2 = QFont()
         font2.setPointSize(20)
         font2.setWeight(QFont.ExtraBold)
@@ -194,6 +203,8 @@ class Ui_MainWindow(object):
 
         self.after_current_label_song_ej = QLabel(self.widget_ejemplo)
         self.after_current_label_song_ej.setObjectName(u"after_current_label_song_ej")
+        sizePolicy2.setHeightForWidth(self.after_current_label_song_ej.sizePolicy().hasHeightForWidth())
+        self.after_current_label_song_ej.setSizePolicy(sizePolicy2)
         self.after_current_label_song_ej.setFont(font1)
         self.after_current_label_song_ej.setStyleSheet(u"color: rgb(131, 131, 131);")
         self.after_current_label_song_ej.setAlignment(Qt.AlignCenter)
@@ -359,11 +370,11 @@ class Ui_MainWindow(object):
 
         self.enviar_buttton_apoyo = QPushButton(self.support_page)
         self.enviar_buttton_apoyo.setObjectName(u"enviar_buttton_apoyo")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.enviar_buttton_apoyo.sizePolicy().hasHeightForWidth())
-        self.enviar_buttton_apoyo.setSizePolicy(sizePolicy2)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.enviar_buttton_apoyo.sizePolicy().hasHeightForWidth())
+        self.enviar_buttton_apoyo.setSizePolicy(sizePolicy3)
         self.enviar_buttton_apoyo.setMinimumSize(QSize(200, 50))
         self.enviar_buttton_apoyo.setMaximumSize(QSize(110, 40))
         font3 = QFont()
@@ -442,11 +453,8 @@ class Ui_MainWindow(object):
 
         self.label_14 = QLabel(self.about_us_page)
         self.label_14.setObjectName(u"label_14")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.label_14.sizePolicy().hasHeightForWidth())
-        self.label_14.setSizePolicy(sizePolicy3)
+        sizePolicy2.setHeightForWidth(self.label_14.sizePolicy().hasHeightForWidth())
+        self.label_14.setSizePolicy(sizePolicy2)
         self.label_14.setPixmap(QPixmap(u":/icons/icons/icons8-music-100.png"))
 
         self.gridLayout_4.addWidget(self.label_14, 1, 0, 1, 1)
@@ -619,8 +627,8 @@ class Ui_MainWindow(object):
 
         self.label_equalizer_0db = QLabel(self.equalizer_page)
         self.label_equalizer_0db.setObjectName(u"label_equalizer_0db")
-        sizePolicy2.setHeightForWidth(self.label_equalizer_0db.sizePolicy().hasHeightForWidth())
-        self.label_equalizer_0db.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.label_equalizer_0db.sizePolicy().hasHeightForWidth())
+        self.label_equalizer_0db.setSizePolicy(sizePolicy3)
 
         self.verticalLayout_5.addWidget(self.label_equalizer_0db)
 
@@ -1667,7 +1675,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(0)
         self.stacked_songs.setCurrentIndex(0)
 
 
