@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1187, 787)
+        MainWindow.resize(1243, 787)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_12 = QVBoxLayout(self.centralwidget)
@@ -1089,7 +1089,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setSpacing(15)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_6.addItem(self.horizontalSpacer_11)
 
@@ -1162,7 +1162,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5.addWidget(self.slider_volume)
 
-        self.horizontalSpacer_19 = QSpacerItem(60, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_19 = QSpacerItem(80, 20, QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_5.addItem(self.horizontalSpacer_19)
 
@@ -1263,11 +1263,12 @@ class Ui_MainWindow(object):
 
         self.slider_song = QSlider(self.frame)
         self.slider_song.setObjectName(u"slider_song")
-        sizePolicy12 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Fixed)
-        sizePolicy12.setHorizontalStretch(10)
+        sizePolicy12 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy12.setHorizontalStretch(15)
         sizePolicy12.setVerticalStretch(0)
         sizePolicy12.setHeightForWidth(self.slider_song.sizePolicy().hasHeightForWidth())
         self.slider_song.setSizePolicy(sizePolicy12)
+        self.slider_song.setMinimumSize(QSize(500, 0))
         self.slider_song.setStyleSheet(u"QSlider::groove:horizontal {\n"
 "    border: 1px solid #bbb;\n"
 "    background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #c661ea, stop: 1 rgb(179, 159, 255)); /* Gradiente horizontal */\n"
@@ -1360,32 +1361,32 @@ class Ui_MainWindow(object):
 
         self.label_artista_song = QLabel(self.frame)
         self.label_artista_song.setObjectName(u"label_artista_song")
-        sizePolicy15 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
+        sizePolicy15 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Maximum)
         sizePolicy15.setHorizontalStretch(0)
         sizePolicy15.setVerticalStretch(0)
         sizePolicy15.setHeightForWidth(self.label_artista_song.sizePolicy().hasHeightForWidth())
         self.label_artista_song.setSizePolicy(sizePolicy15)
-        self.label_artista_song.setMinimumSize(QSize(0, 20))
-        self.label_artista_song.setMaximumSize(QSize(150, 16777215))
+        self.label_artista_song.setMinimumSize(QSize(100, 20))
+        self.label_artista_song.setMaximumSize(QSize(100, 20))
 
-        self.gridLayout_10.addWidget(self.label_artista_song, 1, 1, 1, 1, Qt.AlignTop)
+        self.gridLayout_10.addWidget(self.label_artista_song, 1, 1, 1, 1, Qt.AlignBottom)
 
         self.label_titulo_song = QLabel(self.frame)
         self.label_titulo_song.setObjectName(u"label_titulo_song")
-        sizePolicy16 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Maximum)
+        sizePolicy16 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.MinimumExpanding)
         sizePolicy16.setHorizontalStretch(0)
         sizePolicy16.setVerticalStretch(0)
         sizePolicy16.setHeightForWidth(self.label_titulo_song.sizePolicy().hasHeightForWidth())
         self.label_titulo_song.setSizePolicy(sizePolicy16)
-        self.label_titulo_song.setMinimumSize(QSize(150, 40))
-        self.label_titulo_song.setMaximumSize(QSize(150, 16777215))
+        self.label_titulo_song.setMinimumSize(QSize(100, 50))
+        self.label_titulo_song.setMaximumSize(QSize(100, 50))
         self.label_titulo_song.setFont(font6)
         self.label_titulo_song.setWordWrap(True)
         self.label_titulo_song.setMargin(0)
 
-        self.gridLayout_10.addWidget(self.label_titulo_song, 0, 1, 1, 1, Qt.AlignBottom)
+        self.gridLayout_10.addWidget(self.label_titulo_song, 0, 1, 1, 1, Qt.AlignLeft|Qt.AlignVCenter)
 
-        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
         self.gridLayout_10.addItem(self.horizontalSpacer_10, 0, 3, 1, 1)
 
@@ -1464,8 +1465,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.label_perfil = QLabel(self.widget)
         self.label_perfil.setObjectName(u"label_perfil")
-        sizePolicy16.setHeightForWidth(self.label_perfil.sizePolicy().hasHeightForWidth())
-        self.label_perfil.setSizePolicy(sizePolicy16)
+        sizePolicy17 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Maximum)
+        sizePolicy17.setHorizontalStretch(0)
+        sizePolicy17.setVerticalStretch(0)
+        sizePolicy17.setHeightForWidth(self.label_perfil.sizePolicy().hasHeightForWidth())
+        self.label_perfil.setSizePolicy(sizePolicy17)
         self.label_perfil.setMinimumSize(QSize(0, 25))
         font8 = QFont()
         font8.setFamilies([u"Verdana"])
@@ -1476,11 +1480,11 @@ class Ui_MainWindow(object):
 
         self.tu_nombre_button = QPushButton(self.widget)
         self.tu_nombre_button.setObjectName(u"tu_nombre_button")
-        sizePolicy17 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.MinimumExpanding)
-        sizePolicy17.setHorizontalStretch(0)
-        sizePolicy17.setVerticalStretch(0)
-        sizePolicy17.setHeightForWidth(self.tu_nombre_button.sizePolicy().hasHeightForWidth())
-        self.tu_nombre_button.setSizePolicy(sizePolicy17)
+        sizePolicy18 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.MinimumExpanding)
+        sizePolicy18.setHorizontalStretch(0)
+        sizePolicy18.setVerticalStretch(0)
+        sizePolicy18.setHeightForWidth(self.tu_nombre_button.sizePolicy().hasHeightForWidth())
+        self.tu_nombre_button.setSizePolicy(sizePolicy18)
         font9 = QFont()
         font9.setFamilies([u"Moran Demo"])
         font9.setPointSize(58)
@@ -1765,8 +1769,8 @@ class Ui_MainWindow(object):
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"00:00", None))
         self.favorite_button.setText("")
         self.label_imagen_song.setText("")
-        self.label_artista_song.setText(QCoreApplication.translate("MainWindow", u"artist", None))
-        self.label_titulo_song.setText(QCoreApplication.translate("MainWindow", u"Favoritas", None))
+        self.label_artista_song.setText(QCoreApplication.translate("MainWindow", u"artista", None))
+        self.label_titulo_song.setText(QCoreApplication.translate("MainWindow", u"Titulo", None))
         self.boton_foto_de_perfil.setText("")
         self.label_perfil.setText(QCoreApplication.translate("MainWindow", u"perfil", None))
         self.tu_nombre_button.setText(QCoreApplication.translate("MainWindow", u"TU NOMBRE", None))

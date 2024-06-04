@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1187</width>
+    <width>1243</width>
     <height>787</height>
    </rect>
   </property>
@@ -2128,7 +2128,7 @@ border-radius: 30px;
                   <enum>Qt::Horizontal</enum>
                  </property>
                  <property name="sizeType">
-                  <enum>QSizePolicy::Expanding</enum>
+                  <enum>QSizePolicy::Maximum</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
@@ -2245,11 +2245,11 @@ QSlider::add-page:horizontal {
                     <enum>Qt::Horizontal</enum>
                    </property>
                    <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
+                    <enum>QSizePolicy::Maximum</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
-                     <width>60</width>
+                     <width>80</width>
                      <height>20</height>
                     </size>
                    </property>
@@ -2471,10 +2471,16 @@ QSlider::add-page:horizontal {
                  <item>
                   <widget class="QSlider" name="slider_song">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                     <horstretch>10</horstretch>
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>15</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>500</width>
+                     <height>0</height>
+                    </size>
                    </property>
                    <property name="styleSheet">
                     <string notr="true">QSlider::groove:horizontal {
@@ -2615,49 +2621,49 @@ QSlider::add-page:horizontal {
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1" alignment="Qt::AlignTop">
+               <item row="1" column="1" alignment="Qt::AlignBottom">
                 <widget class="QLabel" name="label_artista_song">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>0</width>
+                   <width>100</width>
                    <height>20</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>150</width>
-                   <height>16777215</height>
+                   <width>100</width>
+                   <height>20</height>
                   </size>
                  </property>
                  <property name="text">
-                  <string>artist</string>
+                  <string>artista</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1" alignment="Qt::AlignBottom">
+               <item row="0" column="1" alignment="Qt::AlignLeft|Qt::AlignVCenter">
                 <widget class="QLabel" name="label_titulo_song">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                  <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>150</width>
-                   <height>40</height>
+                   <width>100</width>
+                   <height>50</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>150</width>
-                   <height>16777215</height>
+                   <width>100</width>
+                   <height>50</height>
                   </size>
                  </property>
                  <property name="font">
@@ -2666,7 +2672,7 @@ QSlider::add-page:horizontal {
                   </font>
                  </property>
                  <property name="text">
-                  <string>Favoritas</string>
+                  <string>Titulo</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -2682,7 +2688,7 @@ QSlider::add-page:horizontal {
                   <enum>Qt::Horizontal</enum>
                  </property>
                  <property name="sizeType">
-                  <enum>QSizePolicy::MinimumExpanding</enum>
+                  <enum>QSizePolicy::Preferred</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
@@ -3179,7 +3185,7 @@ QProgressBar::chunk:hover {
  </widget>
  <resources>
   <include location="recurses.qrc"/>
-  <include location="../../../../../Users/andre/.designer/backup/recurses.qrc"/>
+  <include location="recurses.qrc"/>
  </resources>
  <connections/>
 </ui>
