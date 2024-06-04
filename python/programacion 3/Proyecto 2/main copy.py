@@ -11,6 +11,8 @@ import pygame
 import random
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3, APIC
+from tinytag import TinyTag
+import threading
 
 
 
