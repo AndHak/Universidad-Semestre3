@@ -989,9 +989,31 @@ class Ui_MainWindow(object):
         sizePolicy9.setHeightForWidth(self.stacked_songs.sizePolicy().hasHeightForWidth())
         self.stacked_songs.setSizePolicy(sizePolicy9)
         self.stacked_songs.setStyleSheet(u"QWidget {\n"
-"background-color: rgb(226, 224, 239);\n"
-"border-radius: 30px;\n"
-"}")
+"    background-color: rgb(226, 224, 239);\n"
+"    border-radius: 30px;\n"
+"}\n"
+"\n"
+"QListWidget {\n"
+"    font-size: 14px; /* Tama\u00f1o de la letra */\n"
+"    padding: 5px;  /* Espacio interior del widget */\n"
+"}\n"
+"\n"
+"QListWidget::item {\n"
+"    height: 30px;  /* Altura de los elementos */\n"
+"    padding: 5px;  /* Espacio interior de los elementos */\n"
+"    border: 1px solid transparent; /* Borde transparente para el padding */\n"
+"}\n"
+"\n"
+"QListWidget::item:selected {\n"
+"    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */\n"
+"    color: black; /* Color de la letra para el elemento seleccionado */\n"
+"}\n"
+"\n"
+"QListWidget::item:hover {\n"
+"    background-color: #7a78a0; /* Color de fondo cuando el mouse est\u00e1 sobre el elemento */\n"
+"    color: black; /* Color de la letra cuando el mouse est\u00e1 sobre el elemento */\n"
+"}\n"
+"")
         self.all_songs_stack = QWidget()
         self.all_songs_stack.setObjectName(u"all_songs_stack")
         self.verticalLayout_11 = QVBoxLayout(self.all_songs_stack)
@@ -1004,6 +1026,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_11.addWidget(self.all_songs_label_stack)
 
         self.all_songs_list = QListWidget(self.all_songs_stack)
+        QListWidgetItem(self.all_songs_list)
         self.all_songs_list.setObjectName(u"all_songs_list")
 
         self.verticalLayout_11.addWidget(self.all_songs_list)
@@ -1638,8 +1661,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(5)
-        self.stacked_songs.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(4)
+        self.stacked_songs.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1728,6 +1751,13 @@ class Ui_MainWindow(object):
         self.actual_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion actual", None))
         self.after_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion despues", None))
         self.all_songs_label_stack.setText(QCoreApplication.translate("MainWindow", u"Todas las canciones", None))
+
+        __sortingEnabled1 = self.all_songs_list.isSortingEnabled()
+        self.all_songs_list.setSortingEnabled(False)
+        ___qlistwidgetitem3 = self.all_songs_list.item(0)
+        ___qlistwidgetitem3.setText(QCoreApplication.translate("MainWindow", u"AAA", None));
+        self.all_songs_list.setSortingEnabled(__sortingEnabled1)
+
         self.cargar_canciones_button.setText("")
         self.favoritas_label_stack.setText(QCoreApplication.translate("MainWindow", u"Favoritas", None))
         self.pushButton_21.setText("")

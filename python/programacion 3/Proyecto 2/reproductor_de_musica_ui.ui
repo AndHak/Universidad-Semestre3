@@ -37,7 +37,7 @@
        <enum>QFrame::Plain</enum>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="setting_page">
        <property name="cursor">
@@ -1952,12 +1952,34 @@ border-radius: 30px;
              </property>
              <property name="styleSheet">
               <string notr="true">QWidget {
-background-color: rgb(226, 224, 239);
-border-radius: 30px;
-}</string>
+    background-color: rgb(226, 224, 239);
+    border-radius: 30px;
+}
+
+QListWidget {
+    font-size: 14px; /* Tamaño de la letra */
+    padding: 5px;  /* Espacio interior del widget */
+}
+
+QListWidget::item {
+    height: 30px;  /* Altura de los elementos */
+    padding: 5px;  /* Espacio interior de los elementos */
+    border: 1px solid transparent; /* Borde transparente para el padding */
+}
+
+QListWidget::item:selected {
+    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */
+    color: black; /* Color de la letra para el elemento seleccionado */
+}
+
+QListWidget::item:hover {
+    background-color: #7a78a0; /* Color de fondo cuando el mouse está sobre el elemento */
+    color: black; /* Color de la letra cuando el mouse está sobre el elemento */
+}
+</string>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="all_songs_stack">
               <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -1981,7 +2003,13 @@ border-radius: 30px;
                 </widget>
                </item>
                <item>
-                <widget class="QListWidget" name="all_songs_list"/>
+                <widget class="QListWidget" name="all_songs_list">
+                 <item>
+                  <property name="text">
+                   <string>AAA</string>
+                  </property>
+                 </item>
+                </widget>
                </item>
                <item alignment="Qt::AlignRight">
                 <widget class="QPushButton" name="cargar_canciones_button">
