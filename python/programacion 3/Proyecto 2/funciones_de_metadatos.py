@@ -37,19 +37,3 @@ def extraer_info_cancion(ruta_archivo):
             artista = "Desconocido"
 
     return titulo, artista
-
-def extraer_letra_y_tiempo(ruta_archivo):
-    try:
-        audio = ID3(ruta_archivo)
-        # Verificar si hay letras y marcas de tiempo en los metadatos
-        if 'USLT' in audio:
-            letra = audio['USLT'].text[0]
-            # Supongamos que las marcas de tiempo están en el formato [mm:ss.xx]
-            marcas_tiempo = [(float(linea.split(']')[0][1:].replace(':', '.')), linea.split(']')[1]) for linea in letra.split('\n')]
-            return marcas_tiempo
-        else:
-            print("No se encontraron letras y marcas de tiempo en los metadatos.")
-    except Exception as e:
-        print("Error al extraer la letra y marcas de tiempo de los metadatos:", e)
-    
-    return None

@@ -350,8 +350,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     pixmap = QPixmap(os.path.join(self.basedir, "icons/icons8-song-100.png"))
                     self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
 
-                marcas_de_tiempo_y_letra = extraer_letra_y_tiempo(ruta_archivo)
-                print(marcas_de_tiempo_y_letra)
 
                 if not self.paused:
                     # Cargar y reproducir la nueva canción seleccionada
@@ -436,6 +434,13 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             self.cargar_archivos_thread = thread_class(archivos)
             self.cargar_archivos_thread.progreso.connect(self.progress_dialog.setValue)
             self.cargar_archivos_thread.archivos_cargados.connect(lambda archivos: self.procesar_archivos_cargados(archivos, lista_de_reproduccion, lista_widget))
+            if not self.paso_agregar_canciones:
+                self.paso_agregar_canciones = True
+                self.pasos_completados += 1
+                self.checkbox_agrega_canciones.setCheckable(True)
+                self.checkbox_agrega_canciones.setCheckState(Qt.Checked)
+                self.checkbox_agrega_canciones.setEnabled(False)
+            self.actualizar_progreso()
             self.cargar_archivos_thread.start()
 
     def procesar_archivos_cargados(self, archivos, lista_de_reproduccion, lista_widget):
@@ -556,9 +561,9 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             if not self.paso_agregar_foto:
                 self.paso_agregar_foto = True
                 self.pasos_completados += 1
-            self.checkbox_pon_una_foto.setCheckable(True)
-            self.checkbox_pon_una_foto.setCheckState(Qt.Checked)
-            self.checkbox_pon_una_foto.setEnabled(False)
+                self.checkbox_pon_una_foto.setCheckable(True)
+                self.checkbox_pon_una_foto.setCheckState(Qt.Checked)
+                self.checkbox_pon_una_foto.setEnabled(False)
             self.actualizar_progreso()
 
     def poner_foto_circulo(self, label, pixmap):
