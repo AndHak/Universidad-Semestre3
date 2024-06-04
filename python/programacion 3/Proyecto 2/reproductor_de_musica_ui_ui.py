@@ -1026,7 +1026,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_11.addWidget(self.all_songs_label_stack)
 
         self.all_songs_list = QListWidget(self.all_songs_stack)
-        QListWidgetItem(self.all_songs_list)
         self.all_songs_list.setObjectName(u"all_songs_list")
 
         self.verticalLayout_11.addWidget(self.all_songs_list)
@@ -1751,13 +1750,6 @@ class Ui_MainWindow(object):
         self.actual_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion actual", None))
         self.after_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion despues", None))
         self.all_songs_label_stack.setText(QCoreApplication.translate("MainWindow", u"Todas las canciones", None))
-
-        __sortingEnabled1 = self.all_songs_list.isSortingEnabled()
-        self.all_songs_list.setSortingEnabled(False)
-        ___qlistwidgetitem3 = self.all_songs_list.item(0)
-        ___qlistwidgetitem3.setText(QCoreApplication.translate("MainWindow", u"AAA", None));
-        self.all_songs_list.setSortingEnabled(__sortingEnabled1)
-
         self.cargar_canciones_button.setText("")
         self.favoritas_label_stack.setText(QCoreApplication.translate("MainWindow", u"Favoritas", None))
         self.pushButton_21.setText("")

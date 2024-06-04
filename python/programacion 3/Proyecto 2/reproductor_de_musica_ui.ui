@@ -2003,13 +2003,7 @@ QListWidget::item:hover {
                 </widget>
                </item>
                <item>
-                <widget class="QListWidget" name="all_songs_list">
-                 <item>
-                  <property name="text">
-                   <string>AAA</string>
-                  </property>
-                 </item>
-                </widget>
+                <widget class="QListWidget" name="all_songs_list"/>
                </item>
                <item alignment="Qt::AlignRight">
                 <widget class="QPushButton" name="cargar_canciones_button">
