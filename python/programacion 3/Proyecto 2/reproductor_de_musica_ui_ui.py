@@ -1381,7 +1381,7 @@ class Ui_MainWindow(object):
         self.label_titulo_song.setMinimumSize(QSize(100, 50))
         self.label_titulo_song.setMaximumSize(QSize(100, 50))
         self.label_titulo_song.setFont(font6)
-        self.label_titulo_song.setWordWrap(True)
+        self.label_titulo_song.setWordWrap(False)
         self.label_titulo_song.setMargin(0)
 
         self.gridLayout_10.addWidget(self.label_titulo_song, 0, 1, 1, 1, Qt.AlignLeft|Qt.AlignVCenter)

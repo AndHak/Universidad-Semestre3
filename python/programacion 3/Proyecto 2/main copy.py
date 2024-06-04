@@ -9,6 +9,8 @@ import os
 import webbrowser
 import pygame
 import random
+from mutagen.mp3 import MP3
+from mutagen.id3 import ID3, APIC
 
 
 
@@ -27,6 +29,10 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
         self.setWindowTitle("Pu♩se Music")
         self.setWindowIcon(QIcon(os.path.join(self.basedir, "icons/icons8-music-100.png")))
+
+        self.FPS = 60
+        self.RELOG = pygame.time.Clock()
+        self.RELOG.tick(self.FPS)
 
         #Carga de canciones
         self.lista_reproducidas = []  # Lista de canciones reproducidas
@@ -105,7 +111,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
         # Configurar el QSlider para el volumen
         self.slider_volume.setRange(0, 100)
-        self.slider_volume.setValue(50)  # Volumen inicial al 50%
+        self.slider_volume.setValue(20)  # Volumen inicial al 50%
         self.slider_volume.valueChanged.connect(self.cambiar_volumen)
 
         # Configurar el botón de mute
@@ -118,6 +124,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         pygame.mixer.init()
         pygame.mixer.music.set_volume(self.slider_volume.value() / 100.0)
         self.update_time()
+
 
     def cambiar_volumen(self, value):
         volumen = value / 100.0
@@ -209,6 +216,21 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 titulo, artista = self.extraer_info_cancion(ruta_archivo)
                 self.label_titulo_song.setText(titulo)
                 self.label_artista_song.setText(artista)
+                self.actualizar_posicion_texto()
+
+                # Extraer la imagen de los metadatos
+                imagen_data = self.extraer_imagen(ruta_archivo)
+                if imagen_data:
+                    pixmap = QPixmap()
+                    pixmap.loadFromData(imagen_data)
+                    if not pixmap.isNull():  # Comprobar si el pixmap no es nulo
+                        self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
+                    else:
+                        print("La imagen extraída de los metadatos es nula.")
+                else:
+                    print("No se encontró ninguna imagen en los metadatos.")
+                    pixmap = QPixmap(os.path.join(self.basedir, "icons/icons8-song-100.png"))
+                    self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
 
                 if not self.paused:
                     # Cargar y reproducir la nueva canción seleccionada
@@ -286,6 +308,20 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 artista = "Desconocido"
 
         return titulo, artista
+    
+    def extraer_imagen(self, ruta_archivo):
+        try:
+            audio = MP3(ruta_archivo, ID3=ID3)
+            tags = audio.tags
+            for tag in tags.values():
+                if isinstance(tag, APIC):
+                    imagen_data = tag.data
+                    # Aquí puedes guardar la imagen o convertirla a un formato usable
+                    return bytes(imagen_data)  # Convertir a bytes antes de devolverlos
+        except Exception as e:
+            print("Error al extraer la imagen de los metadatos:", e)
+            
+        return None
 
 
     def cargar_canciones_iniciales(self):
@@ -346,6 +382,34 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
     def mostrar_dialogo_advertencia(self, message_box=QMessageBox):
         message_box.warning(self, "Advertencia", "Debes seleccionar una canción antes de reproducirla.")
+
+    def actualizar_posicion_texto(self):
+        self.scroll_timer = QTimer(self)
+        self.scroll_timer.timeout.connect(self.scroll_text)
+        self.scroll_timer.start(1000)  # Velocidad de desplazamiento en milisegundos
+        self.titulo_texto_original = self.label_titulo_song.text() + "     "
+        self.artista_texto_original = self.label_artista_song.text() + "     "
+        self.titulo_index = 0
+        self.artista_index = 0
+        
+    def scroll_text(self):
+        # Desplazamiento del título de la canción
+        titulo_texto = self.titulo_texto_original
+        titulo_ancho = self.label_titulo_song.fontMetrics().boundingRect(titulo_texto).width()
+
+        if titulo_ancho > self.label_titulo_song.width():
+            self.label_titulo_song.setText(titulo_texto[self.titulo_index:] + titulo_texto[:self.titulo_index])
+            self.titulo_index = (self.titulo_index + 1) % len(titulo_texto)
+
+        # Desplazamiento del artista de la canción
+        artista_texto = self.artista_texto_original
+        artista_ancho = self.label_artista_song.fontMetrics().boundingRect(artista_texto).width()
+
+        if artista_ancho > self.label_artista_song.width():
+            self.label_artista_song.setText(artista_texto[self.artista_index:] + artista_texto[:self.artista_index])
+            self.artista_index = (self.artista_index + 1) % len(artista_texto)
+
+
 
     def update_time(self):
         current_time = QTime.currentTime().toString('hh:mm AP')
