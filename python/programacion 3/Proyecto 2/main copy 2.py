@@ -11,20 +11,8 @@ import webbrowser
 import pygame
 import random
 from pydub import AudioSegment
-from pydub.playback import play
-import imageio_ffmpeg as ffmpeg
 
 
-# Configurar la ruta de ffmpeg y ffprobe
-ffmpeg_path = ffmpeg.get_ffmpeg_exe()
-ffprobe_path = ffprobe_path = "C:\\Users\\andre\\Downloads\\FFMpeg\\ffmpeg-2024-06-03-git-77ad449911-full_build\\ffmpeg-2024-06-03-git-77ad449911-full_build\\bin\\ffprobe.exe"
- # Ajusta esta ruta a la ubicación de ffprobe en tu sistema
-
-AudioSegment.converter = ffmpeg_path
-AudioSegment.ffprobe = ffprobe_path
-
-# Establecer la variable de entorno para ffprobe
-os.environ["PATH"] += os.pathsep + os.path.dirname(ffprobe_path)
 
 class MainMusicApp(QMainWindow, Ui_MainWindow):
     basedir = os.path.dirname(__file__)
@@ -67,9 +55,13 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         os.path.join(self.basedir, "canciones/Mionca, Maluma Pirlo.mp3"),
         os.path.join(self.basedir, "canciones/LUNA, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Nadie Como Tu, Wisin & Yandel.mp3"),
+        os.path.join(self.basedir, "canciones/Normal, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Ojitos Chiquitos, Don Omar.mp3"),
+        os.path.join(self.basedir, "canciones/Pa que la pases bien, Arcangel.mp3"),
+        os.path.join(self.basedir, "canciones/Remix Exclusivo, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Cinco Noches_ Paquito Guzman (letra)(MP3_128K).mp3"),
         os.path.join(self.basedir, "canciones/MI TRISTEZA  -  LUIS ALBERTO POSADA (VIDEO OFICIAL)(MP3_128K).mp3"),
+        os.path.join(self.basedir, "canciones/Si sabe Ferxxo, Blessd Feid.mp3"),
         ]
 
         #Conectar botones stacked
@@ -167,83 +159,13 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.slider_song.sliderReleased.connect(self.soltar_slider)
         self.posicion_absoluta = 0
 
-
+        #Ecualizador
         self.slider_60.valueChanged.connect(self.actualizar_ecualizador)
         self.slider_250.valueChanged.connect(self.actualizar_ecualizador)
         self.slider_1k.valueChanged.connect(self.actualizar_ecualizador)
         self.slider_4k.valueChanged.connect(self.actualizar_ecualizador)
         self.slider_16k.valueChanged.connect(self.actualizar_ecualizador)
         self.dial.valueChanged.connect(self.actualizar_ecualizador)
-
-        AudioSegment.converter = ffmpeg.get_ffmpeg_exe()
-        AudioSegment.ffmpeg = ffmpeg.get_ffmpeg_exe()
-
-
-        self.ecualizador = {
-            '60': 0,
-            '250': 0,
-            '1k': 0,
-            '4k': 0,
-            '16k': 0,
-            'ganancia': 0,
-        }
-
-
-    def actualizar_ecualizador(self):
-        self.ecualizador['60'] = self.slider_60.value()
-        self.ecualizador['250'] = self.slider_250.value()
-        self.ecualizador['1k'] = self.slider_1k.value()
-        self.ecualizador['4k'] = self.slider_4k.value()
-        self.ecualizador['16k'] = self.slider_16k.value()
-        self.ecualizador['ganancia'] = self.dial.value()
-
-        # Procesar y reproducir el audio con los nuevos valores del ecualizador
-        self.procesar_ecualizador()
-
-    def procesar_ecualizador(self):
-        if not pygame.mixer.music.get_busy():
-            return
-
-        # Detener la reproducción actual
-        pygame.mixer.music.stop()
-
-        # Obtener la canción actual (asegúrate de extraer la ruta correctamente si es un tuple)
-        cancion_actual = self.lista_de_reproduccion[self.indice_actual]
-        if isinstance(cancion_actual, tuple):
-            ruta_archivo = cancion_actual[0]
-        else:
-            ruta_archivo = cancion_actual
-
-        # Asegúrate de que `ruta_archivo` sea una ruta de archivo válida
-        print(f"Procesando ecualizador para: {ruta_archivo}")
-        if not isinstance(ruta_archivo, str):
-            print("Error: `ruta_archivo` no es un string.")
-            return
-        if not os.path.exists(ruta_archivo):
-            print(f"Error: El archivo {ruta_archivo} no existe.")
-            return
-
-        try:
-            song = AudioSegment.from_file(ruta_archivo)
-
-            # Aplicar los filtros del ecualizador
-            song = song.low_pass_filter(self.ecualizador['60'])
-            # Puedes agregar más filtros aquí según los valores de tu ecualizador
-
-            # Verificar que la ganancia no sea cero para evitar la división por cero
-            ganancia = self.ecualizador['ganancia']
-            if ganancia != 0:
-                song = song + ganancia
-
-            # Guardar el archivo temporalmente y reproducirlo
-            ruta_temporal = "temp_song.wav"
-            song.export(ruta_temporal, format="wav")
-
-            pygame.mixer.music.load(ruta_temporal)
-            pygame.mixer.music.play()
-
-        except Exception as e:
-            print(f"Error al cargar el archivo de audio: {e}")
 
 
 
@@ -438,6 +360,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
                 self.actualizar_posicion_texto()
 
+
                 if not self.paused:
                     # Cargar y reproducir la nueva canción seleccionada
                     self.posicion_absoluta = 0
@@ -449,6 +372,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     self.timer.start(1000)
                     icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
                     self.pause_button.setIcon(icon)
+                    #self.label_current_song.setText(nombre_cancion)  # Actualiza el nombre de la canción en la etiqueta
                     self.lista_reproducidas.append((ruta_archivo, nombre_cancion, duracion_total))
                 else:
                     # Reanudar la reproducción si estaba en pausa
@@ -457,7 +381,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     self.paused = False
                     icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
                     self.pause_button.setIcon(icon)
-
 
     def pausar_musica(self):
         if pygame.mixer.music.get_busy():
@@ -511,47 +434,42 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.lista_de_reproduccion = canciones_procesadas
 
 
-    def agregar_archivos(self, lista_de_reproduccion, lista_widget):
-        archivos, _ = QFileDialog.getOpenFileNames(
-            self, "Seleccionar archivos de audio", "", "Archivos de audio (*.mp3 *.wav *.ogg *.flac)"
-        )
+    def agregar_archivos(self, lista_de_reproduccion, lista_widget, file_dialog=QFileDialog, progress_dialog_class=QProgressDialog, thread_class=CargarArchivosThread):
+        archivos, _ = file_dialog.getOpenFileNames(self, "Abrir Archivos de Música", "", "Archivos de Música (*.mp3 *.wav)")
+        if archivos:
+            self.progress_dialog = progress_dialog_class("Cargando canciones...", "Cancelar", 0, 100, self)
+            self.progress_dialog.setWindowTitle("Progreso")
+            self.progress_dialog.setWindowModality(Qt.WindowModal)
+            self.progress_dialog.show()
 
-        for archivo in archivos:
-            # Convertir el archivo a formato .wav
-            ruta_convertida = self.convertir_a_wav(archivo)
-            
-            if ruta_convertida:
-                nombre_cancion = os.path.basename(ruta_convertida)
-                duracion_total = AudioSegment.from_wav(ruta_convertida).duration_seconds
-                lista_de_reproduccion.append((ruta_convertida, nombre_cancion, duracion_total))
-                lista_widget.addItem(nombre_cancion)
-
-    def convertir_a_wav(self, ruta_archivo):
-        # Obtener la extensión del archivo
-        extension = os.path.splitext(ruta_archivo)[1].lower()
-
-        # Verificar si el archivo ya es un .wav
-        if extension == '.wav':
-            return ruta_archivo
-
-        try:
-            # Crear el segmento de audio
-            audio = AudioSegment.from_file(ruta_archivo, format=extension[1:])
-            # Ruta del archivo convertido
-            ruta_convertida = ruta_archivo.replace(extension, '.wav')
-            # Exportar el audio a formato .wav
-            audio.export(ruta_convertida, format='wav')
-            return ruta_convertida
-        except Exception as e:
-            print(f"Error al convertir el archivo {ruta_archivo}: {e}")
-            return None
+            self.cargar_archivos_thread = thread_class(archivos)
+            self.cargar_archivos_thread.progreso.connect(self.progress_dialog.setValue)
+            self.cargar_archivos_thread.archivos_cargados.connect(lambda archivos: self.procesar_archivos_cargados(archivos, lista_de_reproduccion, lista_widget))
+            if not self.paso_agregar_canciones:
+                self.paso_agregar_canciones = True
+                self.pasos_completados += 1
+                self.checkbox_agrega_canciones.setCheckable(True)
+                self.checkbox_agrega_canciones.setCheckState(Qt.Checked)
+                self.checkbox_agrega_canciones.setEnabled(False)
+            self.actualizar_progreso()
+            self.cargar_archivos_thread.start()
 
     def procesar_archivos_cargados(self, archivos, lista_de_reproduccion, lista_widget):
+        archivos_convertidos = []
         for archivo in archivos:
+            try:
+                audio = AudioSegment.from_file(archivo)
+                archivo_wav = os.path.splitext(archivo)[0] + '.wav'
+                audio.export(archivo_wav, format="wav")
+                archivos_convertidos.append(archivo_wav)
+            except Exception as e:
+                print(f"Error al convertir {archivo}: {e}")
+
+        for archivo in archivos_convertidos:
             duracion = self.obtener_duracion(archivo)
             nombre_cancion = os.path.basename(archivo)  # Obtener solo el nombre del archivo sin la ruta
             lista_de_reproduccion.append((archivo, nombre_cancion, duracion))  # Agregar la duración también
-        lista_widget.addItems([os.path.basename(archivo) for archivo in archivos])  # Mostrar el nombre de la canción en el QListWidget
+        lista_widget.addItems([os.path.basename(archivo) for archivo in archivos_convertidos])  # Mostrar el nombre de la canción en el QListWidget
         self.progress_dialog.close()
 
 
@@ -632,10 +550,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentWidget(self.about_us_page)
 
     def mostrar_pagina_ecualizador(self):
-        # Cambiar a la página del ecualizador
         self.stackedWidget.setCurrentWidget(self.equalizer_page)
-        # Pausar la música al mostrar la página del ecualizador
-        self.detener_musica()
     
     def mostrar_pagina_soporte(self):
         self.stackedWidget.setCurrentWidget(self.support_page)

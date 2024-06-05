@@ -1,6 +1,7 @@
 from reproductor_de_musica_ui_ui import Ui_MainWindow
 from ventana_nombre_ui import Ui_Dialog_nombre
 from cargar_archivos import CargarArchivosThread
+from funciones_de_metadatos import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
@@ -9,10 +10,10 @@ import os
 import webbrowser
 import pygame
 import random
-from mutagen.mp3 import MP3
-from mutagen.id3 import ID3, APIC
-from tinytag import TinyTag
-import threading
+from pydub import AudioSegment
+from pydub import AudioSegment
+from pydub.playback import play
+import numpy as np
 
 
 
@@ -36,6 +37,15 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.RELOG = pygame.time.Clock()
         self.RELOG.tick(self.FPS)
 
+        # Diccionario para almacenar letras con sus marcas de tiempo
+        self.letras_con_tiempos = {}
+
+        # Actualizar la letra de la canción cada segundo
+        self.timer_letra = QTimer(self)
+        self.timer_letra.timeout.connect(self.actualizar_letra)
+        self.timer_letra.start(100)  # Actualizar cada segundo
+        
+
         #Carga de canciones
         self.lista_reproducidas = []  # Lista de canciones reproducidas
         self.indice_actual = 0
@@ -52,8 +62,8 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         os.path.join(self.basedir, "canciones/Ojitos Chiquitos, Don Omar.mp3"),
         os.path.join(self.basedir, "canciones/Pa que la pases bien, Arcangel.mp3"),
         os.path.join(self.basedir, "canciones/Remix Exclusivo, Feid.mp3"),
-        os.path.join(self.basedir, "songs/Cinco Noches_ Paquito Guzman (letra)(MP3_128K).mp3"),
-        os.path.join(self.basedir, "songs/MI TRISTEZA  -  LUIS ALBERTO POSADA (VIDEO OFICIAL)(MP3_128K).mp3"),
+        os.path.join(self.basedir, "canciones/Cinco Noches_ Paquito Guzman (letra)(MP3_128K).mp3"),
+        os.path.join(self.basedir, "canciones/MI TRISTEZA  -  LUIS ALBERTO POSADA (VIDEO OFICIAL)(MP3_128K).mp3"),
         os.path.join(self.basedir, "canciones/Si sabe Ferxxo, Blessd Feid.mp3"),
         ]
 
@@ -127,6 +137,177 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         pygame.mixer.music.set_volume(self.slider_volume.value() / 100.0)
         self.update_time()
 
+        #conexion de combo para fuente de los labels
+        self.fontComboBox.currentFontChanged.connect(self.cambiar_fuente)
+
+        #conexion de spinbox para el tamaño de la letra
+        self.spin_box_aumentar_letra.setRange(-5,5)
+        self.spin_box_aumentar_letra.setValue(0)
+
+        # Guardar las fuentes originales de los QLabel sin ej
+        self.font_before_original = self.before_current_label_song.font()
+        self.font_actual_original = self.actual_current_label_song.font()
+        self.font_after_original = self.after_current_label_song.font()
+
+        # Hacer copias de las fuentes originales para evitar modificarlas directamente
+        self.font_before_original_copy = QFont(self.font_before_original)
+        self.font_actual_original_copy = QFont(self.font_actual_original)
+        self.font_after_original_copy = QFont(self.font_after_original)
+
+        # Conectar el signal `valueChanged` del QSpinBox al método `cambiar_tamaño_letra`
+        self.spin_box_aumentar_letra.valueChanged.connect(self.cambiar_tamaño_letra)
+
+        #conexion de slider para moverlo
+        self.slider_song.sliderPressed.connect(self.pausar_musica)
+        self.slider_song.sliderReleased.connect(self.soltar_slider)
+        self.posicion_absoluta = 0
+
+        # Conectar sliders del ecualizador
+        self.slider_60.valueChanged.connect(self.actualizar_ecualizador)
+        self.slider_250.valueChanged.connect(self.actualizar_ecualizador)
+        self.slider_1k.valueChanged.connect(self.actualizar_ecualizador)
+        self.slider_4k.valueChanged.connect(self.actualizar_ecualizador)
+        self.slider_16k.valueChanged.connect(self.actualizar_ecualizador)
+        self.dial.valueChanged.connect(self.actualizar_ecualizador)
+        
+        # Inicializar variables de ecualizador
+        self.gain_60hz = 0
+        self.gain_250hz = 0
+        self.gain_1khz = 0
+        self.gain_4khz = 0
+        self.gain_16khz = 0
+        
+        self.current_audio_segment = None
+        self.filtered_audio_segment = None
+
+    def actualizar_ecualizador(self):
+        self.gain_60hz = self.slider_60.value()
+        self.gain_250hz = self.slider_250.value()
+        self.gain_1khz = self.slider_1k.value()
+        self.gain_4khz = self.slider_4k.value()
+        self.gain_16khz = self.slider_16k.value()
+
+        if self.current_audio_segment:
+            self.filtered_audio_segment = self.aplicar_ecualizador(self.current_audio_segment)
+            self.reproducir_audio_ecualizado()
+
+    def aplicar_ecualizador(self, audio_segment):
+        # Aplicar el ecualizador al audio_segment
+        samples = np.array(audio_segment.get_array_of_samples())
+        sample_rate = audio_segment.frame_rate
+
+        # Aplicar filtro a cada banda de frecuencia
+        filtered_samples = self.filtrar_frecuencia(samples, sample_rate, 60, self.gain_60hz)
+        filtered_samples += self.filtrar_frecuencia(samples, sample_rate, 250, self.gain_250hz)
+        filtered_samples += self.filtrar_frecuencia(samples, sample_rate, 1000, self.gain_1khz)
+        filtered_samples += self.filtrar_frecuencia(samples, sample_rate, 4000, self.gain_4khz)
+        filtered_samples += self.filtrar_frecuencia(samples, sample_rate, 16000, self.gain_16khz)
+
+        # Crear un nuevo AudioSegment con los samples filtrados
+        filtered_audio_segment = audio_segment._spawn(filtered_samples.astype(np.int16).tobytes())
+        return filtered_audio_segment
+
+    def filtrar_frecuencia(self, samples, sample_rate, frecuencia, gain):
+        # Aplicar filtro a la frecuencia especificada
+        fft_result = np.fft.rfft(samples)
+        frequencies = np.fft.rfftfreq(len(samples), d=1/sample_rate)
+        band = np.logical_and(frequencies >= frecuencia - 5, frequencies <= frecuencia + 5)
+        fft_result[band] *= (10**(gain/20))
+        filtered_samples = np.fft.irfft(fft_result)
+        return filtered_samples
+
+    def reproducir_audio_ecualizado(self):
+        # Detener la música actual
+        pygame.mixer.music.stop()
+        
+        # Exportar el audio ecualizado a un archivo temporal y reproducirlo
+        temp_filename = "temp_filtered_audio.wav"
+        self.filtered_audio_segment.export(temp_filename, format="wav")
+        pygame.mixer.music.load(temp_filename)
+        pygame.mixer.music.play()
+
+
+    def cargar_letra(self, ruta_archivo_lrc):
+        """Carga y procesa el archivo .lrc"""
+        self.letras_con_tiempos.clear()
+        with open(ruta_archivo_lrc, 'r', encoding='utf-8') as f:
+            for line in f:
+                if line.startswith('[') and ']' in line:
+                    tiempo_str, texto = line.split(']', 1)
+                    tiempo_str = tiempo_str[1:]  # Eliminar el primer carácter '['
+                    if ':' in tiempo_str:
+                        minutos, segundos = tiempo_str.split(':', 1)
+                        try:
+                            tiempo = int(minutos) * 60 + float(segundos)
+                            self.letras_con_tiempos[tiempo] = texto.strip()
+                        except ValueError:
+                            continue
+
+    def actualizar_letra(self):
+        """Actualiza los labels con la letra correspondiente a la posición actual de la canción"""
+        posicion_actual = self.posicion_absoluta 
+        tiempos = sorted(self.letras_con_tiempos.keys())
+        letra_anterior = ""
+        letra_actual = ""
+        letra_siguiente = ""
+        for i, tiempo in enumerate(tiempos):
+            if tiempo > posicion_actual:
+                if i > 0:
+                    letra_anterior = self.letras_con_tiempos[tiempos[i-2]]
+                letra_actual = self.letras_con_tiempos[tiempos[i-1]]
+                if i < len(tiempos) - 1:
+                    letra_siguiente = self.letras_con_tiempos[tiempos[i]]
+                break
+            letra_anterior = letra_actual
+            letra_actual = self.letras_con_tiempos[tiempos[i-1]]
+            if i < len(tiempos) - 1:
+                letra_siguiente = self.letras_con_tiempos[tiempos[i]]
+
+        self.before_current_label_song.setText(letra_anterior)
+        self.actual_current_label_song.setText(letra_actual)
+        self.after_current_label_song.setText(letra_siguiente)
+
+        # Si no hay letra, mostrar el mensaje correspondiente
+        if not self.letras_con_tiempos:
+            self.before_current_label_song.setText("")
+            self.actual_current_label_song.setText("Esta canción no tiene letra")
+            self.after_current_label_song.setText("")
+
+
+    def soltar_slider(self):
+        # Extraer el valor del slider y actualizar la canción
+        self.posicion_absoluta = self.slider_song.value()
+        posicion_actual = self.slider_song.value()
+        self.label_11.setText(f"{self.formato_tiempo(posicion_actual)}")
+
+        # Detener el temporizador mientras se ajusta la posición de reproducción
+        self.timer.stop()
+
+        # Verificar si la música estaba en pausa antes de soltar el slider
+        if pygame.mixer.music.get_busy() and pygame.mixer.music.get_pos() == 0:
+            self.was_paused = True
+        else:
+            self.was_paused = False
+
+        # Si la música estaba reproduciéndose antes de manipular el slider, mantenerla reproduciéndose desde la nueva posición
+        if not self.was_paused:
+            pygame.mixer.music.set_pos(self.posicion_absoluta)
+            pygame.mixer.music.pause()
+            icon = QIcon(os.path.join(self.basedir, "icons/icons8-reproducir-64.png"))
+            self.pause_button.setIcon(icon)
+            self.paused = True
+            self.actualizar_letra()
+            # Reanudar el temporizador
+            self.timer.start(1000)
+            self.pause_button.click()
+            self.pause_button.click()
+
+        # Comprobar si la canción ha terminado
+        duracion_total = self.label_12.text()
+        minutos, segundos = map(int, duracion_total.split(':'))
+        duracion_total_segundos = minutos * 60 + segundos
+        if posicion_actual + 1 >= duracion_total_segundos:
+            self.next_song(self.lista_de_reproduccion, self.all_songs_list)
 
     def cambiar_volumen(self, value):
         volumen = value / 100.0
@@ -145,6 +326,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
     def reproducir_cancion_seleccionada(self):
         self.reproducir_musica(self.lista_de_reproduccion, self.all_songs_list)
+        self.posicion_absoluta = 0
     
     def on_repeat_button_toggled(self, checked):
         if checked:
@@ -168,6 +350,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
     def next_song(self, lista_de_reproduccion, lista_widget):
         if lista_de_reproduccion:
+            self.posicion_absoluta = 0
             print("Modo de reproducción:", self.modo_reproduccion)
             print("Índice actual antes del cambio:", self.indice_actual)
             if self.modo_reproduccion == "secuencial":
@@ -185,6 +368,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
     def cancion_anterior(self, lista_de_reproduccion, lista_widget, mixer=pygame.mixer):
         if lista_de_reproduccion:
+            self.posicion_absoluta = 0
             if self.modo_reproduccion == "aleatorio":
                 if len(self.lista_reproducidas) <= 1:
                     return
@@ -193,6 +377,8 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 # Establecer la canción anterior como la actual
                 ruta_archivo, nombre_cancion, duracion_total = self.lista_reproducidas[-1]
                 self.indice_actual = lista_de_reproduccion.index((ruta_archivo, nombre_cancion, duracion_total))
+            elif self.modo_reproduccion == "bucle":
+                self.detener_musica()
             else:
                 self.indice_actual = (self.indice_actual - 1) % len(lista_de_reproduccion)
             lista_widget.setCurrentRow(self.indice_actual)
@@ -208,6 +394,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         if lista_de_reproduccion:
             # Detener la música actual si está reproduciéndose y no está en pausa
             if mixer.music.get_busy() and not self.paused:
+            # Si la música no está en pausa, detenerla antes de reproducir una nueva canción
                 self.detener_musica()
 
             # Obtener la canción seleccionada
@@ -215,13 +402,22 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             if self.indice_actual is not None:
                 ruta_archivo, nombre_cancion, duracion_total = lista_de_reproduccion[self.indice_actual]
 
-                titulo, artista = self.extraer_info_cancion(ruta_archivo)
+                titulo, artista = extraer_info_cancion(ruta_archivo)
                 self.label_titulo_song.setText(titulo)
                 self.label_artista_song.setText(artista)
                 self.actualizar_posicion_texto()
 
+                # Cargar el archivo .lrc correspondiente
+                archivo_lrc = ruta_archivo.replace('.mp3', '.lrc')
+                if os.path.exists(archivo_lrc):
+                    self.actual_current_label_song.clear()
+                    self.cargar_letra(archivo_lrc)
+                else:
+                    self.letras_con_tiempos.clear()
+                    self.actual_current_label_song.setText("Esta canción no tiene letra")
+
                 # Extraer la imagen de los metadatos
-                imagen_data = self.extraer_imagen(ruta_archivo)
+                imagen_data = extraer_imagen(ruta_archivo)
                 if imagen_data:
                     pixmap = QPixmap()
                     pixmap.loadFromData(imagen_data)
@@ -234,8 +430,10 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     pixmap = QPixmap(os.path.join(self.basedir, "icons/icons8-song-100.png"))
                     self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
 
+
                 if not self.paused:
                     # Cargar y reproducir la nueva canción seleccionada
+                    self.posicion_absoluta = 0
                     mixer.music.load(ruta_archivo)
                     mixer.music.play()
                     self.slider_song.setRange(0, int(duracion_total))
@@ -260,14 +458,17 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 pygame.mixer.music.pause()
                 self.timer.stop()
                 self.paused = True
+                self.was_paused = True  # Registrar que la música estaba pausada antes de pausarla
                 icon = QIcon(os.path.join(self.basedir, "icons/icons8-reproducir-64.png"))
                 self.pause_button.setIcon(icon)
             else:
                 pygame.mixer.music.unpause()
                 self.timer.start(1000)
                 self.paused = False
+                self.was_paused = False  # Registrar que la música estaba reproduciéndose antes de reanudarla
                 icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
                 self.pause_button.setIcon(icon)
+            
 
     def detener_musica(self):
         pygame.mixer.music.stop()
@@ -275,7 +476,11 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
     
     def actualizar_slider(self):
         if pygame.mixer.music.get_busy():
-            posicion_actual = pygame.mixer.music.get_pos() / 1000  # Convertir a segundos
+            if self.posicion_absoluta is not None:
+                posicion_actual = self.posicion_absoluta
+                self.posicion_absoluta += 1  # Incrementar la posición absoluta cada segundo
+            else:
+                posicion_actual = pygame.mixer.music.get_pos() / 1000  # Convertir a segundos
             self.slider_song.setValue(int(posicion_actual))
             self.label_11.setText(f"{self.formato_tiempo(posicion_actual)}")
             
@@ -283,48 +488,13 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             duracion_total = self.label_12.text()
             minutos, segundos = map(int, duracion_total.split(':'))
             duracion_total_segundos = minutos * 60 + segundos
+            self.actualizar_letra()
 
             # Comprobar si la canción ha terminado
             if posicion_actual+1 >= duracion_total_segundos:
                 self.next_song(self.lista_de_reproduccion, self.all_songs_list)
         else:
             self.timer.stop()
-
-    def extraer_info_cancion(self, ruta_archivo):
-        #Eliminar la extension del archivo
-        nombre_archivo = os.path.splitext(os.path.basename(ruta_archivo))[0]
-
-        #separar el nombre y el artista
-        partes = nombre_archivo.split(",")
-        if len(partes) == 2:
-            titulo = partes[0].strip()
-            artista = partes[1].strip()
-        else:
-            #Caso para el guion
-            partes = nombre_archivo.split("-")
-            if len(partes) == 2:
-                titulo = partes[0].strip()
-                artista = partes[1].strip()
-            else:
-                titulo = partes[0].strip()
-                artista = "Desconocido"
-
-        return titulo, artista
-    
-    def extraer_imagen(self, ruta_archivo):
-        try:
-            audio = MP3(ruta_archivo, ID3=ID3)
-            tags = audio.tags
-            for tag in tags.values():
-                if isinstance(tag, APIC):
-                    imagen_data = tag.data
-                    # Aquí puedes guardar la imagen o convertirla a un formato usable
-                    return bytes(imagen_data)  # Convertir a bytes antes de devolverlos
-        except Exception as e:
-            print("Error al extraer la imagen de los metadatos:", e)
-            
-        return None
-
 
     def cargar_canciones_iniciales(self):
         # Cargar canciones predefinidas en el QListWidget
@@ -348,14 +518,31 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             self.cargar_archivos_thread = thread_class(archivos)
             self.cargar_archivos_thread.progreso.connect(self.progress_dialog.setValue)
             self.cargar_archivos_thread.archivos_cargados.connect(lambda archivos: self.procesar_archivos_cargados(archivos, lista_de_reproduccion, lista_widget))
+            if not self.paso_agregar_canciones:
+                self.paso_agregar_canciones = True
+                self.pasos_completados += 1
+                self.checkbox_agrega_canciones.setCheckable(True)
+                self.checkbox_agrega_canciones.setCheckState(Qt.Checked)
+                self.checkbox_agrega_canciones.setEnabled(False)
+            self.actualizar_progreso()
             self.cargar_archivos_thread.start()
 
     def procesar_archivos_cargados(self, archivos, lista_de_reproduccion, lista_widget):
+        archivos_convertidos = []
         for archivo in archivos:
+            try:
+                audio = AudioSegment.from_file(archivo)
+                archivo_wav = os.path.splitext(archivo)[0] + '.wav'
+                audio.export(archivo_wav, format="wav")
+                archivos_convertidos.append(archivo_wav)
+            except Exception as e:
+                print(f"Error al convertir {archivo}: {e}")
+
+        for archivo in archivos_convertidos:
             duracion = self.obtener_duracion(archivo)
             nombre_cancion = os.path.basename(archivo)  # Obtener solo el nombre del archivo sin la ruta
             lista_de_reproduccion.append((archivo, nombre_cancion, duracion))  # Agregar la duración también
-        lista_widget.addItems([os.path.basename(archivo) for archivo in archivos])  # Mostrar el nombre de la canción en el QListWidget
+        lista_widget.addItems([os.path.basename(archivo) for archivo in archivos_convertidos])  # Mostrar el nombre de la canción en el QListWidget
         self.progress_dialog.close()
 
 
@@ -386,13 +573,19 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         message_box.warning(self, "Advertencia", "Debes seleccionar una canción antes de reproducirla.")
 
     def actualizar_posicion_texto(self):
+        #Detener el qtimer si ya hay uno existente
+        if hasattr(self, "scroll_timer") and self.scroll_timer.isActive():
+            self.scroll_timer.stop()
+        
+        #Crear o reinicar el qtimer
         self.scroll_timer = QTimer(self)
         self.scroll_timer.timeout.connect(self.scroll_text)
-        self.scroll_timer.start(1000)  # Velocidad de desplazamiento en milisegundos
+        self.scroll_timer.start(800)  # Velocidad de desplazamiento en milisegundos
         self.titulo_texto_original = self.label_titulo_song.text() + "     "
         self.artista_texto_original = self.label_artista_song.text() + "     "
         self.titulo_index = 0
         self.artista_index = 0
+
         
     def scroll_text(self):
         # Desplazamiento del título de la canción
@@ -468,9 +661,9 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             if not self.paso_agregar_foto:
                 self.paso_agregar_foto = True
                 self.pasos_completados += 1
-            self.checkbox_pon_una_foto.setCheckable(True)
-            self.checkbox_pon_una_foto.setCheckState(Qt.Checked)
-            self.checkbox_pon_una_foto.setEnabled(False)
+                self.checkbox_pon_una_foto.setCheckable(True)
+                self.checkbox_pon_una_foto.setCheckState(Qt.Checked)
+                self.checkbox_pon_una_foto.setEnabled(False)
             self.actualizar_progreso()
 
     def poner_foto_circulo(self, label, pixmap):
@@ -553,6 +746,72 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
     
     def mostrar_warning(self, message):
         QMessageBox.warning(self, "Advertencia", message)
+
+    def cambiar_tamaño_letra(self):
+        valor_a_cambiar = self.spin_box_aumentar_letra.value()
+
+        # Calcular el nuevo tamaño de la fuente sumando el valor del spinBox
+        before_nuevo = max(8, min(self.font_before_original_copy.pointSize() + valor_a_cambiar, 18))
+        actual_nuevo = max(15, min(self.font_actual_original_copy.pointSize() + valor_a_cambiar, 25))
+        after_nuevo = max(8, min(self.font_after_original_copy.pointSize() + valor_a_cambiar, 18))
+
+        # Si el valor_a_cambiar lleva el tamaño de la fuente actual por debajo de 15, no lo cambiamos
+        if valor_a_cambiar < 0 and actual_nuevo < 15:
+            return
+
+        # Crear nuevas fuentes con los nuevos tamaños
+        nueva_fuente_before = QFont(self.font_before_original)
+        nueva_fuente_before.setPointSize(before_nuevo)
+        nueva_fuente_actual = QFont(self.font_actual_original)
+        nueva_fuente_actual.setPointSize(actual_nuevo)
+        nueva_fuente_after = QFont(self.font_after_original)
+        nueva_fuente_after.setPointSize(after_nuevo)
+
+        # Establecer la nueva fuente en cada QLabel con "ej"
+        self.before_current_label_song_ej.setFont(nueva_fuente_before)
+        self.actual_current_label_song_ej.setFont(nueva_fuente_actual)
+        self.after_current_label_song_ej.setFont(nueva_fuente_after)
+
+        # Crear nuevas fuentes sin "ej"
+        nueva_fuente_before_no_ej = QFont(nueva_fuente_before)
+        nueva_fuente_actual_no_ej = QFont(nueva_fuente_actual)
+        nueva_fuente_after_no_ej = QFont(nueva_fuente_after)
+
+        # Establecer la nueva fuente en cada QLabel sin "ej"
+        self.before_current_label_song.setFont(nueva_fuente_before_no_ej)
+        self.actual_current_label_song.setFont(nueva_fuente_actual_no_ej)
+        self.after_current_label_song.setFont(nueva_fuente_after_no_ej)
+
+    def cambiar_fuente(self, nueva_fuente):
+        # Obtener el tamaño de fuente actual
+        before_size = self.before_current_label_song_ej.font().pointSize()
+        actual_size = self.actual_current_label_song_ej.font().pointSize()
+
+        # Crear una nueva fuente con el nombre seleccionado y el tamaño actual
+        font_grande = QFont(nueva_fuente)
+        font_grande.setPointSize(actual_size)
+
+        font_pequeña = QFont(nueva_fuente)
+        font_pequeña.setPointSize(before_size)
+
+        # Establecer la nueva fuente en cada QLabel con ej
+        self.before_current_label_song_ej.setFont(font_pequeña)
+        self.actual_current_label_song_ej.setFont(font_grande)
+        self.after_current_label_song_ej.setFont(font_pequeña)
+
+        # Establecer la nueva fuente en cada QLabel sin "ej"
+        self.before_current_label_song.setFont(font_pequeña)
+        self.actual_current_label_song.setFont(font_grande)
+        self.after_current_label_song.setFont(font_pequeña)
+
+        #actualizar las fuentes en las variables
+        self.font_before_original = self.before_current_label_song.font()
+        self.font_actual_original = self.actual_current_label_song.font()
+        self.font_after_original = self.after_current_label_song.font()
+
+        # Restablecer el valor del spinbox a 0
+        self.spin_box_aumentar_letra.setValue(0)
+
 
 
 if __name__ == "__main__":

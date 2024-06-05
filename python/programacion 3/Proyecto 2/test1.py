@@ -1,34 +1,17 @@
-import sys
-from PySide6.QtWidgets import QApplication, QListWidget, QMainWindow, QListWidgetItem, QVBoxLayout, QWidget
+from pydub import AudioSegment
+import imageio_ffmpeg as ffmpeg
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
+# Configurar las rutas de ffmpeg y ffprobe
+AudioSegment.converter = ffmpeg.get_ffmpeg_exe()
+AudioSegment.ffmpeg = ffmpeg.get_ffmpeg_exe()
+AudioSegment.ffprobe = ffmpeg.get_ffprobe_exe()
 
-        self.setWindowTitle("Ejemplo de QListWidget con arrastrar y soltar")
+print("ffmpeg executable: ", AudioSegment.converter)
+print("ffprobe executable: ", AudioSegment.ffprobe)
 
-        # Crear el QListWidget
-        self.list_widget = QListWidget()
-
-        # Habilitar arrastrar y soltar
-        self.list_widget.setDragDropMode(QListWidget.InternalMove)
-
-        # Agregar ítems a la lista
-        for i in range(10):
-            item = QListWidgetItem(f"Item {i}")
-            self.list_widget.addItem(item)
-
-        # Crear un layout y agregar el QListWidget
-        layout = QVBoxLayout()
-        layout.addWidget(self.list_widget)
-
-        # Crear un widget central y establecer el layout
-        central_widget = QWidget()
-        central_widget.setLayout(layout)
-        self.setCentralWidget(central_widget)
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
+# Intenta cargar un archivo de audio de prueba
+try:
+    audio = AudioSegment.from_file("C:\Programacion Universidad\Semestre 3\python\programacion 3\Proyecto 2\canciones\Shape of my Heart.mp3", format="mp3")
+    print("Archivo de audio cargado correctamente")
+except Exception as e:
+    print(f"Error al cargar el archivo de audio: {e}")

@@ -3,6 +3,7 @@ from mutagen.id3 import ID3, APIC, USLT
 import os
 
 
+
 def extraer_imagen(ruta_archivo):
     try:
         audio = MP3(ruta_archivo, ID3=ID3)
@@ -37,3 +38,4 @@ def extraer_info_cancion(ruta_archivo):
             artista = "Desconocido"
 
     return titulo, artista
+
