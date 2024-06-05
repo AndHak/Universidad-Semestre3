@@ -14,7 +14,7 @@ from pydub import AudioSegment
 from pydub import AudioSegment
 from pydub.playback import play
 import numpy as np
-
+import tempfile
 
 
 class MainMusicApp(QMainWindow, Ui_MainWindow):
@@ -162,69 +162,83 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.slider_song.sliderReleased.connect(self.soltar_slider)
         self.posicion_absoluta = 0
 
-        # Conectar sliders del ecualizador
-        self.slider_60.valueChanged.connect(self.actualizar_ecualizador)
-        self.slider_250.valueChanged.connect(self.actualizar_ecualizador)
-        self.slider_1k.valueChanged.connect(self.actualizar_ecualizador)
-        self.slider_4k.valueChanged.connect(self.actualizar_ecualizador)
-        self.slider_16k.valueChanged.connect(self.actualizar_ecualizador)
-        self.dial.valueChanged.connect(self.actualizar_ecualizador)
-        
-        # Inicializar variables de ecualizador
-        self.gain_60hz = 0
-        self.gain_250hz = 0
-        self.gain_1khz = 0
-        self.gain_4khz = 0
-        self.gain_16khz = 0
-        
-        self.current_audio_segment = None
-        self.filtered_audio_segment = None
 
-    def actualizar_ecualizador(self):
-        self.gain_60hz = self.slider_60.value()
-        self.gain_250hz = self.slider_250.value()
-        self.gain_1khz = self.slider_1k.value()
-        self.gain_4khz = self.slider_4k.value()
-        self.gain_16khz = self.slider_16k.value()
 
-        if self.current_audio_segment:
-            self.filtered_audio_segment = self.aplicar_ecualizador(self.current_audio_segment)
-            self.reproducir_audio_ecualizado()
+    def reproducir_musica(self, lista_de_reproduccion, lista_widget, mixer=pygame.mixer):
+        if lista_de_reproduccion:
+            if mixer.music.get_busy() and not self.paused:
+                self.detener_musica()
+                
+            self.indice_actual = self.seleccionar_cancion(lista_widget)
+            if self.indice_actual is not None:
+                ruta_archivo, nombre_cancion, duracion_total = lista_de_reproduccion[self.indice_actual]
+                self.current_audio_segment = AudioSegment.from_file(ruta_archivo)
+                
+                if any([self.gain_60hz, self.gain_250hz, self.gain_1khz, self.gain_4khz, self.gain_16khz]):
+                    self.filtered_audio_segment = self.aplicar_ecualizador(self.current_audio_segment)
+                    self.reproducir_audio_ecualizado()
+                else:
+                    mixer.music.load(ruta_archivo)
+                    mixer.music.play()
+                
+                titulo, artista = extraer_info_cancion(ruta_archivo)
+                self.label_titulo_song.setText(titulo)
+                self.label_artista_song.setText(artista)
+                self.actualizar_posicion_texto()
 
-    def aplicar_ecualizador(self, audio_segment):
-        # Aplicar el ecualizador al audio_segment
-        samples = np.array(audio_segment.get_array_of_samples())
-        sample_rate = audio_segment.frame_rate
+                archivo_lrc = ruta_archivo.replace('.mp3', '.lrc')
+                if os.path.exists(archivo_lrc):
+                    self.actual_current_label_song.clear()
+                    self.cargar_letra(archivo_lrc)
+                else:
+                    self.letras_con_tiempos.clear()
+                    self.actual_current_label_song.setText("Esta canción no tiene letra")
 
-        # Aplicar filtro a cada banda de frecuencia
-        filtered_samples = self.filtrar_frecuencia(samples, sample_rate, 60, self.gain_60hz)
-        filtered_samples += self.filtrar_frecuencia(samples, sample_rate, 250, self.gain_250hz)
-        filtered_samples += self.filtrar_frecuencia(samples, sample_rate, 1000, self.gain_1khz)
-        filtered_samples += self.filtrar_frecuencia(samples, sample_rate, 4000, self.gain_4khz)
-        filtered_samples += self.filtrar_frecuencia(samples, sample_rate, 16000, self.gain_16khz)
+                imagen_data = extraer_imagen(ruta_archivo)
+                if imagen_data:
+                    pixmap = QPixmap()
+                    pixmap.loadFromData(imagen_data)
+                    if not pixmap.isNull():
+                        self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
+                    else:
+                        print("La imagen extraída de los metadatos es nula.")
+                else:
+                    print("No se encontró ninguna imagen en los metadatos.")
+                    pixmap = QPixmap(os.path.join(self.basedir, "icons/icons8-song-100.png"))
+                    self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
 
-        # Crear un nuevo AudioSegment con los samples filtrados
-        filtered_audio_segment = audio_segment._spawn(filtered_samples.astype(np.int16).tobytes())
-        return filtered_audio_segment
+                if not self.paused:
+                    self.posicion_absoluta = 0
+                    self.slider_song.setRange(0, int(duracion_total))
+                    self.label_12.setText(f"{self.formato_tiempo(duracion_total)}")
+                    self.paused = False
+                    self.timer.start(1000)
+                    icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
+                    self.pause_button.setIcon(icon)
+                    self.lista_reproducidas.append((ruta_archivo, nombre_cancion, duracion_total))
+                else:
+                    mixer.music.unpause()
+                    self.timer.start(1000)
+                    self.paused = False
+                    icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
+                    self.pause_button.setIcon(icon)
 
-    def filtrar_frecuencia(self, samples, sample_rate, frecuencia, gain):
-        # Aplicar filtro a la frecuencia especificada
-        fft_result = np.fft.rfft(samples)
-        frequencies = np.fft.rfftfreq(len(samples), d=1/sample_rate)
-        band = np.logical_and(frequencies >= frecuencia - 5, frequencies <= frecuencia + 5)
-        fft_result[band] *= (10**(gain/20))
-        filtered_samples = np.fft.irfft(fft_result)
-        return filtered_samples
-
-    def reproducir_audio_ecualizado(self):
-        # Detener la música actual
-        pygame.mixer.music.stop()
-        
-        # Exportar el audio ecualizado a un archivo temporal y reproducirlo
-        temp_filename = "temp_filtered_audio.wav"
-        self.filtered_audio_segment.export(temp_filename, format="wav")
-        pygame.mixer.music.load(temp_filename)
-        pygame.mixer.music.play()
+    def pausar_musica(self):
+        if pygame.mixer.music.get_busy():
+            if not self.paused:
+                pygame.mixer.music.pause()
+                self.timer.stop()
+                self.paused = True
+                self.was_paused = True  # Registrar que la música estaba pausada antes de pausarla
+                icon = QIcon(os.path.join(self.basedir, "icons/icons8-reproducir-64.png"))
+                self.pause_button.setIcon(icon)
+            else:
+                pygame.mixer.music.unpause()
+                self.timer.start(1000)
+                self.paused = False
+                self.was_paused = False  # Registrar que la música estaba reproduciéndose antes de reanudarla
+                icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
+                self.pause_button.setIcon(icon)
 
 
     def cargar_letra(self, ruta_archivo_lrc):
@@ -389,85 +403,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             self.pausar_musica()
         else:
             self.reproducir_musica(self.lista_de_reproduccion, self.all_songs_list)
-
-    def reproducir_musica(self, lista_de_reproduccion, lista_widget, mixer=pygame.mixer):
-        if lista_de_reproduccion:
-            # Detener la música actual si está reproduciéndose y no está en pausa
-            if mixer.music.get_busy() and not self.paused:
-            # Si la música no está en pausa, detenerla antes de reproducir una nueva canción
-                self.detener_musica()
-
-            # Obtener la canción seleccionada
-            self.indice_actual = self.seleccionar_cancion(lista_widget)
-            if self.indice_actual is not None:
-                ruta_archivo, nombre_cancion, duracion_total = lista_de_reproduccion[self.indice_actual]
-
-                titulo, artista = extraer_info_cancion(ruta_archivo)
-                self.label_titulo_song.setText(titulo)
-                self.label_artista_song.setText(artista)
-                self.actualizar_posicion_texto()
-
-                # Cargar el archivo .lrc correspondiente
-                archivo_lrc = ruta_archivo.replace('.mp3', '.lrc')
-                if os.path.exists(archivo_lrc):
-                    self.actual_current_label_song.clear()
-                    self.cargar_letra(archivo_lrc)
-                else:
-                    self.letras_con_tiempos.clear()
-                    self.actual_current_label_song.setText("Esta canción no tiene letra")
-
-                # Extraer la imagen de los metadatos
-                imagen_data = extraer_imagen(ruta_archivo)
-                if imagen_data:
-                    pixmap = QPixmap()
-                    pixmap.loadFromData(imagen_data)
-                    if not pixmap.isNull():  # Comprobar si el pixmap no es nulo
-                        self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
-                    else:
-                        print("La imagen extraída de los metadatos es nula.")
-                else:
-                    print("No se encontró ninguna imagen en los metadatos.")
-                    pixmap = QPixmap(os.path.join(self.basedir, "icons/icons8-song-100.png"))
-                    self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
-
-
-                if not self.paused:
-                    # Cargar y reproducir la nueva canción seleccionada
-                    self.posicion_absoluta = 0
-                    mixer.music.load(ruta_archivo)
-                    mixer.music.play()
-                    self.slider_song.setRange(0, int(duracion_total))
-                    self.label_12.setText(f"{self.formato_tiempo(duracion_total)}")
-                    self.paused = False
-                    self.timer.start(1000)
-                    icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
-                    self.pause_button.setIcon(icon)
-                    #self.label_current_song.setText(nombre_cancion)  # Actualiza el nombre de la canción en la etiqueta
-                    self.lista_reproducidas.append((ruta_archivo, nombre_cancion, duracion_total))
-                else:
-                    # Reanudar la reproducción si estaba en pausa
-                    mixer.music.unpause()
-                    self.timer.start(1000)
-                    self.paused = False
-                    icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
-                    self.pause_button.setIcon(icon)
-
-    def pausar_musica(self):
-        if pygame.mixer.music.get_busy():
-            if not self.paused:
-                pygame.mixer.music.pause()
-                self.timer.stop()
-                self.paused = True
-                self.was_paused = True  # Registrar que la música estaba pausada antes de pausarla
-                icon = QIcon(os.path.join(self.basedir, "icons/icons8-reproducir-64.png"))
-                self.pause_button.setIcon(icon)
-            else:
-                pygame.mixer.music.unpause()
-                self.timer.start(1000)
-                self.paused = False
-                self.was_paused = False  # Registrar que la música estaba reproduciéndose antes de reanudarla
-                icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
-                self.pause_button.setIcon(icon)
             
 
     def detener_musica(self):

@@ -10,7 +10,10 @@ import os
 import webbrowser
 import pygame
 import random
-from pydub import AudioSegment
+from pydub import AudioSegment, effects
+from pydub.playback import play
+import numpy as np
+import vlc
 
 
 
@@ -50,18 +53,13 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.modo_reproduccion = "secuencial"
 
         self.lista_de_reproduccion = [
-        os.path.join(self.basedir, "canciones/Cual es esa, Feid Pirlo.mp3"),
         os.path.join(self.basedir, "canciones/Ey Chory, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Mionca, Maluma Pirlo.mp3"),
         os.path.join(self.basedir, "canciones/LUNA, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Nadie Como Tu, Wisin & Yandel.mp3"),
-        os.path.join(self.basedir, "canciones/Normal, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Ojitos Chiquitos, Don Omar.mp3"),
-        os.path.join(self.basedir, "canciones/Pa que la pases bien, Arcangel.mp3"),
         os.path.join(self.basedir, "canciones/Remix Exclusivo, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Cinco Noches_ Paquito Guzman (letra)(MP3_128K).mp3"),
-        os.path.join(self.basedir, "canciones/MI TRISTEZA  -  LUIS ALBERTO POSADA (VIDEO OFICIAL)(MP3_128K).mp3"),
-        os.path.join(self.basedir, "canciones/Si sabe Ferxxo, Blessd Feid.mp3"),
         ]
 
         #Conectar botones stacked
@@ -159,14 +157,62 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.slider_song.sliderReleased.connect(self.soltar_slider)
         self.posicion_absoluta = 0
 
-        #Ecualizador
-        self.slider_60.valueChanged.connect(self.actualizar_ecualizador)
-        self.slider_250.valueChanged.connect(self.actualizar_ecualizador)
-        self.slider_1k.valueChanged.connect(self.actualizar_ecualizador)
-        self.slider_4k.valueChanged.connect(self.actualizar_ecualizador)
-        self.slider_16k.valueChanged.connect(self.actualizar_ecualizador)
-        self.dial.valueChanged.connect(self.actualizar_ecualizador)
 
+        self.player = vlc.MediaPlayer()
+        self.equalizer = vlc.AudioEqualizer()
+        self.actualizar_ecualizador()
+
+    def actualizar_ecualizador(self):
+        # Get current equalizer settings
+        gain_60 = self.slider_60.value()
+        gain_250 = self.slider_250.value()
+        gain_1k = self.slider_1k.value()
+        gain_4k = self.slider_4k.value()
+        gain_16k = self.slider_16k.value()
+        overall_gain = self.dial.value()
+
+        # Apply equalizer settings to the current song
+        current_song_path = self.lista_de_reproduccion[self.indice_actual][0]
+        sound = AudioSegment.from_file(current_song_path)
+        
+        # Apply equalizer gains
+        sound = self.apply_gain(sound, 60, gain_60)
+        sound = self.apply_gain(sound, 250, gain_250)
+        sound = self.apply_gain(sound, 1000, gain_1k)
+        sound = self.apply_gain(sound, 4000, gain_4k)
+        sound = self.apply_gain(sound, 16000, gain_16k)
+        sound = sound.apply_gain(overall_gain)
+        
+        # Export the modified sound to a temporary file and play it with pygame
+        temp_file = os.path.join(self.basedir, "temp.wav")
+        sound.export(temp_file, format="wav")
+        pygame.mixer.music.load(temp_file)
+        pygame.mixer.music.play(start=self.posicion_absoluta)
+
+
+    def apply_gain(self, sound, frequency, gain):
+        """
+        Apply gain to a specific frequency using low pass and high pass filters.
+        """
+        if frequency == 60:
+            band = effects.low_pass_filter(sound, frequency)
+        elif frequency == 250:
+            low = effects.low_pass_filter(sound, 500)
+            band = effects.high_pass_filter(low, 250)
+        elif frequency == 1000:
+            low = effects.low_pass_filter(sound, 2000)
+            band = effects.high_pass_filter(low, 1000)
+        elif frequency == 4000:
+            low = effects.low_pass_filter(sound, 8000)
+            band = effects.high_pass_filter(low, 4000)
+        elif frequency == 16000:
+            band = effects.high_pass_filter(sound, frequency)
+        else:
+            band = sound
+        
+        band = band.apply_gain(gain)
+        sound = sound.overlay(band)
+        return sound
 
 
     def cargar_letra(self, ruta_archivo_lrc):
@@ -217,27 +263,39 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
 
     def soltar_slider(self):
-        # extraer el valor del slider y actualizar la cancion
+        # Extraer el valor del slider y actualizar la canción
         self.posicion_absoluta = self.slider_song.value()
-        pygame.mixer.music.set_pos(self.posicion_absoluta)
         posicion_actual = self.slider_song.value()
         self.label_11.setText(f"{self.formato_tiempo(posicion_actual)}")
-        pygame.mixer.music.set_pos(posicion_actual)
-        pygame.mixer.music.unpause()
-        self.timer.start(1000)
-        self.paused = False
-        icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
-        self.pause_button.setIcon(icon)
-        self.actualizar_letra()
-        # Convertir la duración total de la canción en segundos
+
+        # Detener el temporizador mientras se ajusta la posición de reproducción
+        self.timer.stop()
+
+        # Verificar si la música estaba en pausa antes de soltar el slider
+        if pygame.mixer.music.get_busy() and pygame.mixer.music.get_pos() == 0:
+            self.was_paused = True
+        else:
+            self.was_paused = False
+
+        # Si la música estaba reproduciéndose antes de manipular el slider, mantenerla reproduciéndose desde la nueva posición
+        if not self.was_paused:
+            pygame.mixer.music.set_pos(self.posicion_absoluta)
+            pygame.mixer.music.pause()
+            icon = QIcon(os.path.join(self.basedir, "icons/icons8-reproducir-64.png"))
+            self.pause_button.setIcon(icon)
+            self.paused = True
+            self.actualizar_letra()
+            # Reanudar el temporizador
+            self.timer.start(1000)
+            self.pause_button.click()
+            self.pause_button.click()
+
+        # Comprobar si la canción ha terminado
         duracion_total = self.label_12.text()
         minutos, segundos = map(int, duracion_total.split(':'))
         duracion_total_segundos = minutos * 60 + segundos
-        
-        # Comprobar si la canción ha terminado
-        if posicion_actual+1 >= duracion_total_segundos:
+        if posicion_actual + 1 >= duracion_total_segundos:
             self.next_song(self.lista_de_reproduccion, self.all_songs_list)
-
 
     def cambiar_volumen(self, value):
         volumen = value / 100.0
@@ -324,16 +382,23 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         if lista_de_reproduccion:
             # Detener la música actual si está reproduciéndose y no está en pausa
             if mixer.music.get_busy() and not self.paused:
+            # Si la música no está en pausa, detenerla antes de reproducir una nueva canción
                 self.detener_musica()
 
             # Obtener la canción seleccionada
             self.indice_actual = self.seleccionar_cancion(lista_widget)
             if self.indice_actual is not None:
                 ruta_archivo, nombre_cancion, duracion_total = lista_de_reproduccion[self.indice_actual]
+                # Convertir a WAV usando pydub si es necesario
+                if not ruta_archivo.endswith('.wav'):
+                    audio = AudioSegment.from_mp3(ruta_archivo)
+                    ruta_archivo = ruta_archivo.replace('.mp3', '.wav')
+                    audio.export(ruta_archivo, format='wav')
 
                 titulo, artista = extraer_info_cancion(ruta_archivo)
                 self.label_titulo_song.setText(titulo)
                 self.label_artista_song.setText(artista)
+                self.actualizar_posicion_texto()
 
                 # Cargar el archivo .lrc correspondiente
                 archivo_lrc = ruta_archivo.replace('.mp3', '.lrc')
@@ -357,8 +422,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     print("No se encontró ninguna imagen en los metadatos.")
                     pixmap = QPixmap(os.path.join(self.basedir, "icons/icons8-song-100.png"))
                     self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
-
-                self.actualizar_posicion_texto()
 
 
                 if not self.paused:
@@ -388,14 +451,17 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 pygame.mixer.music.pause()
                 self.timer.stop()
                 self.paused = True
+                self.was_paused = True  # Registrar que la música estaba pausada antes de pausarla
                 icon = QIcon(os.path.join(self.basedir, "icons/icons8-reproducir-64.png"))
                 self.pause_button.setIcon(icon)
             else:
                 pygame.mixer.music.unpause()
                 self.timer.start(1000)
                 self.paused = False
+                self.was_paused = False  # Registrar que la música estaba reproduciéndose antes de reanudarla
                 icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
                 self.pause_button.setIcon(icon)
+            
 
     def detener_musica(self):
         pygame.mixer.music.stop()

@@ -1441,6 +1441,7 @@ class Ui_MainWindow(object):
 "")
         self.gridLayout_24 = QGridLayout(self.profile_page)
         self.gridLayout_24.setObjectName(u"gridLayout_24")
+        self.gridLayout_24.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_23 = QGridLayout()
         self.gridLayout_23.setObjectName(u"gridLayout_23")
         self.widget = QWidget(self.profile_page)
@@ -1675,7 +1676,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(5)
         self.stacked_songs.setCurrentIndex(0)
 
 
