@@ -184,13 +184,18 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         # self.visualizer_timer = QTimer(self)
         # self.visualizer_timer.timeout.connect(self.update_visualizer)
         # self.visualizer_timer.start(30)  
-        
+
         # Llenar la lista de favoritos con las canciones marcadas como favoritas
         self.favorite_button.toggled.connect(lambda checked: self.agregar_a_favoritos(checked, self.lista_seleccionada))
         self.lista_seleccionada.itemSelectionChanged.connect(lambda: self.actualizar_estado_boton_favorito(self.lista_seleccionada))
 
         # Conectar señal de cambio de página del QStackedWidget
         self.stacked_songs.currentChanged.connect(self.actualizar_lista_seleccionada)
+
+        #Cambiar nombre perfil
+        self.pushButton.clicked.connect(self.cambiar_letra_nombre)
+
+
 
  
     def actualizar_lista_seleccionada(self, index):
@@ -844,6 +849,11 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
         # Restablecer el valor del spinbox a 0
         self.spin_box_aumentar_letra.setValue(0)
+
+    def cambiar_letra_nombre(self):
+        ok, fuente_dialogo = QFontDialog.getFont()
+        if ok:
+            self.tu_nombre_button.setFont(fuente_dialogo)
 
 
 
