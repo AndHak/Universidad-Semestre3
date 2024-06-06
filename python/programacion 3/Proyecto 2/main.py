@@ -183,7 +183,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         # # Timer to update the visualizer
         # self.visualizer_timer = QTimer(self)
         # self.visualizer_timer.timeout.connect(self.update_visualizer)
-        # self.visualizer_timer.start(30)  
+        # self.visualizer_timer.start(1000)
 
         # Llenar la lista de favoritos con las canciones marcadas como favoritas
         self.favorite_button.toggled.connect(lambda checked: self.agregar_a_favoritos(checked, self.lista_seleccionada))
@@ -194,8 +194,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
         #Cambiar nombre perfil
         self.pushButton.clicked.connect(self.cambiar_letra_nombre)
-
-
 
  
     def actualizar_lista_seleccionada(self, index):
@@ -411,88 +409,96 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             self.reproducir_musica(self.lista_de_reproduccion, self.all_songs_list)
 
     def reproducir_musica(self, lista_de_reproduccion, lista_widget, mixer=pygame.mixer):
-
         if lista_de_reproduccion:
             # Detener la música actual si está reproduciéndose y no está en pausa
             if mixer.music.get_busy() and not self.paused:
             # Si la música no está en pausa, detenerla antes de reproducir una nueva canción
                 self.detener_musica()
 
-            item_seleccionado = lista_widget.currentItem()
-            if item_seleccionado:
-                nombre_cancion = item_seleccionado.text()
-                for ruta_archivo, nombre, duracion_total in lista_de_reproduccion:
-                    if nombre == nombre_cancion:
+            # Obtener la canción seleccionada
+            self.indice_actual = self.seleccionar_cancion(lista_widget)
+            if self.indice_actual is not None:
+                ruta_archivo, nombre_cancion, duracion_total = lista_de_reproduccion[self.indice_actual]
 
-                        titulo, artista = extraer_info_cancion(ruta_archivo)
-                        self.label_titulo_song.setText(titulo)
-                        self.label_artista_song.setText(artista)
-                        self.actualizar_posicion_texto()
+                titulo, artista = extraer_info_cancion(ruta_archivo)
+                self.label_titulo_song.setText(titulo)
+                self.label_artista_song.setText(artista)
+                self.actualizar_posicion_texto()
 
-                        # Cargar el archivo .lrc correspondiente
-                        archivo_lrc = ruta_archivo.replace('.mp3', '.lrc')
-                        if os.path.exists(archivo_lrc):
-                            self.actual_current_label_song.clear()
-                            self.cargar_letra(archivo_lrc)
-                        else:
-                            self.letras_con_tiempos.clear()
-                            self.actual_current_label_song.setText("Esta canción no tiene letra")
+                # Cargar el archivo .lrc correspondiente
+                archivo_lrc = ruta_archivo.replace('.mp3', '.lrc')
+                if os.path.exists(archivo_lrc):
+                    self.actual_current_label_song.clear()
+                    self.cargar_letra(archivo_lrc)
+                else:
+                    self.letras_con_tiempos.clear()
+                    self.actual_current_label_song.setText("Esta canción no tiene letra")
 
-                        # Extraer la imagen de los metadatos
-                        imagen_data = extraer_imagen(ruta_archivo)
-                        if imagen_data:
-                            pixmap = QPixmap()
-                            pixmap.loadFromData(imagen_data)
-                            if not pixmap.isNull():  # Comprobar si el pixmap no es nulo
-                                self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
-                            else:
-                                print("La imagen extraída de los metadatos es nula.")
-                        else:
-                            print("No se encontró ninguna imagen en los metadatos.")
-                            pixmap = QPixmap(os.path.join(self.basedir, "icons/icons8-song-100.png"))
-                            self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
+                # Extraer la imagen de los metadatos
+                imagen_data = extraer_imagen(ruta_archivo)
+                if imagen_data:
+                    pixmap = QPixmap()
+                    pixmap.loadFromData(imagen_data)
+                    if not pixmap.isNull():  # Comprobar si el pixmap no es nulo
+                        self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
+                    else:
+                        print("La imagen extraída de los metadatos es nula.")
+                else:
+                    print("No se encontró ninguna imagen en los metadatos.")
+                    pixmap = QPixmap(os.path.join(self.basedir, "icons/icons8-song-100.png"))
+                    self.label_imagen_song.setPixmap(pixmap.scaled(QSize(60,60)))
 
 
-                        if not self.paused:
-                            # Cargar y reproducir la nueva canción seleccionada
-                            self.posicion_absoluta = 0
-                            mixer.music.load(ruta_archivo)
-                            mixer.music.play()
-                            self.slider_song.setRange(0, int(duracion_total))
-                            self.label_12.setText(f"{self.formato_tiempo(duracion_total)}")
-                            self.paused = False
-                            self.timer.start(1000)
-                            icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
-                            self.pause_button.setIcon(icon)
-                            #self.label_current_song.setText(nombre_cancion)  # Actualiza el nombre de la canción en la etiqueta
-                            self.lista_reproducidas.append((ruta_archivo, nombre_cancion, duracion_total))
-                        else:
-                            # Reanudar la reproducción si estaba en pausa
-                            mixer.music.unpause()
-                            self.timer.start(1000)
-                            self.paused = False
-                            icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
-                            self.pause_button.setIcon(icon)
+                if not self.paused:
+                    # Cargar y reproducir la nueva canción seleccionada
+                    self.posicion_absoluta = 0
+                    mixer.music.load(ruta_archivo)
+                    mixer.music.play()
+                    self.slider_song.setRange(0, int(duracion_total))
+                    self.label_12.setText(f"{self.formato_tiempo(duracion_total)}")
+                    self.paused = False
+                    self.timer.start(1000)
+                    icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
+                    self.pause_button.setIcon(icon)
+                    #self.label_current_song.setText(nombre_cancion)  # Actualiza el nombre de la canción en la etiqueta
+                    self.lista_reproducidas.append((ruta_archivo, nombre_cancion, duracion_total))
+                    self.update_visualizer()
+                else:
+                    # Reanudar la reproducción si estaba en pausa
+                    mixer.music.unpause()
+                    self.timer.start(1000)
+                    self.paused = False
+                    icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
+                    self.pause_button.setIcon(icon)
+
 
     def update_visualizer(self):
         if pygame.mixer.music.get_busy():
-            # Assuming `self.posicion_absoluta` gives the current playback position in seconds
-            pos = self.posicion_absoluta * 1000  # Convert to milliseconds
+            pos = self.posicion_absoluta * 1000  # Convertir a milisegundos
+            audio_file_path = self.lista_de_reproduccion[self.indice_actual][0]  # Ruta del archivo de audio
             
-            # Calculate the sample to start from
-            sound = pygame.mixer.Sound(self.lista_de_reproduccion[self.indice_actual])
-            sample_rate = pygame.mixer.get_init()[0]
-            start_sample = int((pos / 1000) * sample_rate)
+            # Cargar el sonido del archivo
+            sound = pygame.mixer.Sound(audio_file_path)
+            sample_rate = pygame.mixer.get_init()[0]  # Obtener la tasa de muestreo
+            start_sample = int((pos / 1000) * sample_rate)  # Calcular la muestra de inicio
             
-            # Extract raw sound data and compute FFT
+            # Obtener datos de audio en bruto
             raw_data = sound.get_raw()
-            if len(raw_data) > start_sample + self.visualizer.num_bars:
-                samples = np.frombuffer(raw_data[start_sample:start_sample + self.visualizer.num_bars], dtype=np.int16)
-                spectrum = np.abs(np.fft.fft(samples))[:self.visualizer.num_bars]
+            num_samples = self.visualizer.num_bars
+            
+            # Asegurarse de que no se supera el índice de los datos
+            if start_sample + num_samples <= len(raw_data):
+                # Obtener las muestras de audio requeridas
+                samples = np.frombuffer(raw_data[start_sample:start_sample + num_samples], dtype=np.int16)
+                
+                # Calcular el espectro de frecuencia
+                spectrum = np.abs(np.fft.fft(samples))[:num_samples]
                 spectrum /= np.max(spectrum) if np.max(spectrum) != 0 else 1
+                
+                # Actualizar el visualizador con el espectro calculado
                 self.visualizer.update_visualizer(spectrum)
             else:
-                self.visualizer.update_visualizer(np.zeros(self.visualizer.num_bars))
+                self.visualizer.update_visualizer(np.zeros(num_samples))
         else:
             self.visualizer.update_visualizer(np.zeros(self.visualizer.num_bars))
 

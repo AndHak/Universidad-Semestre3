@@ -28,5 +28,8 @@ class VisualizerCanvas(QGraphicsView):
         width = self.width() // self.num_bars
 
         for i, bar in enumerate(self.bars):
-            height = spectrum[i] * self.max_height
-            bar.setRect(i * width, self.height() - height, width - 2, height)
+            if i < len(spectrum):
+                height = spectrum[i] * self.max_height
+                bar.setRect(i * width, self.height() - height, width - 2, height)
+            else:
+                bar.setRect(i * width, self.height(), width - 2, 0)
