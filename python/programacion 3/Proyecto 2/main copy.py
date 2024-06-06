@@ -1,7 +1,6 @@
 from reproductor_de_musica_ui_ui import Ui_MainWindow
 from ventana_nombre_ui import Ui_Dialog_nombre
 from cargar_archivos import CargarArchivosThread
-from visualizador import VisualizerCanvas
 from funciones_de_metadatos import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -11,9 +10,6 @@ import os
 import webbrowser
 import pygame
 import random
-import pyqtgraph as pg
-import numpy as np
-
 
 
 
@@ -32,8 +28,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
         self.setWindowTitle("Pu♩se Music")
         self.setWindowIcon(QIcon(os.path.join(self.basedir, "icons/icons8-music-100.png")))
-
-
 
         self.FPS = 60
         self.RELOG = pygame.time.Clock()
@@ -55,19 +49,17 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.modo_reproduccion = "secuencial"
 
         self.lista_de_reproduccion = [
-        os.path.join(self.basedir, "canciones/Cual es esa, Feid Pirlo.mp3"),
-        os.path.join(self.basedir, "canciones/Ey Chory, Feid.mp3"),
-        os.path.join(self.basedir, "canciones/Mionca, Maluma Pirlo.mp3"),
         os.path.join(self.basedir, "canciones/LUNA, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Nadie Como Tu, Wisin & Yandel.mp3"),
-        os.path.join(self.basedir, "canciones/Normal, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Ojitos Chiquitos, Don Omar.mp3"),
         os.path.join(self.basedir, "canciones/Pa que la pases bien, Arcangel.mp3"),
-        os.path.join(self.basedir, "canciones/Remix Exclusivo, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Cinco Noches_ Paquito Guzman (letra)(MP3_128K).mp3"),
         os.path.join(self.basedir, "canciones/MI TRISTEZA  -  LUIS ALBERTO POSADA (VIDEO OFICIAL)(MP3_128K).mp3"),
-        os.path.join(self.basedir, "canciones/Si sabe Ferxxo, Blessd Feid.mp3"),
         ]
+
+        self.lista_de_favoritos = []
+
+        self.estado_favoritos = {}
 
         #Conectar botones stacked
         self.settings_button.clicked.connect(self.mostrar_pagina_settings)
@@ -104,24 +96,24 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         icon = QIcon(os.path.join(self.basedir, "icons/icons8-reproducir-64.png"))
         self.pause_button.setIcon(icon)
         self.pause_button.setCheckable(True)
-        self.pause_button.toggled.connect(self.button_toggled)
+        # self.pause_button.toggled.connect(self.button_toggled)
         
 
         #inicializar pygame y timer para el qslider principal
-        pygame.mixer.init()
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.actualizar_slider)
+        # pygame.mixer.init()
+        # self.timer = QTimer()
+        # self.timer.timeout.connect(self.actualizar_slider)
         
         #conexion botones para modos de reproduccion
-        self.repeat_button.toggled.connect(self.on_repeat_button_toggled)
-        self.shuffle_button.toggled.connect(self.on_shuffle_button_toggled)
+        # self.repeat_button.toggled.connect(self.on_repeat_button_toggled)
+        # self.shuffle_button.toggled.connect(self.on_shuffle_button_toggled)
 
-        #conexion botones para siguiente o anterior cancion
-        self.next_button.clicked.connect(lambda : self.next_song(self.lista_de_reproduccion, self.all_songs_list))
-        self.previo_button.clicked.connect(lambda: self.cancion_anterior(self.lista_de_reproduccion, self.all_songs_list))
+        # #conexion botones para siguiente o anterior cancion
+        # self.next_button.clicked.connect(lambda : self.next_song(self.lista_de_reproduccion, self.all_songs_list))
+        # self.previo_button.clicked.connect(lambda: self.cancion_anterior(self.lista_de_reproduccion, self.all_songs_list))
 
-        #conectar qlistwidget para reproduccir con doble click
-        self.all_songs_list.itemDoubleClicked.connect(self.reproducir_cancion_seleccionada)
+        # #conectar qlistwidget para reproduccir con doble click
+        # self.all_songs_list.itemDoubleClicked.connect(self.reproducir_cancion_seleccionada)
 
         # Configurar el QSlider para el volumen
         self.slider_volume.setRange(0, 100)
@@ -139,15 +131,11 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         pygame.mixer.music.set_volume(self.slider_volume.value() / 100.0)
         self.update_time()
 
-        #Mostrar widget letra y visualizador
-        self.show_lyrics_button.clicked.connect(self.mostrar_letra)
-        self.show_visualizer_button.clicked.connect(self.mostrar_visualizador)
-
         #conexion de combo para fuente de los labels
         self.fontComboBox.currentFontChanged.connect(self.cambiar_fuente)
 
         #conexion de spinbox para el tamaño de la letra
-        self.spin_box_aumentar_letra.setRange(-5,5)
+        self.spin_box_aumentar_letra.setRange(-2,5)
         self.spin_box_aumentar_letra.setValue(0)
 
         # Guardar las fuentes originales de los QLabel sin ej
@@ -163,19 +151,105 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         # Conectar el signal `valueChanged` del QSpinBox al método `cambiar_tamaño_letra`
         self.spin_box_aumentar_letra.valueChanged.connect(self.cambiar_tamaño_letra)
 
-        #conexion de slider para moverlo
-        self.slider_song.sliderPressed.connect(self.pausar_musica)
-        self.slider_song.sliderReleased.connect(self.soltar_slider)
+
+        pygame.mixer.init()
+        self.timer = QTimer()
+        # self.timer.timeout.connect(self.actualizar_slider)
+
+        self.all_songs_button.clicked.connect(self.cambiar_lista_a_all)
+        self.favorite_songs_button.clicked.connect(self.cambiar_lista_a_favorite)
+        # self.favorite_button.toggled.connect(lambda checked: self.agregar_a_favoritos(checked, lista_widget))
+
+        self.cambiar_lista_a_all()
+
+    def actualizar_estado_boton_favorito(self, lista_widget):
+        item_seleccionado = lista_widget.currentItem()
+        if item_seleccionado:
+            nombre_cancion = item_seleccionado.text()
+            if nombre_cancion in self.estado_favoritos:
+                self.favorite_button.setChecked(self.estado_favoritos[nombre_cancion])
+            else:
+                self.favorite_button.setChecked(False)
+
+
+    def agregar_o_quitar_favorito(self):
+        # Verificar qué lista tiene una canción seleccionada
+        item_seleccionado_all = self.all_songs_list.currentItem()
+        item_seleccionado_favorites = self.favorite_song_list.currentItem()
+
+        if item_seleccionado_all or item_seleccionado_favorites:
+            if item_seleccionado_all:
+                lista_widget = self.all_songs_list
+                item_seleccionado = item_seleccionado_all
+            else:
+                lista_widget = self.favorite_song_list
+                item_seleccionado = item_seleccionado_favorites
+
+            nombre_cancion = item_seleccionado.text()
+            if self.favorite_button.isChecked():
+                # Añadir a favoritos
+                if nombre_cancion not in [self.favorite_song_list.item(i).text() for i in range(self.favorite_song_list.count())]:
+                    self.favorite_song_list.addItem(nombre_cancion)
+                    for cancion in self.lista_de_reproduccion:
+                        if nombre_cancion in cancion:
+                            self.lista_de_favoritos.append(cancion)
+                            break
+                    self.estado_favoritos[nombre_cancion] = True
+            else:
+                # Quitar de favoritos
+                for i in range(self.favorite_song_list.count()):
+                    if self.favorite_song_list.item(i).text() == nombre_cancion:
+                        self.favorite_song_list.takeItem(i)
+                        self.lista_de_favoritos = [cancion for cancion in self.lista_de_favoritos if nombre_cancion not in cancion]
+                        if nombre_cancion in self.estado_favoritos:
+                            del self.estado_favoritos[nombre_cancion]
+                        break
+
+            # Actualizar el estado del botón de favoritos en ambas listas
+            self.actualizar_estado_boton_favorito(self.all_songs_list)
+            self.actualizar_estado_boton_favorito(self.favorite_song_list)
+
+            
+    def cambiar_lista_a_all(self):
+        lista_de_reproduccion = self.lista_de_reproduccion
+        lista_widget = self.all_songs_list
+        self.favorite_song_list.clearSelection()
+        self.reproductor_dinami(lista_de_reproduccion, lista_widget)
+
+    def cambiar_lista_a_favorite(self):
+        lista_de_reproduccion = self.lista_de_favoritos
+        lista_widget = self.favorite_song_list
+        self.all_songs_list.clearSelection()
+        self.reproductor_dinami(lista_de_reproduccion, lista_widget)
+
+    def reproductor_dinami(self, lista_de_reproduccion, lista_widget):
         self.posicion_absoluta = 0
+        self.indice_actual = 0
 
-        #Visualizado
-        #Agregar al widget visualizador_widget
-        self.visualizer = VisualizerCanvas()
-        self.visualizador_layout = QVBoxLayout()
-        self.visualizador_layout.addWidget(self.visualizer)
-        self.visualizador_widget.setLayout(self.visualizador_layout)
+        self.next_button.clicked.connect(lambda: self.next_song(lista_de_reproduccion, lista_widget))
+        self.previo_button.clicked.connect(lambda: self.cancion_anterior(lista_de_reproduccion, lista_widget))
+        lista_widget.itemDoubleClicked.connect(lambda: self.reproducir_cancion_seleccionada(lista_de_reproduccion, lista_widget))
+        self.pause_button.toggled.connect(lambda checked: self.button_toggled(checked, lista_de_reproduccion, lista_widget))
+        self.slider_song.sliderPressed.connect(self.pausar_musica)
+        self.slider_song.sliderReleased.connect(lambda: self.soltar_slider(lista_de_reproduccion, lista_widget))
+        self.repeat_button.toggled.connect(self.on_repeat_button_toggled)
+        self.shuffle_button.toggled.connect(self.on_shuffle_button_toggled)
+
+        lista_widget.itemSelectionChanged.connect(lambda: self.actualizar_estado_boton_favorito(lista_widget))
+        self.favorite_button.clicked.connect(self.agregar_o_quitar_favorito)
+
+        self.timer.timeout.connect(lambda: self.actualizar_slider(lista_de_reproduccion, lista_widget))
 
 
+    def actualizar_estado_boton_favorito(self, lista_widget):
+        item_seleccionado = lista_widget.currentItem()
+        if item_seleccionado:
+            nombre_cancion = item_seleccionado.text()
+            if nombre_cancion in self.estado_favoritos:
+                estado_favorito = self.estado_favoritos[nombre_cancion]
+                self.favorite_button.setChecked(estado_favorito)
+            else:
+                self.favorite_button.setChecked(False)
 
     def cargar_letra(self, ruta_archivo_lrc):
         """Carga y procesa el archivo .lrc"""
@@ -224,7 +298,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             self.after_current_label_song.setText("")
 
 
-    def soltar_slider(self):
+    def soltar_slider(self, lista_de_reproduccion, lista_a_reproducir):
         # Extraer el valor del slider y actualizar la canción
         self.posicion_absoluta = self.slider_song.value()
         posicion_actual = self.slider_song.value()
@@ -257,7 +331,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         minutos, segundos = map(int, duracion_total.split(':'))
         duracion_total_segundos = minutos * 60 + segundos
         if posicion_actual + 1 >= duracion_total_segundos:
-            self.next_song(self.lista_de_reproduccion, self.all_songs_list)
+            self.next_song(lista_de_reproduccion, lista_a_reproducir)
 
     def cambiar_volumen(self, value):
         volumen = value / 100.0
@@ -274,9 +348,10 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             icon = QIcon(os.path.join(self.basedir, "icons/icons8-sound-50.png"))
             self.pushButton_21.setIcon(icon)
 
-    def reproducir_cancion_seleccionada(self):
-        self.reproducir_musica(self.lista_de_reproduccion, self.all_songs_list)
+    def reproducir_cancion_seleccionada(self, lista_con_canciones, lista_a_reproducir):
+        # self.actualizar_estado_boton_favorito()
         self.posicion_absoluta = 0
+        self.reproducir_musica(lista_con_canciones, lista_a_reproducir)
     
     def on_repeat_button_toggled(self, checked):
         if checked:
@@ -301,8 +376,10 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
     def next_song(self, lista_de_reproduccion, lista_widget):
         if lista_de_reproduccion:
             self.posicion_absoluta = 0
+            self.actualizar_estado_boton_favorito(lista_widget)
             print("Modo de reproducción:", self.modo_reproduccion)
             print("Índice actual antes del cambio:", self.indice_actual)
+
             if self.modo_reproduccion == "secuencial":
                 self.indice_actual = (self.indice_actual + 1) % len(lista_de_reproduccion)
             elif self.modo_reproduccion == "aleatorio":
@@ -312,13 +389,17 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 self.indice_actual = nuevo_indice
             elif self.modo_reproduccion == "bucle":
                 self.detener_musica()
-            lista_widget.setCurrentRow(self.indice_actual)
-            print("Índice actual después del cambio:", self.indice_actual)
-            self.reproducir_musica(self.lista_de_reproduccion, self.all_songs_list)
 
-    def cancion_anterior(self, lista_de_reproduccion, lista_widget, mixer=pygame.mixer):
+            # Actualiza la lista actual y reproduce la siguiente canción
+            lista_widget.setCurrentRow(self.indice_actual)
+            # self.actualizar_estado_boton_favorito()
+            print("Índice actual después del cambio:", self.indice_actual)
+            self.reproducir_musica(lista_de_reproduccion, lista_widget)
+
+    def cancion_anterior(self, lista_de_reproduccion, lista_widget):
         if lista_de_reproduccion:
             self.posicion_absoluta = 0
+            self.actualizar_estado_boton_favorito(lista_widget)
             if self.modo_reproduccion == "aleatorio":
                 if len(self.lista_reproducidas) <= 1:
                     return
@@ -331,21 +412,31 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 self.detener_musica()
             else:
                 self.indice_actual = (self.indice_actual - 1) % len(lista_de_reproduccion)
+
+            # Actualiza la lista actual y reproduce la canción anterior
             lista_widget.setCurrentRow(self.indice_actual)
+            # self.actualizar_estado_boton_favorito()
             self.reproducir_musica(lista_de_reproduccion, lista_widget)
 
-    def button_toggled(self, checked):
+    def button_toggled(self, checked, lista_de_reproduccion, lista_a_reproducir):
         if checked:
             self.pausar_musica()
         else:
-            self.reproducir_musica(self.lista_de_reproduccion, self.all_songs_list)
+            #self.actualizar_estado_boton_favorito()
+            self.reproducir_musica(lista_de_reproduccion, lista_a_reproducir)
 
     def reproducir_musica(self, lista_de_reproduccion, lista_widget, mixer=pygame.mixer):
+        #self.actualizar_estado_boton_favorito()
+        
         if lista_de_reproduccion:
             # Detener la música actual si está reproduciéndose y no está en pausa
             if mixer.music.get_busy() and not self.paused:
             # Si la música no está en pausa, detenerla antes de reproducir una nueva canción
                 self.detener_musica()
+
+            # Detener el temporizador si está corriendo
+            if self.timer.isActive():
+                self.timer.stop()
 
             # Obtener la canción seleccionada
             self.indice_actual = self.seleccionar_cancion(lista_widget)
@@ -384,6 +475,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 if not self.paused:
                     # Cargar y reproducir la nueva canción seleccionada
                     self.posicion_absoluta = 0
+                    #self.validar_cancion_favorita()
                     mixer.music.load(ruta_archivo)
                     mixer.music.play()
                     self.slider_song.setRange(0, int(duracion_total))
@@ -394,7 +486,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     self.pause_button.setIcon(icon)
                     #self.label_current_song.setText(nombre_cancion)  # Actualiza el nombre de la canción en la etiqueta
                     self.lista_reproducidas.append((ruta_archivo, nombre_cancion, duracion_total))
-                    self.update_visualizer()
                 else:
                     # Reanudar la reproducción si estaba en pausa
                     mixer.music.unpause()
@@ -402,42 +493,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     self.paused = False
                     icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
                     self.pause_button.setIcon(icon)
-
-
-    def update_visualizer(self):
-        if pygame.mixer.music.get_busy():
-            # Obtener la posición actual de la reproducción
-            pos = pygame.mixer.music.get_pos()
-
-            # Obtener la ruta del archivo de audio actual
-            ruta_archivo, _, _ = self.lista_de_reproduccion[self.indice_actual]
-
-            # Obtener la frecuencia de muestreo del archivo de audio
-            from pydub import AudioSegment
-            audio = AudioSegment.from_file(ruta_archivo)
-            sample_rate = audio.frame_rate
-
-            # Calcular las muestras a partir de la posición actual
-            samples = int(pos * sample_rate // 1000)
-            sound = pygame.mixer.Sound(ruta_archivo)
-            raw_data = np.frombuffer(sound.get_raw(), dtype=np.int16)
-            spectrum = np.abs(np.fft.fft(raw_data[samples:samples+self.visualizer.num_bars]))
-            spectrum = spectrum[:self.visualizer.num_bars]
-
-            # Verificar si hay valores en el espectro
-            max_spectrum = np.max(spectrum)
-            if max_spectrum != 0:
-                spectrum = spectrum / max_spectrum
-            else:
-                spectrum = np.zeros_like(spectrum)  # Asignar un valor predeterminado (ceros)
-
-            # Actualizar el visualizador con las frecuencias
-            self.visualizer.update_visualizer(spectrum)
-        else:
-            # Si no hay música reproduciéndose, limpiar el visualizador
-            empty_spectrum = np.zeros(self.visualizer.num_bars)
-            self.visualizer.update_visualizer(empty_spectrum)
-
 
 
     def pausar_musica(self):
@@ -462,7 +517,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         pygame.mixer.music.stop()
         self.timer.stop()
     
-    def actualizar_slider(self):
+    def actualizar_slider(self, lista_de_reproduccion, lista_widget):
         if pygame.mixer.music.get_busy():
             if self.posicion_absoluta is not None:
                 posicion_actual = self.posicion_absoluta
@@ -480,7 +535,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
             # Comprobar si la canción ha terminado
             if posicion_actual+1 >= duracion_total_segundos:
-                self.next_song(self.lista_de_reproduccion, self.all_songs_list)
+                self.next_song(lista_de_reproduccion, lista_widget)
         else:
             self.timer.stop()
 
@@ -526,12 +581,13 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
     def seleccionar_cancion(self, lista_widget):
         item_seleccionado = lista_widget.currentItem()
+        #self.actualizar_estado_boton_favorito()
         if item_seleccionado:
             indice_seleccionado = lista_widget.row(item_seleccionado)
             self.indice_actual = indice_seleccionado
             return indice_seleccionado
         else:
-            self.all_songs_list.setCurrentRow(0)
+            lista_widget.setCurrentRow(0)
             item_seleccionado = lista_widget.currentItem()
             indice_seleccionado = lista_widget.row(item_seleccionado)
             return indice_seleccionado
@@ -611,12 +667,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
     
     def mostrar_favoritas(self):
         self.stacked_songs.setCurrentWidget(self.favorite_songs_stack)
-
-    def mostrar_visualizador(self):
-        self.stackedWidget_2.setCurrentIndex(1)
-
-    def mostrar_letra(self):
-        self.stackedWidget_2.setCurrentIndex(0)
 
     def abrir_foto_de_perfil(self):
         file_name, _ = QFileDialog.getOpenFileName(self, "Seleccionar imagen", "", "Imágenes (*.png *.xpm *.jpg *.jpeg *.bmp *.gif)")
@@ -735,9 +785,9 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         valor_a_cambiar = self.spin_box_aumentar_letra.value()
 
         # Calcular el nuevo tamaño de la fuente sumando el valor del spinBox
-        before_nuevo = max(8, min(self.font_before_original_copy.pointSize() + valor_a_cambiar, 18))
-        actual_nuevo = max(15, min(self.font_actual_original_copy.pointSize() + valor_a_cambiar, 25))
-        after_nuevo = max(8, min(self.font_after_original_copy.pointSize() + valor_a_cambiar, 18))
+        before_nuevo = max(11, min(self.font_before_original_copy.pointSize() + valor_a_cambiar, 18))
+        actual_nuevo = max(18, min(self.font_actual_original_copy.pointSize() + valor_a_cambiar, 25))
+        after_nuevo = max(11, min(self.font_after_original_copy.pointSize() + valor_a_cambiar, 18))
 
         # Si el valor_a_cambiar lleva el tamaño de la fuente actual por debajo de 15, no lo cambiamos
         if valor_a_cambiar < 0 and actual_nuevo < 15:
