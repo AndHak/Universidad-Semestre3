@@ -1,6 +1,7 @@
 from reproductor_de_musica_ui_ui import Ui_MainWindow
 from ventana_nombre_ui import Ui_Dialog_nombre
 from cargar_archivos import CargarArchivosThread
+from visualizador import VisualizerCanvas
 from funciones_de_metadatos import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -10,10 +11,14 @@ import os
 import webbrowser
 import pygame
 import random
-from pydub import AudioSegment, effects
-from pydub.playback import play
+import pyqtgraph as pg
 import numpy as np
-import vlc
+from pydub import AudioSegment
+
+def get_sample_rate(file_path):
+    audio = AudioSegment.from_file(file_path)
+    return audio.frame_rate
+
 
 
 
@@ -32,6 +37,8 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
         self.setWindowTitle("Pu♩se Music")
         self.setWindowIcon(QIcon(os.path.join(self.basedir, "icons/icons8-music-100.png")))
+
+
 
         self.FPS = 60
         self.RELOG = pygame.time.Clock()
@@ -53,13 +60,18 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.modo_reproduccion = "secuencial"
 
         self.lista_de_reproduccion = [
+        os.path.join(self.basedir, "canciones/Cual es esa, Feid Pirlo.mp3"),
         os.path.join(self.basedir, "canciones/Ey Chory, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Mionca, Maluma Pirlo.mp3"),
         os.path.join(self.basedir, "canciones/LUNA, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Nadie Como Tu, Wisin & Yandel.mp3"),
+        os.path.join(self.basedir, "canciones/Normal, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Ojitos Chiquitos, Don Omar.mp3"),
+        os.path.join(self.basedir, "canciones/Pa que la pases bien, Arcangel.mp3"),
         os.path.join(self.basedir, "canciones/Remix Exclusivo, Feid.mp3"),
         os.path.join(self.basedir, "canciones/Cinco Noches_ Paquito Guzman (letra)(MP3_128K).mp3"),
+        os.path.join(self.basedir, "canciones/MI TRISTEZA  -  LUIS ALBERTO POSADA (VIDEO OFICIAL)(MP3_128K).mp3"),
+        os.path.join(self.basedir, "canciones/Si sabe Ferxxo, Blessd Feid.mp3"),
         ]
 
         #Conectar botones stacked
@@ -132,6 +144,10 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         pygame.mixer.music.set_volume(self.slider_volume.value() / 100.0)
         self.update_time()
 
+        #Mostrar widget letra y visualizador
+        self.show_lyrics_button.clicked.connect(self.mostrar_letra)
+        self.show_visualizer_button.clicked.connect(self.mostrar_visualizador)
+
         #conexion de combo para fuente de los labels
         self.fontComboBox.currentFontChanged.connect(self.cambiar_fuente)
 
@@ -157,62 +173,13 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.slider_song.sliderReleased.connect(self.soltar_slider)
         self.posicion_absoluta = 0
 
+        #Visualizado
+        #Agregar al widget visualizador_widget
+        self.visualizer = VisualizerCanvas()
+        self.visualizador_layout = QVBoxLayout()
+        self.visualizador_layout.addWidget(self.visualizer)
+        self.visualizador_widget.setLayout(self.visualizador_layout)
 
-        self.player = vlc.MediaPlayer()
-        self.equalizer = vlc.AudioEqualizer()
-        self.actualizar_ecualizador()
-
-    def actualizar_ecualizador(self):
-        # Get current equalizer settings
-        gain_60 = self.slider_60.value()
-        gain_250 = self.slider_250.value()
-        gain_1k = self.slider_1k.value()
-        gain_4k = self.slider_4k.value()
-        gain_16k = self.slider_16k.value()
-        overall_gain = self.dial.value()
-
-        # Apply equalizer settings to the current song
-        current_song_path = self.lista_de_reproduccion[self.indice_actual][0]
-        sound = AudioSegment.from_file(current_song_path)
-        
-        # Apply equalizer gains
-        sound = self.apply_gain(sound, 60, gain_60)
-        sound = self.apply_gain(sound, 250, gain_250)
-        sound = self.apply_gain(sound, 1000, gain_1k)
-        sound = self.apply_gain(sound, 4000, gain_4k)
-        sound = self.apply_gain(sound, 16000, gain_16k)
-        sound = sound.apply_gain(overall_gain)
-        
-        # Export the modified sound to a temporary file and play it with pygame
-        temp_file = os.path.join(self.basedir, "temp.wav")
-        sound.export(temp_file, format="wav")
-        pygame.mixer.music.load(temp_file)
-        pygame.mixer.music.play(start=self.posicion_absoluta)
-
-
-    def apply_gain(self, sound, frequency, gain):
-        """
-        Apply gain to a specific frequency using low pass and high pass filters.
-        """
-        if frequency == 60:
-            band = effects.low_pass_filter(sound, frequency)
-        elif frequency == 250:
-            low = effects.low_pass_filter(sound, 500)
-            band = effects.high_pass_filter(low, 250)
-        elif frequency == 1000:
-            low = effects.low_pass_filter(sound, 2000)
-            band = effects.high_pass_filter(low, 1000)
-        elif frequency == 4000:
-            low = effects.low_pass_filter(sound, 8000)
-            band = effects.high_pass_filter(low, 4000)
-        elif frequency == 16000:
-            band = effects.high_pass_filter(sound, frequency)
-        else:
-            band = sound
-        
-        band = band.apply_gain(gain)
-        sound = sound.overlay(band)
-        return sound
 
 
     def cargar_letra(self, ruta_archivo_lrc):
@@ -389,11 +356,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             self.indice_actual = self.seleccionar_cancion(lista_widget)
             if self.indice_actual is not None:
                 ruta_archivo, nombre_cancion, duracion_total = lista_de_reproduccion[self.indice_actual]
-                # Convertir a WAV usando pydub si es necesario
-                if not ruta_archivo.endswith('.wav'):
-                    audio = AudioSegment.from_mp3(ruta_archivo)
-                    ruta_archivo = ruta_archivo.replace('.mp3', '.wav')
-                    audio.export(ruta_archivo, format='wav')
 
                 titulo, artista = extraer_info_cancion(ruta_archivo)
                 self.label_titulo_song.setText(titulo)
@@ -437,6 +399,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     self.pause_button.setIcon(icon)
                     #self.label_current_song.setText(nombre_cancion)  # Actualiza el nombre de la canción en la etiqueta
                     self.lista_reproducidas.append((ruta_archivo, nombre_cancion, duracion_total))
+                    self.update_visualizer()
                 else:
                     # Reanudar la reproducción si estaba en pausa
                     mixer.music.unpause()
@@ -444,6 +407,30 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     self.paused = False
                     icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
                     self.pause_button.setIcon(icon)
+
+    def update_visualizer(self):
+        if pygame.mixer.music.get_busy():
+            # Obtener la posición actual de la reproducción
+            pos = pygame.mixer.music.get_pos()
+
+            # Obtener la frecuencia de muestreo del archivo actual
+            sample_rate = get_sample_rate(self.lista_de_reproduccion[self.indice_actual])
+
+            # Calcular las frecuencias a partir de la posición actual
+            samples = int(pos * sample_rate // 1000)
+            sound = pygame.mixer.Sound(self.lista_de_reproduccion[self.indice_actual])
+            spectrum = np.abs(np.fft.fft(sound.get_raw()[samples:samples+self.visualizer.num_bars]))
+            spectrum = spectrum[:self.visualizer.num_bars]
+            spectrum = spectrum / np.max(spectrum)
+
+            # Actualizar el visualizador con las frecuencias
+            self.visualizer.update_visualizer(spectrum)
+        else:
+            # Si no hay música reproduciéndose, limpiar el visualizador
+            empty_spectrum = np.zeros(self.visualizer.num_bars)
+            self.visualizer.update_visualizer(empty_spectrum)
+
+
 
     def pausar_musica(self):
         if pygame.mixer.music.get_busy():
@@ -521,21 +508,11 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             self.cargar_archivos_thread.start()
 
     def procesar_archivos_cargados(self, archivos, lista_de_reproduccion, lista_widget):
-        archivos_convertidos = []
         for archivo in archivos:
-            try:
-                audio = AudioSegment.from_file(archivo)
-                archivo_wav = os.path.splitext(archivo)[0] + '.wav'
-                audio.export(archivo_wav, format="wav")
-                archivos_convertidos.append(archivo_wav)
-            except Exception as e:
-                print(f"Error al convertir {archivo}: {e}")
-
-        for archivo in archivos_convertidos:
             duracion = self.obtener_duracion(archivo)
             nombre_cancion = os.path.basename(archivo)  # Obtener solo el nombre del archivo sin la ruta
             lista_de_reproduccion.append((archivo, nombre_cancion, duracion))  # Agregar la duración también
-        lista_widget.addItems([os.path.basename(archivo) for archivo in archivos_convertidos])  # Mostrar el nombre de la canción en el QListWidget
+        lista_widget.addItems([os.path.basename(archivo) for archivo in archivos])  # Mostrar el nombre de la canción en el QListWidget
         self.progress_dialog.close()
 
 
@@ -626,6 +603,12 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
     
     def mostrar_favoritas(self):
         self.stacked_songs.setCurrentWidget(self.favorite_songs_stack)
+
+    def mostrar_visualizador(self):
+        self.stackedWidget_2.setCurrentIndex(1)
+
+    def mostrar_letra(self):
+        self.stackedWidget_2.setCurrentIndex(0)
 
     def abrir_foto_de_perfil(self):
         file_name, _ = QFileDialog.getOpenFileName(self, "Seleccionar imagen", "", "Imágenes (*.png *.xpm *.jpg *.jpeg *.bmp *.gif)")

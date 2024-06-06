@@ -1,6 +1,7 @@
 from reproductor_de_musica_ui_ui import Ui_MainWindow
 from ventana_nombre_ui import Ui_Dialog_nombre
 from cargar_archivos import CargarArchivosThread
+from visualizador import VisualizerCanvas
 from funciones_de_metadatos import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -10,6 +11,9 @@ import os
 import webbrowser
 import pygame
 import random
+import pyqtgraph as pg
+import numpy as np
+
 
 
 
@@ -28,6 +32,8 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
         self.setWindowTitle("Pu♩se Music")
         self.setWindowIcon(QIcon(os.path.join(self.basedir, "icons/icons8-music-100.png")))
+
+
 
         self.FPS = 60
         self.RELOG = pygame.time.Clock()
@@ -133,6 +139,10 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         pygame.mixer.music.set_volume(self.slider_volume.value() / 100.0)
         self.update_time()
 
+        #Mostrar widget letra y visualizador
+        self.show_lyrics_button.clicked.connect(self.mostrar_letra)
+        self.show_visualizer_button.clicked.connect(self.mostrar_visualizador)
+
         #conexion de combo para fuente de los labels
         self.fontComboBox.currentFontChanged.connect(self.cambiar_fuente)
 
@@ -157,6 +167,14 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.slider_song.sliderPressed.connect(self.pausar_musica)
         self.slider_song.sliderReleased.connect(self.soltar_slider)
         self.posicion_absoluta = 0
+
+        #Visualizado
+        #Agregar al widget visualizador_widget
+        self.visualizer = VisualizerCanvas()
+        self.visualizador_layout = QVBoxLayout()
+        self.visualizador_layout.addWidget(self.visualizer)
+        self.visualizador_widget.setLayout(self.visualizador_layout)
+
 
 
     def cargar_letra(self, ruta_archivo_lrc):
@@ -376,6 +394,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     self.pause_button.setIcon(icon)
                     #self.label_current_song.setText(nombre_cancion)  # Actualiza el nombre de la canción en la etiqueta
                     self.lista_reproducidas.append((ruta_archivo, nombre_cancion, duracion_total))
+                    self.update_visualizer()
                 else:
                     # Reanudar la reproducción si estaba en pausa
                     mixer.music.unpause()
@@ -383,6 +402,27 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     self.paused = False
                     icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
                     self.pause_button.setIcon(icon)
+
+    def update_visualizer(self):
+        if pygame.mixer.music.get_busy():
+            # Obtener la posición actual de la reproducción
+            pos = pygame.mixer.music.get_pos()
+            
+            # Calcular las frecuencias a partir de la posición actual
+            samples = int(pos * pygame.mixer.get_frequency() // 1000)
+            sound = pygame.mixer.Sound(self.lista_de_reproduccion[self.indice_actual])
+            spectrum = np.abs(np.fft.fft(sound.get_raw()[samples:samples+self.visualizer.num_bars]))
+            spectrum = spectrum[:self.visualizer.num_bars]
+            spectrum = spectrum / np.max(spectrum)
+
+            # Actualizar el visualizador con las frecuencias
+            self.visualizer.update_visualizer(spectrum)
+        else:
+            # Si no hay música reproduciéndose, limpiar el visualizador
+            empty_spectrum = np.zeros(self.visualizer.num_bars)
+            self.visualizer.update_visualizer(empty_spectrum)
+
+
 
     def pausar_musica(self):
         if pygame.mixer.music.get_busy():
@@ -555,6 +595,12 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
     
     def mostrar_favoritas(self):
         self.stacked_songs.setCurrentWidget(self.favorite_songs_stack)
+
+    def mostrar_visualizador(self):
+        self.stackedWidget_2.setCurrentIndex(1)
+
+    def mostrar_letra(self):
+        self.stackedWidget_2.setCurrentIndex(0)
 
     def abrir_foto_de_perfil(self):
         file_name, _ = QFileDialog.getOpenFileName(self, "Seleccionar imagen", "", "Imágenes (*.png *.xpm *.jpg *.jpeg *.bmp *.gif)")

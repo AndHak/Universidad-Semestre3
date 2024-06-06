@@ -1,33 +1,56 @@
-import os
-from pydub import AudioSegment
+import pygame
+import numpy as np
+import pyaudio
+import struct
 
-# Verifica si ffmpeg y ffprobe están en la ruta especificada
-ffmpeg_path = r"C:\Users\andre\Downloads\FFMpeg\ffmpeg-2024-06-03-git-77ad449911-full_build\ffmpeg-2024-06-03-git-77ad449911-full_build\bin\ffmpeg.exe"
-ffprobe_path = r"C:\Users\andre\Downloads\FFMpeg\ffmpeg-2024-06-03-git-77ad449911-full_build\ffmpeg-2024-06-03-git-77ad449911-full_build\bin\ffprobe.exe"
+class AudioProcessor:
+    def __init__(self):
+        pygame.mixer.init()
 
-if not os.path.isfile(ffmpeg_path):
-    raise FileNotFoundError(f"ffmpeg no se encuentra en la ruta especificada: {ffmpeg_path}")
-if not os.path.isfile(ffprobe_path):
-    raise FileNotFoundError(f"ffprobe no se encuentra en la ruta especificada: {ffprobe_path}")
+    def play_music(self, file_path):
+        pygame.mixer.music.load(file_path)
+        pygame.mixer.music.play()
 
-AudioSegment.converter = ffmpeg_path
-AudioSegment.ffprobe = ffprobe_path
+    def stop_music(self):
+        pygame.mixer.music.stop()
 
-def reproducir_musica(lista_de_reproduccion, all_songs_list):
-    # Aquí debes proporcionar la ruta correcta al archivo de audio
-    ruta_archivo = lista_de_reproduccion[0]  # Ejemplo: "C:/ruta/al/archivo.mp3"
-    
-    # Verifica si el archivo de audio existe
-    if not os.path.isfile(ruta_archivo):
-        raise FileNotFoundError(f"El archivo de audio no se encuentra en la ruta especificada: {ruta_archivo}")
-    
-    try:
-        # Cargar el archivo de audio
-        current_audio_segment = AudioSegment.from_file(ruta_archivo)
-        # Aquí iría el código para reproducir la música
-        print("Archivo de audio cargado correctamente") 
-    except Exception as e:
-        print(f"Error al cargar el archivo de audio: {e}")
+class Visualizer:
+    def __init__(self, audio_processor):
+        self.audio_processor = audio_processor
+        self.chunk = 1024
+        self.FORMAT = pyaudio.paInt16
+        self.CHANNELS = 1
+        self.RATE = 44100
 
-# Llamar a la función para reproducir música
-reproducir_musica([os.path.join(os.path.dirname(__file__), "canciones/Cinco Noches_ Paquito Guzman (letra)(MP3_128K).mp3")], [])
+    def start_visualization(self):
+        p = pyaudio.PyAudio()
+        stream = p.open(format=self.FORMAT,
+                        channels=self.CHANNELS,
+                        rate=self.RATE,
+                        input=True,
+                        output=True,
+                        frames_per_buffer=self.chunk)
+
+        while True:
+            data = stream.read(self.chunk)
+            decoded_data = np.array(struct.unpack(f"{self.chunk}h", data))
+
+            # Aplicar ecualización aquí
+
+            # Calcular la FFT
+            fft_data = np.fft.fft(decoded_data)
+            freqs = np.fft.fftfreq(len(decoded_data), 1 / self.RATE)
+            freqs = freqs[:len(freqs) // 2]
+            fft_data = np.abs(fft_data[:len(fft_data) // 2]) * 2 / (32768 * len(decoded_data))
+
+            # Visualizar la FFT (puedes usar matplotlib para esto)
+            # Aquí puedes crear tu visualizador de frecuencia
+
+        stream.stop_stream()
+        stream.close()
+        p.terminate()
+
+# Uso
+audio_processor = AudioProcessor()
+visualizer = Visualizer(audio_processor)
+visualizer.start_visualization()

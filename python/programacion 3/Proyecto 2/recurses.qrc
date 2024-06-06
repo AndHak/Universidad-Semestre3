@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="icons">
+    <file>icons/icons8-audio-wave-application-for-editing-and-playback-24.png</file>
+    <file>icons/icons8-songs-and-lyrics-on-the-music-application-24.png</file>
+    <file>icons/icons8-edit-30.png</file>
     <file>icons/icons8-no-audio-64.png</file>
     <file>icons/icons8-reproducir-64.png</file>
     <file>icons/icons8-plus-64.png</file>

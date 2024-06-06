@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1243</width>
-    <height>787</height>
+    <width>1254</width>
+    <height>825</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_12">
+   <layout class="QGridLayout" name="gridLayout_17">
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -27,7 +27,7 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <item>
+    <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="styleSheet">
        <string notr="true">background-color: rgb(251, 249, 255);
@@ -37,7 +37,7 @@
        <enum>QFrame::Plain</enum>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="setting_page">
        <property name="cursor">
@@ -440,7 +440,7 @@ border-radius: 30px;
                <cursorShape>PointingHandCursor</cursorShape>
               </property>
               <property name="text">
-               <string>ecualizador</string>
+               <string>Ajuste de caratula</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -809,7 +809,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Roboto','sans-serif'; font-size:12pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Roboto','sans-serif'; font-size:12pt;&quot;&gt;Acerca de la app:&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Roboto','sans-serif'; font-size:12pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Roboto','sans-serif'; font-size:12pt;&quot;&gt;es una app diseñada para que escuches tu musica con una interfaz agradable a la vista, con la cualidad de cambiar a modo oscuro o claro segun la preferencia del usuario, personalizable en la seleccion de la letra y el tamaño de esta, tienes la cualidad de que agregues tus canciones favoritas, cambiar de cancion en modo aleatorio o activar la repeticion continua de una&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Roboto','sans-serif'; font-size:12pt;&quot;&gt;es una app diseñada para que escuches tu musica con una interfaz agradable a la vista, con la cualidad de personalizable en la seleccion de la letra y el tamaño de esta, tienes la cualidad de que agregues tus canciones favoritas, cambiar de cancion en modo aleatorio o activar la repeticion continua, cambiar el tamaño del visualizador y escoger entre ver letra y ver el visualizador&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Roboto','sans-serif'; font-size:12pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Roboto','sans-serif'; font-size:12pt;&quot;&gt;Contactos:&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Roboto','sans-serif'; font-size:12pt;&quot;&gt;afmartinez23a@udenar.edu.co&lt;/span&gt;&lt;/p&gt;
@@ -965,541 +965,304 @@ QSlider::sub-page:vertical {
 }
 </string>
        </property>
-       <layout class="QGridLayout" name="gridLayout_21" rowstretch="0,0">
-        <property name="leftMargin">
-         <number>50</number>
-        </property>
-        <property name="topMargin">
-         <number>50</number>
-        </property>
-        <property name="rightMargin">
-         <number>100</number>
-        </property>
-        <property name="bottomMargin">
-         <number>100</number>
-        </property>
-        <property name="spacing">
-         <number>40</number>
-        </property>
+       <layout class="QGridLayout" name="gridLayout_19">
         <item row="0" column="0">
-         <widget class="QPushButton" name="back_to_config_equalizer">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
+         <layout class="QGridLayout" name="gridLayout_16">
+          <property name="leftMargin">
+           <number>20</number>
           </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-	border: none;
-	background: transparent;
-}</string>
+          <property name="topMargin">
+           <number>20</number>
           </property>
-          <property name="text">
-           <string/>
+          <property name="rightMargin">
+           <number>20</number>
           </property>
-          <property name="icon">
-           <iconset resource="recurses.qrc">
-            <normaloff>:/icons/icons/icons8-back-100.png</normaloff>:/icons/icons/icons8-back-100.png</iconset>
+          <property name="horizontalSpacing">
+           <number>100</number>
           </property>
-          <property name="iconSize">
-           <size>
-            <width>40</width>
-            <height>40</height>
-           </size>
+          <property name="verticalSpacing">
+           <number>50</number>
           </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <layout class="QGridLayout" name="gridLayout_20">
-          <property name="spacing">
-           <number>30</number>
-          </property>
-          <item row="0" column="0">
-           <widget class="QComboBox" name="combo_box_equalizer">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+          <item row="3" column="2">
+           <spacer name="verticalSpacer_15">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
-            <property name="minimumSize">
+            <property name="sizeType">
+             <enum>QSizePolicy::MinimumExpanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
              <size>
-              <width>300</width>
-              <height>30</height>
+              <width>20</width>
+              <height>40</height>
              </size>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>300</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="sizeIncrement">
-             <size>
-              <width>300</width>
-              <height>0</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>Plane</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Bass</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Vocal</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Clasical</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>User</string>
-             </property>
-            </item>
-           </widget>
+           </spacer>
           </item>
-          <item row="1" column="2">
-           <layout class="QGridLayout" name="gridLayout_19">
-            <item row="0" column="0">
-             <widget class="QDial" name="dial">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>100</height>
-               </size>
-              </property>
-              <property name="acceptDrops">
-               <bool>false</bool>
-              </property>
-              <property name="minimum">
-               <number>-10</number>
-              </property>
-              <property name="maximum">
-               <number>10</number>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_equalizer_ganancia">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>30</height>
-               </size>
-              </property>
+          <item row="1" column="1">
+           <spacer name="verticalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="0">
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <property name="spacing">
+             <number>15</number>
+            </property>
+            <property name="leftMargin">
+             <number>20</number>
+            </property>
+            <property name="topMargin">
+             <number>20</number>
+            </property>
+            <property name="rightMargin">
+             <number>20</number>
+            </property>
+            <property name="bottomMargin">
+             <number>20</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label">
               <property name="text">
-               <string>Ganancia</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
+               <string>Ajusta el tamaño del visualiador</string>
               </property>
              </widget>
             </item>
-           </layout>
-          </item>
-          <item row="1" column="0" rowspan="3">
-           <layout class="QGridLayout" name="gridLayout_8">
-            <item row="0" column="0">
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <item>
-               <widget class="QLabel" name="label_equalizer_12dbmas">
-                <property name="text">
-                 <string>+ 12 dB</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_4">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::MinimumExpanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_equalizer_0db">
+            <item>
+             <layout class="QGridLayout" name="gridLayout_15">
+              <item row="0" column="0">
+               <widget class="QDial" name="dial">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="text">
-                 <string>0 dB</string>
-                </property>
                </widget>
               </item>
-              <item>
-               <spacer name="verticalSpacer_8">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::MinimumExpanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item alignment="Qt::AlignTop">
-               <widget class="QLabel" name="label_equalizer_12dbmenos">
+              <item row="1" column="0" alignment="Qt::AlignHCenter|Qt::AlignBottom">
+               <widget class="QLabel" name="label_2">
                 <property name="text">
-                 <string>- 12 dB</string>
+                 <string>Tamaño</string>
                 </property>
                </widget>
               </item>
              </layout>
             </item>
-            <item row="0" column="1" rowspan="2">
-             <widget class="QSlider" name="slider_60">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+           </layout>
+          </item>
+          <item row="0" column="0" colspan="3">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QPushButton" name="back_to_config_equalizer">
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
               </property>
-              <property name="minimumSize">
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+	border: none;
+	background: transparent;
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="recurses.qrc">
+                <normaloff>:/icons/icons/icons8-back-100.png</normaloff>:/icons/icons/icons8-back-100.png</iconset>
+              </property>
+              <property name="iconSize">
                <size>
-                <width>0</width>
-                <height>300</height>
+                <width>40</width>
+                <height>40</height>
                </size>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>500</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-12</number>
-              </property>
-              <property name="maximum">
-               <number>12</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="invertedAppearance">
-               <bool>false</bool>
+              <property name="checkable">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
-            <item row="0" column="2">
-             <spacer name="horizontalSpacer_14">
+            <item>
+             <spacer name="horizontalSpacer_12">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>40</width>
+                <width>1088</width>
                 <height>20</height>
                </size>
               </property>
              </spacer>
-            </item>
-            <item row="0" column="3" rowspan="2">
-             <widget class="QSlider" name="slider_250">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>300</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>500</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-12</number>
-              </property>
-              <property name="maximum">
-               <number>12</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="invertedAppearance">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="4">
-             <spacer name="horizontalSpacer_15">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="0" column="5" rowspan="2">
-             <widget class="QSlider" name="slider_1k">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>300</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>500</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-12</number>
-              </property>
-              <property name="maximum">
-               <number>12</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="invertedAppearance">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="6">
-             <spacer name="horizontalSpacer_16">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="0" column="7" rowspan="2">
-             <widget class="QSlider" name="slider_4k">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>300</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>500</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-12</number>
-              </property>
-              <property name="maximum">
-               <number>12</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="invertedAppearance">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="8">
-             <spacer name="horizontalSpacer_17">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="0" column="9" rowspan="2">
-             <widget class="QSlider" name="slider_16k">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>300</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>500</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <number>-12</number>
-              </property>
-              <property name="maximum">
-               <number>12</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="invertedAppearance">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1" alignment="Qt::AlignTop">
-             <widget class="QLabel" name="label_equalizer_60">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>60 Hz</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="3" alignment="Qt::AlignTop">
-             <widget class="QLabel" name="label_equalizer_250">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>250 Hz</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="5" alignment="Qt::AlignTop">
-             <widget class="QLabel" name="label_equalizer_1k">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>1000 Hz</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="7" alignment="Qt::AlignTop">
-             <widget class="QLabel" name="label_equalizer_4k">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>4000 Hz</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="9" alignment="Qt::AlignTop">
-             <widget class="QLabel" name="label_equalizer_16k">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>16000 Hz</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
             </item>
            </layout>
           </item>
-          <item row="1" column="1">
-           <spacer name="horizontalSpacer_12">
+          <item row="2" column="1" colspan="2">
+           <widget class="QWidget" name="widget_ejemplo_2" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QWidget {
+background-color: rgb(226, 224, 239);
+border-radius: 30px;
+}
+</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_8">
+             <item row="2" column="0">
+              <spacer name="horizontalSpacer_14">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Minimum</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>90</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="0" column="0" colspan="2">
+              <layout class="QHBoxLayout" name="horizontalLayout">
+               <item>
+                <widget class="QLabel" name="label_15">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="pixmap">
+                  <pixmap resource="recurses.qrc">:/icons/icons/icons8-music-100.png</pixmap>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_pulse_2">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Verdana</family>
+                   <pointsize>20</pointsize>
+                   <bold>false</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Pu♩se!</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="1" column="1">
+              <spacer name="verticalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Minimum</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>50</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="2" column="3">
+              <spacer name="horizontalSpacer_15">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Minimum</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>90</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="3" column="2">
+              <spacer name="verticalSpacer_16">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Minimum</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>50</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="2" column="1" colspan="2">
+              <widget class="QFrame" name="frame_visualizador">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>400</width>
+                 <height>200</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_31"/>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <spacer name="horizontalSpacer_16">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Preferred</enum>
+             <enum>QSizePolicy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>100</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
@@ -1544,7 +1307,7 @@ QPushButton:selected {
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QGridLayout" name="gridLayout_17">
+          <layout class="QGridLayout" name="gridLayout_30">
            <property name="leftMargin">
             <number>0</number>
            </property>
@@ -1557,11 +1320,8 @@ QPushButton:selected {
            <property name="bottomMargin">
             <number>0</number>
            </property>
-           <property name="horizontalSpacing">
+           <property name="spacing">
             <number>20</number>
-           </property>
-           <property name="verticalSpacing">
-            <number>10</number>
            </property>
            <item row="0" column="0" colspan="3">
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1836,134 +1596,222 @@ QPushButton:selected {
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QWidget" name="letra_widget" native="true">
+            <widget class="QStackedWidget" name="stackedWidget_2">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>10</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="minimumSize">
-              <size>
-               <width>500</width>
-               <height>0</height>
-              </size>
-             </property>
              <property name="styleSheet">
               <string notr="true">QWidget {
+    background-color: rgb(226, 224, 239);
+    border-radius: 30px;
+}
+
+QListWidget {
+    font-size: 14px; /* Tamaño de la letra */
+    padding: 5px;  /* Espacio interior del widget */
+}
+
+QListWidget::item {
+    height: 30px;  /* Altura de los elementos */
+    padding: 5px;  /* Espacio interior de los elementos */
+    border: 1px solid transparent; /* Borde transparente para el padding */
+}
+
+QListWidget::item:selected {
+    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */
+    color: black; /* Color de la letra para el elemento seleccionado */
+}
+
+QListWidget::item:hover {
+    background-color: #7a78a0; /* Color de fondo cuando el mouse está sobre el elemento */
+    color: black; /* Color de la letra cuando el mouse está sobre el elemento */
+}
+</string>
+             </property>
+             <property name="currentIndex">
+              <number>1</number>
+             </property>
+             <widget class="QWidget" name="letra">
+              <layout class="QGridLayout" name="gridLayout_21">
+               <item row="0" column="0">
+                <widget class="QWidget" name="letra_widget" native="true">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>10</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>500</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QWidget {
 background-color: rgb(226, 224, 239);
 border-radius: 30px;
 }</string>
-             </property>
-             <layout class="QGridLayout" name="gridLayout">
-              <property name="leftMargin">
-               <number>40</number>
-              </property>
-              <property name="topMargin">
-               <number>30</number>
-              </property>
-              <property name="rightMargin">
-               <number>40</number>
-              </property>
-              <property name="bottomMargin">
-               <number>30</number>
-              </property>
-              <property name="horizontalSpacing">
-               <number>15</number>
-              </property>
-              <property name="verticalSpacing">
-               <number>50</number>
-              </property>
-              <item row="0" column="0">
-               <spacer name="verticalSpacer_9">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>126</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="before_current_label_song">
-                <property name="font">
-                 <font>
-                  <pointsize>13</pointsize>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color: rgb(131, 131, 131);</string>
-                </property>
-                <property name="text">
-                 <string>Soy la letra de tu cancion antes</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="actual_current_label_song">
-                <property name="font">
-                 <font>
-                  <pointsize>20</pointsize>
-                  <fontweight>ExtraBold</fontweight>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Soy la letra de tu cancion actual</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="after_current_label_song">
-                <property name="font">
-                 <font>
-                  <pointsize>13</pointsize>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color: rgb(131, 131, 131);</string>
-                </property>
-                <property name="text">
-                 <string>Soy la letra de tu cancion despues</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <spacer name="verticalSpacer_10">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>125</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_29">
+                  <property name="leftMargin">
+                   <number>40</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>30</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>40</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>30</number>
+                  </property>
+                  <property name="horizontalSpacing">
+                   <number>15</number>
+                  </property>
+                  <property name="verticalSpacing">
+                   <number>60</number>
+                  </property>
+                  <item row="0" column="0">
+                   <spacer name="verticalSpacer_9">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>126</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="before_current_label_song">
+                    <property name="font">
+                     <font>
+                      <pointsize>13</pointsize>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(131, 131, 131);</string>
+                    </property>
+                    <property name="text">
+                     <string>Soy la letra de tu cancion antes</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="actual_current_label_song">
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                      <fontweight>ExtraBold</fontweight>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Soy la letra de tu cancion actual</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="after_current_label_song">
+                    <property name="font">
+                     <font>
+                      <pointsize>13</pointsize>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(131, 131, 131);</string>
+                    </property>
+                    <property name="text">
+                     <string>Soy la letra de tu cancion despues</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <spacer name="verticalSpacer_10">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>125</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="visualizador">
+              <layout class="QGridLayout" name="gridLayout_20">
+               <item row="0" column="0">
+                <widget class="QWidget" name="visualizador_widget" native="true">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>10</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>500</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>ArrowCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QWidget {
+background-color: rgb(226, 224, 239);
+border-radius: 30px;
+}</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_32">
+                  <property name="leftMargin">
+                   <number>20</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>20</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>20</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>20</number>
+                  </property>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </widget>
            </item>
            <item row="1" column="2">
@@ -2006,14 +1854,14 @@ QListWidget::item:hover {
               <number>0</number>
              </property>
              <widget class="QWidget" name="all_songs_stack">
-              <layout class="QVBoxLayout" name="verticalLayout_11">
+              <layout class="QGridLayout" name="gridLayout">
                <property name="leftMargin">
                 <number>20</number>
                </property>
                <property name="topMargin">
                 <number>20</number>
                </property>
-               <item>
+               <item row="0" column="0">
                 <widget class="QLabel" name="all_songs_label_stack">
                  <property name="font">
                   <font>
@@ -2026,10 +1874,10 @@ QListWidget::item:hover {
                  </property>
                 </widget>
                </item>
-               <item>
+               <item row="1" column="0" colspan="2">
                 <widget class="QListWidget" name="all_songs_list"/>
                </item>
-               <item alignment="Qt::AlignRight">
+               <item row="2" column="1" alignment="Qt::AlignRight">
                 <widget class="QPushButton" name="cargar_canciones_button">
                  <property name="cursor">
                   <cursorShape>PointingHandCursor</cursorShape>
@@ -2152,11 +2000,11 @@ border-radius: 30px;
                   <enum>Qt::Horizontal</enum>
                  </property>
                  <property name="sizeType">
-                  <enum>QSizePolicy::Maximum</enum>
+                  <enum>QSizePolicy::Minimum</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>40</width>
+                   <width>20</width>
                    <height>20</height>
                   </size>
                  </property>
@@ -2165,8 +2013,88 @@ border-radius: 30px;
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_5">
                  <property name="spacing">
-                  <number>5</number>
+                  <number>6</number>
                  </property>
+                 <item>
+                  <widget class="QPushButton" name="show_visualizer_button">
+                   <property name="minimumSize">
+                    <size>
+                     <width>40</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>9</pointsize>
+                    </font>
+                   </property>
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="recurses.qrc">
+                     <normaloff>:/icons/icons/icons8-audio-wave-application-for-editing-and-playback-24.png</normaloff>:/icons/icons/icons8-audio-wave-application-for-editing-and-playback-24.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>25</width>
+                     <height>25</height>
+                    </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="autoExclusive">
+                    <bool>true</bool>
+                   </property>
+                   <property name="autoDefault">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="show_lyrics_button">
+                   <property name="minimumSize">
+                    <size>
+                     <width>40</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>9</pointsize>
+                    </font>
+                   </property>
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="recurses.qrc">
+                     <normaloff>:/icons/icons/icons8-songs-and-lyrics-on-the-music-application-24.png</normaloff>:/icons/icons/icons8-songs-and-lyrics-on-the-music-application-24.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>25</width>
+                     <height>25</height>
+                    </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="autoExclusive">
+                    <bool>true</bool>
+                   </property>
+                   <property name="autoDefault">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
                  <item>
                   <widget class="QPushButton" name="pushButton_21">
                    <property name="minimumSize">
@@ -2269,11 +2197,11 @@ QSlider::add-page:horizontal {
                     <enum>Qt::Horizontal</enum>
                    </property>
                    <property name="sizeType">
-                    <enum>QSizePolicy::Maximum</enum>
+                    <enum>QSizePolicy::Preferred</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
-                     <width>80</width>
+                     <width>40</width>
                      <height>20</height>
                     </size>
                    </property>
@@ -2712,11 +2640,11 @@ QSlider::add-page:horizontal {
                   <enum>Qt::Horizontal</enum>
                  </property>
                  <property name="sizeType">
-                  <enum>QSizePolicy::Preferred</enum>
+                  <enum>QSizePolicy::Minimum</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>40</width>
+                   <width>20</width>
                    <height>20</height>
                   </size>
                  </property>
@@ -2804,22 +2732,6 @@ QCheckBox::indicator:checked {
              <property name="bottomMargin">
               <number>40</number>
              </property>
-             <item row="1" column="3">
-              <spacer name="horizontalSpacer">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Expanding</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>400</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
              <item row="0" column="1" rowspan="2">
               <widget class="QPushButton" name="boton_foto_de_perfil">
                <property name="cursor">
@@ -2845,6 +2757,22 @@ QCheckBox::indicator:checked {
                 <bool>true</bool>
                </property>
               </widget>
+             </item>
+             <item row="1" column="4">
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>400</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
              </item>
              <item row="0" column="2" rowspan="2">
               <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2947,6 +2875,23 @@ QCheckBox::indicator:checked {
                </item>
               </layout>
              </item>
+             <item row="0" column="3">
+              <widget class="QPushButton" name="pushButton">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="recurses.qrc">
+                 <normaloff>:/icons/icons/icons8-edit-30.png</normaloff>:/icons/icons/icons8-edit-30.png</iconset>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </item>
@@ -2994,7 +2939,7 @@ QCheckBox::indicator:checked {
                  </font>
                 </property>
                 <property name="text">
-                 <string>Agrega tu nonbre</string>
+                 <string>Agrega tu nombre</string>
                 </property>
                </widget>
               </item>
@@ -3081,7 +3026,7 @@ QCheckBox::indicator:checked {
                  </font>
                 </property>
                 <property name="text">
-                 <string>Añade 5 canciones a favoritas</string>
+                 <string>Añade canciones a favoritas</string>
                 </property>
                </widget>
               </item>
@@ -3220,7 +3165,6 @@ QProgressBar::chunk:hover {
   </widget>
  </widget>
  <resources>
-  <include location="recurses.qrc"/>
   <include location="recurses.qrc"/>
  </resources>
  <connections/>
