@@ -70,6 +70,8 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         os.path.join(self.basedir, "canciones/Si sabe Ferxxo, Blessd Feid.mp3"),
         ]
 
+        self.lista_de_reproduccion_fav = []
+
         #Conectar botones stacked
         self.settings_button.clicked.connect(self.mostrar_pagina_settings)
         self.back_to_home_settings.clicked.connect(self.mostrar_pagina_principal)
@@ -122,6 +124,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         #conexion botones para siguiente o anterior cancion
         self.next_button.clicked.connect(lambda : self.next_song(self.lista_de_reproduccion, self.lista_seleccionada))
         self.previo_button.clicked.connect(lambda: self.cancion_anterior(self.lista_de_reproduccion, self.lista_seleccionada))
+
 
         #conectar qlistwidget para reproduccir con doble click
         self.all_songs_list.itemDoubleClicked.connect(self.reproducir_cancion_seleccionada)
@@ -183,7 +186,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         # # Timer to update the visualizer
         # self.visualizer_timer = QTimer(self)
         # self.visualizer_timer.timeout.connect(self.update_visualizer)
-        # self.visualizer_timer.start(30)
+        # self.visualizer_timer.start(1000)
 
         # Llenar la lista de favoritos con las canciones marcadas como favoritas
         self.favorite_button.toggled.connect(lambda checked: self.agregar_a_favoritos(checked, self.lista_seleccionada))
@@ -199,18 +202,21 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
     def actualizar_lista_seleccionada(self, index):
         if self.stacked_songs.currentWidget() == self.all_songs_stack:
             self.lista_seleccionada = self.all_songs_list
+            self.actualizar_estado_boton_favorito(self.lista_seleccionada)
         elif self.stacked_songs.currentWidget() == self.favorite_songs_stack:
             self.lista_seleccionada = self.favorite_song_list
+            self.actualizar_estado_boton_favorito(self.lista_seleccionada)
         self.actualizar_estado_boton_favorito(self.lista_seleccionada)
-        self.lista_seleccionada.clearSelection()
     
     def mostrar_all_songs(self):
         self.stacked_songs.setCurrentWidget(self.all_songs_stack)
+        self.actualizar_estado_boton_favorito(self.lista_seleccionada)
     
     def mostrar_favoritas(self):
         self.stacked_songs.setCurrentWidget(self.favorite_songs_stack)
+        self.actualizar_estado_boton_favorito(self.lista_seleccionada)
 
-    ####Agregar a favoritos
+
     def agregar_a_favoritos(self, checked, lista_widget):
         item_seleccionado = lista_widget.currentItem()
         if item_seleccionado:
@@ -220,12 +226,18 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 if nombre_cancion not in [self.favorite_song_list.item(i).text() for i in range(self.favorite_song_list.count())]:
                     self.favorite_song_list.addItem(nombre_cancion)
                     self.estado_favoritos[nombre_cancion] = True  # Actualizar estado
+                    for i, (ruta_archivo, nombre, duracion_total) in enumerate(self.lista_de_reproduccion):
+                        if nombre == nombre_cancion:
+                            self.lista_de_reproduccion_fav.append(self.lista_de_reproduccion[i])
             else:
                 # Eliminar de favoritos si está en la lista
                 items_a_eliminar = self.favorite_song_list.findItems(nombre_cancion, Qt.MatchExactly)
                 for item in items_a_eliminar:
                     self.favorite_song_list.takeItem(self.favorite_song_list.row(item))
-                    self.estado_favoritos[nombre_cancion] = False  # Actualizar estado
+                    self.estado_favoritos[nombre_cancion] = False 
+                    for i, (ruta_archivo, nombre, duracion_total) in enumerate(self.lista_de_reproduccion):
+                        if nombre == nombre_cancion:
+                            self.lista_de_reproduccion_fav.remove(self.lista_de_reproduccion[i])
 
         self.actualizar_estado_boton_favorito(lista_widget)
 
@@ -325,7 +337,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         minutos, segundos = map(int, duracion_total.split(':'))
         duracion_total_segundos = minutos * 60 + segundos
         if posicion_actual + 1 >= duracion_total_segundos:
-            self.next_song(self.lista_de_reproduccion, self.all_songs_list)
+            self.next_song(self.lista_de_reproduccion, self.lista_seleccionada)
 
     def cambiar_volumen(self, value):
         volumen = value / 100.0
@@ -343,8 +355,12 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             self.pushButton_21.setIcon(icon)
 
     def reproducir_cancion_seleccionada(self):
-        self.reproducir_musica(self.lista_de_reproduccion, self.lista_seleccionada)
-        self.posicion_absoluta = 0
+        item_seleccionado = self.lista_seleccionada.currentItem()
+        if item_seleccionado:
+            self.indice_actual = self.lista_seleccionada.row(item_seleccionado)
+            self.reproducir_musica(self.lista_de_reproduccion, self.lista_seleccionada)
+            self.posicion_absoluta = 0
+
     
     def on_repeat_button_toggled(self, checked):
         if checked:
@@ -364,55 +380,62 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             
         else:
             self.modo_reproduccion = "secuencial"  # Si se desactiva, volver al modo secuencial
-            
+
+
+
     def next_song(self, lista_de_reproduccion, lista_widget):
-        if lista_de_reproduccion:
-            item_seleccionado = lista_widget.currentItem()
-            if item_seleccionado:
-                nombre_cancion_actual = item_seleccionado.text()
-                indice_actual = None
-                for i, (ruta_archivo, nombre_cancion, duracion_total) in enumerate(lista_de_reproduccion):
-                    if nombre_cancion == nombre_cancion_actual:
-                        indice_actual = i
-                        break
-                if indice_actual is not None:
-                    if self.modo_reproduccion == "secuencial":
-                        indice_siguiente = (indice_actual + 1) % lista_widget.count()
-                    elif self.modo_reproduccion == "aleatorio":
-                        indice_siguiente = random.randint(0, lista_widget.count() - 1)
-                    elif self.modo_reproduccion == "bucle":
-                        indice_siguiente = indice_actual
-                    nombre_cancion_siguiente = lista_widget.item(indice_siguiente).text()
-                    items_siguiente = lista_widget.findItems(nombre_cancion_siguiente, Qt.MatchExactly)
-                    if items_siguiente:
-                        item_siguiente = items_siguiente[0]
-                        lista_widget.setCurrentItem(item_siguiente)
-                        self.reproducir_musica(lista_de_reproduccion, lista_widget)
+        if lista_widget == self.favorite_song_list:
+            lista_de_reproduccion = self.lista_de_reproduccion_fav
+        else:
+            lista_de_reproduccion = self.lista_de_reproduccion
 
-    def previous_song(self, lista_de_reproduccion, lista_widget):
         if lista_de_reproduccion:
-            item_seleccionado = lista_widget.currentItem()
-            if item_seleccionado:
-                nombre_cancion_actual = item_seleccionado.text()
-                indice_actual = None
-                for i, (ruta_archivo, nombre_cancion, duracion_total) in enumerate(lista_de_reproduccion):
-                    if nombre_cancion == nombre_cancion_actual:
-                        indice_actual = i
-                        break
-                if indice_actual is not None:
-                    if self.modo_reproduccion == "aleatorio":
-                        return  # Not handling previous song in random mode
-                    elif self.modo_reproduccion == "bucle":
-                        indice_anterior = indice_actual
-                    else:
-                        indice_anterior = (indice_actual - 1) % lista_widget.count()
-                    nombre_cancion_anterior = lista_widget.item(indice_anterior).text()
-                    items_anterior = lista_widget.findItems(nombre_cancion_anterior, Qt.MatchExactly)
-                    if items_anterior:
-                        item_anterior = items_anterior[0]
-                        lista_widget.setCurrentItem(item_anterior)
-                        self.reproducir_musica(lista_de_reproduccion, lista_widget)
+            self.posicion_absoluta = 0
+            self.actualizar_estado_boton_favorito(lista_widget)
+            print("Modo de reproducción:", self.modo_reproduccion)
+            print("Índice actual antes del cambio:", self.indice_actual)
 
+            if self.modo_reproduccion == "secuencial":
+                self.indice_actual = (self.indice_actual + 1) % len(lista_de_reproduccion)
+            elif self.modo_reproduccion == "aleatorio":
+                nuevo_indice = self.indice_actual
+                while nuevo_indice == self.indice_actual:
+                    nuevo_indice = random.randint(0, len(lista_de_reproduccion) - 1)
+                self.indice_actual = nuevo_indice
+            elif self.modo_reproduccion == "bucle":
+                self.detener_musica()
+
+            # Actualiza la lista actual y reproduce la siguiente canción
+            lista_widget.setCurrentRow(self.indice_actual)
+            # self.actualizar_estado_boton_favorito()
+            print("Índice actual después del cambio:", self.indice_actual)
+            self.reproducir_musica(lista_de_reproduccion, lista_widget)
+
+    def cancion_anterior(self, lista_de_reproduccion, lista_widget, mixer=pygame.mixer):
+        if lista_widget == self.favorite_song_list:
+            lista_de_reproduccion = self.lista_de_reproduccion_fav
+        else:
+            lista_de_reproduccion = self.lista_de_reproduccion
+        if lista_de_reproduccion:
+            self.posicion_absoluta = 0
+            self.actualizar_estado_boton_favorito(lista_widget)
+            if self.modo_reproduccion == "aleatorio":
+                if len(self.lista_reproducidas) <= 1:
+                    return
+                # Eliminar la canción actual de la lista de reproducidas
+                self.lista_reproducidas.pop()
+                # Establecer la canción anterior como la actual
+                ruta_archivo, nombre_cancion, duracion_total = self.lista_reproducidas[-1]
+                self.indice_actual = lista_de_reproduccion.index((ruta_archivo, nombre_cancion, duracion_total))
+            elif self.modo_reproduccion == "bucle":
+                self.detener_musica()
+            else:
+                self.indice_actual = (self.indice_actual - 1) % len(lista_de_reproduccion)
+
+            # Actualiza la lista actual y reproduce la canción anterior
+            lista_widget.setCurrentRow(self.indice_actual)
+            # self.actualizar_estado_boton_favorito()
+            self.reproducir_musica(lista_de_reproduccion, lista_widget)
 
 
     def button_toggled(self, checked):
@@ -485,24 +508,38 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                             icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
                             self.pause_button.setIcon(icon)
 
+            
 
     def update_visualizer(self):
         if pygame.mixer.music.get_busy():
-            pos = self.posicion_absoluta * 1000  # Convert to milliseconds
-            sound = pygame.mixer.Sound(self.lista_de_reproduccion[self.indice_actual])
-            sample_rate = pygame.mixer.get_init()[0]
-            start_sample = int((pos / 1000) * sample_rate)
+            pos = self.posicion_absoluta * 1000  # Convertir a milisegundos
+            audio_file_path = self.lista_de_reproduccion[self.indice_actual][0]  # Ruta del archivo de audio
+            
+            # Cargar el sonido del archivo
+            sound = pygame.mixer.Sound(audio_file_path)
+            sample_rate = pygame.mixer.get_init()[0]  # Obtener la tasa de muestreo
+            start_sample = int((pos / 1000) * sample_rate)  # Calcular la muestra de inicio
+            
+            # Obtener datos de audio en bruto
             raw_data = sound.get_raw()
-
-            if len(raw_data) > start_sample + self.visualizer.num_bars:
-                samples = np.frombuffer(raw_data[start_sample:start_sample + self.visualizer.num_bars], dtype=np.int16)
-                spectrum = np.abs(np.fft.fft(samples))[:self.visualizer.num_bars]
+            num_samples = self.visualizer.num_bars
+            
+            # Asegurarse de que no se supera el índice de los datos
+            if start_sample + num_samples <= len(raw_data):
+                # Obtener las muestras de audio requeridas
+                samples = np.frombuffer(raw_data[start_sample:start_sample + num_samples], dtype=np.int16)
+                
+                # Calcular el espectro de frecuencia
+                spectrum = np.abs(np.fft.fft(samples))[:num_samples]
                 spectrum /= np.max(spectrum) if np.max(spectrum) != 0 else 1
+                
+                # Actualizar el visualizador con el espectro calculado
                 self.visualizer.update_visualizer(spectrum)
             else:
-                self.visualizer.update_visualizer(np.zeros(self.visualizer.num_bars))
+                self.visualizer.update_visualizer(np.zeros(num_samples))
         else:
             self.visualizer.update_visualizer(np.zeros(self.visualizer.num_bars))
+
 
 
     def pausar_musica(self):
@@ -545,7 +582,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
             # Comprobar si la canción ha terminado
             if posicion_actual+1 >= duracion_total_segundos:
-                self.next_song(self.lista_de_reproduccion, self.all_songs_list)
+                self.next_song(self.lista_de_reproduccion, self.lista_seleccionada)
         else:
             self.timer.stop()
 
@@ -588,6 +625,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         lista_widget.addItems([os.path.basename(archivo) for archivo in archivos])  # Mostrar el nombre de la canción en el QListWidget
         self.progress_dialog.close()
 
+        
 
     def formato_tiempo(self, segundos):
         segundos = float(segundos)  # Convertir a flotante si es una cadena de texto
@@ -849,7 +887,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         ok, fuente_dialogo = QFontDialog.getFont()
         if ok:
             self.tu_nombre_button.setFont(fuente_dialogo)
-
 
 
 if __name__ == "__main__":
