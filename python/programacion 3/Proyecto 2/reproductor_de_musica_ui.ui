@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1254</width>
-    <height>825</height>
+    <width>1284</width>
+    <height>833</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -965,327 +965,230 @@ QSlider::sub-page:vertical {
 }
 </string>
        </property>
-       <layout class="QGridLayout" name="gridLayout_19">
-        <item row="1" column="0">
-         <layout class="QGridLayout" name="gridLayout_16">
-          <property name="leftMargin">
-           <number>20</number>
-          </property>
-          <property name="topMargin">
-           <number>20</number>
-          </property>
-          <property name="rightMargin">
-           <number>20</number>
-          </property>
-          <property name="horizontalSpacing">
-           <number>100</number>
-          </property>
-          <property name="verticalSpacing">
-           <number>50</number>
-          </property>
-          <item row="0" column="0" colspan="3">
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QPushButton" name="back_to_config_equalizer">
-              <property name="cursor">
-               <cursorShape>PointingHandCursor</cursorShape>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
+       <layout class="QGridLayout" name="gridLayout_16">
+        <item row="0" column="0" colspan="5">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="back_to_config_equalizer">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
 	border: none;
 	background: transparent;
 }</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="recurses.qrc">
-                <normaloff>:/icons/icons/icons8-back-100.png</normaloff>:/icons/icons/icons8-back-100.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>40</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_12">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>1088</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="recurses.qrc">
+              <normaloff>:/icons/icons/icons8-back-100.png</normaloff>:/icons/icons/icons8-back-100.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>40</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
-          <item row="3" column="3">
-           <spacer name="horizontalSpacer_16">
+          <item>
+           <spacer name="horizontalSpacer_12">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Expanding</enum>
-            </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>97</width>
-              <height>435</height>
+              <width>1088</width>
+              <height>20</height>
              </size>
             </property>
            </spacer>
           </item>
-          <item row="3" column="0">
-           <layout class="QVBoxLayout" name="verticalLayout_5">
-            <property name="spacing">
-             <number>15</number>
-            </property>
-            <property name="leftMargin">
-             <number>20</number>
-            </property>
-            <property name="topMargin">
-             <number>20</number>
-            </property>
-            <property name="rightMargin">
-             <number>20</number>
-            </property>
-            <property name="bottomMargin">
-             <number>20</number>
-            </property>
-            <item>
-             <layout class="QGridLayout" name="gridLayout_15">
-              <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignBottom">
-               <widget class="QLabel" name="label_2">
-                <property name="text">
-                 <string>Tamaño</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QDial" name="dial">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimum">
-                 <number>1</number>
-                </property>
-                <property name="maximum">
-                 <number>5</number>
-                </property>
-                <property name="wrapping">
-                 <bool>false</bool>
-                </property>
-                <property name="notchesVisible">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0" alignment="Qt::AlignHCenter">
-               <widget class="QLabel" name="label">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Ajusta el tamaño del visualiador</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-          <item row="4" column="2">
-           <spacer name="verticalSpacer_15">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::MinimumExpanding</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="2">
-           <spacer name="verticalSpacer_8">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="3" column="2">
-           <widget class="QWidget" name="widget_ejemplo_2" native="true">
+         </layout>
+        </item>
+        <item row="1" column="2">
+         <spacer name="verticalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>157</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="2" column="0">
+         <spacer name="horizontalSpacer_14">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>245</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="2" column="1">
+         <layout class="QGridLayout" name="gridLayout_8">
+          <property name="verticalSpacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="styleSheet">
-             <string notr="true">QWidget {
-background-color: rgb(226, 224, 239);
-border-radius: 30px;
-}
-</string>
+            <property name="text">
+             <string>Ajusta la velocidad de los frames</string>
             </property>
-            <layout class="QGridLayout" name="gridLayout_33">
-             <item row="2" column="0">
-              <spacer name="horizontalSpacer_17">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Minimum</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>90</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="0" column="0" colspan="2">
-              <layout class="QHBoxLayout" name="horizontalLayout_9">
-               <item>
-                <widget class="QLabel" name="label_16">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="pixmap">
-                  <pixmap resource="recurses.qrc">:/icons/icons/icons8-music-100.png</pixmap>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_pulse_3">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Verdana</family>
-                   <pointsize>20</pointsize>
-                   <bold>false</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Pu♩se!</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="1" column="1">
-              <spacer name="verticalSpacer_19">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Minimum</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>50</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="2" column="3">
-              <spacer name="horizontalSpacer_20">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Minimum</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>90</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="3" column="2">
-              <spacer name="verticalSpacer_20">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Minimum</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>50</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="2" column="1" colspan="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-              <widget class="QFrame" name="frame_visualizador_ejemplo">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>400</width>
-                 <height>200</height>
-                </size>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-               <layout class="QGridLayout" name="gridLayout_34"/>
-              </widget>
-             </item>
-            </layout>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QDial" name="dial_size">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimum">
+             <number>10</number>
+            </property>
+            <property name="maximum">
+             <number>50</number>
+            </property>
+            <property name="singleStep">
+             <number>1</number>
+            </property>
+            <property name="value">
+             <number>30</number>
+            </property>
+            <property name="invertedAppearance">
+             <bool>false</bool>
+            </property>
+            <property name="invertedControls">
+             <bool>true</bool>
+            </property>
+            <property name="wrapping">
+             <bool>false</bool>
+            </property>
+            <property name="notchesVisible">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string/>
+            </property>
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="2" column="3">
+         <layout class="QGridLayout" name="gridLayout_15">
+          <item row="2" column="0">
+           <widget class="QDial" name="dial_number">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimum">
+             <number>10</number>
+            </property>
+            <property name="maximum">
+             <number>50</number>
+            </property>
+            <property name="wrapping">
+             <bool>false</bool>
+            </property>
+            <property name="notchesVisible">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Numero de spectros</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="4">
+         <spacer name="horizontalSpacer_16">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>245</width>
+            <height>432</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="3" column="2">
+         <spacer name="verticalSpacer_15">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>157</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="2" column="2">
+         <spacer name="horizontalSpacer_15">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -1801,7 +1704,19 @@ border-radius: 30px;
              </widget>
              <widget class="QWidget" name="visualizador">
               <layout class="QGridLayout" name="gridLayout_20">
-               <item row="0" column="0">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item row="0" column="0" alignment="Qt::AlignHCenter">
                 <widget class="QWidget" name="visualizador_widget" native="true">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -1811,7 +1726,7 @@ border-radius: 30px;
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>500</width>
+                   <width>550</width>
                    <height>0</height>
                   </size>
                  </property>
@@ -1824,20 +1739,6 @@ background-color: rgb(226, 224, 239);
 border-radius: 30px;
 }</string>
                  </property>
-                 <layout class="QGridLayout" name="gridLayout_32">
-                  <property name="leftMargin">
-                   <number>20</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>20</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>20</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>20</number>
-                  </property>
-                 </layout>
                 </widget>
                </item>
               </layout>

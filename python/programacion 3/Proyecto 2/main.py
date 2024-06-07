@@ -1,7 +1,7 @@
 from reproductor_de_musica_ui_ui import Ui_MainWindow
 from ventana_nombre_ui import Ui_Dialog_nombre
 from cargar_archivos import CargarArchivosThread
-from visualizador import VisualizerCanvas
+from visualizador import *
 from funciones_de_metadatos import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -11,11 +11,6 @@ import os
 import webbrowser
 import pygame
 import random
-import pyqtgraph as pg
-import numpy as np
-import sounddevice as sd
-
-
 
 
 
@@ -32,13 +27,11 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
-
         self.setWindowTitle("Pu♩se Music")
         self.setWindowIcon(QIcon(os.path.join(self.basedir, "icons/icons8-music-100.png")))
 
 
-
-        self.FPS = 60
+        self.FPS = 90
         self.RELOG = pygame.time.Clock()
         self.RELOG.tick(self.FPS)
 
@@ -179,8 +172,11 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.slider_song.sliderReleased.connect(self.soltar_slider)
         self.posicion_absoluta = 0
 
-        #--------------------------------
 
+        #--------------------------------
+        self.visualizador_principal = None
+        self.visualizador_layout = QVBoxLayout()
+        self.visualizador_widget.setLayout(self.visualizador_layout)
 
 
         # Conectar señal de cambio de página del QStackedWidget
@@ -190,10 +186,10 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.favorite_button.toggled.connect(lambda checked: self.agregar_a_favoritos(checked, self.lista_seleccionada))
         self.lista_seleccionada.itemSelectionChanged.connect(lambda: self.actualizar_estado_boton_favorito(self.lista_seleccionada))
 
+        self.mostrar_all_songs()
 
         #Cambiar nombre perfil
         self.pushButton.clicked.connect(self.cambiar_letra_nombre)
-
 
 
  
@@ -503,6 +499,30 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                             self.pause_button.setIcon(icon)
                             #self.label_current_song.setText(nombre_cancion)  # Actualiza el nombre de la canción en la etiqueta
                             self.lista_reproducidas.append((ruta_archivo, nombre_cancion, duracion_total))
+
+                                                    # Obtener datos de audio y actualizar el visualizador
+                            self.datos_audio, temp_wav_path = obtener_datos_audio(ruta_archivo)
+                            self.tamaño_frame = 100 * self.dial_size.value()
+                            self.total_frames = len(self.datos_audio) // self.tamaño_frame
+                            self.num_barras = 1 * self.dial_number.value()
+                            self.sensibilidad = 1000
+
+                            # Eliminar el visualizador anterior si existe
+                            if self.visualizador_principal is not None:
+                                self.visualizador_layout.removeWidget(self.visualizador_principal)
+                                self.visualizador_principal.deleteLater()
+                                self.visualizador_principal = None
+
+                            # Crear una instancia nueva del WidgetVisualizador
+                            self.visualizador_principal = WidgetVisualizador(
+                                self.datos_audio,
+                                self.total_frames,
+                                self.tamaño_frame,
+                                self.num_barras,
+                                self.sensibilidad
+                            )
+                            self.visualizador_layout.addWidget(self.visualizador_principal)
+
                         else:
                             # Reanudar la reproducción si estaba en pausa
                             mixer.music.unpause()
@@ -510,38 +530,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                             self.paused = False
                             icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
                             self.pause_button.setIcon(icon)
-
-            
-
-    def update_visualizer(self):
-        if pygame.mixer.music.get_busy():
-            pos = self.posicion_absoluta * 1000  # Convertir a milisegundos
-            audio_file_path = self.lista_de_reproduccion[self.indice_actual][0]  # Ruta del archivo de audio
-            
-            # Cargar el sonido del archivo
-            sound = pygame.mixer.Sound(audio_file_path)
-            sample_rate = pygame.mixer.get_init()[0]  # Obtener la tasa de muestreo
-            start_sample = int((pos / 1000) * sample_rate)  # Calcular la muestra de inicio
-            
-            # Obtener datos de audio en bruto
-            raw_data = sound.get_raw()
-            num_samples = self.visualizer.num_bars
-            
-            # Asegurarse de que no se supera el índice de los datos
-            if start_sample + num_samples <= len(raw_data):
-                # Obtener las muestras de audio requeridas
-                samples = np.frombuffer(raw_data[start_sample:start_sample + num_samples], dtype=np.int16)
-                
-                # Calcular el espectro de frecuencia
-                spectrum = np.abs(np.fft.fft(samples))[:num_samples]
-                spectrum /= np.max(spectrum) if np.max(spectrum) != 0 else 1
-                
-                # Actualizar el visualizador con el espectro calculado
-                self.visualizer.update_visualizer(spectrum)
-            else:
-                self.visualizer.update_visualizer(np.zeros(num_samples))
-        else:
-            self.visualizer.update_visualizer(np.zeros(self.visualizer.num_bars))
 
 
 
@@ -554,6 +542,8 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 self.was_paused = True  # Registrar que la música estaba pausada antes de pausarla
                 icon = QIcon(os.path.join(self.basedir, "icons/icons8-reproducir-64.png"))
                 self.pause_button.setIcon(icon)
+                if self.visualizador_principal is not None:
+                    self.visualizador_principal.detener_visualizador()
             else:
                 pygame.mixer.music.unpause()
                 self.timer.start(1000)
@@ -561,6 +551,8 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 self.was_paused = False  # Registrar que la música estaba reproduciéndose antes de reanudarla
                 icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
                 self.pause_button.setIcon(icon)
+                if self.visualizador_principal is not None:
+                    self.visualizador_principal.reanudar_visualizador()
             
 
     def detener_musica(self):
@@ -580,12 +572,16 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
             # Convertir la duración total de la canción en segundos
             duracion_total = self.label_12.text()
             minutos, segundos = map(int, duracion_total.split(':'))
-            duracion_total_segundos = minutos * 60 + segundos
+            duracion_total_segundos = minutos * 60 + segundos - 2
             self.actualizar_letra()
 
             # Comprobar si la canción ha terminado
-            if posicion_actual+1 >= duracion_total_segundos:
+            if posicion_actual+2 >= duracion_total_segundos:
                 self.next_song(self.lista_de_reproduccion, self.lista_seleccionada)
+
+            if self.visualizador_principal is not None:
+                frame = int((posicion_actual / duracion_total_segundos) * self.visualizador_principal.total_frames)
+                self.visualizador_principal.actualizar_frame(frame)
         else:
             self.timer.stop()
 
