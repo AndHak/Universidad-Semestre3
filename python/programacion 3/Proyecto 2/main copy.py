@@ -355,7 +355,8 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
     def reproducir_cancion_seleccionada(self):
         self.reproducir_musica(self.lista_de_reproduccion, self.lista_seleccionada)
-        self.posicion_absoluta = self.lista_seleccionada.indexFromItem()
+        self.posicion_absoluta = 0
+        self.indice_actual = self.lista_seleccionada.currentItem()
     
     def on_repeat_button_toggled(self, checked):
         if checked:
@@ -620,18 +621,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         lista_widget.addItems([os.path.basename(archivo) for archivo in archivos])  # Mostrar el nombre de la canción en el QListWidget
         self.progress_dialog.close()
 
-
-    def seleccionar_cancion(self, lista_widget):
-        item_seleccionado = lista_widget.currentItem()
-        if item_seleccionado:
-            indice_seleccionado = lista_widget.row(item_seleccionado)
-            self.indice_actual = indice_seleccionado
-            return indice_seleccionado
-        else:
-            self.all_songs_list.setCurrentRow(0)
-            item_seleccionado = lista_widget.currentItem()
-            indice_seleccionado = lista_widget.row(item_seleccionado)
-            return indice_seleccionado
+        
 
     def formato_tiempo(self, segundos):
         segundos = float(segundos)  # Convertir a flotante si es una cadena de texto
