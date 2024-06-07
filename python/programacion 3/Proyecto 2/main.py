@@ -188,33 +188,33 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         # self.visualizer_timer.timeout.connect(self.update_visualizer)
         # self.visualizer_timer.start(1000)
 
+        # Conectar señal de cambio de página del QStackedWidget
+        self.stacked_songs.currentChanged.connect(self.actualizar_lista_seleccionada)
+
         # Llenar la lista de favoritos con las canciones marcadas como favoritas
         self.favorite_button.toggled.connect(lambda checked: self.agregar_a_favoritos(checked, self.lista_seleccionada))
         self.lista_seleccionada.itemSelectionChanged.connect(lambda: self.actualizar_estado_boton_favorito(self.lista_seleccionada))
 
-        # Conectar señal de cambio de página del QStackedWidget
-        self.stacked_songs.currentChanged.connect(self.actualizar_lista_seleccionada)
 
         #Cambiar nombre perfil
         self.pushButton.clicked.connect(self.cambiar_letra_nombre)
 
+
  
     def actualizar_lista_seleccionada(self, index):
+        self.actualizar_estado_boton_favorito(self.lista_seleccionada)
         if self.stacked_songs.currentWidget() == self.all_songs_stack:
             self.lista_seleccionada = self.all_songs_list
-            self.actualizar_estado_boton_favorito(self.lista_seleccionada)
         elif self.stacked_songs.currentWidget() == self.favorite_songs_stack:
             self.lista_seleccionada = self.favorite_song_list
-            self.actualizar_estado_boton_favorito(self.lista_seleccionada)
-        self.actualizar_estado_boton_favorito(self.lista_seleccionada)
     
     def mostrar_all_songs(self):
-        self.stacked_songs.setCurrentWidget(self.all_songs_stack)
         self.actualizar_estado_boton_favorito(self.lista_seleccionada)
+        self.stacked_songs.setCurrentWidget(self.all_songs_stack)
     
     def mostrar_favoritas(self):
-        self.stacked_songs.setCurrentWidget(self.favorite_songs_stack)
         self.actualizar_estado_boton_favorito(self.lista_seleccionada)
+        self.stacked_songs.setCurrentWidget(self.favorite_songs_stack)
 
 
     def agregar_a_favoritos(self, checked, lista_widget):
