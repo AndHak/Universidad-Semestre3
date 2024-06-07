@@ -356,7 +356,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
     def reproducir_cancion_seleccionada(self):
         self.reproducir_musica(self.lista_de_reproduccion, self.lista_seleccionada)
         self.posicion_absoluta = 0
-        self.indice_actual = self.lista_seleccionada.currentItem()
     
     def on_repeat_button_toggled(self, checked):
         if checked:
