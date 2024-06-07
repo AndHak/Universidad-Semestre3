@@ -13,6 +13,9 @@ import pygame
 import random
 import pyqtgraph as pg
 import numpy as np
+import sounddevice as sd
+
+
 
 
 
@@ -176,17 +179,9 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.slider_song.sliderReleased.connect(self.soltar_slider)
         self.posicion_absoluta = 0
 
-        #Visualizado
-        #Agregar al widget visualizador_widget
-        self.visualizer = VisualizerCanvas()
-        self.visualizador_layout = QVBoxLayout()
-        self.visualizador_layout.addWidget(self.visualizer)
-        self.visualizador_widget.setLayout(self.visualizador_layout)
+        #--------------------------------
 
-        # # Timer to update the visualizer
-        # self.visualizer_timer = QTimer(self)
-        # self.visualizer_timer.timeout.connect(self.update_visualizer)
-        # self.visualizer_timer.start(1000)
+
 
         # Conectar señal de cambio de página del QStackedWidget
         self.stacked_songs.currentChanged.connect(self.actualizar_lista_seleccionada)
@@ -198,6 +193,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
         #Cambiar nombre perfil
         self.pushButton.clicked.connect(self.cambiar_letra_nombre)
+
 
 
  

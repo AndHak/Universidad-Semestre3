@@ -1,35 +1,27 @@
+import sys
 import numpy as np
-from PySide6.QtWidgets import *
-from PySide6.QtGui import *
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtGui import QPainter, QColor, QBrush, QPen
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget
+from pydub import AudioSegment  # Importar la biblioteca para manipulación de audio
+import wave
+import struct
+import os
+import pygame  # Importar Pygame para reproducir el audio
 
+def obtener_datos_audio(ruta_archivo):
+    # Leer el archivo de audio usando pydub
+    audio = AudioSegment.from_file(ruta_archivo)
+    # Configurar el audio a un canal y ancho de muestra específico
+    audio = audio.set_channels(1).set_sample_width(2)
+    # Exportar el audio a un archivo WAV temporal
+    temp_wav_path = "temp.wav"
+    audio.export(temp_wav_path, format="wav")
+    # Abrir el archivo WAV temporal y leer los datos de audio
+    archivo_wav = wave.open(temp_wav_path, 'rb')
+    frames = archivo_wav.readframes(-1)
+    archivo_wav.close()
+    # Convertir los datos de audio en un arreglo numpy
+    datos_audio = np.array(struct.unpack('{n}h'.format(n=len(frames)//2), frames))
+    return datos_audio, temp_wav_path
 
-class VisualizerCanvas(QGraphicsView):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setRenderHint(QPainter.Antialiasing)
-        self.setFrameStyle(QFrame.NoFrame)
-        self.setBackgroundBrush(QColor(0, 0, 0))  # Fondo negro
-
-        self.scene = QGraphicsScene()
-        self.setScene(self.scene)
-
-        self.bars = []
-        self.num_bars = 32
-        self.max_height = 100
-
-        for i in range(self.num_bars):
-            bar = QGraphicsRectItem()
-            bar.setBrush(QColor(0, 255, 0))  # Color verde
-            self.bars.append(bar)
-            self.scene.addItem(bar)
-
-    def update_visualizer(self, spectrum):
-        spectrum = np.clip(spectrum, 0, 1)
-        width = self.width() // self.num_bars
-
-        for i, bar in enumerate(self.bars):
-            if i < len(spectrum):
-                height = spectrum[i] * self.max_height
-                bar.setRect(i * width, self.height() - height, width - 2, height)
-            else:
-                bar.setRect(i * width, self.height(), width - 2, 0)

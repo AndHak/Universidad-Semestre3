@@ -549,6 +549,78 @@ class Ui_MainWindow(object):
         self.gridLayout_16.setHorizontalSpacing(100)
         self.gridLayout_16.setVerticalSpacing(50)
         self.gridLayout_16.setContentsMargins(20, 20, 20, -1)
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.back_to_config_equalizer = QPushButton(self.equalizer_page)
+        self.back_to_config_equalizer.setObjectName(u"back_to_config_equalizer")
+        self.back_to_config_equalizer.setCursor(QCursor(Qt.PointingHandCursor))
+        self.back_to_config_equalizer.setStyleSheet(u"QPushButton {\n"
+"	border: none;\n"
+"	background: transparent;\n"
+"}")
+        self.back_to_config_equalizer.setIcon(icon1)
+        self.back_to_config_equalizer.setIconSize(QSize(40, 40))
+        self.back_to_config_equalizer.setCheckable(True)
+
+        self.horizontalLayout_2.addWidget(self.back_to_config_equalizer)
+
+        self.horizontalSpacer_12 = QSpacerItem(1088, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_12)
+
+
+        self.gridLayout_16.addLayout(self.horizontalLayout_2, 0, 0, 1, 3)
+
+        self.horizontalSpacer_16 = QSpacerItem(97, 435, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_16.addItem(self.horizontalSpacer_16, 3, 3, 1, 1)
+
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setSpacing(15)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setContentsMargins(20, 20, 20, 20)
+        self.gridLayout_15 = QGridLayout()
+        self.gridLayout_15.setObjectName(u"gridLayout_15")
+        self.label_2 = QLabel(self.equalizer_page)
+        self.label_2.setObjectName(u"label_2")
+
+        self.gridLayout_15.addWidget(self.label_2, 2, 0, 1, 1, Qt.AlignHCenter|Qt.AlignBottom)
+
+        self.dial = QDial(self.equalizer_page)
+        self.dial.setObjectName(u"dial")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.dial.sizePolicy().hasHeightForWidth())
+        self.dial.setSizePolicy(sizePolicy5)
+        self.dial.setMinimum(1)
+        self.dial.setMaximum(5)
+        self.dial.setWrapping(False)
+        self.dial.setNotchesVisible(True)
+
+        self.gridLayout_15.addWidget(self.dial, 1, 0, 1, 1)
+
+        self.label = QLabel(self.equalizer_page)
+        self.label.setObjectName(u"label")
+        sizePolicy2.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy2)
+
+        self.gridLayout_15.addWidget(self.label, 0, 0, 1, 1, Qt.AlignHCenter)
+
+
+        self.verticalLayout_5.addLayout(self.gridLayout_15)
+
+
+        self.gridLayout_16.addLayout(self.verticalLayout_5, 3, 0, 1, 1)
+
+        self.verticalSpacer_15 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.MinimumExpanding)
+
+        self.gridLayout_16.addItem(self.verticalSpacer_15, 4, 2, 1, 1)
+
+        self.verticalSpacer_8 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_16.addItem(self.verticalSpacer_8, 1, 2, 1, 1)
+
         self.widget_ejemplo_2 = QWidget(self.equalizer_page)
         self.widget_ejemplo_2.setObjectName(u"widget_ejemplo_2")
         sizePolicy1.setHeightForWidth(self.widget_ejemplo_2.sizePolicy().hasHeightForWidth())
@@ -599,9 +671,6 @@ class Ui_MainWindow(object):
 
         self.frame_visualizador_ejemplo = QFrame(self.widget_ejemplo_2)
         self.frame_visualizador_ejemplo.setObjectName(u"frame_visualizador_ejemplo")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
         sizePolicy5.setHeightForWidth(self.frame_visualizador_ejemplo.sizePolicy().hasHeightForWidth())
         self.frame_visualizador_ejemplo.setSizePolicy(sizePolicy5)
         self.frame_visualizador_ejemplo.setMinimumSize(QSize(400, 200))
@@ -610,73 +679,10 @@ class Ui_MainWindow(object):
         self.gridLayout_34 = QGridLayout(self.frame_visualizador_ejemplo)
         self.gridLayout_34.setObjectName(u"gridLayout_34")
 
-        self.gridLayout_33.addWidget(self.frame_visualizador_ejemplo, 2, 1, 1, 2)
+        self.gridLayout_33.addWidget(self.frame_visualizador_ejemplo, 2, 1, 1, 2, Qt.AlignHCenter|Qt.AlignVCenter)
 
 
         self.gridLayout_16.addWidget(self.widget_ejemplo_2, 3, 2, 1, 1)
-
-        self.verticalSpacer_15 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.MinimumExpanding)
-
-        self.gridLayout_16.addItem(self.verticalSpacer_15, 4, 2, 1, 1)
-
-        self.horizontalSpacer_16 = QSpacerItem(100, 0, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_16.addItem(self.horizontalSpacer_16, 3, 3, 1, 1)
-
-        self.verticalLayout_5 = QVBoxLayout()
-        self.verticalLayout_5.setSpacing(15)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.verticalLayout_5.setContentsMargins(20, 20, 20, 20)
-        self.label = QLabel(self.equalizer_page)
-        self.label.setObjectName(u"label")
-
-        self.verticalLayout_5.addWidget(self.label)
-
-        self.gridLayout_15 = QGridLayout()
-        self.gridLayout_15.setObjectName(u"gridLayout_15")
-        self.dial = QDial(self.equalizer_page)
-        self.dial.setObjectName(u"dial")
-        sizePolicy5.setHeightForWidth(self.dial.sizePolicy().hasHeightForWidth())
-        self.dial.setSizePolicy(sizePolicy5)
-
-        self.gridLayout_15.addWidget(self.dial, 0, 0, 1, 1)
-
-        self.label_2 = QLabel(self.equalizer_page)
-        self.label_2.setObjectName(u"label_2")
-
-        self.gridLayout_15.addWidget(self.label_2, 1, 0, 1, 1, Qt.AlignHCenter|Qt.AlignBottom)
-
-
-        self.verticalLayout_5.addLayout(self.gridLayout_15)
-
-
-        self.gridLayout_16.addLayout(self.verticalLayout_5, 3, 0, 1, 1)
-
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.back_to_config_equalizer = QPushButton(self.equalizer_page)
-        self.back_to_config_equalizer.setObjectName(u"back_to_config_equalizer")
-        self.back_to_config_equalizer.setCursor(QCursor(Qt.PointingHandCursor))
-        self.back_to_config_equalizer.setStyleSheet(u"QPushButton {\n"
-"	border: none;\n"
-"	background: transparent;\n"
-"}")
-        self.back_to_config_equalizer.setIcon(icon1)
-        self.back_to_config_equalizer.setIconSize(QSize(40, 40))
-        self.back_to_config_equalizer.setCheckable(True)
-
-        self.horizontalLayout_2.addWidget(self.back_to_config_equalizer)
-
-        self.horizontalSpacer_12 = QSpacerItem(1088, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_12)
-
-
-        self.gridLayout_16.addLayout(self.horizontalLayout_2, 0, 0, 1, 3)
-
-        self.verticalSpacer_8 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout_16.addItem(self.verticalSpacer_8, 1, 2, 1, 1)
 
 
         self.gridLayout_19.addLayout(self.gridLayout_16, 1, 0, 1, 1)
@@ -772,7 +778,7 @@ class Ui_MainWindow(object):
         self.widget_3.setSizePolicy(sizePolicy6)
         self.widget_3.setStyleSheet(u"QWidget {\n"
 "background-color: rgb(226, 224, 239);\n"
-"border-radius: 0px;\n"
+"border-radius: 30px;\n"
 "}\n"
 "/* Estilo base */\n"
 "QPushButton {\n"
@@ -1003,7 +1009,7 @@ class Ui_MainWindow(object):
         self.gridLayout_36 = QGridLayout(self.frame_visualizador_original)
         self.gridLayout_36.setObjectName(u"gridLayout_36")
 
-        self.gridLayout_35.addWidget(self.frame_visualizador_original, 2, 0, 1, 3)
+        self.gridLayout_35.addWidget(self.frame_visualizador_original, 2, 0, 1, 3, Qt.AlignHCenter|Qt.AlignVCenter)
 
         self.verticalSpacer_21 = QSpacerItem(20, 50, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
 
@@ -1754,7 +1760,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(3)
         self.stackedWidget_2.setCurrentIndex(1)
         self.stacked_songs.setCurrentIndex(0)
 
@@ -1820,11 +1826,11 @@ class Ui_MainWindow(object):
         self.label_gracias.setText(QCoreApplication.translate("MainWindow", u"Gracias por usar pu\u2669se :)", None))
         self.label_14.setText("")
         self.label_pulse.setText(QCoreApplication.translate("MainWindow", u"Pu\u2669se!", None))
+        self.back_to_config_equalizer.setText("")
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Tama\u00f1o", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Ajusta el tama\u00f1o del visualiador", None))
         self.label_16.setText("")
         self.label_pulse_3.setText(QCoreApplication.translate("MainWindow", u"Pu\u2669se!", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Ajusta el tama\u00f1o del visualiador", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Tama\u00f1o", None))
-        self.back_to_config_equalizer.setText("")
         self.boton_abrir_perfil_page.setText("")
         self.label_hora.setText(QCoreApplication.translate("MainWindow", u"00:00", None))
         self.settings_button.setText("")
