@@ -229,6 +229,13 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     for i, (ruta_archivo, nombre, duracion_total) in enumerate(self.lista_de_reproduccion):
                         if nombre == nombre_cancion:
                             self.lista_de_reproduccion_fav.append(self.lista_de_reproduccion[i])
+                if not self.paso_agregar_favoritas:
+                    self.paso_agregar_favoritas = True
+                    self.pasos_completados += 1
+                    self.checkbox_agrega_favoritas.setCheckable(True)
+                    self.checkbox_agrega_favoritas.setCheckState(Qt.Checked)
+                    self.checkbox_agrega_favoritas.setEnabled(False)
+                self.actualizar_progreso()
             else:
                 # Eliminar de favoritos si está en la lista
                 items_a_eliminar = self.favorite_song_list.findItems(nombre_cancion, Qt.MatchExactly)

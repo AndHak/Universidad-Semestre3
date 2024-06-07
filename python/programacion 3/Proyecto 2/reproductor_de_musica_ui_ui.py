@@ -772,7 +772,7 @@ class Ui_MainWindow(object):
         self.widget_3.setSizePolicy(sizePolicy6)
         self.widget_3.setStyleSheet(u"QWidget {\n"
 "background-color: rgb(226, 224, 239);\n"
-"border-radius: 30px;\n"
+"border-radius: 0px;\n"
 "}\n"
 "/* Estilo base */\n"
 "QPushButton {\n"
@@ -789,8 +789,8 @@ class Ui_MainWindow(object):
 "\n"
 "/* Estilo seleccionado */\n"
 "QPushButton:selected {\n"
-"	background-color: rgba(255, 255, 255, 0.6); /* Cambia la transparencia */\n"
-"	border-radius: 5px; /* Border radius */\n"
+"    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */\n"
+"    color: black; /* Color de la letra para el elemento seleccionado */\n"
 "}\n"
 "")
         self.gridLayout_13 = QGridLayout(self.widget_3)
@@ -808,6 +808,10 @@ class Ui_MainWindow(object):
         self.all_songs_button.setMinimumSize(QSize(70, 70))
         self.all_songs_button.setMaximumSize(QSize(16777215, 70))
         self.all_songs_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.all_songs_button.setStyleSheet(u"QPushButton:selected {\n"
+"    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */\n"
+"    color: black; /* Color de la letra para el elemento seleccionado */\n"
+"}")
         icon4 = QIcon()
         icon4.addFile(u":/icons/icons/all_songs.png", QSize(), QIcon.Normal, QIcon.Off)
         self.all_songs_button.setIcon(icon4)
@@ -824,6 +828,10 @@ class Ui_MainWindow(object):
         self.favorite_songs_button.setMinimumSize(QSize(70, 70))
         self.favorite_songs_button.setMaximumSize(QSize(16777215, 70))
         self.favorite_songs_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.favorite_songs_button.setStyleSheet(u"QPushButton:selected {\n"
+"    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */\n"
+"    color: black; /* Color de la letra para el elemento seleccionado */\n"
+"}")
         icon5 = QIcon()
         icon5.addFile(u":/icons/icons/icons8-pixel-heart-100.png", QSize(), QIcon.Normal, QIcon.Off)
         self.favorite_songs_button.setIcon(icon5)
@@ -1130,6 +1138,10 @@ class Ui_MainWindow(object):
         font7.setPointSize(9)
         self.show_visualizer_button.setFont(font7)
         self.show_visualizer_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.show_visualizer_button.setStyleSheet(u"QPushButton:selected {\n"
+"    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */\n"
+"    color: black; /* Color de la letra para el elemento seleccionado */\n"
+"}")
         icon7 = QIcon()
         icon7.addFile(u":/icons/icons/icons8-audio-wave-application-for-editing-and-playback-24.png", QSize(), QIcon.Normal, QIcon.Off)
         self.show_visualizer_button.setIcon(icon7)
@@ -1145,6 +1157,10 @@ class Ui_MainWindow(object):
         self.show_lyrics_button.setMinimumSize(QSize(40, 40))
         self.show_lyrics_button.setFont(font7)
         self.show_lyrics_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.show_lyrics_button.setStyleSheet(u"QPushButton:selected {\n"
+"    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */\n"
+"    color: black; /* Color de la letra para el elemento seleccionado */\n"
+"}")
         icon8 = QIcon()
         icon8.addFile(u":/icons/icons/icons8-songs-and-lyrics-on-the-music-application-24.png", QSize(), QIcon.Normal, QIcon.Off)
         self.show_lyrics_button.setIcon(icon8)
@@ -1738,7 +1754,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(4)
         self.stackedWidget_2.setCurrentIndex(1)
         self.stacked_songs.setCurrentIndex(0)
 

@@ -37,7 +37,7 @@
        <enum>QFrame::Plain</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="setting_page">
        <property name="cursor">
@@ -1452,7 +1452,7 @@ QPushButton:selected {
              <property name="styleSheet">
               <string notr="true">QWidget {
 background-color: rgb(226, 224, 239);
-border-radius: 30px;
+border-radius: 0px;
 }
 /* Estilo base */
 QPushButton {
@@ -1469,8 +1469,8 @@ QPushButton:hover {
 
 /* Estilo seleccionado */
 QPushButton:selected {
-	background-color: rgba(255, 255, 255, 0.6); /* Cambia la transparencia */
-	border-radius: 5px; /* Border radius */
+    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */
+    color: black; /* Color de la letra para el elemento seleccionado */
 }
 </string>
              </property>
@@ -1511,6 +1511,12 @@ QPushButton:selected {
                   </property>
                   <property name="cursor">
                    <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton:selected {
+    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */
+    color: black; /* Color de la letra para el elemento seleccionado */
+}</string>
                   </property>
                   <property name="text">
                    <string>  Todas las canciones</string>
@@ -1555,6 +1561,12 @@ QPushButton:selected {
                   </property>
                   <property name="cursor">
                    <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton:selected {
+    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */
+    color: black; /* Color de la letra para el elemento seleccionado */
+}</string>
                   </property>
                   <property name="text">
                    <string>  Favoritas</string>
@@ -2145,6 +2157,12 @@ border-radius: 30px;
                    <property name="cursor">
                     <cursorShape>PointingHandCursor</cursorShape>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton:selected {
+    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */
+    color: black; /* Color de la letra para el elemento seleccionado */
+}</string>
+                   </property>
                    <property name="text">
                     <string/>
                    </property>
@@ -2184,6 +2202,12 @@ border-radius: 30px;
                    </property>
                    <property name="cursor">
                     <cursorShape>PointingHandCursor</cursorShape>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton:selected {
+    background-color: #9796bd; /* Color de fondo para el elemento seleccionado */
+    color: black; /* Color de la letra para el elemento seleccionado */
+}</string>
                    </property>
                    <property name="text">
                     <string/>
