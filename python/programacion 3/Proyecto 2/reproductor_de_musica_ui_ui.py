@@ -549,13 +549,79 @@ class Ui_MainWindow(object):
         self.gridLayout_16.setHorizontalSpacing(100)
         self.gridLayout_16.setVerticalSpacing(50)
         self.gridLayout_16.setContentsMargins(20, 20, 20, -1)
+        self.widget_ejemplo_2 = QWidget(self.equalizer_page)
+        self.widget_ejemplo_2.setObjectName(u"widget_ejemplo_2")
+        sizePolicy1.setHeightForWidth(self.widget_ejemplo_2.sizePolicy().hasHeightForWidth())
+        self.widget_ejemplo_2.setSizePolicy(sizePolicy1)
+        self.widget_ejemplo_2.setStyleSheet(u"QWidget {\n"
+"background-color: rgb(226, 224, 239);\n"
+"border-radius: 30px;\n"
+"}\n"
+"")
+        self.gridLayout_33 = QGridLayout(self.widget_ejemplo_2)
+        self.gridLayout_33.setObjectName(u"gridLayout_33")
+        self.horizontalSpacer_17 = QSpacerItem(90, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_33.addItem(self.horizontalSpacer_17, 2, 0, 1, 1)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.label_16 = QLabel(self.widget_ejemplo_2)
+        self.label_16.setObjectName(u"label_16")
+        sizePolicy2.setHeightForWidth(self.label_16.sizePolicy().hasHeightForWidth())
+        self.label_16.setSizePolicy(sizePolicy2)
+        self.label_16.setPixmap(QPixmap(u":/icons/icons/icons8-music-100.png"))
+
+        self.horizontalLayout_9.addWidget(self.label_16)
+
+        self.label_pulse_3 = QLabel(self.widget_ejemplo_2)
+        self.label_pulse_3.setObjectName(u"label_pulse_3")
+        sizePolicy4.setHeightForWidth(self.label_pulse_3.sizePolicy().hasHeightForWidth())
+        self.label_pulse_3.setSizePolicy(sizePolicy4)
+        self.label_pulse_3.setFont(font5)
+
+        self.horizontalLayout_9.addWidget(self.label_pulse_3)
+
+
+        self.gridLayout_33.addLayout(self.horizontalLayout_9, 0, 0, 1, 2)
+
+        self.verticalSpacer_19 = QSpacerItem(20, 50, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_33.addItem(self.verticalSpacer_19, 1, 1, 1, 1)
+
+        self.horizontalSpacer_20 = QSpacerItem(90, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_33.addItem(self.horizontalSpacer_20, 2, 3, 1, 1)
+
+        self.verticalSpacer_20 = QSpacerItem(20, 50, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_33.addItem(self.verticalSpacer_20, 3, 2, 1, 1)
+
+        self.frame_visualizador_ejemplo = QFrame(self.widget_ejemplo_2)
+        self.frame_visualizador_ejemplo.setObjectName(u"frame_visualizador_ejemplo")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.frame_visualizador_ejemplo.sizePolicy().hasHeightForWidth())
+        self.frame_visualizador_ejemplo.setSizePolicy(sizePolicy5)
+        self.frame_visualizador_ejemplo.setMinimumSize(QSize(400, 200))
+        self.frame_visualizador_ejemplo.setFrameShape(QFrame.StyledPanel)
+        self.frame_visualizador_ejemplo.setFrameShadow(QFrame.Raised)
+        self.gridLayout_34 = QGridLayout(self.frame_visualizador_ejemplo)
+        self.gridLayout_34.setObjectName(u"gridLayout_34")
+
+        self.gridLayout_33.addWidget(self.frame_visualizador_ejemplo, 2, 1, 1, 2)
+
+
+        self.gridLayout_16.addWidget(self.widget_ejemplo_2, 3, 2, 1, 1)
+
         self.verticalSpacer_15 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.MinimumExpanding)
 
-        self.gridLayout_16.addItem(self.verticalSpacer_15, 3, 2, 1, 1)
+        self.gridLayout_16.addItem(self.verticalSpacer_15, 4, 2, 1, 1)
 
-        self.verticalSpacer_8 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.horizontalSpacer_16 = QSpacerItem(100, 0, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout_16.addItem(self.verticalSpacer_8, 1, 1, 1, 1)
+        self.gridLayout_16.addItem(self.horizontalSpacer_16, 3, 3, 1, 1)
 
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setSpacing(15)
@@ -570,9 +636,6 @@ class Ui_MainWindow(object):
         self.gridLayout_15.setObjectName(u"gridLayout_15")
         self.dial = QDial(self.equalizer_page)
         self.dial.setObjectName(u"dial")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
         sizePolicy5.setHeightForWidth(self.dial.sizePolicy().hasHeightForWidth())
         self.dial.setSizePolicy(sizePolicy5)
 
@@ -587,7 +650,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addLayout(self.gridLayout_15)
 
 
-        self.gridLayout_16.addLayout(self.verticalLayout_5, 2, 0, 1, 1)
+        self.gridLayout_16.addLayout(self.verticalLayout_5, 3, 0, 1, 1)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -611,75 +674,12 @@ class Ui_MainWindow(object):
 
         self.gridLayout_16.addLayout(self.horizontalLayout_2, 0, 0, 1, 3)
 
-        self.widget_ejemplo_2 = QWidget(self.equalizer_page)
-        self.widget_ejemplo_2.setObjectName(u"widget_ejemplo_2")
-        sizePolicy1.setHeightForWidth(self.widget_ejemplo_2.sizePolicy().hasHeightForWidth())
-        self.widget_ejemplo_2.setSizePolicy(sizePolicy1)
-        self.widget_ejemplo_2.setStyleSheet(u"QWidget {\n"
-"background-color: rgb(226, 224, 239);\n"
-"border-radius: 30px;\n"
-"}\n"
-"")
-        self.gridLayout_8 = QGridLayout(self.widget_ejemplo_2)
-        self.gridLayout_8.setObjectName(u"gridLayout_8")
-        self.horizontalSpacer_14 = QSpacerItem(90, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        self.verticalSpacer_8 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.gridLayout_8.addItem(self.horizontalSpacer_14, 2, 0, 1, 1)
-
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.label_15 = QLabel(self.widget_ejemplo_2)
-        self.label_15.setObjectName(u"label_15")
-        sizePolicy2.setHeightForWidth(self.label_15.sizePolicy().hasHeightForWidth())
-        self.label_15.setSizePolicy(sizePolicy2)
-        self.label_15.setPixmap(QPixmap(u":/icons/icons/icons8-music-100.png"))
-
-        self.horizontalLayout.addWidget(self.label_15)
-
-        self.label_pulse_2 = QLabel(self.widget_ejemplo_2)
-        self.label_pulse_2.setObjectName(u"label_pulse_2")
-        sizePolicy4.setHeightForWidth(self.label_pulse_2.sizePolicy().hasHeightForWidth())
-        self.label_pulse_2.setSizePolicy(sizePolicy4)
-        self.label_pulse_2.setFont(font5)
-
-        self.horizontalLayout.addWidget(self.label_pulse_2)
+        self.gridLayout_16.addItem(self.verticalSpacer_8, 1, 2, 1, 1)
 
 
-        self.gridLayout_8.addLayout(self.horizontalLayout, 0, 0, 1, 2)
-
-        self.verticalSpacer_4 = QSpacerItem(20, 50, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_8.addItem(self.verticalSpacer_4, 1, 1, 1, 1)
-
-        self.horizontalSpacer_15 = QSpacerItem(90, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_8.addItem(self.horizontalSpacer_15, 2, 3, 1, 1)
-
-        self.verticalSpacer_16 = QSpacerItem(20, 50, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_8.addItem(self.verticalSpacer_16, 3, 2, 1, 1)
-
-        self.frame_visualizador = QFrame(self.widget_ejemplo_2)
-        self.frame_visualizador.setObjectName(u"frame_visualizador")
-        sizePolicy5.setHeightForWidth(self.frame_visualizador.sizePolicy().hasHeightForWidth())
-        self.frame_visualizador.setSizePolicy(sizePolicy5)
-        self.frame_visualizador.setMinimumSize(QSize(400, 200))
-        self.frame_visualizador.setFrameShape(QFrame.StyledPanel)
-        self.frame_visualizador.setFrameShadow(QFrame.Raised)
-        self.gridLayout_31 = QGridLayout(self.frame_visualizador)
-        self.gridLayout_31.setObjectName(u"gridLayout_31")
-
-        self.gridLayout_8.addWidget(self.frame_visualizador, 2, 1, 1, 2)
-
-
-        self.gridLayout_16.addWidget(self.widget_ejemplo_2, 2, 1, 1, 2)
-
-        self.horizontalSpacer_16 = QSpacerItem(100, 0, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_16.addItem(self.horizontalSpacer_16, 2, 3, 1, 1)
-
-
-        self.gridLayout_19.addLayout(self.gridLayout_16, 0, 0, 1, 1)
+        self.gridLayout_19.addLayout(self.gridLayout_16, 1, 0, 1, 1)
 
         self.stackedWidget.addWidget(self.equalizer_page)
         self.principal_page = QWidget()
@@ -949,6 +949,61 @@ class Ui_MainWindow(object):
         self.gridLayout_32 = QGridLayout(self.visualizador_widget)
         self.gridLayout_32.setObjectName(u"gridLayout_32")
         self.gridLayout_32.setContentsMargins(20, 20, 20, 20)
+        self.widget_ejemplo_3 = QWidget(self.visualizador_widget)
+        self.widget_ejemplo_3.setObjectName(u"widget_ejemplo_3")
+        sizePolicy1.setHeightForWidth(self.widget_ejemplo_3.sizePolicy().hasHeightForWidth())
+        self.widget_ejemplo_3.setSizePolicy(sizePolicy1)
+        self.widget_ejemplo_3.setStyleSheet(u"QWidget {\n"
+"background-color: rgb(226, 224, 239);\n"
+"border-radius: 30px;\n"
+"}\n"
+"")
+        self.gridLayout_35 = QGridLayout(self.widget_ejemplo_3)
+        self.gridLayout_35.setObjectName(u"gridLayout_35")
+        self.verticalSpacer_22 = QSpacerItem(20, 50, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_35.addItem(self.verticalSpacer_22, 3, 2, 1, 1)
+
+        self.horizontalLayout_10 = QHBoxLayout()
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.label_17 = QLabel(self.widget_ejemplo_3)
+        self.label_17.setObjectName(u"label_17")
+        sizePolicy2.setHeightForWidth(self.label_17.sizePolicy().hasHeightForWidth())
+        self.label_17.setSizePolicy(sizePolicy2)
+        self.label_17.setPixmap(QPixmap(u":/icons/icons/icons8-music-100.png"))
+
+        self.horizontalLayout_10.addWidget(self.label_17)
+
+        self.label_pulse_4 = QLabel(self.widget_ejemplo_3)
+        self.label_pulse_4.setObjectName(u"label_pulse_4")
+        sizePolicy4.setHeightForWidth(self.label_pulse_4.sizePolicy().hasHeightForWidth())
+        self.label_pulse_4.setSizePolicy(sizePolicy4)
+        self.label_pulse_4.setFont(font5)
+
+        self.horizontalLayout_10.addWidget(self.label_pulse_4)
+
+
+        self.gridLayout_35.addLayout(self.horizontalLayout_10, 0, 0, 1, 2)
+
+        self.frame_visualizador_original = QFrame(self.widget_ejemplo_3)
+        self.frame_visualizador_original.setObjectName(u"frame_visualizador_original")
+        sizePolicy5.setHeightForWidth(self.frame_visualizador_original.sizePolicy().hasHeightForWidth())
+        self.frame_visualizador_original.setSizePolicy(sizePolicy5)
+        self.frame_visualizador_original.setMinimumSize(QSize(400, 200))
+        self.frame_visualizador_original.setFrameShape(QFrame.StyledPanel)
+        self.frame_visualizador_original.setFrameShadow(QFrame.Raised)
+        self.gridLayout_36 = QGridLayout(self.frame_visualizador_original)
+        self.gridLayout_36.setObjectName(u"gridLayout_36")
+
+        self.gridLayout_35.addWidget(self.frame_visualizador_original, 2, 0, 1, 3)
+
+        self.verticalSpacer_21 = QSpacerItem(20, 50, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_35.addItem(self.verticalSpacer_21, 1, 1, 1, 1)
+
+
+        self.gridLayout_32.addWidget(self.widget_ejemplo_3, 0, 0, 1, 1)
+
 
         self.gridLayout_20.addWidget(self.visualizador_widget, 0, 0, 1, 1)
 
@@ -1683,7 +1738,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(3)
         self.stackedWidget_2.setCurrentIndex(1)
         self.stacked_songs.setCurrentIndex(0)
 
@@ -1749,11 +1804,11 @@ class Ui_MainWindow(object):
         self.label_gracias.setText(QCoreApplication.translate("MainWindow", u"Gracias por usar pu\u2669se :)", None))
         self.label_14.setText("")
         self.label_pulse.setText(QCoreApplication.translate("MainWindow", u"Pu\u2669se!", None))
+        self.label_16.setText("")
+        self.label_pulse_3.setText(QCoreApplication.translate("MainWindow", u"Pu\u2669se!", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Ajusta el tama\u00f1o del visualiador", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Tama\u00f1o", None))
         self.back_to_config_equalizer.setText("")
-        self.label_15.setText("")
-        self.label_pulse_2.setText(QCoreApplication.translate("MainWindow", u"Pu\u2669se!", None))
         self.boton_abrir_perfil_page.setText("")
         self.label_hora.setText(QCoreApplication.translate("MainWindow", u"00:00", None))
         self.settings_button.setText("")
@@ -1762,6 +1817,8 @@ class Ui_MainWindow(object):
         self.before_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion antes", None))
         self.actual_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion actual", None))
         self.after_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion despues", None))
+        self.label_17.setText("")
+        self.label_pulse_4.setText(QCoreApplication.translate("MainWindow", u"Pu\u2669se!", None))
         self.all_songs_label_stack.setText(QCoreApplication.translate("MainWindow", u"Todas las canciones", None))
         self.cargar_canciones_button.setText("")
         self.favoritas_label_stack.setText(QCoreApplication.translate("MainWindow", u"Favoritas", None))
