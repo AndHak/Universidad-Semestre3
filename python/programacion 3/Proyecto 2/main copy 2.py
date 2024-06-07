@@ -1,7 +1,6 @@
 from reproductor_de_musica_ui_ui import Ui_MainWindow
 from ventana_nombre_ui import Ui_Dialog_nombre
 from cargar_archivos import CargarArchivosThread
-from visualizador import VisualizerCanvas
 from funciones_de_metadatos import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -11,8 +10,89 @@ import os
 import webbrowser
 import pygame
 import random
-import pyqtgraph as pg
+from pydub import AudioSegment
+import wave
+import struct
 import numpy as np
+
+
+# Función para leer el archivo de audio
+def obtener_datos_audio(ruta_archivo):
+    # Leer el archivo de audio usando pydub
+    audio = AudioSegment.from_file(ruta_archivo)
+    # Configurar el audio a un canal y ancho de muestra específico
+    audio = audio.set_channels(1).set_sample_width(2)
+    # Exportar el audio a un archivo WAV temporal
+    temp_wav_path = "temp.wav"
+    audio.export(temp_wav_path, format="wav")
+    # Abrir el archivo WAV temporal y leer los datos de audio
+    archivo_wav = wave.open(temp_wav_path, 'rb')
+    frames = archivo_wav.readframes(-1)
+    archivo_wav.close()
+    # Convertir los datos de audio en un arreglo numpy
+    datos_audio = np.array(struct.unpack('{n}h'.format(n=len(frames)//2), frames))
+    return datos_audio, temp_wav_path
+
+# Clase para el widget del visualizador
+class WidgetVisualizador(QWidget):
+    def __init__(self, datos_audio, total_frames, tamaño_frame, num_barras, sensibilidad, parent=None):
+        super().__init__(parent)
+        # Configuración inicial del widget
+        self.datos_audio = datos_audio  # Almacena los datos de audio
+        self.total_frames = total_frames  # Almacena el número total de fotogramas de audio
+        self.tamaño_frame = tamaño_frame  # Tamaño de cada fotograma
+        self.num_barras = num_barras  # Número de barras en el visualizador
+        self.sensibilidad = sensibilidad  # Sensibilidad del visualizador
+        self.frame = 0  # Inicializa el fotograma actual
+        self.amplitudes_anteriores = [0] * num_barras  # Almacena las amplitudes anteriores para suavizar la visualización
+        # Configurar un temporizador para actualizar el visualizador
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.actualizar_visualizador)
+        self.timer.start(30)  # Frecuencia de actualización del visualizador (ajustar según la preferencia del usuario)
+        # Espacio entre las barras como un porcentaje del ancho total
+        self.espacio_barra = 0.3
+        
+    def obtener_amplitud(self):
+        inicio = self.frame * self.tamaño_frame
+        fin = inicio + self.tamaño_frame
+        if fin >= len(self.datos_audio):
+            fin = len(self.datos_audio) - 1
+        segmento = self.datos_audio[inicio:fin]
+        ancho_barra = int(self.width() / (self.num_barras * (1 + self.espacio_barra)))
+        amplitudes = []
+        for i in range(self.num_barras):
+            max_amplitud = np.max(np.abs(segmento[i * ancho_barra:(i + 1) * ancho_barra]))
+            if max_amplitud > self.sensibilidad:
+                amplitudes.append(max_amplitud)
+            else:
+                amplitudes.append(0)
+        return amplitudes
+
+    def actualizar_visualizador(self):
+        self.frame += 1
+        if self.frame >= self.total_frames:
+            self.frame = 0
+        self.update()
+
+    def paintEvent(self, event):
+        amplitudes = self.obtener_amplitud()
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        self.dibujar_barras(painter, amplitudes)
+        
+    def dibujar_barras(self, painter, amplitudes):
+        ancho_barra = int(self.width() / (self.num_barras * (1 + self.espacio_barra)))
+        color = QColor("#9796bd")
+        for i, amplitud in enumerate(amplitudes):
+            amplitud_normalizada = amplitud / 32768.0
+            amplitud_suavizada = (self.amplitudes_anteriores[i] * 0.6) + (amplitud_normalizada * 0.4)
+            altura_barra = int(amplitud_suavizada * self.height())
+            painter.setBrush(QBrush(color))
+            painter.setPen(QPen(color, 1, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            rect = self.rect()
+            painter.drawRoundedRect(i * (1 + self.espacio_barra) * ancho_barra + rect.x(), (rect.height() - altura_barra) // 2,
+                                    ancho_barra - 2, altura_barra, 10, 10)
+            self.amplitudes_anteriores[i] = amplitud_suavizada
 
 
 
@@ -25,10 +105,9 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
     paso_agregar_favoritas = False
     pasos_totales = 4
     pasos_completados = 0
-    def __init__(self):
+    def __init__(self, datos_audio, total_frames, tamaño_frame, num_barras, sensibilidad):
         super().__init__()
         self.setupUi(self)
-
 
         self.setWindowTitle("Pu♩se Music")
         self.setWindowIcon(QIcon(os.path.join(self.basedir, "icons/icons8-music-100.png")))
@@ -176,44 +255,120 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.slider_song.sliderReleased.connect(self.soltar_slider)
         self.posicion_absoluta = 0
 
-        #Visualizado
-        #Agregar al widget visualizador_widget
-        self.visualizer = VisualizerCanvas()
-        self.visualizador_layout = QVBoxLayout()
-        self.visualizador_layout.addWidget(self.visualizer)
-        self.visualizador_widget.setLayout(self.visualizador_layout)
 
-        # # Timer to update the visualizer
-        # self.visualizer_timer = QTimer(self)
-        # self.visualizer_timer.timeout.connect(self.update_visualizer)
-        # self.visualizer_timer.start(1000)
+        #--------------------------------
+        self.visualizador_layout = QVBoxLayout()
+        self.visualizador = WidgetVisualizador(datos_audio, total_frames, tamaño_frame, num_barras, sensibilidad, self)
+        self.visualizador_layout.addWidget(self.visualizador)
+        self.frame_visualizador_original.setLayout(self.visualizador_layout)
+
+
+        # Conectar señal de cambio de página del QStackedWidget
+        self.stacked_songs.currentChanged.connect(self.actualizar_lista_seleccionada)
 
         # Llenar la lista de favoritos con las canciones marcadas como favoritas
         self.favorite_button.toggled.connect(lambda checked: self.agregar_a_favoritos(checked, self.lista_seleccionada))
         self.lista_seleccionada.itemSelectionChanged.connect(lambda: self.actualizar_estado_boton_favorito(self.lista_seleccionada))
 
-        # Conectar señal de cambio de página del QStackedWidget
-        self.stacked_songs.currentChanged.connect(self.actualizar_lista_seleccionada)
 
         #Cambiar nombre perfil
         self.pushButton.clicked.connect(self.cambiar_letra_nombre)
 
+
+
+
+        self.datos_audio = None #Almacena los datos de audio
+        self.total_frames = 3000 # Almacena el número total de fotogramas de audio
+        self.tamaño_frame = 30 # Tamaño de cada fotograma
+        self.num_barras = 15  # Número de barras en el visualizador
+        self.sensibilidad = self.dial.value()  # Sensibilidad del visualizador
+        self.frame = 0  # Inicializa el fotograma actual
+        self.amplitudes_anteriores = [0] * self.num_barras  # Almacena las amplitudes anteriores para suavizar la visualización
+        # Configurar un temporizador para actualizar el visualizador
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.actualizar_visualizador)
+        self.timer.start(30)  # Frecuencia de actualización del visualizador (ajustar según la preferencia del usuario)
+        # Espacio entre las barras como un porcentaje del ancho total
+        self.espacio_barra = 0.3
+        
+    def obtener_amplitud(self):
+        inicio = self.frame * self.tamaño_frame
+        fin = inicio + self.tamaño_frame
+        if fin >= len(self.datos_audio):
+            fin = len(self.datos_audio) - 1
+        segmento = self.datos_audio[inicio:fin]
+        ancho_barra = int(self.width() / (self.num_barras * (1 + self.espacio_barra)))
+        amplitudes = []
+        for i in range(self.num_barras):
+            max_amplitud = np.max(np.abs(segmento[i * ancho_barra:(i + 1) * ancho_barra]))
+            if max_amplitud > self.sensibilidad:
+                amplitudes.append(max_amplitud)
+            else:
+                amplitudes.append(0)
+        return amplitudes
+
+    def actualizar_visualizador(self):
+        self.frame += 1
+        if self.frame >= self.total_frames:
+            self.frame = 0
+        self.update()
+
+    def paintEvent(self, event):
+        amplitudes = self.obtener_amplitud()
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        self.dibujar_barras(painter, amplitudes)
+        
+    def dibujar_barras(self, painter, amplitudes):
+        ancho_barra = int(self.width() / (self.num_barras * (1 + self.espacio_barra)))
+        color = QColor("#9796bd")
+        for i, amplitud in enumerate(amplitudes):
+            amplitud_normalizada = amplitud / 32768.0
+            amplitud_suavizada = (self.amplitudes_anteriores[i] * 0.6) + (amplitud_normalizada * 0.4)
+            altura_barra = int(amplitud_suavizada * self.height())
+            painter.setBrush(QBrush(color))
+            painter.setPen(QPen(color, 1, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            rect = self.rect()
+            painter.drawRoundedRect(i * (1 + self.espacio_barra) * ancho_barra + rect.x(), (rect.height() - altura_barra) // 2,
+                                    ancho_barra - 2, altura_barra, 10, 10)
+            self.amplitudes_anteriores[i] = amplitud_suavizada
+
+    def obtener_datos_audio(ruta_archivo):
+        # Leer el archivo de audio usando pydub
+        audio = AudioSegment.from_file(ruta_archivo)
+        # Configurar el audio a un canal y ancho de muestra específico
+        audio = audio.set_channels(1).set_sample_width(2)
+        # Exportar el audio a un archivo WAV temporal
+        temp_wav_path = "temp.wav"
+        audio.export(temp_wav_path, format="wav")
+        # Abrir el archivo WAV temporal y leer los datos de audio
+        archivo_wav = wave.open(temp_wav_path, 'rb')
+        frames = archivo_wav.readframes(-1)
+        archivo_wav.close()
+        # Convertir los datos de audio en un arreglo numpy
+        datos_audio = np.array(struct.unpack('{n}h'.format(n=len(frames)//2), frames))
+        return datos_audio, temp_wav_path
+
+
+
+
+
+
  
     def actualizar_lista_seleccionada(self, index):
+        self.actualizar_estado_boton_favorito(self.lista_seleccionada)
         if self.stacked_songs.currentWidget() == self.all_songs_stack:
             self.lista_seleccionada = self.all_songs_list
         elif self.stacked_songs.currentWidget() == self.favorite_songs_stack:
             self.lista_seleccionada = self.favorite_song_list
-        self.actualizar_estado_boton_favorito(self.lista_seleccionada)
-        self.lista_seleccionada.clearSelection()
     
     def mostrar_all_songs(self):
-        self.stacked_songs.setCurrentWidget(self.all_songs_stack)
         self.actualizar_estado_boton_favorito(self.lista_seleccionada)
+        self.stacked_songs.setCurrentWidget(self.all_songs_stack)
     
     def mostrar_favoritas(self):
-        self.stacked_songs.setCurrentWidget(self.favorite_songs_stack)
         self.actualizar_estado_boton_favorito(self.lista_seleccionada)
+        self.stacked_songs.setCurrentWidget(self.favorite_songs_stack)
 
 
     def agregar_a_favoritos(self, checked, lista_widget):
@@ -228,6 +383,13 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                     for i, (ruta_archivo, nombre, duracion_total) in enumerate(self.lista_de_reproduccion):
                         if nombre == nombre_cancion:
                             self.lista_de_reproduccion_fav.append(self.lista_de_reproduccion[i])
+                if not self.paso_agregar_favoritas:
+                    self.paso_agregar_favoritas = True
+                    self.pasos_completados += 1
+                    self.checkbox_agrega_favoritas.setCheckable(True)
+                    self.checkbox_agrega_favoritas.setCheckState(Qt.Checked)
+                    self.checkbox_agrega_favoritas.setEnabled(False)
+                self.actualizar_progreso()
             else:
                 # Eliminar de favoritos si está en la lista
                 items_a_eliminar = self.favorite_song_list.findItems(nombre_cancion, Qt.MatchExactly)
@@ -336,7 +498,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         minutos, segundos = map(int, duracion_total.split(':'))
         duracion_total_segundos = minutos * 60 + segundos
         if posicion_actual + 1 >= duracion_total_segundos:
-            self.next_song(self.lista_de_reproduccion, self.all_songs_list)
+            self.next_song(self.lista_de_reproduccion, self.lista_seleccionada)
 
     def cambiar_volumen(self, value):
         volumen = value / 100.0
@@ -499,6 +661,20 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                             self.pause_button.setIcon(icon)
                             #self.label_current_song.setText(nombre_cancion)  # Actualiza el nombre de la canción en la etiqueta
                             self.lista_reproducidas.append((ruta_archivo, nombre_cancion, duracion_total))
+
+                            self.datos_audio, temp_wav_path = obtener_datos_audio(ruta_archivo)
+                            self.tamaño_frame = 2048
+                            self.total_frames = len(self.datos_audio) // self.tamaño_frame
+                            self.num_barras = 15
+                            self.sensibilidad = 1000
+
+
+
+                            # Crear una instancia nueva del WidgetVisualizador
+                            datos_audio, temp_wav_path = obtener_datos_audio(ruta_archivo)
+                            
+                            self.visualizador_layout.addWidget(self.visualizador_principal)
+
                         else:
                             # Reanudar la reproducción si estaba en pausa
                             mixer.music.unpause()
@@ -506,38 +682,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                             self.paused = False
                             icon = QIcon(os.path.join(self.basedir, "icons/icons8-pause-48.png"))
                             self.pause_button.setIcon(icon)
-
-            
-
-    def update_visualizer(self):
-        if pygame.mixer.music.get_busy():
-            pos = self.posicion_absoluta * 1000  # Convertir a milisegundos
-            audio_file_path = self.lista_de_reproduccion[self.indice_actual][0]  # Ruta del archivo de audio
-            
-            # Cargar el sonido del archivo
-            sound = pygame.mixer.Sound(audio_file_path)
-            sample_rate = pygame.mixer.get_init()[0]  # Obtener la tasa de muestreo
-            start_sample = int((pos / 1000) * sample_rate)  # Calcular la muestra de inicio
-            
-            # Obtener datos de audio en bruto
-            raw_data = sound.get_raw()
-            num_samples = self.visualizer.num_bars
-            
-            # Asegurarse de que no se supera el índice de los datos
-            if start_sample + num_samples <= len(raw_data):
-                # Obtener las muestras de audio requeridas
-                samples = np.frombuffer(raw_data[start_sample:start_sample + num_samples], dtype=np.int16)
-                
-                # Calcular el espectro de frecuencia
-                spectrum = np.abs(np.fft.fft(samples))[:num_samples]
-                spectrum /= np.max(spectrum) if np.max(spectrum) != 0 else 1
-                
-                # Actualizar el visualizador con el espectro calculado
-                self.visualizer.update_visualizer(spectrum)
-            else:
-                self.visualizer.update_visualizer(np.zeros(num_samples))
-        else:
-            self.visualizer.update_visualizer(np.zeros(self.visualizer.num_bars))
 
 
 
@@ -581,7 +725,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
 
             # Comprobar si la canción ha terminado
             if posicion_actual+1 >= duracion_total_segundos:
-                self.next_song(self.lista_de_reproduccion, self.all_songs_list)
+                self.next_song(self.lista_de_reproduccion, self.lista_seleccionada)
         else:
             self.timer.stop()
 

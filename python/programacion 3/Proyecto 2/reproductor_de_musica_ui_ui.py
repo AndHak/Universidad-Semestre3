@@ -963,61 +963,6 @@ class Ui_MainWindow(object):
         self.gridLayout_32 = QGridLayout(self.visualizador_widget)
         self.gridLayout_32.setObjectName(u"gridLayout_32")
         self.gridLayout_32.setContentsMargins(20, 20, 20, 20)
-        self.widget_ejemplo_3 = QWidget(self.visualizador_widget)
-        self.widget_ejemplo_3.setObjectName(u"widget_ejemplo_3")
-        sizePolicy1.setHeightForWidth(self.widget_ejemplo_3.sizePolicy().hasHeightForWidth())
-        self.widget_ejemplo_3.setSizePolicy(sizePolicy1)
-        self.widget_ejemplo_3.setStyleSheet(u"QWidget {\n"
-"background-color: rgb(226, 224, 239);\n"
-"border-radius: 30px;\n"
-"}\n"
-"")
-        self.gridLayout_35 = QGridLayout(self.widget_ejemplo_3)
-        self.gridLayout_35.setObjectName(u"gridLayout_35")
-        self.verticalSpacer_22 = QSpacerItem(20, 50, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_35.addItem(self.verticalSpacer_22, 3, 2, 1, 1)
-
-        self.horizontalLayout_10 = QHBoxLayout()
-        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
-        self.label_17 = QLabel(self.widget_ejemplo_3)
-        self.label_17.setObjectName(u"label_17")
-        sizePolicy2.setHeightForWidth(self.label_17.sizePolicy().hasHeightForWidth())
-        self.label_17.setSizePolicy(sizePolicy2)
-        self.label_17.setPixmap(QPixmap(u":/icons/icons/icons8-music-100.png"))
-
-        self.horizontalLayout_10.addWidget(self.label_17)
-
-        self.label_pulse_4 = QLabel(self.widget_ejemplo_3)
-        self.label_pulse_4.setObjectName(u"label_pulse_4")
-        sizePolicy4.setHeightForWidth(self.label_pulse_4.sizePolicy().hasHeightForWidth())
-        self.label_pulse_4.setSizePolicy(sizePolicy4)
-        self.label_pulse_4.setFont(font5)
-
-        self.horizontalLayout_10.addWidget(self.label_pulse_4)
-
-
-        self.gridLayout_35.addLayout(self.horizontalLayout_10, 0, 0, 1, 2)
-
-        self.frame_visualizador_original = QFrame(self.widget_ejemplo_3)
-        self.frame_visualizador_original.setObjectName(u"frame_visualizador_original")
-        sizePolicy5.setHeightForWidth(self.frame_visualizador_original.sizePolicy().hasHeightForWidth())
-        self.frame_visualizador_original.setSizePolicy(sizePolicy5)
-        self.frame_visualizador_original.setMinimumSize(QSize(400, 200))
-        self.frame_visualizador_original.setFrameShape(QFrame.StyledPanel)
-        self.frame_visualizador_original.setFrameShadow(QFrame.Raised)
-        self.gridLayout_36 = QGridLayout(self.frame_visualizador_original)
-        self.gridLayout_36.setObjectName(u"gridLayout_36")
-
-        self.gridLayout_35.addWidget(self.frame_visualizador_original, 2, 0, 1, 3, Qt.AlignHCenter|Qt.AlignVCenter)
-
-        self.verticalSpacer_21 = QSpacerItem(20, 50, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_35.addItem(self.verticalSpacer_21, 1, 1, 1, 1)
-
-
-        self.gridLayout_32.addWidget(self.widget_ejemplo_3, 0, 0, 1, 1)
-
 
         self.gridLayout_20.addWidget(self.visualizador_widget, 0, 0, 1, 1)
 
@@ -1760,9 +1705,9 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(4)
         self.stackedWidget_2.setCurrentIndex(1)
-        self.stacked_songs.setCurrentIndex(0)
+        self.stacked_songs.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1839,8 +1784,6 @@ class Ui_MainWindow(object):
         self.before_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion antes", None))
         self.actual_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion actual", None))
         self.after_current_label_song.setText(QCoreApplication.translate("MainWindow", u"Soy la letra de tu cancion despues", None))
-        self.label_17.setText("")
-        self.label_pulse_4.setText(QCoreApplication.translate("MainWindow", u"Pu\u2669se!", None))
         self.all_songs_label_stack.setText(QCoreApplication.translate("MainWindow", u"Todas las canciones", None))
         self.cargar_canciones_button.setText("")
         self.favoritas_label_stack.setText(QCoreApplication.translate("MainWindow", u"Favoritas", None))
