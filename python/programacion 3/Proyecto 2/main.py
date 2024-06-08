@@ -51,20 +51,7 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.modo_reproduccion = "secuencial"
         self.estado_favoritos = {}
 
-        self.lista_de_reproduccion = [
-        os.path.join(self.basedir, "canciones/Cual es esa, Feid Pirlo.mp3"),
-        os.path.join(self.basedir, "canciones/Ey Chory, Feid.mp3"),
-        os.path.join(self.basedir, "canciones/Mionca, Maluma Pirlo.mp3"),
-        os.path.join(self.basedir, "canciones/LUNA, Feid.mp3"),
-        os.path.join(self.basedir, "canciones/Nadie Como Tu, Wisin & Yandel.mp3"),
-        os.path.join(self.basedir, "canciones/Normal, Feid.mp3"),
-        os.path.join(self.basedir, "canciones/Ojitos Chiquitos, Don Omar.mp3"),
-        os.path.join(self.basedir, "canciones/Pa que la pases bien, Arcangel.mp3"),
-        os.path.join(self.basedir, "canciones/Remix Exclusivo, Feid.mp3"),
-        os.path.join(self.basedir, "canciones/Cinco Noches_ Paquito Guzman (letra)(MP3_128K).mp3"),
-        os.path.join(self.basedir, "canciones/MI TRISTEZA  -  LUIS ALBERTO POSADA (VIDEO OFICIAL)(MP3_128K).mp3"),
-        os.path.join(self.basedir, "canciones/Si sabe Ferxxo, Blessd Feid.mp3"),
-        ]
+        self.lista_de_reproduccion = []
 
         self.lista_de_reproduccion_fav = []
 
@@ -83,7 +70,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
         self.favorite_songs_button.clicked.connect(self.mostrar_favoritas)
 
         self.mostrar_pagina_principal()
-        self.cargar_canciones_iniciales()
         self.actualizar_progreso()
 
         self.lista_seleccionada = self.all_songs_list
@@ -584,16 +570,6 @@ class MainMusicApp(QMainWindow, Ui_MainWindow):
                 self.visualizador_principal.actualizar_frame(frame)
         else:
             self.timer.stop()
-
-    def cargar_canciones_iniciales(self):
-        # Cargar canciones predefinidas en el QListWidget
-        canciones_procesadas = []
-        for archivo in self.lista_de_reproduccion:
-            duracion = self.obtener_duracion(archivo)
-            nombre_cancion = os.path.basename(archivo)
-            canciones_procesadas.append((archivo, nombre_cancion, duracion))
-            self.all_songs_list.addItem(nombre_cancion)  # Mostrar el nombre de la canción en el QListWidget
-        self.lista_de_reproduccion = canciones_procesadas
 
 
     def agregar_archivos(self, lista_de_reproduccion, lista_widget, file_dialog=QFileDialog, progress_dialog_class=QProgressDialog, thread_class=CargarArchivosThread):
